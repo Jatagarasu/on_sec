@@ -27,24 +27,25 @@ General work flow
 
   `git checkout development`
 
-* Before developing a new feature, synchronize with repository:
+2. Before developing a new feature, synchronize with repository:
 
   `git pull`
-* Create new feature branch to work in:
+  
+3. Create new feature branch to work in:
 
   `git checkout -b NAME-OF-FEATURE-BRANCH`
 
-* Make changes, then add them to your next commit:
+4. Make changes, then add them to your next commit:
 
   `git add changed_file_1 changed_file_2 ...` or `git add -p` for interactive adding or `git add -A` to add everything *(use with caution)*
 
-* After having added changed/new files, commit your changes with a message:
+5. After having added changed/new files, commit your changes with a message:
 
   `git commit -m "YOUR MESSAGE, e.g. Add README.md file"`
 
-* Repeat steps 3. and 4. until your feature is complete. Remember: **COMMIT EARLY, COMMIT OFTEN, several small commits > one big commit!**
+6. Repeat steps 3. and 4. until your feature is complete. Remember: **COMMIT EARLY, COMMIT OFTEN, several small commits > one big commit!**
 
-* When your feature is complete:
+7. When your feature is complete:
 
   `git checkout development`
 
