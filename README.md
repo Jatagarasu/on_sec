@@ -11,7 +11,7 @@ How to set up project for developmet with XAMPP:
 
 2. In your terminal / cmd / git bash:
 
-  * *If you have SSH key set up ([click here for a how-to](https://help.github.com/articles/generating-an-ssh-key/)):*
+  * *If you have SSH key set up (RECOMMENDED, [click here for a how-to](https://help.github.com/articles/generating-an-ssh-key/)):*
 
     `git clone git@github.com:David3141/on_sec.git`
 
