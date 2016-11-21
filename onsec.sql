@@ -19,7 +19,7 @@ USE `onsec` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `onsec`.`rechte` (
   `rechte_id` INT NOT NULL AUTO_INCREMENT,
-  `bezeichnung` VARCHAR(45) NULL,
+  `bezeichnung` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`rechte_id`),
   UNIQUE INDEX `rechte_id_UNIQUE` (`rechte_id` ASC),
   UNIQUE INDEX `bezeichnung_UNIQUE` (`bezeichnung` ASC))
@@ -43,19 +43,15 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `onsec`.`user` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
-  `rolle_id` INT NULL,
+  `rolle_id` INT NOT NULL,
   `name` VARCHAR(45) NOT NULL,
   `vorname` VARCHAR(45) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
-  `benachrichtigung` TINYINT(1) NOT NULL,
+  `benachrichtigung` TINYINT(1) NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC),
   INDEX `rolle_id_idx` (`rolle_id` ASC),
-  CONSTRAINT `rolle_id`
-    FOREIGN KEY (`rolle_id`)
-    REFERENCES `onsec`.`rolle` (`rolle_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
 
 
@@ -63,7 +59,7 @@ ENGINE = InnoDB;
 -- Table `onsec`.`keywords`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `onsec`.`keywords` (
-  `key_id` INT NOT NULL,
+  `key_id` INT NOT NULL AUTO_INCREMENT,
   `bezeichnung` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`key_id`),
   UNIQUE INDEX `key_id_UNIQUE` (`key_id` ASC))
@@ -82,23 +78,13 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `onsec`.`raum_key`
+-- Table `onsec`.`raum_keywords`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `onsec`.`raum_key` (
-  `raum_nr` VARCHAR(12) NOT NULL,
-  `key_id` INT NOT NULL,
-  PRIMARY KEY (`raum_nr`, `key_id`),
-  INDEX `key_id_idx` (`key_id` ASC),
-  CONSTRAINT `raum_nr`
-    FOREIGN KEY (`raum_nr`)
-    REFERENCES `onsec`.`raum` (`raum_nr`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `key_id`
-    FOREIGN KEY (`key_id`)
-    REFERENCES `onsec`.`keywords` (`key_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+CREATE TABLE IF NOT EXISTS `onsec`.`raum_keywords` (
+  `raum` VARCHAR(12) NOT NULL,
+  `keyword` INT NOT NULL,
+  PRIMARY KEY (`raum`, `keyword`),
+  INDEX `key_id_idx` (`keyword` ASC))
 ENGINE = InnoDB;
 
 
@@ -106,9 +92,9 @@ ENGINE = InnoDB;
 -- Table `onsec`.`kurs`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `onsec`.`kurs` (
-  `kurs_id` INT NOT NULL,
-  `raum_nr` VARCHAR(12) NULL,
-  `bezeichnung` VARCHAR(45) NULL,
+  `kurs_id` INT NOT NULL AUTO_INCREMENT,
+  `raum_nr` VARCHAR(12) NOT NULL,
+  `bezeichnung` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`kurs_id`),
   UNIQUE INDEX `kurs_id_UNIQUE` (`kurs_id` ASC))
 ENGINE = InnoDB;
@@ -123,43 +109,18 @@ CREATE TABLE IF NOT EXISTS `onsec`.`user_rechte_kurs` (
   `kurs_id` INT NOT NULL,
   PRIMARY KEY (`rechte_id`, `user_id`, `kurs_id`),
   INDEX `user_id_idx` (`user_id` ASC),
-  INDEX `kurs_id_idx` (`kurs_id` ASC),
-  CONSTRAINT `rechte_id`
-    FOREIGN KEY (`rechte_id`)
-    REFERENCES `onsec`.`rechte` (`rechte_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `onsec`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `kurs_id`
-    FOREIGN KEY (`kurs_id`)
-    REFERENCES `onsec`.`kurs` (`kurs_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `kurs_id_idx` (`kurs_id` ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `onsec`.`kurs_key`
+-- Table `onsec`.`kurs_keywords`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `onsec`.`kurs_key` (
-  `key_id` INT NOT NULL,
-  `kurs_id` INT NOT NULL,
-  PRIMARY KEY (`key_id`, `kurs_id`),
-  INDEX `kurs_id_idx` (`kurs_id` ASC),
-  CONSTRAINT `key_id`
-    FOREIGN KEY (`key_id`)
-    REFERENCES `onsec`.`keywords` (`key_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `kurs_id`
-    FOREIGN KEY (`kurs_id`)
-    REFERENCES `onsec`.`kurs` (`kurs_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+CREATE TABLE IF NOT EXISTS `onsec`.`kurs_keywords` (
+  `keyword` INT NOT NULL,
+  `kurs` INT NOT NULL,
+  PRIMARY KEY (`keyword`, `kurs`),
+  INDEX `kurs_id_idx` (`kurs` ASC))
 ENGINE = InnoDB;
 
 
@@ -171,15 +132,10 @@ CREATE TABLE IF NOT EXISTS `onsec`.`unterweisung` (
   `user_id` INT NOT NULL,
   `bezeichnung` VARCHAR(45) NOT NULL,
   `ablaufdatum` DATETIME NOT NULL,
-  `pdf_link` VARCHAR(255) NULL,
+  `pdf_link` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`unterweisung_id`),
   UNIQUE INDEX `unterweisung_id_UNIQUE` (`unterweisung_id` ASC),
-  INDEX `user_id_idx` (`user_id` ASC),
-  CONSTRAINT `user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `onsec`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `user_id_idx` (`user_id` ASC))
 ENGINE = InnoDB;
 
 
@@ -190,17 +146,7 @@ CREATE TABLE IF NOT EXISTS `onsec`.`kurs_unterweisung` (
   `kurs_id` INT NOT NULL,
   `unterweisung_id` INT NOT NULL,
   PRIMARY KEY (`kurs_id`, `unterweisung_id`),
-  INDEX `unterweisung_id_idx` (`unterweisung_id` ASC),
-  CONSTRAINT `kurs_id`
-    FOREIGN KEY (`kurs_id`)
-    REFERENCES `onsec`.`kurs` (`kurs_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `unterweisung_id`
-    FOREIGN KEY (`unterweisung_id`)
-    REFERENCES `onsec`.`unterweisung` (`unterweisung_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `unterweisung_id_idx` (`unterweisung_id` ASC))
 ENGINE = InnoDB;
 
 
@@ -211,38 +157,18 @@ CREATE TABLE IF NOT EXISTS `onsec`.`user_unterweisung` (
   `user_id` INT NOT NULL,
   `unterweisung_id` INT NOT NULL,
   PRIMARY KEY (`user_id`, `unterweisung_id`),
-  INDEX `unterweisung_id_idx` (`unterweisung_id` ASC),
-  CONSTRAINT `user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `onsec`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `unterweisung_id`
-    FOREIGN KEY (`unterweisung_id`)
-    REFERENCES `onsec`.`unterweisung` (`unterweisung_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `unterweisung_id_idx` (`unterweisung_id` ASC))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `onsec`.`untwerweisung_key`
+-- Table `onsec`.`untwerweisung_keywords`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `onsec`.`untwerweisung_key` (
+CREATE TABLE IF NOT EXISTS `onsec`.`untwerweisung_keywords` (
   `unterweisung_id` INT NOT NULL,
   `key_id` INT NOT NULL,
   PRIMARY KEY (`unterweisung_id`, `key_id`),
-  INDEX `key_id_idx` (`key_id` ASC),
-  CONSTRAINT `unterweisung_id`
-    FOREIGN KEY (`unterweisung_id`)
-    REFERENCES `onsec`.`unterweisung` (`unterweisung_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `key_id`
-    FOREIGN KEY (`key_id`)
-    REFERENCES `onsec`.`keywords` (`key_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `key_id_idx` (`key_id` ASC))
 ENGINE = InnoDB;
 
 
@@ -250,25 +176,15 @@ ENGINE = InnoDB;
 -- Table `onsec`.`frage`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `onsec`.`frage` (
-  `frage_id` INT NOT NULL,
+  `frage_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NULL,
   `unterweisung_id` INT NULL,
-  `frage_text` VARCHAR(255) NULL,
+  `frage_text` VARCHAR(255) NOT NULL,
   `bild_link` VARCHAR(255) NULL,
   PRIMARY KEY (`frage_id`),
   UNIQUE INDEX `frage_id_UNIQUE` (`frage_id` ASC),
   INDEX `user_id_idx` (`user_id` ASC),
-  INDEX `unterweisung_id_idx` (`unterweisung_id` ASC),
-  CONSTRAINT `user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `onsec`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `unterweisung_id`
-    FOREIGN KEY (`unterweisung_id`)
-    REFERENCES `onsec`.`unterweisung` (`unterweisung_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `unterweisung_id_idx` (`unterweisung_id` ASC))
 ENGINE = InnoDB;
 
 
@@ -282,12 +198,7 @@ CREATE TABLE IF NOT EXISTS `onsec`.`antwort` (
   `richtigkeit` TINYINT(1) NULL,
   PRIMARY KEY (`antwort_id`),
   UNIQUE INDEX `antwort_id_UNIQUE` (`antwort_id` ASC),
-  INDEX `frage_id_idx` (`frage_id` ASC),
-  CONSTRAINT `frage_id`
-    FOREIGN KEY (`frage_id`)
-    REFERENCES `onsec`.`frage` (`frage_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  INDEX `frage_id_idx` (`frage_id` ASC))
 ENGINE = InnoDB;
 
 
