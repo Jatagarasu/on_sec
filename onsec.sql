@@ -313,6 +313,27 @@ CREATE TABLE IF NOT EXISTS `onsec`.`user_rechte_unterweisung` (
   ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `onsec`.`user_kurs`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `onsec`.`user_kurs` (
+  `kurs_id` INT NOT NULL,
+  `teilnehmer_id` INT NOT NULL,
+  PRIMARY KEY (`kurs_id`, `teilnehmer_id`),
+  INDEX `usrkrs_teilnehmer_id_idx` (`teilnehmer_id` ASC),
+  CONSTRAINT `usrkrs_kurs_id`
+  FOREIGN KEY (`kurs_id`)
+  REFERENCES `onsec`.`kurs` (`kurs_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `usrkrs_teilnehmer_id`
+  FOREIGN KEY (`teilnehmer_id`)
+  REFERENCES `onsec`.`user` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
