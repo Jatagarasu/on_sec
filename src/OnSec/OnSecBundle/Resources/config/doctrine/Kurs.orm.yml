@@ -1,0 +1,75 @@
+OnSec\OnSecBundle\Entity\Kurs:
+    type: entity
+    table: kurs
+    uniqueConstraints:
+        kurs_id_UNIQUE:
+            columns:
+                - kurs_id
+    id:
+        kursId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: kurs_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        raumNr:
+            type: string
+            nullable: false
+            length: 12
+            options:
+                fixed: false
+            column: raum_nr
+        bezeichnung:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+    manyToMany:
+        keyword:
+            targetEntity: Keywords
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: kurs
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+        unterweisung:
+            targetEntity: Unterweisung
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: kurs
+            joinTable:
+                name: kurs_unterweisung
+                joinColumns:
+                    -
+                        name: kurs_id
+                        referencedColumnName: kurs_id
+                inverseJoinColumns:
+                    -
+                        name: unterweisung_id
+                        referencedColumnName: unterweisung_id
+            orderBy: null
+        teilnehmer:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: kurs
+            joinTable:
+                name: user_kurs
+                joinColumns:
+                    -
+                        name: kurs_id
+                        referencedColumnName: kurs_id
+                inverseJoinColumns:
+                    -
+                        name: teilnehmer_id
+                        referencedColumnName: user_id
+            orderBy: null
+    lifecycleCallbacks: {  }

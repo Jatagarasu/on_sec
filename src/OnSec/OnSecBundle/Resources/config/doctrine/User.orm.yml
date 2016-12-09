@@ -1,0 +1,84 @@
+OnSec\OnSecBundle\Entity\User:
+    type: entity
+    table: user
+    indexes:
+        rolle_id_idx:
+            columns:
+                - rolle_id
+    uniqueConstraints:
+        user_id_UNIQUE:
+            columns:
+                - user_id
+        email_UNIQUE:
+            columns:
+                - email
+    id:
+        userId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: user_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+        vorname:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+        email:
+            type: string
+            nullable: false
+            length: 100
+            options:
+                fixed: false
+        benachrichtigung:
+            type: boolean
+            nullable: true
+    manyToOne:
+        rolle:
+            targetEntity: Rolle
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                rolle_id:
+                    referencedColumnName: rolle_id
+            orphanRemoval: false
+    manyToMany:
+        kurs:
+            targetEntity: Kurs
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: teilnehmer
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+        unterweisung:
+            targetEntity: Unterweisung
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: user
+            joinTable:
+                name: user_unterweisung
+                joinColumns:
+                    -
+                        name: user_id
+                        referencedColumnName: user_id
+                inverseJoinColumns:
+                    -
+                        name: unterweisung_id
+                        referencedColumnName: unterweisung_id
+            orderBy: null
+    lifecycleCallbacks: {  }

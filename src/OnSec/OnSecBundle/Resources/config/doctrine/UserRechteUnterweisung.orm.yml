@@ -1,0 +1,46 @@
+OnSec\OnSecBundle\Entity\UserRechteUnterweisung:
+    type: entity
+    table: user_rechte_unterweisung
+    indexes:
+        usrrechtunt_user_id_idx:
+            columns:
+                - user_id
+        usrrechtunt_unterweisung_id_idx:
+            columns:
+                - unterweisung_id
+        IDX_60AD44B56704D771:
+            columns:
+                - rechte_id
+    id: {  }
+    oneToOne:
+        rechte:
+            targetEntity: Rechte
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                rechte_id:
+                    referencedColumnName: rechte_id
+            orphanRemoval: false
+        unterweisung:
+            targetEntity: Unterweisung
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                unterweisung_id:
+                    referencedColumnName: unterweisung_id
+            orphanRemoval: false
+        user:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    referencedColumnName: user_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

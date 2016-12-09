@@ -1,0 +1,44 @@
+OnSec\OnSecBundle\Entity\Antwort:
+    type: entity
+    table: antwort
+    indexes:
+        frage_id_idx:
+            columns:
+                - frage_id
+    uniqueConstraints:
+        antwort_id_UNIQUE:
+            columns:
+                - antwort_id
+    id:
+        antwortId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: antwort_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        antwortText:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: antwort_text
+        richtigkeit:
+            type: boolean
+            nullable: true
+    manyToOne:
+        frage:
+            targetEntity: Frage
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                frage_id:
+                    referencedColumnName: frage_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

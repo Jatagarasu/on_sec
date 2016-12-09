@@ -1,0 +1,44 @@
+OnSec\OnSecBundle\Entity\Raum:
+    type: entity
+    table: raum
+    uniqueConstraints:
+        raum_nr_UNIQUE:
+            columns:
+                - raum_nr
+    id:
+        raumNr:
+            type: string
+            nullable: false
+            length: 12
+            options:
+                fixed: false
+            id: true
+            column: raum_nr
+            generator:
+                strategy: IDENTITY
+    fields:
+        bezeichnung:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+    manyToMany:
+        keyword:
+            targetEntity: Keywords
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: raum
+            joinTable:
+                name: raum_keywords
+                joinColumns:
+                    -
+                        name: raum_id
+                        referencedColumnName: raum_nr
+                inverseJoinColumns:
+                    -
+                        name: keyword_id
+                        referencedColumnName: key_id
+            orderBy: null
+    lifecycleCallbacks: {  }

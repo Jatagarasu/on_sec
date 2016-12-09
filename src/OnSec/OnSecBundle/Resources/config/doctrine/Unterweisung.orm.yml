@@ -1,0 +1,69 @@
+OnSec\OnSecBundle\Entity\Unterweisung:
+    type: entity
+    table: unterweisung
+    uniqueConstraints:
+        unterweisung_id_UNIQUE:
+            columns:
+                - unterweisung_id
+    id:
+        unterweisungId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: unterweisung_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        bezeichnung:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+        ablaufdatum:
+            type: datetime
+            nullable: false
+        pdfLink:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+            column: pdf_link
+    manyToMany:
+        kurs:
+            targetEntity: Kurs
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: unterweisung
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+        key:
+            targetEntity: Keywords
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: unterweisung
+            joinTable:
+                name: untwerweisung_keywords
+                joinColumns:
+                    -
+                        name: unterweisung_id
+                        referencedColumnName: unterweisung_id
+                inverseJoinColumns:
+                    -
+                        name: key_id
+                        referencedColumnName: key_id
+            orderBy: null
+        user:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: unterweisung
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }
