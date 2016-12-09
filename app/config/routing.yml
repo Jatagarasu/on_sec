@@ -1,3 +1,7 @@
+hsd_on_sec:
+    resource: "@HSDOnSecBundle/Resources/config/routing.yml"
+    prefix:   /
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
