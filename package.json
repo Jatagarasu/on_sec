@@ -1,0 +1,23 @@
+{
+  "name": "on_sec",
+  "version": "1.0.0",
+  "description": "onSec ====",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/David3141/on_sec.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/David3141/on_sec/issues"
+  },
+  "homepage": "https://github.com/David3141/on_sec#readme",
+  "dependencies": {
+    "bootstrap": "^4.0.0-alpha.5",
+    "font-awesome": "^4.7.0"
+  }
+}

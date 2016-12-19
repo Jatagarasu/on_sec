@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Unterweisung erstellen</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  </head>
+  <body>
+  <div class="container">
+    <h1>Lichtlabor</h1>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="input-group">
+        </div>
+          <label class="sr-only" for="nameInput">Name</label>
+          <input type="text" class="form-control" placeholder="Name" id="nameInput">
+      </div>
+      <div class="col-md-2">
+        <label class="sr-only" for="roomInput">Raumnr.</label>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Raum" id="roomInput">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label class="sr-only" for="validityPeriodInput">Laufzeit</label>
+        <div class="input-group">
+          <input type="number" class="form-control" placeholder="Laufzeit"
+              aria-describedby="semester" id="validityPeriodInput">
+          <div class="input-group-addon" id="semester">Semester</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label class="sr-only" for="tagInput"></label>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Schlagwort 1, 2, ..." id="tagInput">
+          <span class="input-group-btn">
+            <button class="btn btn-secondary" type="button">
+              <i class="fa fa-plus"></i>
+            </button>
+          </span>
+        </div>
+        <span class="tag tag-info">Licht</span>
+        <span class="tag tag-info">Technik</span>
+        <span class="tag tag-info">Leiter</span>
+        <span class="tag tag-info">Scheinwerfer</span>
+        <span class="tag tag-info">Strahler</span>
+        <span class="tag tag-info">Verstrahlt</span>
+      </div>
+    </div>
+    <h2>Rechte</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <table class="table">
+          <thead class="thead-inverse">
+            <tr>
+              <th>Name</th>
+              <th>Rang</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hannes der Schnelle</td>
+              <td>
+                Eigentümer
+              </td>
+            </tr>
+            <tr>
+              <td>Hiltrud die Kecke</td>
+              <td>
+                Bearbeiter
+              </td>
+            </tr>
+            <tr>
+              <td>Joachim der Gefürchtete</td>
+              <td>
+                Bearbeiter
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <div class="input-group">
+          <input type="text" class="form-control" aria-label="Text input with dropdown button">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Bearbeiter
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#">Eigentümer</a>
+              <a class="dropdown-item" href="#">Bearbeiter</a>
+              <a class="dropdown-item" href="#">Was nochmal</a>
+            </div>
+            <button type="button" class="btn btn-secondary">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <h2>Inhalt</h2>
+  <div class="row">
+
+  </div>
+
+  </div>
+
+  <script src="node_modules/tether/dist/js/tether.min.js" crossorigin="anonymous"></script>
+  <script src="node_modules/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  </body>
+</html>
