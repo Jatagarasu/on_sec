@@ -10,6 +10,7 @@
   <body>
   <div class="container">
     <h1>Lichtlabor</h1>
+    <h2>Eigenschaften</h2>
     <div class="row">
       <div class="col-md-4">
         <div class="input-group">
@@ -82,20 +83,21 @@
         </table>
       </div>
       <div class="col-md-6">
+        <label for="access-rights-input">Weitere hinzufügen</label>
         <div class="input-group">
-          <input type="text" class="form-control" aria-label="Text input with dropdown button">
+          <input type="text" class="form-control" id="access-rights-input" placeholder="Name / E-Mail">
           <div class="input-group-btn">
             <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Bearbeiter
+              <span>Bearbeiter</span>
+            </button>
+            <button type="button" class="btn btn-secondary">
+              <i class="fa fa-plus"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item" href="#">Eigentümer</a>
               <a class="dropdown-item" href="#">Bearbeiter</a>
               <a class="dropdown-item" href="#">Was nochmal</a>
             </div>
-            <button type="button" class="btn btn-secondary">
-              <i class="fa fa-plus"></i>
-            </button>
           </div>
         </div>
       </div>
