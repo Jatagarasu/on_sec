@@ -42,12 +42,14 @@
             </button>
           </span>
         </div>
-        <span class="tag tag-info">Licht</span>
-        <span class="tag tag-info">Technik</span>
-        <span class="tag tag-info">Leiter</span>
-        <span class="tag tag-info">Scheinwerfer</span>
-        <span class="tag tag-info">Strahler</span>
-        <span class="tag tag-info">Verstrahlt</span>
+        <ul style="padding: 0;">
+          <li class="tag tag-info">Licht<span class="fa fa-trash-o" style="cursor: pointer; margin-left: 5px;"></span></li>
+          <li class="tag tag-info">Technik<span class="fa fa-trash-o" style="cursor: pointer; margin-left: 5px;"></span></li>
+          <li class="tag tag-info">Leiter<span class="fa fa-trash-o" style="cursor: pointer; margin-left: 5px;"></span></li>
+          <li class="tag tag-info">Scheinwerfer<span class="fa fa-trash-o" style="cursor: pointer; margin-left: 5px;"></span></li>
+          <li class="tag tag-info">Strahler<span class="fa fa-trash-o" style="cursor: pointer; margin-left: 5px;"></span></li>
+          <li class="tag tag-info">Verstrahlt<span class="fa fa-trash-o" style="cursor: pointer; margin-left: 5px;"></span></li>
+        </ul>
       </div>
     </div>
     <h2>Rechte</h2>
@@ -85,10 +87,10 @@
       <div class="col-md-6">
         <label for="access-rights-input">Weitere hinzufügen</label>
         <div class="input-group">
-          <input type="text" class="form-control" id="access-rights-input" placeholder="Name / E-Mail">
+          <input type="text" class="form-control" id="access-rights-input" placeholder="Name oder E-Mail">
           <div class="input-group-btn">
             <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span>Bearbeiter</span>
+              <span>Rolle</span>
             </button>
             <button type="button" class="btn btn-secondary">
               <i class="fa fa-plus"></i>
@@ -104,8 +106,61 @@
     </div>
 
   <h2>Inhalt</h2>
+  <div class="row" style="margin-bottom: 10px;">
+    <div class="col-md-3">
+      Unterweisung-Leiter.pdf
+    </div>
+    <div class="col-md-3">
+      <button type="button" class="btn btn-primary">PDF wählen</button>
+    </div>
+  </div>
   <div class="row">
-
+    <div class="col-md-12">
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th>ID</th>
+            <th>Frage</th>
+            <th class="text-md-right">Antworten</th>
+            <th class="text-md-right">Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>14</td>
+            <td>Was ist das 81. Element im Periodensystem?</td>
+            <td class="text-md-right">118</td>
+            <td class="text-md-right">
+              <button class="btn btn-primary"><span class="fa fa-pencil-square-o"></span></button>
+              <button class="btn btn-danger"><span class="fa fa-trash-o"></span></button>
+            </td>
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Wer war von 1814 bis 1815 König von Frankreich?</td>
+            <td class="text-md-right">4</td>
+            <td class="text-md-right">
+              <button class="btn btn-primary"><span class="fa fa-pencil-square-o"></span></button>
+              <button class="btn btn-danger"><span class="fa fa-trash-o"></span></button>
+            </td>
+          </tr>
+          <tr>
+            <td>34</td>
+            <td>Wie viele Lichtjahre entfernt liegt die große magellanische Wolke?</td>
+            <td class="text-md-right">3</td>
+            <td class="text-md-right">
+              <button class="btn btn-primary"><span class="fa fa-pencil-square-o"></span></button>
+              <button class="btn btn-danger"><span class="fa fa-trash-o"></span></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-success"><span class="fa fa-plus"></span></button>
+    </div>
   </div>
 
   </div>
