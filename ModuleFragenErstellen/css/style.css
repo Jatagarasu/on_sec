@@ -1,0 +1,120 @@
+body {
+    min-width: 768px;
+}
+
+.ieError {
+    background: red;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    color: #FFF;
+}
+
+.configLabel {
+    margin-right: 10px;
+}
+
+.hsdLogo {
+    margin-right: 50px;
+    height: 75px;
+}
+
+.serverStatus {
+    margin-right: 10px;
+}
+
+.tabContainer {
+    padding: 25px;
+}
+
+.tabSet {
+    margin-top: 15px;
+}
+
+.noMargin {
+    margin: 0;
+}
+
+.serviceTitel {
+    margin-top: 3px;
+}
+
+.dashboard {
+    padding-top: 15px;
+}
+
+.content {
+    display:table-cell;
+    vertical-align:middle;
+    text-align:center;
+}
+#info {
+    float: right;
+    width: 25%;
+    margin-right: 10%;
+}
+#activity {
+    float: right;
+    width: 25%;
+    margin-right: 10%;
+}
+
+#passiveSkills {
+    width: 30%;
+    float: left;
+    margin-left: 5%;
+
+}
+#skillButton {
+    width: 15%;
+    float: left;
+    margin-left: 5%;
+}
+
+#activSkills {
+    width: 30%;
+    float: left;
+    margin-left: 5%;
+}
+
+/**Modal Styles for Print**/
+
+@media print {
+    body * {
+       visibility: hidden;
+    }
+    #print-content * {
+        visibility: visible;
+        overflow: visible;
+    }
+    #mainPage * {
+        display: none;
+    }
+    .modal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+        padding: 0;
+        min-height: 550px;
+        visibility: visible;
+        /**Remove scrollbar for printing.**/
+        overflow: visible !important;
+    }
+    .modal-dialog {
+        visibility: visible !important;
+        /**Remove scrollbar for printing.**/
+        overflow: visible !important;
+    }
+    li {
+        page-break-after: auto;
+    }
+}
+
+.tableCharts td
+{
+    width: 20px;
+    text-align: center;
+    border-right: 1px solid #FFFFFF;
+}
