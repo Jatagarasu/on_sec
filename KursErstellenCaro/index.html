@@ -11,7 +11,7 @@
   <body>
   <div class="container">
     <h1>Neuen Kurs anlegen</h1>
-    
+
     <div class="row">
         <div class="col-md-1">
                 <h5>Name</h5>
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="row">
         <div class="col-md-1">
             <h5>Raum</h5>
@@ -42,7 +42,7 @@
         <div class="card-header">
             Unterweisungen
         </div>
-        
+
         <div class="card card-inverse" style="background-color: #333; border-color: #333;">
         <div class="card-block">
            <div class="card text-xs-left">
@@ -59,29 +59,99 @@
             <a href="#" class="btn btn-primary">Go somewhere</a>-->
         </div>
         </div>
-        
+
         <div class="card-footer text-muted">
-        
+
             <div class="form-group row">
                <div id="custom-search-input">
                <div class="input-group col-xs-12" >
-               
+
                 <input type="text"  class="form-control input-lg" placeholder="Suche"/>
                 <span class="input-group-btn">
                     <button class="btn btn-info btn-lg" type="button">
                     <i class="fa fa-search" aria-hidden="true"></i>
                     </button>
                 </span>
-                 
+
                   </div>
                   </div>
               </div>
         </div>
      </div>
     </div>
-
   </div>
-
+  <h2>Rechte</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <table class="table">
+          <thead class="thead-inverse">
+            <tr>
+              <th>Name</th>
+              <th>Rang</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hannes der Schnelle</td>
+              <td>
+                Eigentümer
+              </td>
+            </tr>
+            <tr>
+              <td>Hiltrud die Kecke</td>
+              <td>
+                Bearbeiter
+              </td>
+            </tr>
+            <tr>
+              <td>Joachim der Gefürchtete</td>
+              <td>
+                Bearbeiter
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <label for="access-rights-input">Weitere hinzufügen</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="access-rights-input" placeholder="Name oder E-Mail">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span>Rolle</span>
+            </button>
+            <button type="button" class="btn btn-secondary">
+              <i class="fa fa-plus"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#">Eigentümer</a>
+              <a class="dropdown-item" href="#">Bearbeiter</a>
+              <a class="dropdown-item" href="#">Was nochmal</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+        <label class="sr-only" for="tagInput"></label>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Schlagwort 1, 2, ..." id="tagInput">
+          <span class="input-group-btn">
+            <button class="btn btn-secondary" type="button">
+              <i class="fa fa-plus"></i>
+            </button>
+          </span>
+        </div>
+        <ul style="padding: 0;">
+          <li class="tag tag-info">Licht<span class="fa fa-trash-o" style="cursor: pointer; margin-left: 5px;"></span></li>
+          <li class="tag tag-info">Technik<span class="fa fa-trash-o" style="cursor: pointer; margin-left: 5px;"></span></li>
+          <li class="tag tag-info">Leiter<span class="fa fa-trash-o" style="cursor: pointer; margin-left: 5px;"></span></li>
+          <li class="tag tag-info">Scheinwerfer<span class="fa fa-trash-o" style="cursor: pointer; margin-left: 5px;"></span></li>
+          <li class="tag tag-info">Strahler<span class="fa fa-trash-o" style="cursor: pointer; margin-left: 5px;"></span></li>
+          <li class="tag tag-info">Verstrahlt<span class="fa fa-trash-o" style="cursor: pointer; margin-left: 5px;"></span></li>
+        </ul>
+      </div>
+    </div>
   <script src="node_modules/tether/dist/js/tether.min.js" crossorigin="anonymous"></script>
   <script src="node_modules/jquery/dist/jquery.min.js" crossorigin="anonymous"></script>
   <script src="node_modules/bootstrap/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
