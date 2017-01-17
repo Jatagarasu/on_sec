@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Baumnavigation mit jQuery</title>
+	<!-- CSS Datei einbinden -->
+	<link rel="stylesheet" href="css/baum.css"/>
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css"/>
+	<!-- jQuery einbinden -->
+	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+	<!-- eigenes Script einbinden -->
+	<script type="text/javascript" src="js/BaumNavigation.js"></script> 
+</head>
+<body>
+<div class="container">
+	<div class="row">
+        <div class="col-md-13">
+            <div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input type="text" class="form-control input-lg" placeholder="Suche" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" type="button">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+<div class="col-xs-10 offset-xs-1">
+<div class="form-group row">
+    <ul id="baum">
+        <li><span class="ausklappen">Medientechnik</span>
+            <ul>
+                <li><a href="#">Leiter</a><span class="status-y">gültig bis {$php}</span></li>
+                <li><a href="#">Feuerlöscher</a><span class="status-n">nicht absolviert</span></li>
+            </ul>
+        </li>
+        <li><span class="ausklappen">MMK</span>
+            <ul>
+                <li><a href="#">PC-Pool</a><span class="status-n">nicht absolviert</span></li>
+                <li><a href="#">Feuerlöscher</a><span class="status-n">nicht absolivert</span></li>
+                <li><a href="#">Helm</a><span class="status-y">gültig bis {$php}</span></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+    </div>
+</body>
+</html>

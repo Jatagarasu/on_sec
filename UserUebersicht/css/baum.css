@@ -1,0 +1,84 @@
+#baum
+{
+    margin:0 0 0 0;
+    list-style-type:none;
+    padding:0 0 1em 0;
+    width:100%;
+    font: .9em/1.5em Arial, Tahoma, Verdana, sans-serif;
+    font-weight: bolder;
+}
+#baum  li
+{
+    margin:0.5em 0.5em 0.5em 0.5em;
+    list-style-type:none;
+    background:#F0F0F0;
+    padding:0.6em;
+}
+
+#baum  li li
+{
+    margin:0.5em 0.5em 0.5em 1.5em;
+    background:#fff;
+    font-weight:600; 
+}
+#baum  li li li
+{
+    background:#F0F0F0;
+}
+#baum a
+{
+    text-decoration:none;
+    color: black;
+}
+
+.status-n, .status-y{
+    float: right;
+    font-weight: bolder;
+}
+.status-n{
+    color: crimson;
+}
+.status-y{
+    color:green;
+}
+
+#example-search-input{
+    border-radius: 0px;
+    background-color: grey;
+}
+#example-search-input{
+    color: white;
+}
+
+
+#custom-search-input{
+    padding: 3px;
+    border: solid 0px #E4E4E4;
+    background-color: grey;
+}
+
+#custom-search-input input{
+    border: 0;
+    box-shadow: none;
+    background-color: grey
+}
+
+#custom-search-input button{
+    margin: 2px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input button:hover{
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search{
+    font-size: 23px;
+}
