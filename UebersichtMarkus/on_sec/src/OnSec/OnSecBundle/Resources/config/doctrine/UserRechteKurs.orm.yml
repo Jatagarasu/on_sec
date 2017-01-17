@@ -1,0 +1,46 @@
+OnSec\OnSecBundle\Entity\UserRechteKurs:
+    type: entity
+    table: user_rechte_kurs
+    indexes:
+        user_id_idx:
+            columns:
+                - user_id
+        kurs_id_idx:
+            columns:
+                - kurs_id
+        IDX_A5B989906704D771:
+            columns:
+                - rechte_id
+    id: {  }
+    oneToOne:
+        kurs:
+            targetEntity: Kurs
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                kurs_id:
+                    referencedColumnName: kurs_id
+            orphanRemoval: false
+        rechte:
+            targetEntity: Rechte
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                rechte_id:
+                    referencedColumnName: rechte_id
+            orphanRemoval: false
+        user:
+            targetEntity: User
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                user_id:
+                    referencedColumnName: user_id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

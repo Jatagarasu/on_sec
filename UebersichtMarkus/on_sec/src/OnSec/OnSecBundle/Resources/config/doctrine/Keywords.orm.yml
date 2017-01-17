@@ -1,0 +1,59 @@
+OnSec\OnSecBundle\Entity\Keywords:
+    type: entity
+    table: keywords
+    uniqueConstraints:
+        key_id_UNIQUE:
+            columns:
+                - key_id
+    id:
+        keyId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: key_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        bezeichnung:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+    manyToMany:
+        kurs:
+            targetEntity: Kurs
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: keyword
+            joinTable:
+                name: kurs_keywords
+                joinColumns:
+                    -
+                        name: keyword_id
+                        referencedColumnName: key_id
+                inverseJoinColumns:
+                    -
+                        name: kurs_id
+                        referencedColumnName: kurs_id
+            orderBy: null
+        raum:
+            targetEntity: Raum
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: keyword
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+        unterweisung:
+            targetEntity: Unterweisung
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: key
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }

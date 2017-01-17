@@ -1,0 +1,3 @@
+hsd_on_sec_homepage:
+    path:     /
+    defaults: { _controller: HSDOnSecBundle:Default:index }

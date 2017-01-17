@@ -1,0 +1,28 @@
+OnSec\OnSecBundle\Entity\Rechte:
+    type: entity
+    table: rechte
+    uniqueConstraints:
+        rechte_id_UNIQUE:
+            columns:
+                - rechte_id
+        bezeichnung_UNIQUE:
+            columns:
+                - bezeichnung
+    id:
+        rechteId:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            column: rechte_id
+            generator:
+                strategy: IDENTITY
+    fields:
+        bezeichnung:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+    lifecycleCallbacks: {  }
