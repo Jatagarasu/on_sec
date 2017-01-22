@@ -25,4 +25,9 @@ class PrototypeController extends Controller {
     return $this->render('HSDOnSecBundle:Prototype:createInstruction.html.twig', array(
     ));
   }
+
+  public function createQuestionsAction() {
+    return $this->render('HSDOnSecBundle:Prototype:createQuestions.html.twig', array(
+    ));
+  }
 }

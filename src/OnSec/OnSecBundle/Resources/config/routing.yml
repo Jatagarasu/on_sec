@@ -8,12 +8,16 @@ index:
 
 dashboard:
     path:     /prototype/dashboard
-    defaults: { _controller: HSDOnSecBundle:Prototype:dashboard}
+    defaults: { _controller: HSDOnSecBundle:Prototype:dashboard }
 
 createLecture:
     path:     /prototype/create_lecture
-    defaults: { _controller: HSDOnSecBundle:Prototype:createLecture}
+    defaults: { _controller: HSDOnSecBundle:Prototype:createLecture }
 
 createInstruction:
     path:     /prototype/create_instruction
-    defaults: { _controller: HSDOnSecBundle:Prototype:createInstruction}
+    defaults: { _controller: HSDOnSecBundle:Prototype:createInstruction }
+
+createQuestions:
+    path: /prototype/create_questions
+    defaults: { _controller: HSDOnSecBundle:Prototype:createQuestions }
