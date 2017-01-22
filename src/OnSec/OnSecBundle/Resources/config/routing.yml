@@ -1,3 +1,19 @@
 hsd_on_sec_homepage:
     path:     /
     defaults: { _controller: HSDOnSecBundle:Default:index }
+
+index:
+    path:     /prototype
+    defaults: { _controller: HSDOnSecBundle:Prototype:index }
+
+dashboard:
+    path:     /prototype/dashboard
+    defaults: { _controller: HSDOnSecBundle:Prototype:dashboard}
+
+createLecture:
+    path:     /prototype/create_lecture
+    defaults: { _controller: HSDOnSecBundle:Prototype:createLecture}
+
+createInstruction:
+    path:     /prototype/create_instruction
+    defaults: { _controller: HSDOnSecBundle:Prototype:createInstruction}

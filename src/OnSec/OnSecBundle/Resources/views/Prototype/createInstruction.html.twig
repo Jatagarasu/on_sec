@@ -1,0 +1,85 @@
+{% extends "::base.html.twig" %}
+{% block title %}Dashboard{% endblock %}
+{% block body %}
+<h1>Lichtlabor</h1>
+  <div class="row">
+    <h2>Eigenschaften</h2>
+      <div class="col-md-4">
+        <div class="input-group">
+        </div>
+          <label class="sr-only" for="nameInput">Name</label>
+          <input type="text" class="form-control" placeholder="Name" id="nameInput">
+      </div>
+      <div class="col-md-2">
+        <label class="sr-only" for="roomInput">Raumnr.</label>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Raum" id="roomInput">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <label class="sr-only" for="validityPeriodInput">Laufzeit</label>
+        <div class="input-group">
+          <input type="number" class="form-control" placeholder="Laufzeit"
+              aria-describedby="semester" id="validityPeriodInput">
+          <div class="input-group-addon" id="semester">Semester</div>
+        </div>
+      </div>
+    </div>
+  <div class="row" style="margin-top: 50px;">
+    <h2>Inhalt</h2>
+    <div class="col-md-3">
+      Unterweisung-Leiter.pdf
+    </div>
+    <div class="col-md-3">
+      <button type="button" class="btn btn-primary">PDF wählen</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th>ID</th>
+            <th>Frage</th>
+            <th class="text-md-right">Antworten</th>
+            <th class="text-md-right">Aktionen</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>14</td>
+            <td>Was ist das 81. Element im Periodensystem?</td>
+            <td class="text-md-right">118</td>
+            <td class="text-md-right">
+              <button class="btn btn-primary"><span class="fa fa-pencil-square-o"></span></button>
+              <button class="btn btn-danger"><span class="fa fa-trash-o"></span></button>
+            </td>
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>Wer war von 1814 bis 1815 König von Frankreich?</td>
+            <td class="text-md-right">4</td>
+            <td class="text-md-right">
+              <button class="btn btn-primary"><span class="fa fa-pencil-square-o"></span></button>
+              <button class="btn btn-danger"><span class="fa fa-trash-o"></span></button>
+            </td>
+          </tr>
+          <tr>
+            <td>34</td>
+            <td>Wie viele Lichtjahre entfernt liegt die große magellanische Wolke?</td>
+            <td class="text-md-right">3</td>
+            <td class="text-md-right">
+              <button class="btn btn-primary"><span class="fa fa-pencil-square-o"></span></button>
+              <button class="btn btn-danger"><span class="fa fa-trash-o"></span></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-success"><span class="fa fa-plus"></span></button>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}HSDOnSecBundle:Prototype:index{% endblock %}
+
+{% block body %}
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card card-outline-info">
+                        <h4 class="card-header">OnSec -  Was ist das?</h4>
+                        <img class="card-img-top img-thumbnail" src="{{ asset('bundles/hsdonsec/images/symbols-topic.png') }}" alt="login">
+                        <div class="card-block">
+                            <p class="card-text">
+                                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card card-outline-info" style="width: 23.9rem;">
+                        <h4 class="card-header">Login</h4>
+                        <img class="card-img-top img-thumbnail" src="{{ asset('bundles/hsdonsec/images/shibolethlogin.png') }}" alt="Sicherheitsunterweisung"\>
+                        <div class="card-block">
+                            <p class="card-text">Bitte nutzen Sie zum einloggen unseren bekannten Identitätsdienst der Hochschule Düsseldorf - Shibboleth</p>
+                            <a href="{{ path('dashboard') }}" class="btn btn-primary">zum Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    {% endblock %}
