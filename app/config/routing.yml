@@ -1,3 +1,39 @@
+hsd_on_sec_user:
+    resource: "@HSDOnSecBundle/Controller/UserController.php"
+    type:     annotation
+
+hsd_on_sec_unterweisung:
+    resource: "@HSDOnSecBundle/Controller/UnterweisungController.php"
+    type:     annotation
+
+hsd_on_sec_rolle:
+    resource: "@HSDOnSecBundle/Controller/RolleController.php"
+    type:     annotation
+
+hsd_on_sec_rechte:
+    resource: "@HSDOnSecBundle/Controller/RechteController.php"
+    type:     annotation
+
+hsd_on_sec_raum:
+    resource: "@HSDOnSecBundle/Controller/RaumController.php"
+    type:     annotation
+
+hsd_on_sec_kurs:
+    resource: "@HSDOnSecBundle/Controller/KursController.php"
+    type:     annotation
+
+hsd_on_sec_keywords:
+    resource: "@HSDOnSecBundle/Controller/KeywordsController.php"
+    type:     annotation
+
+hsd_on_sec_frage:
+    resource: "@HSDOnSecBundle/Controller/FrageController.php"
+    type:     annotation
+
+hsd_on_sec_antwort:
+    resource: "@HSDOnSecBundle/Controller/AntwortController.php"
+    type:     annotation
+
 hsd_on_sec:
     resource: "@HSDOnSecBundle/Resources/config/routing.yml"
     prefix:   /
