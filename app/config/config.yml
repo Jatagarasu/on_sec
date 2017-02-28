@@ -41,7 +41,6 @@ assetic:
     filters:
         cssrewrite: ~
 
-
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
