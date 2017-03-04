@@ -1,0 +1,37 @@
+OnSec\OnSecBundle\Entity\Answer:
+    type: entity
+    table: answer
+
+    id:
+        id:
+            type: integer
+            nullable: false
+            id: true
+            generator:
+                strategy: AUTO
+
+    fields:
+            answerText:
+                type: text
+                nullable: true
+            isCorrect:
+                type: integer
+                nullable: true
+            createdOn:
+                type: datetime
+                nullable: true
+            updatedOn:
+                type: datetime
+                nullable: true
+
+    manyToOne:
+        question:
+            targetEntity: Question
+            inversedBy: answers
+            joinColumn:
+                name: question_id
+                referencedColumnName: id
+
+    lifecycleCallbacks:
+            prePersist: [ initialDateTime ]
+            preFlush: [ updateDateTime ]

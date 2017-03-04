@@ -1,0 +1,41 @@
+OnSec\OnSecBundle\Entity\Course:
+    type: entity
+    table: course
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+
+    fields:
+        description:
+            type: string
+            nullable: false
+
+    oneToOne:
+        owner:
+            targetEntity: User
+            joinColumn:
+                name: owner_id
+                referencedColumnName: id
+        room:
+            targetEntity: Room
+            joinColumn:
+                name: room
+                referencedColumnName: id
+
+    oneToMany:
+        instructions:
+            targetEntity: Instruction
+            mappedBy: course
+        subscribers:
+            targetEntity: User
+            mappedBy: course
+        keywords:
+            targetEntity: Keyword
+            mappedBy: course
+        moderators:
+            targetEntity: User
+            mappedBy: course

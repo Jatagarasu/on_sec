@@ -1,0 +1,43 @@
+OnSec\OnSecBundle\Entity\Question:
+    type: entity
+    table: question
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        questionText:
+            type: text
+            nullable: true
+        imagePath:
+            type: string
+            nullable: true
+        createdOn:
+            type: datetime
+            nullable: true
+        updatedOn:
+            type: datetime
+            nullable: true
+
+    oneToOne:
+        owner:
+            targetEntity: User
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+
+    #manyToOne:
+        #instruction:
+            #targetEntity: Instruction
+                #inversedBy: questions
+                #joinColumn:
+                    #name: instruction_id
+                    #referencedColumnName: id
+
+    oneToMany:
+        answers:
+            targetEntity: Answer
+            mappedBy: question

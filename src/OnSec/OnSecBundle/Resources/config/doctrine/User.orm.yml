@@ -1,84 +1,48 @@
 OnSec\OnSecBundle\Entity\User:
     type: entity
     table: user
-    indexes:
-        rolle_id_idx:
-            columns:
-                - rolle_id
-    uniqueConstraints:
-        user_id_UNIQUE:
-            columns:
-                - user_id
-        email_UNIQUE:
-            columns:
-                - email
+
     id:
-        userId:
+        id:
             type: integer
-            nullable: false
-            options:
-                unsigned: false
             id: true
-            column: user_id
             generator:
-                strategy: IDENTITY
+                strategy: AUTO
     fields:
-        name:
+        surname:
             type: string
             nullable: false
-            length: 45
-            options:
-                fixed: false
-        vorname:
+        firstname:
             type: string
             nullable: false
-            length: 45
-            options:
-                fixed: false
         email:
             type: string
             nullable: false
-            length: 100
-            options:
-                fixed: false
-        benachrichtigung:
+        notificationActive:
             type: boolean
             nullable: true
+
     manyToOne:
-        rolle:
-            targetEntity: Rolle
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                rolle_id:
-                    referencedColumnName: rolle_id
-            orphanRemoval: false
-    manyToMany:
-        kurs:
-            targetEntity: Kurs
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: teilnehmer
-            inversedBy: null
-            joinTable: null
-            orderBy: null
-        unterweisung:
-            targetEntity: Unterweisung
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: user
-            joinTable:
-                name: user_unterweisung
-                joinColumns:
-                    -
-                        name: user_id
-                        referencedColumnName: user_id
-                inverseJoinColumns:
-                    -
-                        name: unterweisung_id
-                        referencedColumnName: unterweisung_id
-            orderBy: null
-    lifecycleCallbacks: {  }
+        course:
+            targetEntity: Course
+            inversedBy: subscribers
+            joinColumn:
+                name: course_id
+                referencedColumnName: id
+        course:
+            targetEntity: Course
+            inversedBy: moderators
+            joinColumn:
+                name: course_id
+                referencedColumnName: id
+        instruction:
+            targetEntity: Instruction
+            inversedBy: moderators
+            joinColumn:
+                name: instruction_id
+                referencedColumnName: id
+
+    oneToMany:
+        roles:
+            targetEntity: Role
+            mappedBy: user

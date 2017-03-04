@@ -1,0 +1,35 @@
+OnSec\OnSecBundle\Entity\Keyword:
+    type: entity
+    table: keyword
+
+    id:
+        id:
+            type: integer
+            nullable: false
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        description:
+            type: string
+            nullable: false
+
+    manyToOne:
+        instruction:
+            targetEntity: Instruction
+            inversedBy: keywords
+            joinColumn:
+                name: instruction_id
+                referencedColumnName: id
+        room:
+            targetEntity: Room
+            inversedBy: keywords
+            joinColumn:
+                name: room_id
+                referencedColumnName: id
+        course:
+            targetEntity: Course
+            inversedBy: keywords
+            joinColumn:
+                name: course_id
+                referencedColumnName: id

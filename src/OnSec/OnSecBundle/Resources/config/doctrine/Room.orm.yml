@@ -1,0 +1,20 @@
+OnSec\OnSecBundle\Entity\Room:
+    type: entity
+    table: room
+
+    id:
+        id:
+            type: integer
+            nullable: false
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        description:
+            type: string
+            nullable: false
+
+    oneToMany:
+        keywords:
+            targetEntity: Keyword
+            mappedBy: room
