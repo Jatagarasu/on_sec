@@ -35,7 +35,7 @@ OnSec\OnSecBundle\Entity\Instruction:
             mappedBy: instruction
         moderators:
             targetEntity: User
-            mappedBy: course
+            mappedBy: instruction
 
     manyToOne:
         course:

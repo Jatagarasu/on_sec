@@ -32,10 +32,10 @@ OnSec\OnSecBundle\Entity\Course:
             mappedBy: course
         subscribers:
             targetEntity: User
-            mappedBy: course
+            mappedBy: course_subs
         keywords:
             targetEntity: Keyword
             mappedBy: course
         moderators:
             targetEntity: User
-            mappedBy: course
+            mappedBy: course_mods

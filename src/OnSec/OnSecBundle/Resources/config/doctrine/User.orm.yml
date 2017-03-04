@@ -23,13 +23,13 @@ OnSec\OnSecBundle\Entity\User:
             nullable: true
 
     manyToOne:
-        course:
+        course_subs:
             targetEntity: Course
             inversedBy: subscribers
             joinColumn:
                 name: course_id
                 referencedColumnName: id
-        course:
+        course_mods:
             targetEntity: Course
             inversedBy: moderators
             joinColumn:
