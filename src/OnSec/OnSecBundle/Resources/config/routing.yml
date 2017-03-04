@@ -1,3 +1,35 @@
 hsd_on_sec_homepage:
     path:     /
     defaults: { _controller: HSDOnSecBundle:Default:index }
+
+hsd_on_sec_answer:
+    resource: "@HSDOnSecBundle/Resources/config/routing/answer.yml"
+    prefix:   /answer
+
+hsd_on_sec_course:
+    resource: "@HSDOnSecBundle/Resources/config/routing/course.yml"
+    prefix:   /course
+
+hsd_on_sec_instruction:
+    resource: "@HSDOnSecBundle/Resources/config/routing/instruction.yml"
+    prefix:   /instruction
+
+hsd_on_sec_keyword:
+    resource: "@HSDOnSecBundle/Resources/config/routing/keyword.yml"
+    prefix:   /keyword
+
+hsd_on_sec_question:
+    resource: "@HSDOnSecBundle/Resources/config/routing/question.yml"
+    prefix:   /question
+
+hsd_on_sec_role:
+    resource: "@HSDOnSecBundle/Resources/config/routing/role.yml"
+    prefix:   /role
+
+hsd_on_sec_room:
+    resource: "@HSDOnSecBundle/Resources/config/routing/room.yml"
+    prefix:   /room
+
+hsd_on_sec_user:
+    resource: "@HSDOnSecBundle/Resources/config/routing/user.yml"
+    prefix:   /user

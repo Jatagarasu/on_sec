@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Question</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ question.id }}</td>
+            </tr>
+            <tr>
+                <th>Questiontext</th>
+                <td>{{ question.questionText }}</td>
+            </tr>
+            <tr>
+                <th>Imagepath</th>
+                <td>{{ question.imagePath }}</td>
+            </tr>
+            <tr>
+                <th>Createdon</th>
+                <td>{% if question.createdOn %}{{ question.createdOn|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedon</th>
+                <td>{% if question.updatedOn %}{{ question.updatedOn|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('question_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('question_edit', { 'id': question.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
