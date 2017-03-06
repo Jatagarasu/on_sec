@@ -1,0 +1,38 @@
+{% extends "::base.html.twig" %}
+{% block title %}Instruction{% endblock %}
+{% block ownStylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/hsdonsec/css/Instruction.css') }}">
+{% endblock %}
+{% block content %}
+
+<div class="container">
+
+    <div id="instructionView">
+        <h1 class="headerInstruction">Fragen zu {{ instruction.description }}</h1>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" readonly="readonly" value="{# question.text #}123">
+                </div>
+            </div>
+            {#% for answer in answers %#}
+            <div class="col-lg-6">
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            <input type="checkbox" aria-label="Checkbox for following text input">
+                        </span>
+                    <input type="text" class="form-control" readonly="readonly" value={#{ answer.text }#}"NIX">
+                </div>
+            </div>
+            {#% endfor %#}
+            <div class="col-lg-6">
+                <img class= "fragenbild" src="{{ asset('bundles/hsdonsec/images/leiter.jpg') }}" alt="leiter"/>
+            </div>
+        </div>
+        </br>
+        <div align="right">
+        <button id= "checkButton" type="button" onclick="checkAnswer()" class="btn btn-primary btn-lg">weiter</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
