@@ -22,3 +22,8 @@ instruction_delete:
     path:     /{id}/delete
     defaults: { _controller: "HSDOnSecBundle:Instruction:delete" }
     methods:  DELETE
+
+instruction_run:
+    path:     /{id}/run
+    defaults: { _controller: "HSDOnSecBundle:Instruction:run" }
+    methods:  GET

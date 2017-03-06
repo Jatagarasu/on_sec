@@ -121,4 +121,18 @@ class InstructionController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * Finds and displays a instruction entity.
+     *
+     */
+    public function runAction(Instruction $instruction)
+    {
+        $deleteForm = $this->createDeleteForm($instruction);
+
+        return $this->render('instruction/run.html.twig', array(
+            'instruction' => $instruction,
+            'delete_form' => $deleteForm->createView(),
+        ));
+    }
 }
