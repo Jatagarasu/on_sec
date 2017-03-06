@@ -106,6 +106,13 @@ class RoomController extends Controller
         return $this->redirectToRoute('room_index');
     }
 
+    public function usersAction(Room $room)
+    {
+        return $this->render('room/users.html.twig', array(
+            'room' => $room
+        ));
+    }
+
     /**
      * Creates a form to delete a room entity.
      *

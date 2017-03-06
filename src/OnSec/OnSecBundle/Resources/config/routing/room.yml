@@ -8,6 +8,11 @@ room_show:
     defaults: { _controller: "HSDOnSecBundle:Room:show" }
     methods:  GET
 
+room_users:
+    path:     /{id}/users
+    defaults: { _controller: "HSDOnSecBundle:Room:users" }
+    methods:  GET
+
 room_new:
     path:     /new
     defaults: { _controller: "HSDOnSecBundle:Room:new" }
