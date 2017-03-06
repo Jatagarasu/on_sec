@@ -276,4 +276,62 @@ class User
     {
         return $this->instruction;
     }
+    /**
+     * @var \OnSec\OnSecBundle\Entity\Course
+     */
+    private $course_subs;
+
+    /**
+     * @var \OnSec\OnSecBundle\Entity\Course
+     */
+    private $course_mods;
+
+
+    /**
+     * Set courseSubs
+     *
+     * @param \OnSec\OnSecBundle\Entity\Course $courseSubs
+     *
+     * @return User
+     */
+    public function setCourseSubs(\OnSec\OnSecBundle\Entity\Course $courseSubs = null)
+    {
+        $this->course_subs = $courseSubs;
+
+        return $this;
+    }
+
+    /**
+     * Get courseSubs
+     *
+     * @return \OnSec\OnSecBundle\Entity\Course
+     */
+    public function getCourseSubs()
+    {
+        return $this->course_subs;
+    }
+
+    /**
+     * Set courseMods
+     *
+     * @param \OnSec\OnSecBundle\Entity\Course $courseMods
+     *
+     * @return User
+     */
+    public function setCourseMods(\OnSec\OnSecBundle\Entity\Course $courseMods = null)
+    {
+        $this->course_mods = $courseMods;
+
+        return $this;
+    }
+
+    /**
+     * Get courseMods
+     *
+     * @return \OnSec\OnSecBundle\Entity\Course
+     */
+    public function getCourseMods()
+    {
+        return $this->course_mods;
+    }
 }
