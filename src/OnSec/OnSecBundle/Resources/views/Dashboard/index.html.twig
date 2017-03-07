@@ -3,5 +3,110 @@
 {% block title %}HSDOnSecBundle:Dashboard:index{% endblock %}
 
 {% block content %}
-<h1>Welcome to the Dashboard:index page</h1>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a data-toggle="tab" class="nav-link active" href="#menu1" role="tab">Meine Kurse</a>
+        </li>
+        <li class="nav-item">
+            <a data-toggle="tab" class="nav-link unactive" href="#menu2" role="tab">Unterweisungen</a>
+        </li>
+    </ul>
+    <div class="innercontainer">
+        <input type="search" class="maininput" placeholder="Suche..."/>
+
+        <div class="innerinnercontainer">
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="menu1">
+                    <!--<div class="card-group">-->
+                    <ul>
+                    {% for course in usercourses %}
+                        <li>{{ course.getDescription() }}</li>
+                    {% endfor %}
+                    </ul>
+
+                    <div class="card">
+                        <div class="card-header" data-target="#collapse1" data-toggle="collapse">
+                            <h4 class="card-title">
+                                Medientechnik<i class="fa fa-users" aria-hidden="true"></i><i class="fa fa-cog"
+                                                                                              aria-hidden="true"></i>
+                            </h4>
+                        </div>
+                        <div class="card-collapse collapse" id="collapse1">
+                            <ul class="list-group">
+                                <li class="list-group-item">Leiter</li>
+                                <li class="list-group-item">Feuerl&ouml;scher</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" data-target="#collapse2" data-toggle="collapse">
+                            <h4 class="card-title">
+                                MMK<i class="fa fa-users" aria-hidden="true"></i><i class="fa fa-cog"
+                                                                                    aria-hidden="true"></i>
+                            </h4>
+                        </div>
+                        <div class="card-collapse collapse" id="collapse2">
+                            <ul class="list-group">
+                                <li class="list-group-item">PC Pool</li>
+                                <li class="list-group-item">Feuerl&ouml;scher</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--</div>-->
+                </div>
+                <div class="tab-pane fade" id="menu2">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">
+                                Leiter<i class="fa fa-cog" aria-hidden="true"></i>
+                                <div class="left red">Eigent&uuml;mer</div>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">
+                                Feuerl&ouml;scher<i class="fa fa-cog" aria-hidden="true"></i>
+                                <div class="left red">Eigent&uuml;mer</div>
+                            </h4>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">
+                                PC Pool<i class="fa fa-cog" aria-hidden="true"></i>
+                                <div class="left green">Bearbeiter</div>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">
+                                Beamer<i class="fa fa-cog" aria-hidden="true"></i>
+                                <div class="left green">Bearbeiter</div>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">
+                                Tageslichtprojektor<i class="fa fa-cog" aria-hidden="true"></i>
+                                <div class="left green">Bearbeiter</div>
+                            </h4>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">
+                                Tonstudio<i class="fa fa-cog" aria-hidden="true"></i>
+                                <div class="left blue">Nutzer</div>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
