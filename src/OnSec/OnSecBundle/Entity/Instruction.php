@@ -348,4 +348,8 @@ class Instruction
     {
         $this->moderators->removeElement($moderator);
     }
+
+    public function __toString() {
+        return $this->description;
+    }
 }

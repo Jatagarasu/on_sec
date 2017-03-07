@@ -2,9 +2,13 @@
 
 namespace OnSec\OnSecBundle\Form;
 
+use OnSec\OnSecBundle\Entity\Instruction;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use OnSec\OnSecBundle\Form\RoomType;
 
 class CourseType extends AbstractType
 {
@@ -13,7 +17,15 @@ class CourseType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('description')->add('owner')->add('room');
+        $builder->add('description', TextType::class, array('label' => 'Name', 'attr' => array('class' => 'description')))
+                ->add('room', RoomType::class, array('label' => ' ', 'attr' => array('class' => 'room')))
+                ->add('instructions', null, array('label' => 'Unterweisungen', 'attr' => array('class' => 'instructions')))
+                ->add('owner', null, array('label' => ' ', 'attr' => array('class' => 'owner')))
+                ->add('moderators', null, array('label' => ' ', 'attr' => array('class' => 'moderators')))
+                ->add('keywords', null, array('label' => 'Schlagwort', 'attr' => array('class' => 'keywords')));
+
+
+        //$builder->add('field_name', 'text', array('label' => 'Field Label', 'attr' => array('class' => 'fieldClass')));
     }
     
     /**

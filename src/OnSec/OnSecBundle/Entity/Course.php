@@ -25,6 +25,10 @@ class Course
      * @var \OnSec\OnSecBundle\Entity\Room
      *
      * @ORM\Column(name="room", type="\OnSec\OnSecBundle\Entity\Room")
+     *
+     * Attention!!!!!!!!!!!!
+     *
+     * @ORM\ManyToOne(targetEntity="Room",cascade={"persist"})
      */
     private $room;
 

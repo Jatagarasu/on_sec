@@ -5,6 +5,7 @@ namespace OnSec\OnSecBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class RoomType extends AbstractType
 {
@@ -13,7 +14,7 @@ class RoomType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('description');
+        $builder->add('description', TextType::class, array('label' => 'Raumnummer', 'attr' => array('class' => 'roomdescription')));
     }
     
     /**

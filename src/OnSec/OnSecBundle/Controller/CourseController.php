@@ -33,6 +33,9 @@ class CourseController extends Controller
      */
     public function newAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        $rooms = $em->getRepository('HSDOnSecBundle:Room')->findAll();  //neu
+
         $course = new Course();
         $form = $this->createForm('OnSec\OnSecBundle\Form\CourseType', $course);
         $form->handleRequest($request);
@@ -47,6 +50,7 @@ class CourseController extends Controller
 
         return $this->render('course/new.html.twig', array(
             'course' => $course,
+            'rooms' => $rooms,   //new dazu
             'form' => $form->createView(),
         ));
     }
