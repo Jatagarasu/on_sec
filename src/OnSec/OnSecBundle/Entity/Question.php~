@@ -250,4 +250,8 @@ class Question
     {
         $this->answers->removeElement($answer);
     }
+
+    public function __toString() {
+        return $this->questionText;;
+    }
 }

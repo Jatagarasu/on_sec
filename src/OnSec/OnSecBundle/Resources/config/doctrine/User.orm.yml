@@ -23,18 +23,6 @@ OnSec\OnSecBundle\Entity\User:
             nullable: true
 
     manyToOne:
-        course_subs:
-            targetEntity: Course
-            inversedBy: subscribers
-            joinColumn:
-                name: course_id
-                referencedColumnName: id
-        course_mods:
-            targetEntity: Course
-            inversedBy: moderators
-            joinColumn:
-                name: course_id
-                referencedColumnName: id
         instruction:
             targetEntity: Instruction
             inversedBy: moderators
@@ -46,3 +34,11 @@ OnSec\OnSecBundle\Entity\User:
         roles:
             targetEntity: Role
             mappedBy: user
+
+    manyToMany:
+        subscriber:
+            targetEntity: Course
+            mappedBy: subscribers
+        moderators:
+            targetEntity: Course
+            mappedBy: moderators
