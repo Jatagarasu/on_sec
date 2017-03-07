@@ -8,16 +8,18 @@
         'css/bootstrap.min.css'
         'css/dashboard.css'
         'css/font-awesome.min.css'
+        'css/main.css'
         'css/Instruction.css'
         'css/Style.css'
         filter='cssrewrite' output='css/compiled/app.css' %}
+        <script>console.log("asset_url: {{ asset_url }}")</script>
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
     {% endblock %}
     {% block ownStylesheets %} {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 </head>
-<body>
+<body id="site-body">
 <header id="row">
     {% block header %}
         <div id="col-md-12">
@@ -29,7 +31,7 @@
         </div>
     {% endblock %}
 </header>
-<div class="container">
+<div class="container site-content">
     {% block content %}{% endblock %}
 </div>
 {% block footer %}
