@@ -163,6 +163,16 @@ class Instruction
     }
 
     /**
+     * Get pdfLink incl. Kernelroot
+     *
+     * @return string
+     */
+    public function getPdfPath()
+    {
+        return '%kernel.root_dir%'.$this->pdfLink;
+    }
+
+    /**
      * Set owner
      *
      * @param User $user

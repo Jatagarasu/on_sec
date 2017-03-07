@@ -26,16 +26,34 @@ OnSec\OnSecBundle\Entity\Course:
                 name: room
                 referencedColumnName: id
 
+    manyToMany:
+        subscribers:
+            targetEntity: User
+            joinTable:
+                name: course_subscribers
+                joinColumns:
+                    course_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    subscriber_id:
+                        referencedColumnName: id
+                        unique: true
+        moderators:
+              targetEntity: User
+              joinTable:
+                  name: course_moderators
+                  joinColumns:
+                      course_id:
+                          referencedColumnName: id
+                  inverseJoinColumn:
+                      moderator_id:
+                          referencedColumnName: id
+                          unique: true
+
     oneToMany:
         instructions:
             targetEntity: Instruction
             mappedBy: course
-        subscribers:
-            targetEntity: User
-            mappedBy: course_subs
         keywords:
             targetEntity: Keyword
             mappedBy: course
-        moderators:
-            targetEntity: User
-            mappedBy: course_mods

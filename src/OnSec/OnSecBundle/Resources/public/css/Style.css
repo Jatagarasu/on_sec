@@ -1,7 +1,26 @@
+body {
+    margin: 0 auto;
+    padding: 0;
+}
+
 .navbar-mainmain {
-    border-bottom: 5px solid #00AAff;
+    border-bottom: 5px solid #E6042A;
     box-shadow: 0px 20px 50px 0px rgba(0, 0, 0, 0.1);
 }
+
+.impressum {
+    background-color: #E6042A;
+    color: #FFFFFF;
+}
+
+.footerSize {
+    font-size: 10pt;
+}
+
+.headerSize {
+    font-size: 28pt;
+}
+
 .navbar {
     margin-bottom: 10px;
 }
@@ -9,5 +28,5 @@
 .logo {
     max-height: 45px;
     position: relative;
-    bottom: 5px;
+    bottom: 0px;
 }
