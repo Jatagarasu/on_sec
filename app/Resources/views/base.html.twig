@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>{% block title %}Welcome!{% endblock %}</title>
     {% block stylesheets %}
-        {% stylesheets 'bundles/hsdonsec/css/*' filter='cssrewrite' %}
+        {% stylesheets
+        'css/bootstrap.min.css'
+        'css/dashboard.css'
+        'css/font-awesome.min.css'
+        'css/Instruction.css'
+        'css/Style.css'
+        filter='cssrewrite' output='css/compiled/app.css' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
     {% endblock %}
     {% block ownStylesheets %} {% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 </head>
 <body>
 <header id="row">
-    {% block header%}
+    {% block header %}
         <div id="col-md-12">
             <div class="navbar navbar-mainmain">
-                <div class="col-md-2">
-                    <img src="{{ asset('bundles/hsdonsec/images/hsd-marke-v1-hsd-rotrgb-m-schw.png') }}" class="logo" alt="logo">
-                </div>
-                <div class="col-md-8" style="text-align: center">
-                    <h1 class="headerSize">OnSec - Online Sicherheitsunterweisungstool</h1>
-                </div>
+                {% block navigation %}
+                    {% include 'navigation.html.twig' %}
+                {% endblock %}
             </div>
         </div>
     {% endblock %}
@@ -29,19 +32,20 @@
 <div class="container">
     {% block content %}{% endblock %}
 </div>
-{% block footer%}
-    <div class="impressum" id="col-md-12">
+{% block footer %}
+    <footer class="impressum" id="col-md-12">
         <h1 class="footerSize">Impressum und Copyright</h1>
-    </div>
+    </footer>
 {% endblock %}
 {% block javascript %}
-    {% javascripts 'bundles/hsdonsec/js/*' %}
+    {% javascripts
+    'js/angular.min.js'
+    'js/tether.min.js'
+    'js/jquery.min.js'
+    'js/bootstrap.min.js'
+    output='js/compiled/app.js' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    <!--<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    -->
 {% endblock %}
 </body>
 </html>
