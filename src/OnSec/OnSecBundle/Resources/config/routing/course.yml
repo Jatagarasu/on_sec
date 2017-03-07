@@ -3,6 +3,11 @@ course_index:
     defaults: { _controller: "HSDOnSecBundle:Course:index" }
     methods:  GET
 
+course_dashboard:
+    path:     /dashboard
+    defaults: { _controller: "HSDOnSecBundle:Dashboard:index" }
+    methods:  GET
+
 course_show:
     path:     /{id}/show
     defaults: { _controller: "HSDOnSecBundle:Course:show" }
