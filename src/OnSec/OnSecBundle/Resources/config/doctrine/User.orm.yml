@@ -34,11 +34,3 @@ OnSec\OnSecBundle\Entity\User:
         roles:
             targetEntity: Role
             mappedBy: user
-
-    manyToMany:
-        subscriber:
-            targetEntity: Course
-            mappedBy: subscribers
-        moderators:
-            targetEntity: Course
-            mappedBy: moderators

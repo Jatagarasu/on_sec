@@ -37,18 +37,16 @@ OnSec\OnSecBundle\Entity\Course:
                 inverseJoinColumn:
                     subscriber_id:
                         referencedColumnName: id
-                        unique: true
         moderators:
-              targetEntity: User
-              joinTable:
-                  name: course_moderators
-                  joinColumns:
-                      course_id:
-                          referencedColumnName: id
-                  inverseJoinColumn:
-                      moderator_id:
-                          referencedColumnName: id
-                          unique: true
+            targetEntity: User
+            joinTable:
+                name: course_moderators
+                joinColumns:
+                    course_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    moderator_id:
+                        referencedColumnName: id
 
     oneToMany:
         instructions:

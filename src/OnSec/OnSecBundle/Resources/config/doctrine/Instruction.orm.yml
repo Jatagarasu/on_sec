@@ -27,14 +27,8 @@ OnSec\OnSecBundle\Entity\Instruction:
                 referencedColumnName: id
 
     oneToMany:
-        #questions:
-            #targetEntity: Question
-            #mappedBy: instruction
         keywords:
             targetEntity: Keyword
-            mappedBy: instruction
-        moderators:
-            targetEntity: User
             mappedBy: instruction
 
     manyToOne:
@@ -44,8 +38,17 @@ OnSec\OnSecBundle\Entity\Instruction:
             joinColumn:
                 name: instruction_id
                 referencedColumnName: id
-
     manyToMany:
+        moderators:
+            targetEntity: User
+            joinTable:
+                name: instruction_moderators
+                joinColumns:
+                    instruction_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    moderator_id:
+                        referencedColumnName: id
         questions:
             targetEntity: Question
             joinTable:
