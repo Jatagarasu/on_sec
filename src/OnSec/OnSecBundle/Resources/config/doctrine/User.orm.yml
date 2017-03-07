@@ -36,7 +36,7 @@ OnSec\OnSecBundle\Entity\User:
             mappedBy: user
 
     manyToMany:
-        subscribers:
+        subscriber:
             targetEntity: Course
             mappedBy: subscribers
         moderators:
