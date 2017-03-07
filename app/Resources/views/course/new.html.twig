@@ -35,9 +35,20 @@
                     <!--<label for="access-rights-input">Bearbeiter hinzufügen</label>-->
                     <div class="input-group add">
                         <input type="text" class="form-control" id="access-rights-input" placeholder="Name oder E-Mail">
-                        <button type="button" class="role-button">Bearbeiter hinzufügen</button>
+                        <button type="button" class="role-button" id="addmod_btn">Bearbeiter hinzufügen</button>
 
                     </div>
+                    <script>
+                    var moderatorarray = [];
+                    var new_row = '<tr><td>{{ form_row(form.moderators) }}</td><td>Bearbeiter</td></tr>';
+
+                    $("#addmod_btn").click(function()
+                    {
+                        moderatorarray.add(user);
+                        $("#tablebody").append(new_row);
+                        return false;
+                    })
+                    </script>
                     <table class="table">
                         <thead class="thead-inverse">
                         <tr>
@@ -45,7 +56,7 @@
                             <th>Rang</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tablebody">
                         <tr>
                             <td>{{ form_row(form.owner) }}</td>
                             <td>
@@ -53,15 +64,7 @@
                             </td>
                         </tr>
                         {% for moderator in form.moderators %}
-                        <tr>
-                            <td>{{ form_row(form.moderators) }}</td>
-                            <td>
-                                Bearbeiter
-                            </td>
-                        </tr>
-                        {% else %}
-                        <p>Keine Bearbeiter</p>
-                        {% endfor %}
+
 
                         </tbody>
                     </table>
