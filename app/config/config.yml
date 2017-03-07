@@ -38,6 +38,9 @@ framework:
 assetic:
     debug:          '%kernel.debug%'
     use_controller: '%kernel.debug%'
+    assets:
+      pdf:
+        inputs:       - 'HSDOnSecBundle/Resources/public/pdf/*'
     filters:
         cssrewrite: ~
 
