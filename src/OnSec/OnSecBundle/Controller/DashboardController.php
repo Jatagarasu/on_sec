@@ -31,9 +31,9 @@ class DashboardController extends Controller
 
         foreach ($courses as $course)
         {
-            foreach ($course->getSubscriber() as $subscriber)
+            foreach ($course->getSubscribers() as $subscriber)
             {
-                if($subscriber->getId() == $userId->getId())
+                if($subscriber->getId() == $userId)
                     array_push($usercourses, $course);
             }
         }
