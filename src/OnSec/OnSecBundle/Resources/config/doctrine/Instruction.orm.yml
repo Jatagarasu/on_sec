@@ -38,6 +38,13 @@ OnSec\OnSecBundle\Entity\Instruction:
             joinColumn:
                 name: instruction_id
                 referencedColumnName: id
+        user:
+            targetEntity: User
+            inversedBy: instructions
+            joinColumn:
+                name: instruction_id
+                referencedColumnName: id
+
     manyToMany:
         moderators:
             targetEntity: User

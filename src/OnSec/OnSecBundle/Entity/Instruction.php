@@ -358,4 +358,33 @@ class Instruction
     {
         $this->moderators->removeElement($moderator);
     }
+    /**
+     * @var \OnSec\OnSecBundle\Entity\User
+     */
+    private $user;
+
+
+    /**
+     * Set user
+     *
+     * @param \OnSec\OnSecBundle\Entity\User $user
+     *
+     * @return Instruction
+     */
+    public function setUser(\OnSec\OnSecBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \OnSec\OnSecBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }
