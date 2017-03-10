@@ -7,22 +7,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DashboardController extends Controller
 {
+    protected $ownerinstructions;
+    protected $moderatorinstructions;
+    protected $userinstructions;
+
     public function indexAction()
     {
-        $usercourses = $this->getCoursesByUserId(1);
-        //ToDo bitte dynamische UserId eintragen
-
-        $em = $this->getDoctrine()->getManager();
-
-        $courses = $em->getRepository('HSDOnSecBundle:Course')->findAll();
+        $this->getOwnInstructions(1);
 
         return $this->render('HSDOnSecBundle:Dashboard:index.html.twig', array(
-            'courses' => $courses,
-            'usercourses' => $usercourses,
+            'moderatorcourses' => $this->getCoursesByUserId(1),
+            //ToDo bitte dynamische UserId eintragen
+            'ownerinstructions' => $this->ownerinstructions,
+            'moderatorinstructions' => $this->moderatorinstructions,
+            'userinstructions' => $this->userinstructions,
         ));
     }
 
-    public function getCoursesByUserId($userId)
+    private function getCoursesByUserId($userId)
     {
         $usercourses = array();
         $em = $this->getDoctrine()->getManager();
@@ -31,12 +33,47 @@ class DashboardController extends Controller
 
         foreach ($courses as $course)
         {
-            foreach ($course->getSubscribers() as $subscriber)
+            foreach ($course->getModerators() as $moderator)
             {
-                if($subscriber->getId() == $userId)
+                if($moderator->getId() == $userId)
                     array_push($usercourses, $course);
             }
         }
+        return $usercourses;
     }
 
+    private function getOwnInstructions($userId)
+    {
+        $this->ownerinstructions = array();
+        $this->moderatorinstructions = array();
+        $this->userinstructions = array();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $instructions = $em->getRepository('HSDOnSecBundle:User')->find($userId)->getInstructions();
+
+        foreach ($instructions as $instruction)
+        {
+            $alreadyFound = false;
+            if($instruction->getOwner()->getId() == $userId)
+            {
+                array_push($this->ownerinstructions, $instruction);
+                $alreadyFound = true;
+            }
+            else
+            {
+                foreach ($instruction->getModerators() as $moderator)
+                {
+                    if($moderator->getId() == $userId)
+                    {
+                        array_push($this->moderatorinstructions, $instruction);
+                        $alreadyFound = true;
+                        break;
+                    }
+                }
+            }
+            if(!$alreadyFound)
+                array_push($this->userinstructions, $instruction);
+        }
+    }
 }
