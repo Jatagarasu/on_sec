@@ -18,93 +18,59 @@
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="menu1">
                     <!--<div class="card-group">-->
-                    <ul>
-                    {% for course in usercourses %}
-                        <li>{{ course.getDescription() }}</li>
+                    {% for course in moderatorcourses %}
+                        <div class="card">
+                            <div class="card-header" data-target="#collapse1" data-toggle="collapse">
+                                <h4 class="card-title">
+                                    {{ course.getDescription() }}<span onclick="document.location.href = 'http://www.google.de'; return false"><i class="fa fa-users" aria-hidden="true"></i></span><span onclick="document.location.href = 'http://www.gmx.de'; return false"><i class="fa fa-cog"
+                                                                                                  aria-hidden="true"></i></span>
+                                </h4>
+                            </div>
+                            <div class="card-collapse collapse" id="collapse1">
+                                <ul class="list-group">
+                                    {% for instruction in course.getInstructions() %}
+                                        <li class="list-group-item">{{ instruction.getDescription() }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
                     {% endfor %}
-                    </ul>
-
-                    <div class="card">
-                        <div class="card-header" data-target="#collapse1" data-toggle="collapse">
-                            <h4 class="card-title">
-                                Medientechnik<i class="fa fa-users" aria-hidden="true"></i><i class="fa fa-cog"
-                                                                                              aria-hidden="true"></i>
-                            </h4>
-                        </div>
-                        <div class="card-collapse collapse" id="collapse1">
-                            <ul class="list-group">
-                                <li class="list-group-item">Leiter</li>
-                                <li class="list-group-item">Feuerl&ouml;scher</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header" data-target="#collapse2" data-toggle="collapse">
-                            <h4 class="card-title">
-                                MMK<i class="fa fa-users" aria-hidden="true"></i><i class="fa fa-cog"
-                                                                                    aria-hidden="true"></i>
-                            </h4>
-                        </div>
-                        <div class="card-collapse collapse" id="collapse2">
-                            <ul class="list-group">
-                                <li class="list-group-item">PC Pool</li>
-                                <li class="list-group-item">Feuerl&ouml;scher</li>
-                            </ul>
-                        </div>
-                    </div>
                     <!--</div>-->
                 </div>
                 <div class="tab-pane fade" id="menu2">
+                    {% for instruction in ownerinstructions %}
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">
-                                Leiter<i class="fa fa-cog" aria-hidden="true"></i>
+                                {{ instruction.getDescription() }}<i class="fa fa-cog" aria-hidden="true"></i>
                                 <div class="left red">Eigent&uuml;mer</div>
                             </h4>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">
-                                Feuerl&ouml;scher<i class="fa fa-cog" aria-hidden="true"></i>
-                                <div class="left red">Eigent&uuml;mer</div>
-                            </h4>
+                    {% endfor %}
+                    {% if moderator
+                    instructions|length > 0 %}<hr>{% endif %}
+                    {% for instruction in moderatorinstructions %}
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">
+                                    {{ instruction.getDescription() }}<i class="fa fa-cog" aria-hidden="true"></i>
+                                    <div class="left green">Bearbeiter</div>
+                                </h4>
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">
-                                PC Pool<i class="fa fa-cog" aria-hidden="true"></i>
-                                <div class="left green">Bearbeiter</div>
-                            </h4>
+                    {% endfor %}
+                    {% if userinstructions|length > 0 %}<hr>{% endif %}
+                    {% for instruction in userinstructions %}
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">
+                                    {{ instruction.getDescription() }}<i class="fa fa-cog" aria-hidden="true"></i>
+                                    <div class="left blue">Nutzer</div>
+                                </h4>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">
-                                Beamer<i class="fa fa-cog" aria-hidden="true"></i>
-                                <div class="left green">Bearbeiter</div>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">
-                                Tageslichtprojektor<i class="fa fa-cog" aria-hidden="true"></i>
-                                <div class="left green">Bearbeiter</div>
-                            </h4>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">
-                                Tonstudio<i class="fa fa-cog" aria-hidden="true"></i>
-                                <div class="left blue">Nutzer</div>
-                            </h4>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

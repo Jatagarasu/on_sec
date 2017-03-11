@@ -26,3 +26,6 @@ OnSec\OnSecBundle\Entity\User:
         roles:
             targetEntity: Role
             mappedBy: user
+        instructions:
+            targetEntity: Instruction
+            mappedBy: user

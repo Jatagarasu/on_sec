@@ -1,5 +1,5 @@
 .innercontainer {
-    background-color: #FFFFFF;
+    background-color: #e9e7e8;
     padding: 10px;
     border-top-right-radius:10px;
 }
@@ -17,11 +17,15 @@
 .nav-tabs {border-bottom: 0px !important;}
 
 .nav-link {
-    background-color: #e7e5e6;
+    background-color: #FFFFFF;
 }
 
 a:hover {
     color: #e6042a;
+}
+
+.nav-link.active {
+    background-color: #e7e5e6 !important;
 }
 
 .maininput {
