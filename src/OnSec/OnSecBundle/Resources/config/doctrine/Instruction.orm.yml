@@ -30,6 +30,7 @@ OnSec\OnSecBundle\Entity\Instruction:
         keywords:
             targetEntity: Keyword
             mappedBy: instruction
+            cascade: ["persist", "merge"]
 
     manyToOne:
         course:

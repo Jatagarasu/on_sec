@@ -1,10 +1,31 @@
-{% extends 'base.html.twig' %}
+{% extends '::base.html.twig' %}
 
 {% block content %}
     <h1>Instruction creation</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+        {{ form_row(form.description) }}
+
+        {{ form_row(form.expiredate) }}
+
+        {{ form_row(form.pdfLink) }}
+
+        <ul id="keyword-fields-list"
+            data-prototype="{{ form_widget(form.keywords.vars.prototype)|e }}">
+            {% for keywordField in form.keywords %}
+                <li>
+                    {{ form_errors(keywordField) }}
+                    {{ form_widget(keywordField) }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="#" id="add-another-keyword">Schlagwort hinzufügen</a>
+
+        {{ form_row(form.course) }}
+
+        {{ form_row(form.questions) }}
+
         <input type="submit" value="Create" />
     {{ form_end(form) }}
 
@@ -13,4 +34,32 @@
             <a href="{{ path('instruction_index') }}">Back to the list</a>
         </li>
     </ul>
+
+    <script>
+        (function() {
+        // keep track of how many keyword fields have been rendered
+        var keywordCount = '{{ form.keywords|length }}';
+
+
+            $('#add-another-keyword').click(function(e) {
+                console.log('{{ form.keywords|length }}');
+                e.preventDefault();
+
+                var keywordList = $('#keyword-fields-list');
+
+                // grab the prototype template
+                var newWidget = keywordList.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your keywords
+                // end name attribute looks like name="contact[keywords][2]"
+                newWidget = newWidget.replace(/__name__/g, keywordCount);
+                keywordCount++;
+
+                // create a new list element and add it to the list
+                var newLi = $('<li></li>').html(newWidget);
+                newLi.appendTo(keywordList);
+            });
+        })();
+
+    </script>
 {% endblock %}
