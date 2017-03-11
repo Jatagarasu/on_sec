@@ -39,6 +39,11 @@ class InstructionController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            foreach($instruction->getKeywords() as $keyword){
+                $keyword->setInstruction($instruction);
+            }
+
             $em->persist($instruction);
             $em->flush($instruction);
 
