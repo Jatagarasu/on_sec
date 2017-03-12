@@ -24,8 +24,9 @@ class InstructionType extends AbstractType
               'allow_delete' => true,
               'prototype' => true
           ))
-          ->add('course')
+          ->add('moderators')
           ->add('questions');
+
     }
 
     /**

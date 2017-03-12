@@ -14,16 +14,16 @@ OnSec\OnSecBundle\Entity\Course:
             type: string
             nullable: false
 
-    oneToOne:
-        owner:
-            targetEntity: User
-            joinColumn:
-                name: owner_id
-                referencedColumnName: id
+    manyToOne:
         room:
             targetEntity: Room
             joinColumn:
                 name: room
+                referencedColumnName: id
+        owner:
+            targetEntity: User
+            joinColumn:
+                name: owner_id
                 referencedColumnName: id
 
     manyToMany:
@@ -47,11 +47,23 @@ OnSec\OnSecBundle\Entity\Course:
                 inverseJoinColumn:
                     moderator_id:
                         referencedColumnName: id
-
-    oneToMany:
-        instructions:
-            targetEntity: Instruction
-            mappedBy: course
         keywords:
             targetEntity: Keyword
-            mappedBy: course
+            joinTable:
+                name: course_keywords
+                joinColumns:
+                    course_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    keyword_id:
+                        referencedColumnName: id
+        instructions:
+            targetEntity: Instruction
+            joinTable:
+                name: course_instructions
+                joinColumns:
+                    course_id:
+                        referencedColumnName: id
+                inversedJoinColumn:
+                    instruction_id:
+                        referencedColumnName: id

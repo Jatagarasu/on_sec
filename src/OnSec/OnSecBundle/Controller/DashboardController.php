@@ -50,7 +50,7 @@ class DashboardController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $instructions = $em->getRepository('HSDOnSecBundle:User')->find($userId)->getInstructions();
+        $instructions = $em->getRepository('HSDOnSecBundle:User')->find($userId)->getCompletedInstructions();
 
         foreach ($instructions as $instruction)
         {
