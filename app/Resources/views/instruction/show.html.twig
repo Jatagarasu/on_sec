@@ -19,6 +19,12 @@
             </tr>
         </tbody>
     </table>
+
+    Schlagwörter
+    {% for keyword in instruction.getKeywords() %}
+        <div class="keyword">{{ keyword.getDescription() }}</div>
+    {% endfor %}
+
     <div class="questions">
         <h2>Fragen</h2>
         {% if instruction.getQuestions()|length > 0 %}

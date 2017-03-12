@@ -19,3 +19,10 @@
   font-size: 12px !important;
   padding: 0;
 }
+
+.keyword {
+    display: inline-block;
+    background: #00afd8;
+    padding: 0 5px;
+    border-radius: 5px;
+}
