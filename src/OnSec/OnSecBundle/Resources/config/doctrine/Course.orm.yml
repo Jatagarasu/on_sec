@@ -47,11 +47,18 @@ OnSec\OnSecBundle\Entity\Course:
                 inverseJoinColumn:
                     moderator_id:
                         referencedColumnName: id
+        keywords:
+            targetEntity: Keyword
+            joinTable:
+                name: course_keywords
+                joinColumns:
+                    course_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    keyword_id:
+                        referencedColumnName: id
 
     oneToMany:
         instructions:
             targetEntity: Instruction
-            mappedBy: course
-        keywords:
-            targetEntity: Keyword
             mappedBy: course

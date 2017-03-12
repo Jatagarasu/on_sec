@@ -412,4 +412,43 @@ class User
     {
         return $this->moderators;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $instructions;
+
+
+    /**
+     * Add instruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\Instruction $instruction
+     *
+     * @return User
+     */
+    public function addInstruction(\OnSec\OnSecBundle\Entity\Instruction $instruction)
+    {
+        $this->instructions[] = $instruction;
+
+        return $this;
+    }
+
+    /**
+     * Remove instruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\Instruction $instruction
+     */
+    public function removeInstruction(\OnSec\OnSecBundle\Entity\Instruction $instruction)
+    {
+        $this->instructions->removeElement($instruction);
+    }
+
+    /**
+     * Get instructions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInstructions()
+    {
+        return $this->instructions;
+    }
 }

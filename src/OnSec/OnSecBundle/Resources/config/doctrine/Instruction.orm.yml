@@ -23,13 +23,8 @@ OnSec\OnSecBundle\Entity\Instruction:
         owner:
             targetEntity: User
             joinColumn:
-                name: user_id
+                name: owner_id
                 referencedColumnName: id
-
-    oneToMany:
-        keywords:
-            targetEntity: Keyword
-            mappedBy: instruction
 
     manyToOne:
         course:
@@ -59,11 +54,20 @@ OnSec\OnSecBundle\Entity\Instruction:
         questions:
             targetEntity: Question
             joinTable:
-                name: instructions_questions
+                name: instruction_questions
                 joinColumns:
                     instruction_id:
                         referencedColumnName: id
                 inverseJoinColumn:
                     question_id:
                         referencedColumnName: id
-                        unique: true
+        keywords:
+            targetEntity: Keyword
+            joinTable:
+                name: instruction_keywords
+                joinColumns:
+                    instruction_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    keyword_id:
+                        referencedColumnName: id
