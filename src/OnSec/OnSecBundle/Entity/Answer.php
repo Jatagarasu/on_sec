@@ -2,8 +2,6 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Answer
  */
@@ -39,15 +37,6 @@ class Answer
      */
     private $question;
 
-    /**
-     * Gets Answertext
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getAnswerText();
-    }
 
     /**
      * Get id
@@ -184,7 +173,6 @@ class Answer
     public function initialDateTime()
     {
         // Add your code here
-        $this->setCreatedOn(new \DateTime());
     }
 
     /**
@@ -193,6 +181,6 @@ class Answer
     public function updateDateTime()
     {
         // Add your code here
-        $this->setUpdatedOn(new \DateTime());
     }
 }
+

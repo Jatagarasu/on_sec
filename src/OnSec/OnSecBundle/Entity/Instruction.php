@@ -48,16 +48,6 @@ class Instruction
     private $keywords;
 
     /**
-     * Gets Instructiondescription
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getDescription();
-    }
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -275,3 +265,4 @@ class Instruction
         return $this->keywords;
     }
 }
+
