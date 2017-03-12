@@ -6,78 +6,53 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Answer
- *
- * @ORM\Table(name="answer")
- * @ORM\Entity(repositoryClass="OnSec\OnSecBundle\Repository\AnswerRepository")
  */
 class Answer
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="answerText", type="text", nullable=true)
      */
     private $answerText;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="isCorrect", type="boolean", nullable=true)
+     * @var integer
      */
     private $isCorrect;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="createdOn", type="datetime", nullable=true)
      */
     private $createdOn;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="updatedOn", type="datetime", nullable=true)
      */
     private $updatedOn;
 
     /**
-     * Date the answer was created
-     *
-     * @ORM\PrePersist
-     */
-    public function initialDateTime() {
-        $this->setCreatedOn(new \DateTime());
-    }
-    /**
-     * Date the answer was updated
-     *
-     * @ORM\PrePersist
-     */
-    public function updateDateTime() {
-        $this->setUpdatedOn(new \DateTime());
-    }
-
-    /**
      * @var \OnSec\OnSecBundle\Entity\Question
-     *
-     * @ORM\Column(name="question", type="\OnSec\OnSecBundle\Entity\Question")
      */
     private $question;
 
+    /**
+     * Gets Answertext
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getAnswerText();
+    }
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -111,7 +86,7 @@ class Answer
     /**
      * Set isCorrect
      *
-     * @param boolean $isCorrect
+     * @param integer $isCorrect
      *
      * @return Answer
      */
@@ -125,7 +100,7 @@ class Answer
     /**
      * Get isCorrect
      *
-     * @return bool
+     * @return integer
      */
     public function getIsCorrect()
     {
@@ -187,7 +162,7 @@ class Answer
      *
      * @return Answer
      */
-    public function setQuestion($question)
+    public function setQuestion(\OnSec\OnSecBundle\Entity\Question $question = null)
     {
         $this->question = $question;
 
@@ -203,4 +178,22 @@ class Answer
     {
         return $this->question;
     }
+    /**
+     * @ORM\PrePersist
+     */
+    public function initialDateTime()
+    {
+        // Add your code here
+        $this->setCreatedOn(new \DateTime());
+    }
+
+    /**
+     * @ORM\PreFlush
+     */
+    public function updateDateTime()
+    {
+        // Add your code here
+        $this->setUpdatedOn(new \DateTime());
+    }
 }
+

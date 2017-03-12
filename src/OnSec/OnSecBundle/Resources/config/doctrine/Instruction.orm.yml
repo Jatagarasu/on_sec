@@ -19,25 +19,11 @@ OnSec\OnSecBundle\Entity\Instruction:
             type: string
             nullable: false
 
-    oneToOne:
+    manyToOne:
         owner:
             targetEntity: User
             joinColumn:
                 name: owner_id
-                referencedColumnName: id
-
-    manyToOne:
-        course:
-            targetEntity: Course
-            inversedBy: instructions
-            joinColumn:
-                name: instruction_id
-                referencedColumnName: id
-        user:
-            targetEntity: User
-            inversedBy: instructions
-            joinColumn:
-                name: instruction_id
                 referencedColumnName: id
 
     manyToMany:

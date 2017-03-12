@@ -13,11 +13,3 @@ OnSec\OnSecBundle\Entity\Role:
         name:
             type: string
             nullable: false
-
-    manyToOne:
-        user:
-            targetEntity: User
-            inversedBy: roles
-            joinColumn:
-                name: user_id
-                referencedColumnName: id

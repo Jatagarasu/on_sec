@@ -2,32 +2,43 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Room
- *
- * @ORM\Table(name="room")
- * @ORM\Entity(repositoryClass="OnSec\OnSecBundle\Repository\RoomRepository")
  */
 class Room
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255)
      */
     private $description;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $keywords;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->keywords = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Gets Roomdescription
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getDescription();
+    }
 
     /**
      * Get id
@@ -64,19 +75,6 @@ class Room
     }
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $keywords;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->keywords = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
      * Add keyword
      *
      * @param \OnSec\OnSecBundle\Entity\Keyword $keyword
@@ -110,3 +108,4 @@ class Room
         return $this->keywords;
     }
 }
+
