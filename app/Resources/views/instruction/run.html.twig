@@ -5,40 +5,48 @@
 {% endblock %}
 {% block content %}
 
-<div class="container">
+    <div class="container">
 
-    <div id="instructionView">
-        <h1 class="headerInstruction">Unterweisung {{ instruction.description }} durchführen</h1>
-        <div class="progress">
-            <div id="progBarInstruction" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                 aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                <span id="page_num"></span> / <span id="page_count"></span>
+        <div id="instructionView">
+            <h1 class="headerInstruction">Unterweisung {{ instruction.description }} durchführen</h1>
+            <div class="progress">
+                <div id="progBar1" style="width:0%" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" >
+                    <div id="progBarInstruction">
+                        <span id="page_num"></span> / <span id="page_count"></span>
+                    </div>
+
+                </div>
             </div>
+            </br>
+
+            <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+
+            <div align="center">
+                <canvas id="the-canvas"></canvas>
+            </div>
+
+            <div class="row justify-content-end">
+                <div class="col-lg-4">
+                    <div class="btn-group pull-right">
+                        <button id="prev" type="button" class="btn btn-primary btn-lg disabled" >zurück</button>
+                        <button id="next" type="button" class="btn btn-primary btn-lg">vor</button>
+                        <a id="quiz" type="button" href="{{ path('instruction_runQuestions', {'id': instruction.id }) }}" class="btn btn-primary btn-lg disabled">zum Quiz</a>
+                    </div>
+                </div>
+            </div>
+
+
+            {# instruction.pdfLink #}
+
         </div>
-        </br>
-
-        <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
-
-        <div align="center">
-            <canvas id="the-canvas"></canvas>
-        </div>
-
-        <div align="right">
-            <button id="prev" type="button" class="btn btn-primary btn-lg">zurück</button>
-            <button id="next" type="button" class="btn btn-primary btn-lg">vor</button>
-        </div>
-
-        {{ instruction.pdfLink }}
-
     </div>
-</div>
 
     <script>
         // If absolute URL from the remote server is provided, configure the CORS
         // header on that server.
 
-        var url = '//cdn.mozilla.net/pdfjs/tracemonkey.pdf';{# instruction.getPdfPath() #}
-
+        var url = "{{ asset('bundles/hsdonsec/pdf/leiter.pdf') }}"; //'//cdn.mozilla.net/pdfjs/tracemonkey.pdf';{# instruction.getPdfPath() #}
+        console.log(url);
         // The workerSrc property shall be specified.
         PDFJS.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
 
@@ -82,7 +90,29 @@
 
             // Update page counters
             document.getElementById('page_num').textContent = pageNum;
+
+            $('#progBar1').css('width',pageNum/pdfDoc.numPages*100 + '%');
+
+            if(pageNum > 1)
+            {
+                $('#prev').addClass('active').removeClass('disabled');
+            }
+            else
+            {
+                $('#prev').addClass('disabled').removeClass('active');
+            }
+
+            if(pageNum === pdfDoc.numPages)
+            {
+                $('#next').addClass('disabled').removeClass('active');
+                $('#quiz').addClass('active').removeClass('disabled');
+            }
+            else
+            {
+                $('#next').addClass('active').removeClass('disabled');
+            }
         }
+
 
         /**
          * If another page rendering in progress, waits until the rendering is
@@ -107,7 +137,6 @@
             queueRenderPage(pageNum);
         }
         document.getElementById('prev').addEventListener('click', onPrevPage);
-        document.getElementById('progBarInstruction').style="width:100%";
         /**
          * Displays next page.
          */
