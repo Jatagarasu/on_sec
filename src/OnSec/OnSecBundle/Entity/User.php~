@@ -334,4 +334,121 @@ class User
     {
         return $this->course_mods;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $subscriber;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $moderators;
+
+
+    /**
+     * Add subscriber
+     *
+     * @param \OnSec\OnSecBundle\Entity\Course $subscriber
+     *
+     * @return User
+     */
+    public function addSubscriber(\OnSec\OnSecBundle\Entity\Course $subscriber)
+    {
+        $this->subscriber[] = $subscriber;
+
+        return $this;
+    }
+
+    /**
+     * Remove subscriber
+     *
+     * @param \OnSec\OnSecBundle\Entity\Course $subscriber
+     */
+    public function removeSubscriber(\OnSec\OnSecBundle\Entity\Course $subscriber)
+    {
+        $this->subscriber->removeElement($subscriber);
+    }
+
+    /**
+     * Get subscriber
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSubscriber()
+    {
+        return $this->subscriber;
+    }
+
+    /**
+     * Add moderator
+     *
+     * @param \OnSec\OnSecBundle\Entity\Course $moderator
+     *
+     * @return User
+     */
+    public function addModerator(\OnSec\OnSecBundle\Entity\Course $moderator)
+    {
+        $this->moderators[] = $moderator;
+
+        return $this;
+    }
+
+    /**
+     * Remove moderator
+     *
+     * @param \OnSec\OnSecBundle\Entity\Course $moderator
+     */
+    public function removeModerator(\OnSec\OnSecBundle\Entity\Course $moderator)
+    {
+        $this->moderators->removeElement($moderator);
+    }
+
+    /**
+     * Get moderators
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getModerators()
+    {
+        return $this->moderators;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $instructions;
+
+
+    /**
+     * Add instruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\Instruction $instruction
+     *
+     * @return User
+     */
+    public function addInstruction(\OnSec\OnSecBundle\Entity\Instruction $instruction)
+    {
+        $this->instructions[] = $instruction;
+
+        return $this;
+    }
+
+    /**
+     * Remove instruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\Instruction $instruction
+     */
+    public function removeInstruction(\OnSec\OnSecBundle\Entity\Instruction $instruction)
+    {
+        $this->instructions->removeElement($instruction);
+    }
+
+    /**
+     * Get instructions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInstructions()
+    {
+        return $this->instructions;
+    }
 }

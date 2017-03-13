@@ -13,7 +13,7 @@ class KeywordType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('description')->add('instruction')->add('room')->add('course');
+        $builder->add('description');
     }
     
     /**

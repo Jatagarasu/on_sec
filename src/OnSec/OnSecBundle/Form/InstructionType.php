@@ -19,6 +19,8 @@ class InstructionType extends AbstractType
                 ->add('owner')
                 ->add('course')
                 ->add('questions');
+                
+        $builder->add('description')->add('expiredate')->add('pdfLink')->add('owner')->add('moderators')->add('questions')->add('keywords');
     }
     
     /**

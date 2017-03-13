@@ -19,41 +19,41 @@ OnSec\OnSecBundle\Entity\Instruction:
             type: string
             nullable: false
 
-    oneToOne:
+    manyToOne:
         owner:
             targetEntity: User
             joinColumn:
-                name: user_id
-                referencedColumnName: id
-
-    oneToMany:
-        #questions:
-            #targetEntity: Question
-            #mappedBy: instruction
-        keywords:
-            targetEntity: Keyword
-            mappedBy: instruction
-        moderators:
-            targetEntity: User
-            mappedBy: instruction
-
-    manyToOne:
-        course:
-            targetEntity: Course
-            inversedBy: instructions
-            joinColumn:
-                name: instruction_id
+                name: owner_id
                 referencedColumnName: id
 
     manyToMany:
+        moderators:
+            targetEntity: User
+            joinTable:
+                name: instruction_moderators
+                joinColumns:
+                    instruction_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    moderator_id:
+                        referencedColumnName: id
         questions:
             targetEntity: Question
             joinTable:
-                name: instructions_questions
+                name: instruction_questions
                 joinColumns:
                     instruction_id:
                         referencedColumnName: id
                 inverseJoinColumn:
                     question_id:
                         referencedColumnName: id
-                        unique: true
+        keywords:
+            targetEntity: Keyword
+            joinTable:
+                name: instruction_keywords
+                joinColumns:
+                    instruction_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    keyword_id:
+                        referencedColumnName: id

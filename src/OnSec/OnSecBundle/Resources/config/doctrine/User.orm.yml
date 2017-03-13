@@ -22,23 +22,24 @@ OnSec\OnSecBundle\Entity\User:
             type: boolean
             nullable: true
 
-    manyToOne:
-        instruction:
+    manyToMany:
+        completed_instructions:
             targetEntity: Instruction
-            inversedBy: moderators
-            joinColumn:
-                name: instruction_id
-                referencedColumnName: id
-
-    oneToMany:
+            joinTable:
+                name: user_completedInstructions
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                inversedJoinColumn:
+                    instruction_id:
+                        referencedColumnName: id
         roles:
             targetEntity: Role
-            mappedBy: user
-
-    manyToMany:
-        subscriber:
-            targetEntity: Course
-            mappedBy: subscribers
-        moderators:
-            targetEntity: Course
-            mappedBy: moderators
+            joinTable:
+                name: user_roles
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                inversedJoinColumn:
+                    role_id:
+                        referencedColumnName: id

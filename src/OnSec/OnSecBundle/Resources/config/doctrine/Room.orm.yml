@@ -14,7 +14,14 @@ OnSec\OnSecBundle\Entity\Room:
             type: string
             nullable: false
 
-    oneToMany:
+    manyToMany:
         keywords:
             targetEntity: Keyword
-            mappedBy: room
+            joinTable:
+                name: room_keywords
+                joinColumns:
+                    room_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    keyword_id:
+                        referencedColumnName: id
