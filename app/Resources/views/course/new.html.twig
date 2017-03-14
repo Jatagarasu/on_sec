@@ -9,10 +9,11 @@
 
     {{ form_start(form) }}
 
-        {{ form_errors(form) }}
+    {#{{ form_errors(form) }}#}
         {{ form_row(form.description) }}
         {{ form_row(form.room) }}
 
+        <!------Rooms-------------->
         <ul>
             {% for room in rooms %}
                 <li> {{ room.getDescription|e}} </li>
@@ -20,9 +21,11 @@
                 <div>Keine Räume</div>
             {% endfor %}
         </ul>
+        <!------Rooms-------------->
 
         {{ form_row(form.instructions) }}
 
+        <!------Rights-------------->
         <h2>Rechte</h2>
         <div class="row">
         <div class="col-md-11 rights">
@@ -54,11 +57,16 @@
                 </tbody>
             </table>
         </div>
-            </div>
+        </div>
+        <!------Rights-------------->
 
-    <!--Davids Keywords-->
+
+        <!-------Davids Keywords---------------------->
         </br>
-        <ul id="keyword-fields-list" data-prototype="{{ form_widget(form.keywords.vars.prototype)|e }}" class="keyword-list">
+        <ul id="keyword-fields-list"
+            data-prototype="{{ form_widget(form.keywords.vars.prototype)|e }}"
+            class="keyword-list">
+
             {% for keywordField in form.keywords %}
                 <li>
                     {{ form_errors(keywordField) }}
@@ -70,7 +78,7 @@
         <a href="#" id="add-another-keyword">Schlagwort hinzufügen</a>
         </br>
         </br>
-    <!--Davids Keywords-->
+        <!-------Davids Keywords---------------------->
 
     {#{{ form_row(form.keywords) }}#}
 
@@ -80,7 +88,7 @@
     {{ form_end(form) }}
 
 
-     <a href="{{ path('course_index') }}">Zurück zu der Kursübersicht</a>
+     <!--<a href="{{ path('course_index') }}">Zurück zu der Kursübersicht</a>-->
 
 
 
@@ -88,10 +96,10 @@
 
 
 
-        (function() {
+        $(document).ready(function() {
 
             /*var moderatorarray = [];
-            var new_row = '<tr><td>{{ form_row(form.moderators) }}</td><td>Bearbeiter</td></tr>';
+            var new_row = '<tr><td>{#{{ form_row(form.moderators) }}#}</td><td>Bearbeiter</td></tr>';
 
             $('#add-another-moderator').click(function(e)
             {
@@ -128,9 +136,7 @@
                 newLi.appendTo(keywordList);
             });
             // --------Davids Keywords-----------------------------------
-        })();
-
-
+        }); //()
 
     </script>
 
