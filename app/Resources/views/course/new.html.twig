@@ -6,86 +6,133 @@
 
 {% block content %}
     <h1>Einen neuen Kurs erstellen</h1>
-    <div class="row">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-5">
 
-            {{ form_start(form) }}
+    {{ form_start(form) }}
 
-                {{ form_errors(form) }}
-                {{ form_row(form.description) }}
-                {{ form_row(form.room) }}
+        {{ form_errors(form) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.room) }}
 
-                <ul>
-                {% for room in rooms %}
-                    <li>
-                        {{ room.getDescription|e}}
-                    </li>
-                {% else %}
-                    <div>Keine Räume</div>
+        <ul>
+            {% for room in rooms %}
+                <li> {{ room.getDescription|e}} </li>
+            {% else %}
+                <div>Keine Räume</div>
+            {% endfor %}
+        </ul>
+
+        {{ form_row(form.instructions) }}
+
+        <h2>Rechte</h2>
+        <!--<div class="row">-->
+        <div class="col-md-11 rights">
+            <!--<label for="access-rights-input">Bearbeiter hinzufügen</label>-->
+            <div class="input-group add">
+                <input type="text" class="form-control" id="access-rights-input" placeholder="Name oder E-Mail">
+                <button type="button" class="role-button" id="add-another-moderator">Bearbeiter hinzufügen</button>
+
+            </div>
+
+
+            <table class="table">
+                <thead class="thead-inverse">
+                <tr>
+                    <th>Name</th>
+                    <th>Rang</th>
+                </tr>
+                </thead>
+                <tbody id="tablebody">
+                <tr>
+                    <td>{{ form_row(form.owner) }}</td>
+                    <td>
+                        Eigentümer
+                    </td>
+                </tr>
+                {% for moderator in form.moderators %}
+
                 {% endfor %}
-                </ul>
-
-            {{ form_row(form.instructions) }}
-
-            <h2>Rechte</h2>
-            <!--<div class="row">-->
-                <div class="col-md-11 rights">
-                    <!--<label for="access-rights-input">Bearbeiter hinzufügen</label>-->
-                    <div class="input-group add">
-                        <input type="text" class="form-control" id="access-rights-input" placeholder="Name oder E-Mail">
-                        <button type="button" class="role-button" id="addmod_btn">Bearbeiter hinzufügen</button>
-
-                    </div>
-                    <script>
-                    var moderatorarray = [];
-                    var new_row = '<tr><td>{{ form_row(form.moderators) }}</td><td>Bearbeiter</td></tr>';
-
-                    $("#addmod_btn").click(function()
-                    {
-                        moderatorarray.add(user);
-                        $("#tablebody").append(new_row);
-                        return false;
-                    })
-                    </script>
-                    <table class="table">
-                        <thead class="thead-inverse">
-                        <tr>
-                            <th>Name</th>
-                            <th>Rang</th>
-                        </tr>
-                        </thead>
-                        <tbody id="tablebody">
-                        <tr>
-                            <td>{{ form_row(form.owner) }}</td>
-                            <td>
-                                Eigentümer
-                            </td>
-                        </tr>
-                        {% for moderator in form.moderators %}
-
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                </tbody>
+            </table>
+        </div>
             <!--</div>-->
 
+    <!--Davids Keywords-->
 
+        <ul id="keyword-fields-list" data-prototype="{{ form_widget(form.keywords.vars.prototype)|e }}" class="keyword-list">
+            {% for keywordField in form.keywords %}
+                <li>
+                    {{ form_errors(keywordField) }}
+                    {{ form_widget(keywordField) }}
+                </li>
+            {% endfor %}
+        </ul>
 
-                {{ form_row(form.keywords) }}
+        <a href="#" id="add-another-keyword">Schlagwort hinzufügen</a>
 
-                <input onClick="window.location.href='{{ path('course_index') }}'" type="submit" value="Abbrechen" />
-                <input type="submit" value="Erstellen" />
-            {{ form_end(form) }}
+    <!--Davids Keywords-->
 
+    {#{{ form_row(form.keywords) }}#}
 
-        </div>
-    </div>
+        <input onClick="window.location.href='{{ path('course_index') }}'" type="submit" value="Abbrechen" />
+        <input type="submit" value="Erstellen" />
 
-    <!--<ul>
+    {{ form_end(form) }}
+
+    <ul>
         <li>
-            <a href="{{ path('course_index') }}">Zurück zu der Liste</a>
+            <a href="{{ path('course_index') }}">Zurück zu der Kursübersicht</a>
         </li>
-    </ul>-->
+    </ul>
+
+
+    <script>
+
+
+
+        (function() {
+
+            var moderatorarray = [];
+            var new_row = '<tr><td>{{ form_row(form.moderators) }}</td><td>Bearbeiter</td></tr>';
+
+            $('#add-another-moderator').click(function(e)
+            {
+                e.preventDefault();
+
+                moderatorarray.add(user);
+                $("#tablebody").append(new_row);
+                return false;
+            })
+
+            // --------Davids Keywords---------------------------------
+            // keep track of how many keyword fields have been rendered
+            var keywordCount = '{{ form.keywords|length }}';
+
+
+            $('#add-another-keyword').click(function(e) {
+                console.log('{{ form.keywords|length }}');
+                e.preventDefault();
+
+                var keywordList = $('#keyword-fields-list');
+
+                // grab the prototype template
+                var newWidget = keywordList.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your keywords
+                // end name attribute looks like name="contact[keywords][2]"
+                newWidget = newWidget.replace(/__name__/g, keywordCount);
+                keywordCount++;
+
+                // create a new list element and add it to the list
+                var newLi = $('<li></li>')
+                    .addClass('keyword-input')
+                    .html(newWidget);
+                newLi.appendTo(keywordList);
+            });
+            // --------Davids Keywords-----------------------------------
+        })();
+
+
+
+    </script>
+
 {% endblock %}

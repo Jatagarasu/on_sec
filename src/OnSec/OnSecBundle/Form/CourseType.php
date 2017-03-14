@@ -18,17 +18,44 @@ class CourseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $builder->add('description', TextType::class, array('label' => 'Name', 'attr' => array('class' => 'description')))
-                ->add('room', RoomType::class, array('label' => ' ', 'attr' => array('class' => 'room')))
-                ->add('instructions', null, array('label' => 'Unterweisungen', 'attr' => array('class' => 'instructions')))
-                ->add('owner', null, array('label' => ' ', 'attr' => array('class' => 'owner')))
-                ->add('moderators', null, array('label' => ' ', 'attr' => array('class' => 'moderators')))
-                ->add('keywords', null, array('label' => 'Schlagwort', 'attr' => array('class' => 'keywords')));
+        $builder->add('description',
+                        TextType::class, array(
+                            'label' => 'Name',
+                            'attr' => array('class' => 'description')))
+
+                ->add('room',
+                        RoomType::class, array(
+                            'label' => ' ',
+                            'attr' => array('class' => 'room')))
+
+                ->add('instructions',
+                        null, array(
+                            'label' => 'Unterweisungen',
+                            'attr' => array('class' => 'instructions')))
+
+                ->add('owner',
+                        null, array(
+                            'label' => ' ',
+                            'attr' => array('class' => 'owner')))
+
+                ->add('moderators',
+                        null, array(
+                            'label' => ' ',
+                            'attr' => array('class' => 'moderators')))
+
+                //---Davids Keywords-------
+                ->add('keywords',
+                        CollectionType::class, array(
+                            'entry_type' => KeywordType::class,
+                            'allow_add' => true,
+                            'allow_delete' => true,
+                            'prototype' => true
+                        ));
 
 
         //$builder->add('field_name', 'text', array('label' => 'Field Label', 'attr' => array('class' => 'fieldClass')));
 
-        $builder->add('description')->add('room')->add('owner')->add('subscribers')->add('moderators')->add('keywords')->add('instructions');
+        //$builder->add('description')->add('room')->add('owner')->add('subscribers')->add('moderators')->add('keywords')->add('instructions');
     }
     
     /**
