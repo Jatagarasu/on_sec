@@ -9,6 +9,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use OnSec\OnSecBundle\Form\RoomType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 
 class CourseType extends AbstractType
 {

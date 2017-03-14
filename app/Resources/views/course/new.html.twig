@@ -24,7 +24,7 @@
         {{ form_row(form.instructions) }}
 
         <h2>Rechte</h2>
-        <!--<div class="row">-->
+        <div class="row">
         <div class="col-md-11 rights">
             <!--<label for="access-rights-input">Bearbeiter hinzufügen</label>-->
             <div class="input-group add">
@@ -54,10 +54,10 @@
                 </tbody>
             </table>
         </div>
-            <!--</div>-->
+            </div>
 
     <!--Davids Keywords-->
-
+        </br>
         <ul id="keyword-fields-list" data-prototype="{{ form_widget(form.keywords.vars.prototype)|e }}" class="keyword-list">
             {% for keywordField in form.keywords %}
                 <li>
@@ -68,7 +68,7 @@
         </ul>
 
         <a href="#" id="add-another-keyword">Schlagwort hinzufügen</a>
-
+        </br>
     <!--Davids Keywords-->
 
     {#{{ form_row(form.keywords) }}#}
