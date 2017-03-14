@@ -5,34 +5,92 @@
 {% endblock %}
 {% block content %}
 
-<div class="container">
-
-    <div id="instructionView">
-        <h1 class="headerInstruction">Fragen zu {{ instruction.description }}</h1>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="input-group">
-                    <input type="text" class="form-control" readonly="readonly" value="{# question.text #}123">
-                </div>
-            </div>
-            {#% for answer in answers %#}
-            <div class="col-lg-6">
-                <div class="input-group">
+    <div class="container">
+        <div id="instructionView">
+            <h1 class="headerInstruction">Fragen zu {{ instruction.description }}</h1>
+            {% verbatim %}
+     <h2ng-repeat="x in actFragen">{{x}} </h2>
+{% endverbatim %}
+            {% for question in instruction.questions %}
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="input-group">
+                            <input type="text" class="form-control" readonly="readonly" value="{{ question.questionText }}">
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        {% for answer in question.answers %}
+                            <div class="input-group">
                         <span class="input-group-addon">
                             <input type="checkbox" aria-label="Checkbox for following text input">
                         </span>
-                    <input type="text" class="form-control" readonly="readonly" value={#{ answer.text }#}"NIX">
+                                <input type="text" class="form-control" readonly="readonly" value="{{ answer.answerText }}    Richtigkeit: {{ answer.isCorrect }} ">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-6">
+                        <img class= "fragenbild" src="{{ asset(question.imagePath) }}" alt="imageQuestion"/>
+                    </div>
                 </div>
+            {% endfor %}
+            </br>
+            <div align="right">
+                <button id= "checkButton" type="button" class="btn btn-primary btn-lg">weiter</button>
             </div>
-            {#% endfor %#}
-            <div class="col-lg-6">
-                <img class= "fragenbild" src="{{ asset('bundles/hsdonsec/images/leiter.png') }}" alt="leiter"/>
-            </div>
-        </div>
-        </br>
-        <div align="right">
-        <button id= "checkButton" type="button" onclick="checkAnswer()" class="btn btn-primary btn-lg">weiter</button>
         </div>
     </div>
-</div>
+
+
+    <body ng-app="myApp" ng-controller="myCtrl">
+
+    <script>
+        var anzahl = {{ instruction.questions|length }};
+        var fragenAnzeigeAnzahl = 2;
+        var counter = 0;
+        var app = angular.module("myApp", []);
+
+        var questionArray = []
+        {% for question in instruction.questions %}
+        questionArray.push("{{ question.questionText }}");
+        {% endfor %}
+
+        var unique_random_numbers = [];
+
+        for (var i=0; i<fragenAnzeigeAnzahl; i++)
+        {
+            var randomNum = Math.floor(Math.random() * (fragenAnzeigeAnzahl-i + 1)) ;
+
+            if (unique_random_numbers.indexOf(randomNum) == -1) {
+                // Yay! new random number
+                unique_random_numbers.push(randomNum);
+            }
+        }
+
+        app.controller("myCtrl", function($scope) {
+            var actFragen = [];
+            for (var i=0; i<unique_random_numbers.length; i++) {
+                $scope.actFragen.push(questionArray[unique_random_numbers[i]]);
+            }
+        });
+
+        function checkAnswer() {
+            if (counter < anzahl - 1) {
+                counter++;
+            }
+            else {
+                counter = 0;
+            }
+            console.log(counter)
+        }
+
+        document.getElementById('checkButton').addEventListener('click', checkAnswer);
+
+
+    </script>
+
+
+
+
+    </body>
+
 {% endblock %}
