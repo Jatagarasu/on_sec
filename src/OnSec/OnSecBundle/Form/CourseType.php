@@ -23,7 +23,8 @@ class CourseType extends AbstractType
         $builder->add('description',
                         TextType::class, array(
                             'label' => 'Name',
-                            'attr' => array('class' => 'description')))
+                            'attr' => array('class' => 'description',
+                                            'placeholder' => 'Name')))
 
                 ->add('room',
                         RoomType::class, array(

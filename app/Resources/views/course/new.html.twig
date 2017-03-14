@@ -29,7 +29,7 @@
             <!--<label for="access-rights-input">Bearbeiter hinzufügen</label>-->
             <div class="input-group add">
                 <input type="text" class="form-control" id="access-rights-input" placeholder="Name oder E-Mail">
-                <button type="button" class="role-button" id="add-another-moderator">Bearbeiter hinzufügen</button>
+                <button type="button" class="role-button btn" id="add-another-moderator">Bearbeiter hinzufügen</button>
 
             </div>
 
@@ -69,20 +69,19 @@
 
         <a href="#" id="add-another-keyword">Schlagwort hinzufügen</a>
         </br>
+        </br>
     <!--Davids Keywords-->
 
     {#{{ form_row(form.keywords) }}#}
 
-        <input onClick="window.location.href='{{ path('course_index') }}'" type="submit" value="Abbrechen" />
-        <input type="submit" value="Erstellen" />
+        <input onClick="window.location.href='{{ path('course_index') }}'" type="submit" value="Abbrechen" class="btn" />
+        <input type="submit" value="Erstellen" class="btn" />
 
     {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('course_index') }}">Zurück zu der Kursübersicht</a>
-        </li>
-    </ul>
+
+     <a href="{{ path('course_index') }}">Zurück zu der Kursübersicht</a>
+
 
 
     <script>
@@ -91,7 +90,7 @@
 
         (function() {
 
-            var moderatorarray = [];
+            /*var moderatorarray = [];
             var new_row = '<tr><td>{{ form_row(form.moderators) }}</td><td>Bearbeiter</td></tr>';
 
             $('#add-another-moderator').click(function(e)
@@ -101,7 +100,7 @@
                 moderatorarray.add(user);
                 $("#tablebody").append(new_row);
                 return false;
-            })
+            })*/
 
             // --------Davids Keywords---------------------------------
             // keep track of how many keyword fields have been rendered
