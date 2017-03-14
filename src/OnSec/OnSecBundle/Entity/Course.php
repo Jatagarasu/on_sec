@@ -12,17 +12,9 @@ class Course
      */
     private $id;
 
-    /**
-     * @var \OnSec\OnSecBundle\Entity\Room
-     *
-     * @ORM\Column(name="room", type="\OnSec\OnSecBundle\Entity\Room")
-     *
-     * Attention!!!!!!!!!!!!
-     *
-     * @ORM\ManyToOne(targetEntity="Room",cascade={"persist"})
+     /**
      * @var string
      */
-    
     private $description;
 
     /**
@@ -294,4 +286,3 @@ class Course
         return $this->instructions;
     }
 }
-
