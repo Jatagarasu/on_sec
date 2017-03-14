@@ -275,4 +275,3 @@ class Instruction
         return $this->keywords;
     }
 }
-

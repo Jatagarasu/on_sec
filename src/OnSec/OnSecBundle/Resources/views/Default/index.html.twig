@@ -49,13 +49,13 @@
                 <div class="col-lg-6">
                     <div class="card card-outline-info" style="width: 23.9rem;">
                         <h4 class="card-header">Login</h4>
-                        <img class="card-img-top img-thumbnail"
-                             src="{{ asset('bundles/hsdonsec/images/shibolethlogin.png') }}"
-                             alt="Sicherheitsunterweisung" \>
+                        {% block login %}
+                            {% include 'HSDOnSecBundle:Default:login.html.twig' %}
+                        {% endblock %}
                         <div class="card-block">
                             <p class="card-text">Bitte nutzen Sie zum einloggen unseren bekannten Identitätsdienst der
                                 Hochschule Düsseldorf - Shibboleth</p>
-                            <a href="{{ path('dashboard') }}" class="btn btn-primary">zum Login</a>
+                            <a href="{{ path('dashboard') }}" class="btn btn-primary">ohne Login (developement)</a>
                         </div>
                     </div>
                 </div>

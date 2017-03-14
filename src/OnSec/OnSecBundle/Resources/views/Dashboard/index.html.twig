@@ -3,6 +3,9 @@
 {% block title %}HSDOnSecBundle:Dashboard:index{% endblock %}
 
 {% block content %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <p>Username: {{ app.user.getUsername() }}</p> logout
+    {% endif %}
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a data-toggle="tab" class="nav-link active" href="#menu1" role="tab">Meine Kurse</a>
