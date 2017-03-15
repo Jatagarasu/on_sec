@@ -13,6 +13,11 @@ course_new:
     defaults: { _controller: "HSDOnSecBundle:Course:new" }
     methods:  [GET, POST]
 
+moderator_autocomplete:
+    path:     /new/autocomplete
+    defaults: {_controller: "HSDOnSecBundle:Course:new" }
+    methods:  GET
+
 course_edit:
     path:     /{id}/edit
     defaults: { _controller: "HSDOnSecBundle:Course:edit" }

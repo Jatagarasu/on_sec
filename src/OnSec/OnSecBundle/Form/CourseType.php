@@ -42,13 +42,18 @@ class CourseType extends AbstractType
                             'attr' => array('class' => 'owner')))
 
                 ->add('moderators',
-                        null, array(
+                        CollectionType::class, array(
                             'label' => ' ',
-                            'attr' => array('class' => 'moderators')))
+                            'entry_type' => UserType::class,
+                            'allow_add' => true,
+                            'allow_delete' => true,
+                            'prototype' => true
+                        ))
 
                 //---Davids Keywords-------
                 ->add('keywords',
                         CollectionType::class, array(
+                            'label'=> ' ',
                             'entry_type' => KeywordType::class,
                             'allow_add' => true,
                             'allow_delete' => true,
@@ -56,7 +61,6 @@ class CourseType extends AbstractType
                         ));
 
 
-        //$builder->add('field_name', 'text', array('label' => 'Field Label', 'attr' => array('class' => 'fieldClass')));
 
         //$builder->add('description')->add('room')->add('owner')->add('subscribers')->add('moderators')->add('keywords')->add('instructions');
     }

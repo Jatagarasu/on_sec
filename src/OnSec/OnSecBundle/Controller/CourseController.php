@@ -5,6 +5,8 @@ namespace OnSec\OnSecBundle\Controller;
 use OnSec\OnSecBundle\Entity\Course;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * Course controller.
@@ -55,6 +57,34 @@ class CourseController extends Controller
             'users' => $users,  // neu dazu
             'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * newCourse Autocomplete for Moderators
+     * @Route("/autocomplete", name="moderator_autocomplete")
+     */
+
+    public function autocompleteAction(Request $request){
+
+        $surnames = array();
+        $term = trim(strip_tags($request->get('term')));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('AppBundle:User')->createQueryBilder('u')
+            ->where('u.surname LIKE :surname')
+            ->setParameter('surname','%'.$term.'%')
+            ->getQuery()
+            ->getResult();
+
+        foreach ($entities as $entity){
+            $surnames[] = $entity->getSurname();
+        }
+
+        $response = new JsonResponse();
+        $response->setData($surnames);
+
+        return $response;
     }
 
     /**
