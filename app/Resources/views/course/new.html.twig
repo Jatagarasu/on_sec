@@ -40,7 +40,7 @@
             </form>-->
             <div class="ui-widget add">
                 <!--<label for="access-rights-input">User: </label>-->
-                <input id="access-rights-input">
+                <input id="access-rights-input" type="text" placeholder="Name oder E-Mail">
                 <button type="button" class="role-button btn" id="add-another-moderator">Bearbeiter hinzufügen</button>
             </div>
 
@@ -118,12 +118,12 @@
     <script>
 
         $(document).ready(function() {
-            function log( message ) {
+            /*function log( message ) {
                 $( "<div>" ).text( message ).prependTo( "#log" );
                 $( "#log" ).scrollTop( 0 );
-            }
+            }*/
 
-            $('#access-rights-input').autocomplete({
+            $("#access-rights-input").autocomplete({
                 source: '{{ path('moderator_autocomplete') }}',
                 minLength: 2,
                 select: function( event, ui ) {
@@ -136,6 +136,7 @@
 
 
             // keep track of how many rows with moderators have been rendered
+
             var moderatorCount = '{{form.moderators|length}}'
 
             $('#add-another-moderator').click(function(e)

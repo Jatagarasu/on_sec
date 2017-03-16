@@ -78,7 +78,7 @@ class CourseController extends Controller
             ->getResult();
 
         foreach ($entities as $entity){
-            $surnames[] = $entity->getSurname();
+            $surnames[] = $entity->getSurname()."({})";
         }
 
         $response = new JsonResponse();
