@@ -4,13 +4,12 @@
     <link rel="stylesheet" href="{{ asset('bundles/hsdonsec/css/Instruction.css') }}">
 {% endblock %}
 {% block content %}
-
-    <div class="container">
+    <div class="container" ng-app="myApp" ng-controller="myCtrl">
         <div id="instructionView">
             <h1 class="headerInstruction">Fragen zu {{ instruction.description }}</h1>
             {% verbatim %}
-     <h2ng-repeat="x in actFragen">{{x}} </h2>
-{% endverbatim %}
+                <h2 ng-repeat="question in questionArray">{{question.text}} </h2>
+            {% endverbatim %}
             {% for question in instruction.questions %}
                 <div class="row">
                     <div class="col-lg-12">
@@ -41,7 +40,7 @@
     </div>
 
 
-    <body ng-app="myApp" ng-controller="myCtrl">
+
 
     <script>
         var anzahl = {{ instruction.questions|length }};
@@ -49,9 +48,14 @@
         var counter = 0;
         var app = angular.module("myApp", []);
 
-        var questionArray = []
+        $scope.questionArray = [];
+        var question = {};
         {% for question in instruction.questions %}
-        questionArray.push("{{ question.questionText }}");
+        question = {
+            text: {{ question.questionText }},
+            id: {{ question.id }}
+        }
+        $scope.questionArray.push(question);
         {% endfor %}
 
         var unique_random_numbers = [];
@@ -85,12 +89,6 @@
 
         document.getElementById('checkButton').addEventListener('click', checkAnswer);
 
-
     </script>
-
-
-
-
-    </body>
 
 {% endblock %}
