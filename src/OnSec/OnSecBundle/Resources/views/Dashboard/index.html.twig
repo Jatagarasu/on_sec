@@ -3,6 +3,7 @@
 {% block title %}HSDOnSecBundle:Dashboard:index{% endblock %}
 
 {% block content %}
+    <div id="topnav"></div>
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a data-toggle="tab" class="nav-link active" href="#menu1" role="tab">Meine Kurse</a>
@@ -22,7 +23,7 @@
                         <div class="card">
                             <div class="card-header" data-target="#collapse1" data-toggle="collapse">
                                 <h4 class="card-title">
-                                    {{ course.getDescription() }}<span onclick="document.location.href = 'http://www.google.de'; return false"><i class="fa fa-users" aria-hidden="true"></i></span><span onclick="document.location.href = 'http://www.gmx.de'; return false"><i class="fa fa-cog"
+                                    {{ course.getDescription() }}<span onclick="document.location.href = '{{ path('course_edit', { 'id': course.getId() }) }}'; return false"><i class="fa fa-users" aria-hidden="true"></i></span><span onclick="document.location.href = 'http://www.google.de'; return false"><i class="fa fa-cog"
                                                                                                   aria-hidden="true"></i></span>
                                 </h4>
                             </div>
@@ -42,7 +43,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">
-                                {{ instruction.getDescription() }}<i class="fa fa-cog" aria-hidden="true"></i>
+                                {{ instruction.getDescription() }}<span onclick="document.location.href = '{{ path('instruction_edit', { 'id': instruction.getId() }) }}'; return false"><i class="fa fa-cog" aria-hidden="true"></i></span>
                                 <div class="left red">Eigent&uuml;mer</div>
                             </h4>
                         </div>
@@ -53,25 +54,45 @@
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">
-                                    {{ instruction.getDescription() }}<i class="fa fa-cog" aria-hidden="true"></i>
+                                    {{ instruction.getDescription() }}<span onclick="document.location.href = '{{ path('instruction_edit', { 'id': instruction.getId() }) }}'; return false"><i class="fa fa-cog" aria-hidden="true"></i></span>
                                     <div class="left green">Bearbeiter</div>
                                 </h4>
                             </div>
                         </div>
                     {% endfor %}
-                    {% if userinstructions|length > 0 %}<hr>{% endif %}
-                    {% for instruction in userinstructions %}
+                    <!--{#% if userinstructions|length > 0 %#}<hr>{#% endif %#}
+                    {#% for instruction in userinstructions %#}
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">
-                                    {{ instruction.getDescription() }}<i class="fa fa-cog" aria-hidden="true"></i>
+                                    {#{ instruction.getDescription() }#}<span onclick="document.location.href = '{#{ path('instruction_edit', { 'id': instruction.getId() }) }#}'; return false"><i class="fa fa-cog" aria-hidden="true"></i></span>
                                     <div class="left blue">Nutzer</div>
                                 </h4>
                             </div>
                         </div>
-                    {% endfor %}
+                    {#% endfor %#}
+                    -->
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById("topnav").innerHTML = "<a href={{ path('course_new') }}>Neuen Kurs erstellen</a>";
+        $(document).ready(function(){
+            $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+                localStorage.setItem('activeTab', $(e.target).attr('href'));
+
+                var activeTab = localStorage.getItem('activeTab');
+                console.log(activeTab);
+
+                if(activeTab=="#menu1"){
+                    document.getElementById("topnav").innerHTML = "<a href={{ path('course_new') }}>Neue Kurs erstellen</a>";
+                }
+                else if(activeTab=="#menu2"){
+                    document.getElementById("topnav").innerHTML = "<a href={{ path('instruction_new') }}>Neuen Unterweisung erstellen</a>";
+                }
+            });
+        });
+    </script>
 {% endblock %}
