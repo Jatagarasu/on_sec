@@ -50,7 +50,7 @@ class DashboardController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $instructions = $em->getRepository('HSDOnSecBundle:User')->find($userId)->getCompletedInstructions();
+        $instructions = $em->getRepository('HSDOnSecBundle:Instruction')->findAll();
 
         foreach ($instructions as $instruction)
         {
@@ -62,7 +62,8 @@ class DashboardController extends Controller
             }
             else
             {
-                foreach ($instruction->getModerators() as $moderator)
+                $moderators = $instruction->getModerators();
+                foreach ($moderators as $moderator)
                 {
                     if($moderator->getId() == $userId)
                     {
