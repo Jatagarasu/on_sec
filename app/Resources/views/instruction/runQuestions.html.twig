@@ -4,38 +4,42 @@
     <link rel="stylesheet" href="{{ asset('bundles/hsdonsec/css/Instruction.css') }}">
 {% endblock %}
 {% block content %}
-    <div class="container" ng-app="myApp" ng-controller="myCtrl">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
+    <div class="container" ng-app="runQuestion" ng-controller="myCtrl">
         <div id="instructionView">
             <h1 class="headerInstruction">Fragen zu {{ instruction.description }}</h1>
             {% verbatim %}
-                <h2 ng-repeat="question in questionArray">{{question.text}} </h2>
-            {% endverbatim %}
-            {% for question in instruction.questions %}
+            <div ng-repeat="question in shownQuestionArray track by $index">
+                <div class="question">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="input-group">
-                            <input type="text" class="form-control" readonly="readonly" value="{{ question.questionText }}">
+                            <input type="text" class="form-control" readonly="readonly" value="{{question.text}}">
                         </div>
                     </div>
                     <div class="col-lg-6">
-                        {% for answer in question.answers %}
+                        <div ng-repeat="answer in question.answers">
                             <div class="input-group">
                         <span class="input-group-addon">
-                            <input type="checkbox" aria-label="Checkbox for following text input">
+                            <input type="checkbox" aria-label="Checkbox for following text input" ng-model="answer.checked">
                         </span>
-                                <input type="text" class="form-control" readonly="readonly" value="{{ answer.answerText }}    Richtigkeit: {{ answer.isCorrect }} ">
+                                <input type="text" class="form-control" readonly="readonly" value="{{answer.text}} {{answer.isCorrect}}">
                             </div>
-                        {% endfor %}
+                        </div>
                     </div>
                     <div class="col-lg-6">
-                        <img class= "fragenbild" src="{{ asset(question.imagePath) }}" alt="imageQuestion"/>
+                        <img ng-if="question.imageAvalible" class= "fragenbild" src="{{ question.imagePath }}" alt="imageQuestion"/>
                     </div>
+                    </div>
+                  </br>
                 </div>
-            {% endfor %}
             </br>
-            <div align="right">
-                <button id= "checkButton" type="button" class="btn btn-primary btn-lg">weiter</button>
+            </br>
             </div>
+            <div align="right">
+                <button id= "checkButton" type="button" ng-click="checkAnswer()" class="btn btn-primary btn-lg">Antworten prüfen</button>
+            </div>
+            {% endverbatim %}
         </div>
     </div>
 
@@ -44,51 +48,84 @@
 
     <script>
         var anzahl = {{ instruction.questions|length }};
-        var fragenAnzeigeAnzahl = 2;
-        var counter = 0;
-        var app = angular.module("myApp", []);
+        var fragenAnzeigeAnzahl = 3;
 
-        $scope.questionArray = [];
-        var question = {};
-        {% for question in instruction.questions %}
-        question = {
-            text: {{ question.questionText }},
-            id: {{ question.id }}
+
+        var randomNumbers = [];
+        var i=0;
+        while(i<fragenAnzeigeAnzahl)
+        {
+            console.log(i);
+            var randomNum = Math.floor(Math.random() * (anzahl)) ;
+            if (randomNumbers.indexOf(randomNum) == -1) {
+                randomNumbers.push(randomNum);
+                i++;
+            }
         }
-        $scope.questionArray.push(question);
+
+        var questionArray = [];
+        {% for question in instruction.questions %}
+        var question = {};
+        question.text = '{{ question.questionText }}';
+        question.id = '{{ question.id }}';
+        question.imagePath = '{{ asset(question.imagePath) }}'
+        if (question.imagePath === '{{ asset("") }}'){
+            question.imageAvalible = false;
+        }
+        else
+        {
+            question.imageAvalible = true;
+        }
+        question.answers = [];
+        {% for answer in question.answers %}
+        var answer = {};
+        answer.text = '{{ answer.answerText }}';
+        answer.id = '{{ answer.id }}';
+        answer.isCorrect = '{{ answer.isCorrect }}';
+        answer.checked = false;
+        question.answers.push(answer);
+        {% endfor %}
+        //console.log("Answers:");
+        //console.log(question.answers);
+        questionArray.push(question);
         {% endfor %}
 
-        var unique_random_numbers = [];
+        angular.module('runQuestion', [])
+            .controller('myCtrl', function($scope) {
+                console.log("Angular controller wird ausgeführt.");
+                $scope.shownQuestionArray = [];
+                for(i=0;i<randomNumbers.length;i++) {
+                    $scope.shownQuestionArray.push(questionArray[randomNumbers[i]]);
+                }
 
-        for (var i=0; i<fragenAnzeigeAnzahl; i++)
-        {
-            var randomNum = Math.floor(Math.random() * (fragenAnzeigeAnzahl-i + 1)) ;
+                $scope.checkAnswer = function() {
+                    var allRight = true;
+                    for(i=0;i<$scope.shownQuestionArray.length;i++) {
+                        var question = $scope.shownQuestionArray[i];
 
-            if (unique_random_numbers.indexOf(randomNum) == -1) {
-                // Yay! new random number
-                unique_random_numbers.push(randomNum);
-            }
-        }
+                        for (j = 0; j < question.answers.length; j++) {
+                            var answer = question.answers[j];
 
-        app.controller("myCtrl", function($scope) {
-            var actFragen = [];
-            for (var i=0; i<unique_random_numbers.length; i++) {
-                $scope.actFragen.push(questionArray[unique_random_numbers[i]]);
-            }
-        });
+                            if (answer.checked == (answer.isCorrect > 0)) {
+                                answer.result = true;
+                                console.log("Antwortmöglichkeit richtig beantwortet")
+                            }
+                            else {
+                                answer.result = false;
+                                allRight = false;
+                                console.log("inkorrekt")
+                            }
+                        }
+                    }
+                    if(allRight){
+                        console.log("alles Korrekt");
+                    }
+                    else{
+                        console.log("nicht alles Korrekt");
+                    }
+                }
 
-        function checkAnswer() {
-            if (counter < anzahl - 1) {
-                counter++;
-            }
-            else {
-                counter = 0;
-            }
-            console.log(counter)
-        }
-
-        document.getElementById('checkButton').addEventListener('click', checkAnswer);
-
+            });
     </script>
 
 {% endblock %}
