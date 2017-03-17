@@ -8,22 +8,24 @@
     <div class="container" ng-app="runQuestion" ng-controller="myCtrl">
         <div id="instructionView">
             <h1 class="headerInstruction">Fragen zu {{ instruction.description }}</h1>
+            </br>
             {% verbatim %}
             <div ng-repeat="question in shownQuestionArray track by $index">
-                <div class="question">
+                <div class="question" ng-style="question.boxStyle">
                 <div class="row">
                     <div class="col-lg-12">
+                    {{question.result}}
                         <div class="input-group">
                             <input type="text" class="form-control" readonly="readonly" value="{{question.text}}">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div ng-repeat="answer in question.answers">
-                            <div class="input-group">
+                        <div class="input-group">
                         <span class="input-group-addon">
                             <input type="checkbox" aria-label="Checkbox for following text input" ng-model="answer.checked">
                         </span>
-                                <input type="text" class="form-control" readonly="readonly" value="{{answer.text}} {{answer.isCorrect}}">
+                                <input type="text" class="form-control" ng-style="{{answer.style}}" readonly="readonly" value="{{answer.text}} {{answer.isCorrect}}">
                             </div>
                         </div>
                     </div>
@@ -36,9 +38,15 @@
             </br>
             </br>
             </div>
-            <div align="right">
-                <button id= "checkButton" type="button" ng-click="checkAnswer()" class="btn btn-primary btn-lg">Antworten prüfen</button>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div ng-style="textStyle" >{{checkMessage}}</div>
+                </div>
+                <div class="col-lg-4" align="right">
+                    <button id= "checkButton" type="button" ng-click="checkAnswer()" class="btn btn-primary btn-lg">{{buttonText}}</button>
+                </div>
             </div>
+            </br>
             {% endverbatim %}
         </div>
     </div>
@@ -49,7 +57,7 @@
     <script>
         var anzahl = {{ instruction.questions|length }};
         var fragenAnzeigeAnzahl = 3;
-
+        var status = "pruefung";
 
         var randomNumbers = [];
         var i=0;
@@ -69,6 +77,8 @@
         question.text = '{{ question.questionText }}';
         question.id = '{{ question.id }}';
         question.imagePath = '{{ asset(question.imagePath) }}'
+        question.result = "";
+        question.boxStyle = "";
         if (question.imagePath === '{{ asset("") }}'){
             question.imageAvalible = false;
         }
@@ -83,6 +93,7 @@
         answer.id = '{{ answer.id }}';
         answer.isCorrect = '{{ answer.isCorrect }}';
         answer.checked = false;
+        answer.result = "";
         question.answers.push(answer);
         {% endfor %}
         //console.log("Answers:");
@@ -94,37 +105,47 @@
             .controller('myCtrl', function($scope) {
                 console.log("Angular controller wird ausgeführt.");
                 $scope.shownQuestionArray = [];
-                for(i=0;i<randomNumbers.length;i++) {
+                for (i = 0; i < randomNumbers.length; i++) {
                     $scope.shownQuestionArray.push(questionArray[randomNumbers[i]]);
                 }
 
-                $scope.checkAnswer = function() {
+                $scope.buttonText = "Antworten prüfen";
+                $scope.checkMessage = "";
+                $scope.textStyle = "";
+                $scope.boxStyle = "";
+                $scope.checkAnswer = function () {
+
                     var allRight = true;
-                    for(i=0;i<$scope.shownQuestionArray.length;i++) {
-                        var question = $scope.shownQuestionArray[i];
-
-                        for (j = 0; j < question.answers.length; j++) {
-                            var answer = question.answers[j];
-
-                            if (answer.checked == (answer.isCorrect > 0)) {
-                                answer.result = true;
-                                console.log("Antwortmöglichkeit richtig beantwortet")
+                    for (i = 0; i < $scope.shownQuestionArray.length; i++) {
+                        $scope.shownQuestionArray[i].result = "korrekt :)"
+                        $scope.shownQuestionArray[i].boxStyle = {'background-color': '#A9F5BC'};
+                        for (j = 0; j < $scope.shownQuestionArray[i].answers.length; j++) {
+                            if ($scope.shownQuestionArray[i].answers[j].checked == ($scope.shownQuestionArray[i].answers[j].isCorrect > 0)) {
+                                $scope.shownQuestionArray[i].answers[j].result = "richtig";
                             }
                             else {
-                                answer.result = false;
+                                $scope.shownQuestionArray[i].answers[j].result = "falsch";
+                                $scope.shownQuestionArray[i].result = "leider falsch beantwortet"
+                                $scope.shownQuestionArray[i].boxStyle = {'background-color': '#F78181'};
                                 allRight = false;
-                                console.log("inkorrekt")
                             }
                         }
                     }
-                    if(allRight){
+                    if (allRight) {
+                        $scope.checkMessage = "Du hast alle Fragen richtig beantwortet.";
+                        $scope.textStyle = {'background-color': '#A9F5BC', 'text-align': 'center'};
+                        $scope.buttonText = "weiter";
                         console.log("alles Korrekt");
+                        status = "weiter";
                     }
-                    else{
+                    else {
+                        $scope.checkMessage = "Leider hast du nicht alle Fragen korrekt beantwortet. Siehe dir noch einmal die Unterweisung an.";
+                        $scope.textStyle = {'background-color': '#F78181', 'text-align': 'center'};
+                        $scope.buttonText = "zur Unterweisung";
                         console.log("nicht alles Korrekt");
+                        status = "unterweisung";
                     }
                 }
-
             });
     </script>
 
