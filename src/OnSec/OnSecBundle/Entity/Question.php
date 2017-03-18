@@ -213,5 +213,9 @@ class Question
     {
         return $this->answers;
     }
+
+    public function __toString() {
+        return $this->getQuestionText();
+    }
 }
 

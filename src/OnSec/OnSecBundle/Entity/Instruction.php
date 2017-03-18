@@ -240,7 +240,7 @@ class Instruction
      */
     public function addKeyword(\OnSec\OnSecBundle\Entity\Keyword $keyword)
     {
-        $this->keywords[] = $keyword;
+        $this->keywords->add($keyword);
 
         return $this;
     }

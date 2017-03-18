@@ -22,7 +22,7 @@ class InstructionType extends AbstractType
               'entry_type' => KeywordType::class,
               'allow_add' => true,
               'allow_delete' => true,
-              'prototype' => true
+              'by_reference' => false
           ))
           ->add('moderators')
           ->add('questions');

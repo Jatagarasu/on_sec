@@ -10,9 +10,9 @@
 
         {{ form_row(form.pdfLink) }}
 
-        <ul id="keyword-fields-list"
-            data-prototype="{{ form_widget(form.keywords.vars.prototype)|e }}"
-            class="keyword-list">
+        <ul class="keywords" id="keyword-fields-list"
+            data-prototype="{{ form_widget(form.keywords.vars.prototype)|e('html_attr') }}"
+            class="keyword">
             {% for keywordField in form.keywords %}
                 <li>
                     {{ form_errors(keywordField) }}
@@ -20,8 +20,6 @@
                 </li>
             {% endfor %}
         </ul>
-
-        <a href="#" id="add-another-keyword">Schlagwort hinzufügen</a>
 
         {{ form_row(form.questions) }}
 
@@ -35,32 +33,35 @@
     </ul>
 
     <script>
-        (function() {
-        // keep track of how many keyword fields have been rendered
-        var keywordCount = '{{ form.keywords|length }}';
 
+    jQuery(document).ready( function() {
+        var $keywordList;
+        var $addKeywordLink = $('<a href="#" class="add_keyword_link">Schlagwort hinzufügen</a>');
+        var $newLinkLi = $('<li></li>').append($addKeywordLink);
 
-            $('#add-another-keyword').click(function(e) {
-                console.log('{{ form.keywords|length }}');
-                e.preventDefault();
+        $keywordList = $('ul.keywords');
+        $keywordList.append($newLinkLi);
 
-                var keywordList = $('#keyword-fields-list');
+        $keywordList.data('index', $keywordList.find(':input').length);
 
-                // grab the prototype template
-                var newWidget = keywordList.attr('data-prototype');
-                // replace the "__name__" used in the id and name of the prototype
-                // with a number that's unique to your keywords
-                // end name attribute looks like name="contact[keywords][2]"
-                newWidget = newWidget.replace(/__name__/g, keywordCount);
-                keywordCount++;
+        $addKeywordLink.on('click', function(e) {
+            e.preventDefault();
 
-                // create a new list element and add it to the list
-                var newLi = $('<li></li>')
-                    .addClass('keyword-input')
-                    .html(newWidget);
-                newLi.appendTo(keywordList);
-            });
-        })();
+            addKeywordForm($keywordList, $newLinkLi);
+        });
+    });
+
+    function addKeywordForm($keywordList, $newLinkLi) {
+        var prototype   = $keywordList.data('prototype');
+        var index       = $keywordList.data('index');
+
+        var newForm = prototype.replace(/__name__/g, index);
+
+        $keywordList.data('index', index + 1);
+
+        var $newFormLi = $('<li></li>').append(newForm);
+        $newLinkLi.before($newFormLi);
+    };
 
     </script>
 {% endblock %}

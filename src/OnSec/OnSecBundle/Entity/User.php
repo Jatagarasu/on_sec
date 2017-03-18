@@ -224,5 +224,9 @@ class User
     {
         return $this->roles;
     }
+
+    public function __toString() {
+        return $this->getEmail();
+    }
 }
 
