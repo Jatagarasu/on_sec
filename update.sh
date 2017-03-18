@@ -5,7 +5,7 @@ php composer.phar update --prefer-stable #--no-dev
 php bin/console doctrine:database:drop --force
 php bin/console doctrine:database:create
 
-php bin/console generate:doctrine:entities HSDOnSecBundle
+#php bin/console generate:doctrine:entities HSDOnSecBundle
 
 php bin/console doctrine:schema:update --force
 
