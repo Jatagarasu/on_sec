@@ -2,74 +2,68 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
-use OnSec\OnSecBundle\Entity\User;
-
 /**
  * Question
- *
- * @ORM\Table(name="question")
- * @ORM\Entity(repositoryClass="OnSec\OnSecBundle\Repository\QuestionRepository")
  */
 class Question
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="questionText", type="text", nullable=true)
      */
     private $questionText;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="imagePath", type="string", length=255, nullable=true)
      */
     private $imagePath;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="createdOn", type="datetime", nullable=true)
      */
     private $createdOn;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="updatedOn", type="datetime", nullable=true)
      */
     private $updatedOn;
 
     /**
-     * @var User
-     *
-     * @ORM\Column(name="owner", type="User")
+     * @var \OnSec\OnSecBundle\Entity\User
      */
     private $owner;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\Column(name="answers", type="array", nullable=true)
      */
     private $answers;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->answers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Gets Questiontext
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getQuestionText();
+    }
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -175,11 +169,11 @@ class Question
     /**
      * Set owner
      *
-     * @param User $owner
+     * @param \OnSec\OnSecBundle\Entity\User $owner
      *
      * @return Question
      */
-    public function setOwner($owner)
+    public function setOwner(\OnSec\OnSecBundle\Entity\User $owner = null)
     {
         $this->owner = $owner;
 
@@ -189,42 +183,11 @@ class Question
     /**
      * Get owner
      *
-     * @return User
+     * @return \OnSec\OnSecBundle\Entity\User
      */
     public function getOwner()
     {
         return $this->owner;
-    }
-
-    /**
-     * Set answers
-     *
-     * @param \Doctrine\Common\Collections\Collection $answers
-     *
-     * @return Question
-     */
-    public function setAnswers(\Doctrine\Common\Collections\Collection $answers)
-    {
-        $this->answers = $answers;
-
-        return $this;
-    }
-
-    /**
-     * Get answers
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAnswers()
-    {
-        return $this->answers;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->answers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -251,7 +214,13 @@ class Question
         $this->answers->removeElement($answer);
     }
 
-    public function __toString() {
-        return $this->questionText;;
+    /**
+     * Get answers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAnswers()
+    {
+        return $this->answers;
     }
 }

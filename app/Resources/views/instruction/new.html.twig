@@ -1,10 +1,20 @@
-{% extends 'base.html.twig' %}
+{% extends '::base.html.twig' %}
 
 {% block content %}
+{% import 'macros/keywords_input.html.twig' as keywords_input %}
     <h1>Instruction creation</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+        {{ form_row(form.description) }}
+
+        {{ form_row(form.expiredate) }}
+
+        {{ form_row(form.pdfLink) }}
+
+        {{ keywords_input.keywords_input(form) }}
+
+        {{ form_row(form.questions) }}
+
         <input type="submit" value="Create" />
     {{ form_end(form) }}
 
