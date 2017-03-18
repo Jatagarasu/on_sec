@@ -6,6 +6,8 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 
 use Onsec\OnSecBundle\Entity\Instruction;
 use OnSec\OnSecBundle\Entity\Keyword;
+use OnSec\OnSecBundle\Entity\Course;
+use OnSec\OnSecBundle\Entity\Room;
 
 class UniqueKeyword
 {
@@ -18,8 +20,7 @@ class UniqueKeyword
 
         $entity = $args->getEntity();
 
-        // we're interested in Dishes only
-        if ($entity instanceof Instruction) {
+        if ($entity instanceof Instruction || $entity instanceof Course || $entity instanceof Room) {
 
             $entityManager = $args->getEntityManager();
             $keywords = $entity->getKeywords();
