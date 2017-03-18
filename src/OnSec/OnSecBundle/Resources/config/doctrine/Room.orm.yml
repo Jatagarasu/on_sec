@@ -17,6 +17,7 @@ OnSec\OnSecBundle\Entity\Room:
     manyToMany:
         keywords:
             targetEntity: Keyword
+            cascade: ["persist", "merge"]
             joinTable:
                 name: room_keywords
                 joinColumns:
