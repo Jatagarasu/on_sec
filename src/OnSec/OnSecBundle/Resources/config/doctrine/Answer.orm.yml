@@ -15,7 +15,7 @@ OnSec\OnSecBundle\Entity\Answer:
                 type: text
                 nullable: true
             isCorrect:
-                type: integer
+                type: boolean
                 nullable: true
             createdOn:
                 type: datetime

@@ -19,7 +19,7 @@ class Answer
     private $answerText;
 
     /**
-     * @var integer
+     * @var boolean
      */
     private $isCorrect;
 
