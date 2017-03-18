@@ -16,6 +16,13 @@
         </tbody>
     </table>
 
+    In folgenden Unterweisungen genutzt:
+    <ul>
+        {% for instruction in keyword.instructions() %}
+            <li>{{ instruction.description }}
+        {% endfor %}
+    </ul>
+
     <ul>
         <li>
             <a href="{{ path('keyword_index') }}">Back to the list</a>

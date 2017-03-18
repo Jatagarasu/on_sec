@@ -13,3 +13,8 @@ OnSec\OnSecBundle\Entity\Keyword:
         description:
             type: string
             nullable: false
+
+    manyToMany:
+        instructions:
+            targetEntity: Instruction
+            mappedBy: keywords

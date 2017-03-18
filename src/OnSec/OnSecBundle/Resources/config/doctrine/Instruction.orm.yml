@@ -49,6 +49,7 @@ OnSec\OnSecBundle\Entity\Instruction:
                         referencedColumnName: id
         keywords:
             targetEntity: Keyword
+            inversedBy: instructions
             cascade: ["persist", "merge"]
             joinTable:
                 name: instruction_keywords

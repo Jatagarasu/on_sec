@@ -17,6 +17,18 @@ class Keyword
      */
     private $description;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $instructions;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->instructions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -50,6 +62,39 @@ class Keyword
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Get instruction
+     *
+     * @return \Doctrine\Common\Collections\Collection
+    */
+    public function getInstructions() {
+        return $this->instructions;
+    }
+
+    /**
+     * Add instruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\Instruction $instruction
+     *
+     * @return Keyword
+     */
+    public function addInstruction(\OnSec\OnSecBundle\Entity\Instruction $instruction)
+    {
+        $this->instructions[] = $instruction;
+
+        return $this;
+    }
+
+    /**
+     * Remove instruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\Instruction $instruction
+     */
+    public function removeInstruction(\OnSec\OnSecBundle\Entity\Instruction $instruction)
+    {
+        $this->instructions->removeElement($instruction);
     }
 }
 
