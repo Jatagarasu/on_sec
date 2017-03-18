@@ -40,6 +40,12 @@ class InstructionController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
+            foreach ($instruction->getQuestions() as $question) {
+                foreach ($question->getAnswers() as $answer) {
+                    $answer->setQuestion($question);
+                }
+            }
+
             $em->persist($instruction);
             $em->flush($instruction);
 

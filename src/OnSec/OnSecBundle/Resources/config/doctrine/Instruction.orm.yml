@@ -39,6 +39,7 @@ OnSec\OnSecBundle\Entity\Instruction:
                         referencedColumnName: id
         questions:
             targetEntity: Question
+            cascade: ["persist", "merge"]
             joinTable:
                 name: instruction_questions
                 joinColumns:

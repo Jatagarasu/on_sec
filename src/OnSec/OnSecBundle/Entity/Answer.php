@@ -1,6 +1,7 @@
 <?php
 
 namespace OnSec\OnSecBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Answer

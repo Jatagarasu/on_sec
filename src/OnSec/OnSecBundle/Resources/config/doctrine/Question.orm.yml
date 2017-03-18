@@ -39,5 +39,6 @@ OnSec\OnSecBundle\Entity\Question:
 
     oneToMany:
         answers:
+            cascade: ["persist", "merge"]
             targetEntity: Answer
             mappedBy: question
