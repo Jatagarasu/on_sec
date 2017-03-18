@@ -245,6 +245,13 @@ class Instruction
         return $this;
     }
 
+    public function addKeywordViaString($keywordString) {
+        $keyword = new Keyword($keywordString);
+        $this->keywords->add($keyword);
+
+        return $this;
+    }
+
     /**
      * Remove keyword
      *
