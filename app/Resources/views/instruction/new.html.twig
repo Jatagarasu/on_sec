@@ -2,6 +2,7 @@
 
 {% block content %}
 {% import 'macros/keywords_input.html.twig' as keywords_input %}
+{% import 'macros/questions_input.html.twig' as questions_input %}
     <h1>Instruction creation</h1>
 
     {{ form_start(form) }}
@@ -13,7 +14,7 @@
 
         {{ keywords_input.keywords_input(form) }}
 
-        {{ form_row(form.questions) }}
+        {{ questions_input.questions_input(form) }}
 
         <input type="submit" value="Create" />
     {{ form_end(form) }}

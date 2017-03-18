@@ -25,7 +25,12 @@ class InstructionType extends AbstractType
               'by_reference' => false
           ))
           ->add('moderators')
-          ->add('questions');
+          ->add('questions', CollectionType::class, array(
+              'entry_type' => QuestionType::class,
+              'allow_add' => true,
+              'allow_delete' => true,
+              'by_reference' => false
+          ));
 
     }
 

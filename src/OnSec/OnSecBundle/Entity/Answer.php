@@ -1,6 +1,7 @@
 <?php
 
 namespace OnSec\OnSecBundle\Entity;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Answer
@@ -18,7 +19,7 @@ class Answer
     private $answerText;
 
     /**
-     * @var integer
+     * @var boolean
      */
     private $isCorrect;
 

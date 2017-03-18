@@ -32,17 +32,10 @@
     padding-left: 0;
 }
 
-.keyword-input {
-    display: inline-block;
-    padding: 0;
-}
-
-.keyword-input > div {
-    display: inline-block;
-    width: 120px;
-    padding: 0;
-}
-
-.keyword-input > div > div > .control-label {
-    margin: 0;
+.question {
+    border-left: 2px solid #00afdd;
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-left: 10px;
+    margin-bottom: 20px;
 }
