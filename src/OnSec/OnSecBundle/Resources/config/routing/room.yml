@@ -1,0 +1,24 @@
+room_index:
+    path:     /
+    defaults: { _controller: "HSDOnSecBundle:Room:index" }
+    methods:  GET
+
+room_show:
+    path:     /{id}/show
+    defaults: { _controller: "HSDOnSecBundle:Room:show" }
+    methods:  GET
+
+room_new:
+    path:     /new
+    defaults: { _controller: "HSDOnSecBundle:Room:new" }
+    methods:  [GET, POST]
+
+room_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "HSDOnSecBundle:Room:edit" }
+    methods:  [GET, POST]
+
+room_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "HSDOnSecBundle:Room:delete" }
+    methods:  DELETE

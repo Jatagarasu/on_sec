@@ -1,0 +1,12 @@
+hsd_on_sec:
+    resource: "@HSDOnSecBundle/Resources/config/routing.yml"
+    prefix:   /
+
+dashboard:
+    path:     /dashboard
+    defaults: { _controller: "HSDOnSecBundle:Dashboard:index" }
+    methods:  GET
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

@@ -1,0 +1,24 @@
+answer_index:
+    path:     /
+    defaults: { _controller: "HSDOnSecBundle:Answer:index" }
+    methods:  GET
+
+answer_show:
+    path:     /{id}/show
+    defaults: { _controller: "HSDOnSecBundle:Answer:show" }
+    methods:  GET
+
+answer_new:
+    path:     /new
+    defaults: { _controller: "HSDOnSecBundle:Answer:new" }
+    methods:  [GET, POST]
+
+answer_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "HSDOnSecBundle:Answer:edit" }
+    methods:  [GET, POST]
+
+answer_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "HSDOnSecBundle:Answer:delete" }
+    methods:  DELETE

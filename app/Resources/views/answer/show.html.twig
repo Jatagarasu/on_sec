@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>Answer</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ answer.id }}</td>
+            </tr>
+            <tr>
+                <th>Answertext</th>
+                <td>{{ answer.answerText }}</td>
+            </tr>
+            <tr>
+                <th>Iscorrect</th>
+                <td>{{ answer.isCorrect }}</td>
+            </tr>
+            <tr>
+                <th>Createdon</th>
+                <td>{% if answer.createdOn %}{{ answer.createdOn|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Updatedon</th>
+                <td>{% if answer.updatedOn %}{{ answer.updatedOn|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('answer_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('answer_edit', { 'id': answer.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

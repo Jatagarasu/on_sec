@@ -1,0 +1,45 @@
+OnSec\OnSecBundle\Entity\User:
+    type: entity
+    table: user
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        surname:
+            type: string
+            nullable: false
+        firstname:
+            type: string
+            nullable: false
+        email:
+            type: string
+            nullable: false
+        notificationActive:
+            type: boolean
+            nullable: true
+
+    manyToMany:
+        completed_instructions:
+            targetEntity: Instruction
+            joinTable:
+                name: user_completedInstructions
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                inversedJoinColumn:
+                    instruction_id:
+                        referencedColumnName: id
+        roles:
+            targetEntity: Role
+            joinTable:
+                name: user_roles
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                inversedJoinColumn:
+                    role_id:
+                        referencedColumnName: id

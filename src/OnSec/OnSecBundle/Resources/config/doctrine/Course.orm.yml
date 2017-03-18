@@ -1,0 +1,69 @@
+OnSec\OnSecBundle\Entity\Course:
+    type: entity
+    table: course
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+
+    fields:
+        description:
+            type: string
+            nullable: false
+
+    manyToOne:
+        room:
+            targetEntity: Room
+            joinColumn:
+                name: room
+                referencedColumnName: id
+        owner:
+            targetEntity: User
+            joinColumn:
+                name: owner_id
+                referencedColumnName: id
+
+    manyToMany:
+        subscribers:
+            targetEntity: User
+            joinTable:
+                name: course_subscribers
+                joinColumns:
+                    course_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    subscriber_id:
+                        referencedColumnName: id
+        moderators:
+            targetEntity: User
+            joinTable:
+                name: course_moderators
+                joinColumns:
+                    course_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    moderator_id:
+                        referencedColumnName: id
+        keywords:
+            targetEntity: Keyword
+            joinTable:
+                name: course_keywords
+                joinColumns:
+                    course_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    keyword_id:
+                        referencedColumnName: id
+        instructions:
+            targetEntity: Instruction
+            joinTable:
+                name: course_instructions
+                joinColumns:
+                    course_id:
+                        referencedColumnName: id
+                inversedJoinColumn:
+                    instruction_id:
+                        referencedColumnName: id

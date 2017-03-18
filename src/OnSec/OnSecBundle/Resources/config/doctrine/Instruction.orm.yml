@@ -1,0 +1,60 @@
+OnSec\OnSecBundle\Entity\Instruction:
+    type: entity
+    table: instruction
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        description:
+            type: string
+            nullable: false
+        expiredate:
+            type: datetime
+            nullable: false
+        pdfLink:
+            type: string
+            nullable: false
+
+    manyToOne:
+        owner:
+            targetEntity: User
+            joinColumn:
+                name: owner_id
+                referencedColumnName: id
+
+    manyToMany:
+        moderators:
+            targetEntity: User
+            joinTable:
+                name: instruction_moderators
+                joinColumns:
+                    instruction_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    moderator_id:
+                        referencedColumnName: id
+        questions:
+            targetEntity: Question
+            joinTable:
+                name: instruction_questions
+                joinColumns:
+                    instruction_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    question_id:
+                        referencedColumnName: id
+        keywords:
+            targetEntity: Keyword
+            cascade: ["persist", "merge"]
+            joinTable:
+                name: instruction_keywords
+                joinColumns:
+                    instruction_id:
+                        referencedColumnName: id
+                inverseJoinColumn:
+                    keyword_id:
+                        referencedColumnName: id

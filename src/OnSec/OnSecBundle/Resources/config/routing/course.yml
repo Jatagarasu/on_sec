@@ -1,0 +1,24 @@
+course_index:
+    path:     /
+    defaults: { _controller: "HSDOnSecBundle:Course:index" }
+    methods:  GET
+
+course_show:
+    path:     /{id}/show
+    defaults: { _controller: "HSDOnSecBundle:Course:show" }
+    methods:  GET
+
+course_new:
+    path:     /new
+    defaults: { _controller: "HSDOnSecBundle:Course:new" }
+    methods:  [GET, POST]
+
+course_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "HSDOnSecBundle:Course:edit" }
+    methods:  [GET, POST]
+
+course_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "HSDOnSecBundle:Course:delete" }
+    methods:  DELETE

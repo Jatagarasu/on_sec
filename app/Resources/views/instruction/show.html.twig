@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>{{ instruction.description }}</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ instruction.id }}</td>
+            </tr>
+            <tr>
+                <th>Ablaufdatum</th>
+                <td>{% if instruction.expiredate %}{{ instruction.expiredate|date('D, d.m.Y') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>PDF</th>
+                <td>{{ instruction.pdfLink }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    Schlagwörter
+    {% for keyword in instruction.getKeywords() %}
+        <div class="keyword">{{ keyword.getDescription() }}</div>
+    {% endfor %}
+
+    <div class="questions">
+        <h2>Fragen</h2>
+        {% if instruction.getQuestions()|length > 0 %}
+            <table class="table">
+                <thead class="thead-inverse">
+                <tr>
+                    <th>Text</th>
+                    <th>Bild</th>
+                    <th class="text-md-right">Antworten</th>
+                    <th class="text-md-right">Aktionen</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for question in instruction.getQuestions() %}
+                    <tr>
+                        <td>{{ question.questionText }}</td>
+                        <td>{{ question.imagePath }}</td>
+                        <td class="text-md-right">{{ question.getAnswers()|length }}</td>
+                        <td class="text-md-right">
+                            <a href="{{ path('question_edit', {'id': question.id }) }}" class="btn btn-primary">
+                                <span class="fa fa-pencil action-icon"></span>
+                            </a>
+                            <a href="" class="btn btn-danger">
+                                <span class="fa fa-times action-icon"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <span class="info-text">Diese Unterweisung besitzt noch keine Fragen.</span>
+        {% endif %}
+    </div>
+
+    <ul>
+        <li>
+            <a href="{{ path('instruction_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('instruction_edit', { 'id': instruction.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

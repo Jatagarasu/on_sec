@@ -1,0 +1,15 @@
+OnSec\OnSecBundle\Entity\Keyword:
+    type: entity
+    table: keyword
+
+    id:
+        id:
+            type: integer
+            nullable: false
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        description:
+            type: string
+            nullable: false
