@@ -14,8 +14,13 @@ course_new:
     methods:  [GET, POST]
 
 moderator_autocomplete:
-    path:     /new/autocomplete
-    defaults: {_controller: "HSDOnSecBundle:Course:new" }
+    path:     /new/autocomplete_u
+    defaults: {_controller: "HSDOnSecBundle:Course:autocomplete_user" }
+    methods:  GET
+
+instruction_autocomplete:
+    path:     /new/autocomplete_i
+    defaults: {_controller: "HSDOnSecBundle:Course:autocomplete_instruction" }
     methods:  GET
 
 course_edit:

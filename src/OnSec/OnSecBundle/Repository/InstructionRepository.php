@@ -10,4 +10,17 @@ namespace OnSec\OnSecBundle\Repository;
  */
 class InstructionRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function search($term){
+
+
+
+        return $this->createQueryBuilder('instruction')
+                        ->join('instruction.keywords','k','WITH','k.description LIKE :searchTerm')
+                        ->setParameter('searchTerm', '%'.$term.'%')
+                        ->getQuery()
+                        ->execute();
+    }
 }
+
+//->orWhere('instruction.description LIKE :searchTerm')

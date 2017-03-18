@@ -3,6 +3,8 @@
 namespace OnSec\OnSecBundle\Controller;
 
 use OnSec\OnSecBundle\Entity\Course;
+use OnSec\OnSecBundle\Entity\User;
+use OnSec\OnSecBundle\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  */
 class CourseController extends Controller
 {
+
     /**
      * Lists all course entities.
      *
@@ -61,28 +64,46 @@ class CourseController extends Controller
 
     /**
      * newCourse Autocomplete for Moderators
-     * @Route("/autocomplete", name="moderator_autocomplete")
+     *
      */
 
-    public function autocompleteAction(Request $request){
+    public function autocomplete_userAction(Request $request){
 
-        $surnames = array();
+        $names = array();
+
         $term = trim(strip_tags($request->get('term')));
 
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AppBundle:User')->createQueryBilder('u')
-            ->where('u.surname LIKE :surname')
-            ->setParameter('surname','%'.$term.'%')
-            ->getQuery()
-            ->getResult();
+        $entities = $em->getRepository('HSDOnSecBundle:User')->search($term);
 
         foreach ($entities as $entity){
-            $surnames[] = $entity->getSurname()."({})";
+            $names[] = $entity->getFirstname()." ".$entity->getSurname();//."({})";
+
         }
 
         $response = new JsonResponse();
-        $response->setData($surnames);
+        $response->setData($names);
+
+        return $response;
+    }
+
+    public function autocomplete_instructionAction(Request $request){
+
+        $instructions = array();
+
+        $term = trim(strip_tags($request->get('term')));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('HSDOnSecBundle:Instruction')->search($term);
+
+        foreach ($entities as $entity){
+            $instructions[] = $entity->getDescription();//."({})";
+        }
+
+        $response = new JsonResponse();
+        $response->setData($instructions);
 
         return $response;
     }

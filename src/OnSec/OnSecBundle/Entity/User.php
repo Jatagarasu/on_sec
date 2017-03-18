@@ -61,6 +61,15 @@ class User
         return $this->getFirstname();
     }
 
+/*    public function search($term){
+
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.surname LIKE :searchTerm')
+            ->setParameter(':searchTerm', '%'.$term.'%')
+            ->getQuery()
+            ->getResult();
+    }*/
+
     /**
      * Get id
      *

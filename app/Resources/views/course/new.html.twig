@@ -23,14 +23,22 @@
                 <div>Keine Räume</div>
             {% endfor %}
         </ul>
-        <!------Rooms-------------->
+        <!------/Rooms-------------->
+        <!------Instructions-------------->
 
+        <div class="ui-widget search-instruction">
+            <!--<label for="access-rights-input">User: </label>-->
+            <input id="access-instruction-input" type="text" placeholder="Unterweisung suchen" autocomplete="on">
+            <button type="button" class="role-button btn" id="search-for-instruction">Suche</button>
+        </div>
         {{ form_row(form.instructions) }}
 
+        <!------/Instructions-------------->
+
         <!------Rights-------------->
-        <h2>Rechte</h2>
-        <div class="row">
-        <div class="col-md-11 rights">
+            <h2>Rechte</h2>
+            <div class="row">
+            <div class="col-md-11 rights">
             <!--<label for="access-rights-input">Bearbeiter hinzufügen</label>-->
 
             <!--<form autocomplete="on" class="input-group add">
@@ -40,7 +48,7 @@
             </form>-->
             <div class="ui-widget add">
                 <!--<label for="access-rights-input">User: </label>-->
-                <input id="access-rights-input" type="text" placeholder="Name oder E-Mail">
+                <input id="access-rights-input" type="text" placeholder="Name oder E-Mail" autocomplete="on">
                 <button type="button" class="role-button btn" id="add-another-moderator">Bearbeiter hinzufügen</button>
             </div>
 
@@ -123,8 +131,22 @@
                 $( "#log" ).scrollTop( 0 );
             }*/
 
+            console.log('{{ path('moderator_autocomplete') }}');
             $("#access-rights-input").autocomplete({
+
                 source: '{{ path('moderator_autocomplete') }}',
+                minLength: 2,
+                select: function( event, ui ) {
+                    log( ui.item ?
+                        "Selected: " + ui.item.value + " aka " + ui.item.id :
+                        "Nothing selected, input was " + this.value );
+                }
+
+            });
+
+            $("#access-instruction-input").autocomplete({
+
+                source: '{{ path('instruction_autocomplete') }}',
                 minLength: 2,
                 select: function( event, ui ) {
                     log( ui.item ?
@@ -141,6 +163,7 @@
 
             $('#add-another-moderator').click(function(e)
             {
+                console.log('click');
                 console.log('{{ form.moderators|length }}');
                 e.preventDefault();
 
@@ -159,10 +182,15 @@
                 moderatorCount++;
 
                 // create a new row and add it to the table
-                var newRow = $('<td></td>')
+                var newColumn1 = $('<td></td>')
                     .addClass('moderator-input')
                     .html(newWidget);
-                newRow.appendTo('<td>Bearbeiter</td>');
+                var newColumn2 = $('<td>Bearbeiter</td>');
+
+                var newRow= $('<tr></tr>');
+                newRow.appendChild(newColumn1);
+                newRow.appendChild(newColumn2);
+
                 newRow.appendTo(moderatorList);
             });
 

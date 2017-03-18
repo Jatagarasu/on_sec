@@ -1,5 +1,6 @@
 OnSec\OnSecBundle\Entity\User:
     type: entity
+    repositoryClass: OnSec\OnSecBundle\Repository\UserRepository
     table: user
 
     id:
