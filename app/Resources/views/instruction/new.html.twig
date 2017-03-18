@@ -45,7 +45,8 @@
         var $keywordList    = $('ul.keyword-list')
         var inputText = $('#keyword-input').val();
 
-        var id = "onsec_onsecbundle_instruction_keywords___name__";
+        var id = "{{ form.keywords.vars.id }}___name__";
+        var full_name = "{{ form.keywords.vars.full_name }}"
         var index           = $keywordList.data('index');
         id = id.replace(/__name__/g, index);
 
@@ -56,7 +57,7 @@
         $newElement.attr('id', id)
         $newElementLi.html(inputText);
         $newHiddenElement.attr('id', id + "_description")
-        $newHiddenElement.attr('name', "onsec_onsecbundle_instruction[keywords][" + index + "][description]")
+        $newHiddenElement.attr('name', full_name + "[" + index + "][description]")
         $newHiddenElement.val(inputText);
 
         $newElement.append($newElementLi);
