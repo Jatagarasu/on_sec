@@ -43,8 +43,19 @@
     return `
       <div id="question___question_id__" class="question">
         <div class="form-group">
-          <label class="sr-only" for="{{ question_name }}">Frage</label>
-          <input type="text" class="question-input form-control mb-2 mr-sm-2 mb-sm-0" id="{{ question_name }}" placeholder="Wie lautet...">
+
+          <label class="sr-only" for="{{ question_name }}[imagePath]">Bild</label>
+          <input type="text" class="question-input form-control mb-2 mr-sm-2 mb-sm-0"
+            placeholder="Bild"
+            id="{{ question_name }}[imagePath]"
+            name="{{ question_name }}[imagePath]">
+
+          <label calss="sr-only" for="{{ question_name }}[questionText]">Frage</label>
+          <input type="text" class="question-input form-control mb-2 mr-sm-2 mb-sm-0"
+            placeholder="Wie lautet..."
+            id="{{ question_name }}[questionText]"
+            name="{{ question_name }}[questionText]">
+
         </div>
 
         <div id="answers_for___question_id__" class="answers">
@@ -59,13 +70,17 @@
     return `
       <div style="display: flex; flex-direction: row;">
         <div style="width: 75%;">
-          <label class="sr-only" for="{{ answer_name }}">Name</label>
-          <input type="text" class="answer-input form-control mb-1 mr-sm-2 mb-sm-0" id="{{ answer_name }}" placeholder="Antwort __answer_id__">
+
+          <label class="sr-only" for="{{ answer_name }}[answerText]">Antwort</label>
+          <input type="text" class="answer-input form-control mb-1 mr-sm-2 mb-sm-0"
+            id="{{ answer_name }}[answerText]"
+            placeholder="Antwort __answer_id__"
+            name="{{ answer_name }}[answerText]">
         </div>
 
         <div class="form-check mb-2 mr-sm-2 mb-sm-0" style="width: 20%;">
           <label class="form-check-label">
-            <input class="form-check-input" type="checkbox"> Korrekt
+            <input class="form-check-input" type="checkbox"name="{{ answer_name }}[isCorrect]"> Korrekt
           </label>
         </div>
       </div>
