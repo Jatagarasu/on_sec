@@ -5,6 +5,7 @@ namespace OnSec\OnSecBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class InstructionType extends AbstractType
 {
@@ -13,6 +14,7 @@ class InstructionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+/*
         $builder->add('description')
                 ->add('expiredate')
                 ->add('pdfLink')
@@ -21,8 +23,27 @@ class InstructionType extends AbstractType
                 ->add('questions');
                 
         $builder->add('description')->add('expiredate')->add('pdfLink')->add('owner')->add('moderators')->add('questions')->add('keywords');
+*/
+        $builder
+          ->add('description')
+          ->add('expiredate')
+          ->add('pdfLink')
+          ->add('keywords', CollectionType::class, array(
+              'entry_type' => KeywordType::class,
+              'allow_add' => true,
+              'allow_delete' => true,
+              'by_reference' => false
+          ))
+          ->add('moderators')
+          ->add('questions', CollectionType::class, array(
+              'entry_type' => QuestionType::class,
+              'allow_add' => true,
+              'allow_delete' => true,
+              'by_reference' => false
+          ));
+
     }
-    
+
     /**
      * {@inheritdoc}
      */

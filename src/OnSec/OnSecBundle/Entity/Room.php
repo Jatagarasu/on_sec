@@ -31,16 +31,6 @@ class Room
     }
 
     /**
-     * Gets Roomdescription
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getDescription();
-    }
-
-    /**
      * Get id
      *
      * @return integer

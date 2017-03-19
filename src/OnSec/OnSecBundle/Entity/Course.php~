@@ -20,9 +20,11 @@ class Course
      * Attention!!!!!!!!!!!!
      *
      * @ORM\ManyToOne(targetEntity="Room",cascade={"persist"})
+     */
+     /**
+     
      * @var string
      */
-    
     private $description;
 
     /**
