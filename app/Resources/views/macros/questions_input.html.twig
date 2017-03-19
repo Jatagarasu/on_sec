@@ -67,7 +67,7 @@
             </div>
 
             <div>
-              <a ng-click="removeAnswer(question, answer)" class="btn btn-danger">
+              <a ng-if="question.answers.length > 2" ng-click="removeAnswer(question, answer)" class="btn btn-danger">
                 <span class="fa fa-times action-icon"></span>
               </a>
             </div>
