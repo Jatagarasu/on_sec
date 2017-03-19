@@ -42,6 +42,25 @@
     margin-bottom: 20px;
 }
 
+.question-imagePath-container {
+
+}
+
+.question-imagePath-input {
+    display: inline-block;
+    width: 30%;
+}
+
+.question-imagePath-button {
+    display: inline-block;
+    margin-top: -4px;
+}
+
+.question-remove-button {
+    float: right;
+    color: #c40 !important;
+}
+
 .answer {
     display: flex;
 }
