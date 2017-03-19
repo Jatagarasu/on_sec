@@ -20,12 +20,12 @@
               placeholder="Wie lautet..."
               id="{{ question.questionTextFullPath }}"
               name="{{ question.questionTextFullPath }}">
-
           </div>
 
-          <div id="answers_for___question_id__" class="answers">
+          <div ng-repeat="answer in question.answers track by answer.index">
+            {{ answer.index }}
           </div>
-          <a class="add-answer btn btn-success" href="#" id="add_answer_for___question_id__">+</a>
+          <a class="add-answer btn btn-success" ng-click="addAnswerTo(question)" id="add_answer_for___question_id__">+</a>
       </div>
 
     </ul>
@@ -44,22 +44,45 @@
     $scope.questions = [];
 
     $scope.addQuestion = function() {
-      var newQuestion = {};
       var index = $scope.questions.length;
-      newQuestion.index = index;
-
-      newQuestion.questionTextFullPath = questionAttributePathWithIndex(index, 'questionText');
-      newQuestion.imagePathFullPath = questionAttributePathWithIndex(index, 'imagePath');
-      newQuestion.answersFullPath = questionAttributePathWithIndex(index, 'answers');
-
-      newQuestion.answers = [];
+      var newQuestion = {
+        index:                index,
+        questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
+        imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
+        answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
+        answers:              [],
+      };
 
       $scope.questions.push(newQuestion);
-    }
+    };
+
+    $scope.addAnswerTo = function(question) {
+      var questionIndex = question.index;
+      var answerIndex = question.answers.length;
+
+      var newAnswer = {
+        index:              answerIndex,
+        answerTextFullPath: answerAttributePathWithIndices(questionIndex, answerIndex, 'answerText'),
+        isCorrectFullPath:  answerAttributePathWithIndices(questionIndex, answerIndex, 'isCorrect'),
+      };
+
+      question.answers.push(newAnswer);
+
+      console.log(question)
+    };
 
     var questionAttributePathWithIndex = function(questionIndex, attributeName) {
-      var regexToReplace = new RegExp(QUESTION_ID, "g")
+      var regexToReplace = new RegExp(QUESTION_ID, 'g');
       var fullPath = QUESTION_FULL_PATH.replace(regexToReplace, questionIndex);
+      return (fullPath + '[' + attributeName + ']');
+    };
+
+
+    var answerAttributePathWithIndices = function(questionIndex, answerIndex, attributeName) {
+      var questionIdRegEx = new RegExp(QUESTION_ID, 'g');
+      var answerIdRegEx = new RegExp(ANSWER_ID, 'g');
+      var fullPath = ANSWER_FULL_PATH.replace(questionIdRegEx, questionIndex)
+                                     .replace(answerIdRegEx, answerIndex);
       return (fullPath + '[' + attributeName + ']');
     };
   });
