@@ -26,13 +26,18 @@
     console.log("questionIndex:" + questionIndex);
 
     $questionList.append(questionTemplate(questionIndex));
-    addAnswer($questionList, questionIndex);
-    addAnswer($questionList, questionIndex);
+    addAnswer(questionIndex);
+    addAnswer(questionIndex);
+
+    $('#add_answer_for_' + questionIndex).on('click', function(e) {
+      e.preventDefault();
+      addAnswer(questionIndex);
+    });
 
     $questionList.data('index', questionIndex + 1);
   };
 
-  function addAnswer($questionList, questionIndex) {
+  function addAnswer(questionIndex) {
     var $answersContainer = $('div#answers_for_' + questionIndex)
     var answerIndex = $answersContainer.find('input.answer-input').length;
 
@@ -60,6 +65,7 @@
 
         <div id="answers_for___question_id__" class="answers">
         </div>
+        <a class="add-answer btn btn-success" href="#" id="add_answer_for___question_id__">+</a>
       </div>
     `.replace(/__question_id__/g, index);
   }
