@@ -5,32 +5,82 @@
   <h1>Fragen:</h1>
   <div ng-app="instructionQuestions" ng-controller="questionsController">
     <ul class="questions">
+
+    {# Angular starts here #}
     {% verbatim %}
-      <div ng-repeat="question in questions track by question.index">
+
+      <div ng-repeat="question in questions track by question.index" class="question">
         <div class="form-group">
 
-            <label class="sr-only" for="{{question.imagePathFullPath}}">Bild</label>
-            <input type="text" class="question-input form-control mb-2 mr-sm-2 mb-sm-0"
-              placeholder="Bild"
+            <label
+              class="sr-only"
+              for="{{ question.imagePathFullPath }}"> Bild (optional)
+            </label>
+
+            <input
+              type="text"
+              class="question-input form-control mb-2 mr-sm-2 mb-sm-0"
+              placeholder="Bild (optional)"
               id="{{ question.imagePathFullPath }}"
               name="{{ question.imagePathFullPath }}">
 
-            <label calss="sr-only" for="{{ question.questionTextFullPath }}">Frage</label>
-            <input type="text" class="question-input form-control mb-2 mr-sm-2 mb-sm-0"
+            <label
+              class="sr-only"
+              for="{{ question.questionTextFullPath }}">
+              Frage
+            </label>
+
+            <input
+              type="text"
+              class="question-input form-control mb-2 mr-sm-2 mb-sm-0"
               placeholder="Wie lautet..."
               id="{{ question.questionTextFullPath }}"
               name="{{ question.questionTextFullPath }}">
           </div>
 
-          <div ng-repeat="answer in question.answers track by answer.index">
-            {{ answer.index }}
+          <div ng-repeat="answer in question.answers track by answer.index" style="display: flex; flex-direction: row;">
+            <div style="width: 75%;">
+
+              <label
+                class="sr-only"
+                for="{{answer.answerTextFullPath}}"> Antwort
+              </label>
+
+              <input
+                type="text"
+                class="answer-input form-control mb-1 mr-sm-2 mb-sm-0"
+                placeholder="Antwort {{ answer.index + 1 }}"
+                id="{{ answer.answerTextFullPath }}"
+                name="{{ answer.answerTextFullPath }}">
+            </div>
+
+            <div
+              class="form-check mb-2 mr-sm-2 mb-sm-0"
+              style="width: 20%;">
+              <label
+                class="form-check-label">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="{{ answer.isCorrectFullPath }}"> Korrekt
+              </label>
+            </div>
+
+            <div>
+              <a ng-click="removeAnswer(question, answer)" class="btn btn-danger">
+                <span class="fa fa-times action-icon"></span>
+              </a>
+            </div>
           </div>
           <a class="add-answer btn btn-success" ng-click="addAnswerTo(question)" id="add_answer_for___question_id__">+</a>
       </div>
 
     </ul>
     <a ng-click="addQuestion()" class="btn btn-primary mb-2" id="add-question">Frage hinzufügen</a>
+
     {% endverbatim %}
+    {# Angular ends here #}
+
   </div>
 
   <script>
@@ -67,9 +117,13 @@
       };
 
       question.answers.push(newAnswer);
-
-      console.log(question)
     };
+
+    $scope.removeAnswer = function(question, answer) {
+      var removeIndex = question.answers.indexOf(answer);
+
+      question.answers.splice(removeIndex, 1);
+    }
 
     var questionAttributePathWithIndex = function(questionIndex, attributeName) {
       var regexToReplace = new RegExp(QUESTION_ID, 'g');
