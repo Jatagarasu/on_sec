@@ -9,8 +9,11 @@
     {% verbatim %}
 
       <div ng-repeat="question in questions track by question.index" class="question">
-        <div class="form-group">
+        <a class="question-remove-button" ng-if="questions.length > 1" href ng-click="removeQuestion(question)">
+          <span class="fa fa-times">{{ question.index }}</span>
+        </a>
 
+        <div class="question-imagePath-container">
             <label
               class="sr-only"
               for="{{ question.imagePathFullPath }}"> Bild (optional)
@@ -18,11 +21,16 @@
 
             <input
               type="text"
-              class="question-input form-control mb-2 mr-sm-2 mb-sm-0"
+              class="question-imagePath-input form-control mb-2 mr-sm-2 mb-sm-0"
               placeholder="Bild (optional)"
+              ng-model="question.imagePath"
               id="{{ question.imagePathFullPath }}"
               name="{{ question.imagePathFullPath }}">
 
+            <a href="#" class="btn btn-primary question-imagePath-button">Bild auswählen...</a>
+        </div>
+
+        <div class="form-group">
             <label
               class="sr-only"
               for="{{ question.questionTextFullPath }}">
@@ -31,8 +39,9 @@
 
             <input
               type="text"
-              class="question-input form-control mb-2 mr-sm-2 mb-sm-0"
+              class="form-control mb-2 mr-sm-2 mb-sm-0"
               placeholder="Wie lautet..."
+              ng-model="question.questionText"
               id="{{ question.questionTextFullPath }}"
               name="{{ question.questionTextFullPath }}">
           </div>
@@ -47,6 +56,7 @@
               <input
                 type="text"
                 class="answer-answerText-input form-control mb-1 mr-sm-2 mb-sm-0"
+                ng-model="answer.answerText"
                 placeholder="Antwort {{ answer.index + 1 }}"
                 id="{{ answer.answerTextFullPath }}"
                 name="{{ answer.answerTextFullPath }}">
@@ -87,6 +97,8 @@
       var index = $scope.questions.length;
       var newQuestion = {
         index:                index,
+        questionText:         '',
+        imagePath:            '',
         questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
         imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
         answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
@@ -99,12 +111,22 @@
       $scope.questions.push(newQuestion);
     };
 
+    $scope.removeQuestion = function(question) {
+      var questions = $scope.questions;
+      questions.splice(question.index, 1);
+      for (var i = question.index; i < questions.length; i++) {
+        questions[i].index = questions[i].index - 1;
+      }
+    };
+
     $scope.addAnswerTo = function(question) {
       var questionIndex = question.index;
       var answerIndex = question.answers.length;
 
       var newAnswer = {
         index:              answerIndex,
+        answerText:         '',
+        isCorrect:          false,
         answerTextFullPath: answerAttributePathWithIndices(questionIndex, answerIndex, 'answerText'),
         isCorrectFullPath:  answerAttributePathWithIndices(questionIndex, answerIndex, 'isCorrect'),
       };
@@ -113,11 +135,9 @@
     };
 
     $scope.removeAnswer = function(question, answer) {
-      var removeIndex = question.answers.indexOf(answer);
+      question.answers.splice(answer.index, 1);
 
-      question.answers.splice(removeIndex, 1);
-
-      for (var i = removeIndex; i < question.answers.length; i++) {
+      for (var i = answer.index; i < question.answers.length; i++) {
         var currentAnswer = question.answers[i];
         currentAnswer.index = currentAnswer.index - 1;
       }
