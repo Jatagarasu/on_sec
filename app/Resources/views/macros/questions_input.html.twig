@@ -116,6 +116,11 @@
       var removeIndex = question.answers.indexOf(answer);
 
       question.answers.splice(removeIndex, 1);
+
+      for (var i = removeIndex; i < question.answers.length; i++) {
+        var currentAnswer = question.answers[i];
+        currentAnswer.index = currentAnswer.index - 1;
+      }
     }
 
     var questionAttributePathWithIndex = function(questionIndex, attributeName) {
