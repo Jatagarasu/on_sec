@@ -14,7 +14,6 @@
 
     $questionList.data('index', $questionList.find('input.question-input').length);
 
-
     $('#add-question').on('click', function(e) {
       e.preventDefault();
       addQuestion($questionList);
@@ -42,6 +41,11 @@
     var answerIndex = $answersContainer.find('input.answer-input').length;
 
     $answersContainer.append(answerTemplate(questionIndex, answerIndex));
+
+    $('#remove_answer_' + answerIndex + '_from_' + questionIndex).on('click', function(e) {
+      e.preventDefault();
+      $('#answer_' + answerIndex + '_for_' + questionIndex).remove();
+    });
   }
 
   function questionTemplate(index) {
@@ -74,7 +78,7 @@
     console.log("Frage: " + questionIndex)
     console.log("Antwort: " + answerIndex)
     return `
-      <div style="display: flex; flex-direction: row;">
+      <div id="answer___answer_id___for___question_id__"  style="display: flex; flex-direction: row;">
         <div style="width: 75%;">
 
           <label class="sr-only" for="{{ answer_name }}[answerText]">Antwort</label>
@@ -88,6 +92,11 @@
           <label class="form-check-label">
             <input class="form-check-input" type="checkbox"name="{{ answer_name }}[isCorrect]"> Korrekt
           </label>
+        </div>
+        <div>
+          <a id="remove_answer___answer_id___from___question_id__" href="#" class="btn btn-danger">
+            <span class="fa fa-times action-icon"></span>
+          </a>
         </div>
       </div>
     `.replace(/__question_id__/g, questionIndex)
