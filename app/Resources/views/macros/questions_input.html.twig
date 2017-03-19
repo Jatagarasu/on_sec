@@ -142,97 +142,9 @@
                                      .replace(answerIdRegEx, answerIndex);
       return (fullPath + '[' + attributeName + ']');
     };
+    $scope.addQuestion();
+
   });
-// ----------- OLD CODE >>>>>
-  // jQuery(document).ready(function() {
-  //   var $questionList = $('ul.questions');
 
-  //   $questionList.data('index', $questionList.find('input.question-input').length);
-
-  //   $('#add-question').on('click', function(e) {
-  //     e.preventDefault();
-  //     addQuestion($questionList);
-  //   });
-  // });
-
-  // function addQuestion($questionList) {
-  //   var questionIndex = $questionList.data('index');
-
-  //   $questionList.append(questionTemplate(questionIndex));
-  //   addAnswer(questionIndex);
-  //   addAnswer(questionIndex);
-
-  //   $('#add_answer_for_' + questionIndex).on('click', function(e) {
-  //     e.preventDefault();
-  //     addAnswer(questionIndex);
-  //   });
-
-  //   $questionList.data('index', questionIndex + 1);
-  // };
-
-  // function addAnswer(questionIndex) {
-  //   var $answersContainer = $('div#answers_for_' + questionIndex)
-  //   var answerIndex = $answersContainer.find('input.answer-input').length;
-
-  //   $answersContainer.append(answerTemplate(questionIndex, answerIndex));
-
-  //   $('#remove_answer_' + answerIndex + '_from_' + questionIndex).on('click', function(e) {
-  //     e.preventDefault();
-  //     $('#answer_' + answerIndex + '_for_' + questionIndex).remove();
-  //   });
-  // }
-
-  // function questionTemplate(index) {
-  //   return `
-  //     <div id="question___question_id__" class="question">
-  //       <div class="form-group">
-
-  //         <label class="sr-only" for="{{ question_name }}[imagePath]">Bild</label>
-  //         <input type="text" class="question-input form-control mb-2 mr-sm-2 mb-sm-0"
-  //           placeholder="Bild"
-  //           id="{{ question_name }}[imagePath]"
-  //           name="{{ question_name }}[imagePath]">
-
-  //         <label calss="sr-only" for="{{ question_name }}[questionText]">Frage</label>
-  //         <input type="text" class="question-input form-control mb-2 mr-sm-2 mb-sm-0"
-  //           placeholder="Wie lautet..."
-  //           id="{{ question_name }}[questionText]"
-  //           name="{{ question_name }}[questionText]">
-
-  //       </div>
-
-  //       <div id="answers_for___question_id__" class="answers">
-  //       </div>
-  //       <a class="add-answer btn btn-success" href="#" id="add_answer_for___question_id__">+</a>
-  //     </div>
-  //   `.replace(/__question_id__/g, index);
-  // }
-
-  // function answerTemplate(questionIndex, answerIndex) {
-  //   return `
-  //     <div id="answer___answer_id___for___question_id__"  style="display: flex; flex-direction: row;">
-  //       <div style="width: 75%;">
-
-  //         <label class="sr-only" for="{{ answer_name }}[answerText]">Antwort</label>
-  //         <input type="text" class="answer-input form-control mb-1 mr-sm-2 mb-sm-0"
-  //           id="{{ answer_name }}[answerText]"
-  //           placeholder="Antwort __answer_id__"
-  //           name="{{ answer_name }}[answerText]">
-  //       </div>
-
-  //       <div class="form-check mb-2 mr-sm-2 mb-sm-0" style="width: 20%;">
-  //         <label class="form-check-label">
-  //           <input class="form-check-input" type="checkbox"name="{{ answer_name }}[isCorrect]"> Korrekt
-  //         </label>
-  //       </div>
-  //       <div>
-  //         <a id="remove_answer___answer_id___from___question_id__" href="#" class="btn btn-danger">
-  //           <span class="fa fa-times action-icon"></span>
-  //         </a>
-  //       </div>
-  //     </div>
-  //   `.replace(/__question_id__/g, questionIndex)
-  //    .replace(/__answer_id__/g, answerIndex);
-  // }
   </script>
 {% endmacro %}
