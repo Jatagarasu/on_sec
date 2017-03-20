@@ -52,16 +52,6 @@ class User
     }
 
     /**
-     * Gets Useremail
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getEmail();
-    }
-
-    /**
      * Get id
      *
      * @return integer
@@ -233,6 +223,10 @@ class User
     public function getRoles()
     {
         return $this->roles;
+    }
+
+    public function __toString() {
+        return $this->getEmail();
     }
 }
 

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h1>Instruction</h1>
+    <h1>{{ instruction.description }}</h1>
 
     <table>
         <tbody>
@@ -10,19 +10,55 @@
                 <td>{{ instruction.id }}</td>
             </tr>
             <tr>
-                <th>Description</th>
-                <td>{{ instruction.description }}</td>
+                <th>Ablaufdatum</th>
+                <td>{% if instruction.expiredate %}{{ instruction.expiredate|date('D, d.m.Y') }}{% endif %}</td>
             </tr>
             <tr>
-                <th>Expiredate</th>
-                <td>{% if instruction.expiredate %}{{ instruction.expiredate|date('Y-m-d H:i:s') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Pdflink</th>
+                <th>PDF</th>
                 <td>{{ instruction.pdfLink }}</td>
             </tr>
         </tbody>
     </table>
+
+    Schlagwörter
+    {% for keyword in instruction.getKeywords() %}
+        <div class="keyword">{{ keyword.getDescription() }}</div>
+    {% endfor %}
+
+    <div class="questions">
+        <h2>Fragen</h2>
+        {% if instruction.getQuestions()|length > 0 %}
+            <table class="table">
+                <thead class="thead-inverse">
+                <tr>
+                    <th>Text</th>
+                    <th>Bild</th>
+                    <th class="text-md-right">Antworten</th>
+                    <th class="text-md-right">Aktionen</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for question in instruction.getQuestions() %}
+                    <tr>
+                        <td>{{ question.questionText }}</td>
+                        <td>{{ question.imagePath }}</td>
+                        <td class="text-md-right">{{ question.getAnswers()|length }}</td>
+                        <td class="text-md-right">
+                            <a href="{{ path('question_edit', {'id': question.id }) }}" class="btn btn-primary">
+                                <span class="fa fa-pencil action-icon"></span>
+                            </a>
+                            <a href="" class="btn btn-danger">
+                                <span class="fa fa-times action-icon"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <span class="info-text">Diese Unterweisung besitzt noch keine Fragen.</span>
+        {% endif %}
+    </div>
 
     <ul>
         <li>

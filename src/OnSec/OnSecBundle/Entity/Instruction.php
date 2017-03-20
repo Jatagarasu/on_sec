@@ -48,16 +48,6 @@ class Instruction
     private $keywords;
 
     /**
-     * Gets Instructiondescription
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->getDescription();
-    }
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -250,7 +240,14 @@ class Instruction
      */
     public function addKeyword(\OnSec\OnSecBundle\Entity\Keyword $keyword)
     {
-        $this->keywords[] = $keyword;
+        $this->keywords->add($keyword);
+
+        return $this;
+    }
+
+    public function addKeywordViaString($keywordString) {
+        $keyword = new Keyword($keywordString);
+        $this->keywords->add($keyword);
 
         return $this;
     }
