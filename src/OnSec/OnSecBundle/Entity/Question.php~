@@ -224,4 +224,3 @@ class Question
         return $this->answers;
     }
 }
-

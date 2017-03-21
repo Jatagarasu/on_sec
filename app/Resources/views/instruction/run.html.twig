@@ -34,10 +34,6 @@
                     </div>
                 </div>
             </div>
-
-
-            {# instruction.pdfLink #}
-
         </div>
     </div>
 
@@ -112,8 +108,6 @@
                 $('#next').addClass('active').removeClass('disabled');
             }
         }
-
-
         /**
          * If another page rendering in progress, waits until the rendering is
          * finised. Otherwise, executes rendering immediately.
@@ -125,7 +119,6 @@
                 renderPage(num);
             }
         }
-
         /**
          * Displays previous page.
          */
@@ -160,6 +153,4 @@
             renderPage(pageNum);
         });
     </script>
-
-
 {% endblock %}

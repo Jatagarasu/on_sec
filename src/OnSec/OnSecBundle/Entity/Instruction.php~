@@ -274,5 +274,33 @@ class Instruction
     {
         return $this->keywords;
     }
-}
+    /**
+     * @var integer
+     */
+    private $expiretime;
 
+
+    /**
+     * Set expiretime
+     *
+     * @param integer $expiretime
+     *
+     * @return Instruction
+     */
+    public function setExpiretime($expiretime)
+    {
+        $this->expiretime = $expiretime;
+
+        return $this;
+    }
+
+    /**
+     * Get expiretime
+     *
+     * @return integer
+     */
+    public function getExpiretime()
+    {
+        return $this->expiretime;
+    }
+}

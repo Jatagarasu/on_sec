@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
-    <div class="container" ng-app="runQuestion" ng-controller="myCtrl">
+    <div id="ngAppOnSecRunQuestions" class="container" ng-controller="runQuestionsController">
         <div id="instructionView">
             <h1 class="headerInstruction">Fragen zu {{ instruction.description }}</h1>
             </br>
@@ -39,17 +39,20 @@
             </br>
             </div>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div ng-style="textStyle" >{{checkMessage}}</div>
                 </div>
-                {% endverbatim %}
-                <div class="col-lg-6" align="right">
-                    <div class="btn-group pull-right">
-                        <a href="{{ path('instruction_run', {'id': instruction.id }) }}" class="btn btn-primary btn-lg">zur Unterweisung</a>
-                         {% verbatim %}
-                               <a id= "checkButton" ng-click="checkAnswer()" class="btn btn-primary btn-lg disaled">{{buttonText}}</a>
+            </div>
+            {% endverbatim %}
+            </br>
+            <div class="row">
+                <div class="col-lg-12" align="right">
+                    <div class="pull-right">
+                        <a id="unterweisungButton" href="{{ path('instruction_run', {'id': instruction.id }) }}" class="btn btn-primary btn-lg">zurück zur Unterweisung</a>
+                        {% verbatim %}
+                               <a href id= "checkButton" ng-click="checkAnswer()" class="btn btn-primary btn-lg">{{buttonText}}</a>
                          {% endverbatim %}
-                        <a id="weiter" href="{{ path('index') }}" class="btn btn-primary btn-lg disabled">weiter</a>
+                        <a id="weiter" href="{{ path('index') }}" class="btn btn-primary btn-lg buttonHidden">weiter</a>
                     </div>
                 </div>
             </div>
@@ -66,51 +69,55 @@
         var fragenAnzeigeAnzahl = 3;
         var status = "pruefung";
 
+        if(anzahl < fragenAnzeigeAnzahl )
+        {
+            fragenAnzeigeAnzahl = anzahl;
+        }
+
         var randomNumbers = [];
         var i=0;
-        while(i<fragenAnzeigeAnzahl)
-        {
+        while(i<fragenAnzeigeAnzahl) {
             console.log(i);
             var randomNum = Math.floor(Math.random() * (anzahl)) ;
             if (randomNumbers.indexOf(randomNum) == -1) {
                 randomNumbers.push(randomNum);
-                i++;
             }
+            i++;
         }
 
         var questionArray = [];
+
         {% for question in instruction.questions %}
-        var question = {};
-        question.text = '{{ question.questionText }}';
-        question.id = '{{ question.id }}';
-        question.imagePath = '{{ asset(question.imagePath) }}'
-        question.result = "";
-        question.boxStyle = "";
-        if (question.imagePath === '{{ asset("") }}'){
-            question.imageAvalible = false;
-        }
-        else
-        {
-            question.imageAvalible = true;
-        }
-        question.answers = [];
-        {% for answer in question.answers %}
-        var answer = {};
-        answer.text = '{{ answer.answerText }}';
-        answer.id = '{{ answer.id }}';
-        answer.isCorrect = '{{ answer.isCorrect }}';
-        answer.checked = false;
-        answer.result = "";
-        question.answers.push(answer);
-        {% endfor %}
-        //console.log("Answers:");
-        //console.log(question.answers);
-        questionArray.push(question);
+            var question = {};
+            question.text = '{{ question.questionText }}';
+            question.id = '{{ question.id }}';
+            question.imagePath = '{{ asset(question.imagePath) }}'
+            question.result = "";
+            question.boxStyle = "";
+            if (question.imagePath === '{{ asset("") }}'){
+                question.imageAvalible = false;
+            }
+            else
+            {
+                question.imageAvalible = true;
+            }
+            question.answers = [];
+
+            {% for answer in question.answers %}
+                var answer = {};
+                answer.text = '{{ answer.answerText }}';
+                answer.id = '{{ answer.id }}';
+                answer.isCorrect = '{{ answer.isCorrect }}';
+                answer.checked = false;
+                answer.result = "";
+                question.answers.push(answer);
+            {% endfor %}
+
+            questionArray.push(question);
         {% endfor %}
 
-        angular.module('runQuestion', [])
-            .controller('myCtrl', function($scope) {
-                console.log("Angular controller wird ausgeführt.");
+        angular.module('onSecRunQuestions', [])
+            .controller('runQuestionsController', function($scope) {
                 $scope.shownQuestionArray = [];
                 for (i = 0; i < randomNumbers.length; i++) {
                     $scope.shownQuestionArray.push(questionArray[randomNumbers[i]]);
@@ -144,7 +151,9 @@
                             $scope.textStyle = {'background-color': '#A9F5BC', 'text-align': 'center'};
                             console.log("alles Korrekt");
                             status = "weiter";
-                            $('#weiter').addClass('active').removeClass('disabled');
+                           // $('#weiter').addClass('active').removeClass('disabled');
+                            $('#weiter').addClass('buttonVisible').removeClass('buttonHidden');
+                            $('#unterweisungButton').addClass('buttonHidden');
 
                         }
                         else {
@@ -154,11 +163,13 @@
                             $scope.buttonSwitch = true;
                             status = "unterweisung";
                         }
-                        $('#checkButton').addClass('disbaled').removeClass('active');
+                        $('#checkButton').addClass('buttonHidden');
                     }
 
                 }
             });
+
+            angular.bootstrap(document.getElementById('ngAppOnSecRunQuestions'), ['onSecRunQuestions'])
     </script>
 
 {% endblock %}

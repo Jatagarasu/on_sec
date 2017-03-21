@@ -50,6 +50,11 @@ class User implements UserInterface, \Serializable
     private $roles;
 
     /**
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -280,9 +285,27 @@ class User implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return array('ROLE_ADMIN');
-        //return $this->roles;
-        //TODO: userorles aus der Datenabank übergeben
+        $roles = array('ROLE_USER');
+        foreach($this->roles as $role){
+            $roles[] = $role->getName();
+        }
+        return $roles;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
     }
 
     /** @see \Serializable::serialize() */

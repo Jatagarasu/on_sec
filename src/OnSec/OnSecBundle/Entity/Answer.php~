@@ -196,4 +196,3 @@ class Answer
         $this->setUpdatedOn(new \DateTime());
     }
 }
-

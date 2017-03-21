@@ -1,24 +1,31 @@
 {% macro keywords_input(parent_form) %}
+    {% verbatim %}
+    <div id="ngAppOnSecKeywords" ng-controller="keywordsInputController">
+        <div class="input-group">
+            <input
+                type="text"
+                id="keyword-input"
+                class="form-control"
+                placeholder="Neues Schlagwort"
+                aria-describedby="basic-addon2">
 
-  <div class="input-group">
-    <input
-        type="text"
-        id="keyword-input"
-        class="form-control"
-        placeholder="Neues Schlagwort"
-        aria-describedby="basic-addon2">
+            <a href class="input-group-addon" id="add-keyword">
+              +
+            </a>
+        </div>
 
-    <a href class="input-group-addon" id="add-keyword">
-      +
-    </a>
-  </div>
+        <ul id="onsec_onsecbundle_instruction_keywords" class="keyword-list"
+          data-index="0"
+        >
+        </ul>
+    </div>
+    {% endverbatim %}
 
-    <ul id="onsec_onsecbundle_instruction_keywords" class="keyword-list"
-      data-index="0"
-    >
-  </ul>
+    <script>
+    angular.module('onSecKeywords', []).controller('keywordsInputController', function($scope) {
+        $scope.angularWorks = "YOP";
+    });
 
-  <script>
     jQuery(document).ready( function() {
         $('#add-keyword').on('click', function(e) {
             e.preventDefault();
@@ -60,6 +67,12 @@
         $keywordList.data('index', index + 1);
         $('#keyword-input').val('').focus();
     }
+
+    function removeElement() {
+
+    }
+
+    angular.bootstrap(document.getElementById('ngAppOnSecKeywords'), ['onSecKeywords']);
   </script>
 
 {% endmacro %}
