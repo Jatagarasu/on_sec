@@ -48,6 +48,16 @@ class Course
     private $instructions;
 
     /**
+     * Gets Coursedescription
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getDescription();
+    }
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -276,4 +286,3 @@ class Course
         return $this->instructions;
     }
 }
-

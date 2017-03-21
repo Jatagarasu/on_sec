@@ -2,10 +2,12 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  * User
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -15,17 +17,22 @@ class User
     /**
      * @var string
      */
-    private $surname;
-
-    /**
-     * @var string
-     */
     private $firstname;
 
     /**
      * @var string
      */
+    private $surname;
+
+    /**
+     * @var string
+     */
     private $email;
+
+    /**
+     * @var string
+     */
+    private $password;
 
     /**
      * @var boolean
@@ -52,6 +59,33 @@ class User
     }
 
     /**
+     * Gets Useremail
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getFirstname() . ' ' . $this->getSurname() . ' (' . $this->getEmail() . ')';
+        //generates a string like "Max Mustermann (max@mustermann.com)"
+    }
+
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -59,30 +93,6 @@ class User
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set surname
-     *
-     * @param string $surname
-     *
-     * @return User
-     */
-    public function setSurname($surname)
-    {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
-    /**
-     * Get surname
-     *
-     * @return string
-     */
-    public function getSurname()
-    {
-        return $this->surname;
     }
 
     /**
@@ -110,6 +120,30 @@ class User
     }
 
     /**
+     * Set surname
+     *
+     * @param string $surname
+     *
+     * @return User
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    /**
+     * Get surname
+     *
+     * @return string
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
      * Set email
      *
      * @param string $email
@@ -131,6 +165,30 @@ class User
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
     }
 
     /**
@@ -222,11 +280,33 @@ class User
      */
     public function getRoles()
     {
-        return $this->roles;
+        return array('ROLE_USER');
+        //return $this->roles;
+        //TODO: userorles aus der Datenabank übergeben
     }
 
-    public function __toString() {
-        return $this->getEmail();
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+            ) = unserialize($serialized);
     }
 }
 

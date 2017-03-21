@@ -51,6 +51,16 @@ class Question
     }
 
     /**
+     * Gets Questiontext
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getQuestionText();
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -213,9 +223,4 @@ class Question
     {
         return $this->answers;
     }
-
-    public function __toString() {
-        return $this->getQuestionText();
-    }
 }
-
