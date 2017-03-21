@@ -1,78 +1,78 @@
 {% macro keywords_input(parent_form) %}
-    {% verbatim %}
-    <div id="ngAppOnSecKeywords" ng-controller="keywordsInputController">
-        <div class="input-group">
-            <input
-                type="text"
-                id="keyword-input"
-                class="form-control"
-                placeholder="Neues Schlagwort"
-                aria-describedby="basic-addon2">
+{% verbatim %}
+<div id="ngAppOnSecKeywords" ng-controller="keywordsInputController">
+  <div class="input-group">
+    <input
+    type="text"
+    id="keyword-input"
+    class="form-control"
+    laceholder="Neues Schlagwort"
+    aria-describedby="basic-addon2">
 
-            <a href class="input-group-addon" id="add-keyword">
-              +
-            </a>
-        </div>
+    <a href class="input-group-addon" id="add-keyword">
+      +
+    </a>
+  </div>
 
-        <ul id="onsec_onsecbundle_instruction_keywords" class="keyword-list"
-          data-index="0"
-        >
-        </ul>
-    </div>
-    {% endverbatim %}
+  <ul id="onsec_onsecbundle_instruction_keywords" class="keyword-list"
+    data-index="0"
+  >
+</ul>
+</div>
+{% endverbatim %}
 
-    <script>
-    angular.module('onSecKeywords', []).controller('keywordsInputController', function($scope) {
-        $scope.angularWorks = "YOP";
+<script>
+  angular.module('onSecKeywords', []).controller('keywordsInputController', function($scope) {
+    $scope.angularWorks = "YOP";
+  });
+
+  jQuery(document).ready( function() {
+    $('#add-keyword').on('click', function(e) {
+      e.preventDefault();
+      addElement();
     });
+  });
 
-    jQuery(document).ready( function() {
-        $('#add-keyword').on('click', function(e) {
-            e.preventDefault();
-            addElement();
-        });
-    });
-
-    $('#keyword-input').keypress(function (e) {
-        if (e.which == 13) {
-            e.preventDefault();
-            addElement();
-        }
-    });
-
-    function addElement() {
-        var $keywordList    = $('ul.keyword-list')
-        var inputText = $('#keyword-input').val();
-
-        var id = "{{ parent_form.keywords.vars.id }}___name__";
-        var full_name = "{{ parent_form.keywords.vars.full_name }}"
-        var index           = $keywordList.data('index');
-        id = id.replace(/__name__/g, index);
-
-        var $newElement         = $('<div class="keyword"></div');
-        var $newElementLi       = $('<li></li>');
-        var $newHiddenElement   = $('<input type="hidden"/>')
-
-        $newElement.attr('id', id)
-        $newElementLi.html(inputText);
-        $newHiddenElement.attr('id', id + "_description")
-        $newHiddenElement.attr('name', full_name + "[" + index + "][description]")
-        $newHiddenElement.val(inputText);
-
-        $newElement.append($newElementLi);
-        $newElement.append($newHiddenElement);
-
-        $keywordList.append($newElement);
-
-        $keywordList.data('index', index + 1);
-        $('#keyword-input').val('').focus();
+  $('#keyword-input').keypress(function (e) {
+    if (e.which == 13) {
+      e.preventDefault();
+      addElement();
     }
+  });
 
-    function removeElement() {
+  function addElement() {
+    var $keywordList    = $('ul.keyword-list')
+    var inputText = $('#keyword-input').val();
 
-    }
+    var id = "{{ parent_form.keywords.vars.id }}___name__";
+    var full_name = "{{ parent_form.keywords.vars.full_name }}"
+    var index           = $keywordList.data('index');
+    id = id.replace(/__name__/g, index);
 
-    angular.bootstrap(document.getElementById('ngAppOnSecKeywords'), ['onSecKeywords']);
-  </script>
+    var $newElement         = $('<div class="keyword"></div');
+    var $newElementLi       = $('<li></li>');
+    var $newHiddenElement   = $('<input type="hidden"/>')
+
+    $newElement.attr('id', id)
+    $newElementLi.html(inputText);
+    $newHiddenElement.attr('id', id + "_description")
+    $newHiddenElement.attr('name', full_name + "[" + index + "][description]")
+    $newHiddenElement.val(inputText);
+
+    $newElement.append($newElementLi);
+    $newElement.append($newHiddenElement);
+
+    $keywordList.append($newElement);
+
+    $keywordList.data('index', index + 1);
+    $('#keyword-input').val('').focus();
+  }
+
+  function removeElement() {
+
+  }
+
+  angular.bootstrap(document.getElementById('ngAppOnSecKeywords'), ['onSecKeywords']);
+</script>
 
 {% endmacro %}
