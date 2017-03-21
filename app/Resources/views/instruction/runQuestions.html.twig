@@ -39,15 +39,21 @@
             </br>
             </div>
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <div ng-style="textStyle" >{{checkMessage}}</div>
                 </div>
-                <div class="col-lg-4" align="right">
-                    <button id= "checkButton" type="button" ng-click="checkAnswer()" class="btn btn-primary btn-lg">{{buttonText}}</button>
+                {% endverbatim %}
+                <div class="col-lg-6" align="right">
+                    <div class="btn-group pull-right">
+                        <a href="{{ path('instruction_run', {'id': instruction.id }) }}" class="btn btn-primary btn-lg">zurück zur Unterweisung</a>
+                         {% verbatim %}
+                               <button id= "checkButton" type="button" ng-disabled="buttonSwitch"  ng-click="checkAnswer()" class="btn btn-primary btn-lg">{{buttonText}}</button>
+                         {% endverbatim %}
+                    </div>
                 </div>
             </div>
             </br>
-            {% endverbatim %}
+
         </div>
     </div>
 
@@ -113,37 +119,44 @@
                 $scope.checkMessage = "";
                 $scope.textStyle = "";
                 $scope.boxStyle = "";
+                $scope.buttonSwitch = false;
                 $scope.checkAnswer = function () {
 
-                    var allRight = true;
-                    for (i = 0; i < $scope.shownQuestionArray.length; i++) {
-                        $scope.shownQuestionArray[i].result = "korrekt :)"
-                        $scope.shownQuestionArray[i].boxStyle = {'background-color': '#A9F5BC'};
-                        for (j = 0; j < $scope.shownQuestionArray[i].answers.length; j++) {
-                            if ($scope.shownQuestionArray[i].answers[j].checked == ($scope.shownQuestionArray[i].answers[j].isCorrect > 0)) {
-                                $scope.shownQuestionArray[i].answers[j].result = "richtig";
-                            }
-                            else {
-                                $scope.shownQuestionArray[i].answers[j].result = "falsch";
-                                $scope.shownQuestionArray[i].result = "leider falsch beantwortet"
-                                $scope.shownQuestionArray[i].boxStyle = {'background-color': '#F78181'};
-                                allRight = false;
+                    if(status === "pruefung") {
+                        var allRight = true;
+                        for (i = 0; i < $scope.shownQuestionArray.length; i++) {
+                            $scope.shownQuestionArray[i].result = "korrekt :)"
+                            $scope.shownQuestionArray[i].boxStyle = {'background-color': '#A9F5BC'};
+                            for (j = 0; j < $scope.shownQuestionArray[i].answers.length; j++) {
+                                if ($scope.shownQuestionArray[i].answers[j].checked == ($scope.shownQuestionArray[i].answers[j].isCorrect > 0)) {
+                                    $scope.shownQuestionArray[i].answers[j].result = "richtig";
+                                }
+                                else {
+                                    $scope.shownQuestionArray[i].answers[j].result = "falsch";
+                                    $scope.shownQuestionArray[i].result = "leider falsch beantwortet"
+                                    $scope.shownQuestionArray[i].boxStyle = {'background-color': '#F78181'};
+                                    allRight = false;
+                                }
                             }
                         }
-                    }
-                    if (allRight) {
-                        $scope.checkMessage = "Du hast alle Fragen richtig beantwortet.";
-                        $scope.textStyle = {'background-color': '#A9F5BC', 'text-align': 'center'};
+                        if (allRight) {
+                            $scope.checkMessage = "Du hast alle Fragen richtig beantwortet.";
+                            $scope.textStyle = {'background-color': '#A9F5BC', 'text-align': 'center'};
+                            console.log("alles Korrekt");
+                            status = "weiter";
+                        }
+                        else {
+                            $scope.checkMessage = "Leider hast du nicht alle Fragen korrekt beantwortet. Siehe dir noch einmal die Unterweisung an.";
+                            $scope.textStyle = {'background-color': '#F78181', 'text-align': 'center'};
+                            console.log("nicht alles Korrekt");
+                            $scope.buttonSwitch = true;
+                            status = "unterweisung";
+                        }
                         $scope.buttonText = "weiter";
-                        console.log("alles Korrekt");
-                        status = "weiter";
                     }
-                    else {
-                        $scope.checkMessage = "Leider hast du nicht alle Fragen korrekt beantwortet. Siehe dir noch einmal die Unterweisung an.";
-                        $scope.textStyle = {'background-color': '#F78181', 'text-align': 'center'};
-                        $scope.buttonText = "zur Unterweisung";
-                        console.log("nicht alles Korrekt");
-                        status = "unterweisung";
+                    if(status === "weiter")
+                    {
+
                     }
                 }
             });
