@@ -166,7 +166,7 @@ INSERT INTO `keyword` (`id`, `description`) VALUES
 (8, 'Feuer');
 
 INSERT INTO `role` (`id`, `name`) VALUES
-(1, 'ROLE_USER'),
+(1, 'ROLE_MODERATOR'),
 (2, 'ROLE_ADMIN'),
 (3, 'ROLE_SUPERADMIN');
 
