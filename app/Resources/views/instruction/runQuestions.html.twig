@@ -45,10 +45,11 @@
                 {% endverbatim %}
                 <div class="col-lg-6" align="right">
                     <div class="btn-group pull-right">
-                        <a href="{{ path('instruction_run', {'id': instruction.id }) }}" class="btn btn-primary btn-lg">zurück zur Unterweisung</a>
+                        <a href="{{ path('instruction_run', {'id': instruction.id }) }}" class="btn btn-primary btn-lg">zur Unterweisung</a>
                          {% verbatim %}
-                               <button id= "checkButton" type="button" ng-disabled="buttonSwitch"  ng-click="checkAnswer()" class="btn btn-primary btn-lg">{{buttonText}}</button>
+                               <a id= "checkButton" ng-click="checkAnswer()" class="btn btn-primary btn-lg disaled">{{buttonText}}</a>
                          {% endverbatim %}
+                        <a id="weiter" href="{{ path('index') }}" class="btn btn-primary btn-lg disabled">weiter</a>
                     </div>
                 </div>
             </div>
@@ -119,7 +120,6 @@
                 $scope.checkMessage = "";
                 $scope.textStyle = "";
                 $scope.boxStyle = "";
-                $scope.buttonSwitch = false;
                 $scope.checkAnswer = function () {
 
                     if(status === "pruefung") {
@@ -144,6 +144,8 @@
                             $scope.textStyle = {'background-color': '#A9F5BC', 'text-align': 'center'};
                             console.log("alles Korrekt");
                             status = "weiter";
+                            $('#weiter').addClass('active').removeClass('disabled');
+
                         }
                         else {
                             $scope.checkMessage = "Leider hast du nicht alle Fragen korrekt beantwortet. Siehe dir noch einmal die Unterweisung an.";
@@ -152,12 +154,9 @@
                             $scope.buttonSwitch = true;
                             status = "unterweisung";
                         }
-                        $scope.buttonText = "weiter";
+                        $('#checkButton').addClass('disbaled').removeClass('active');
                     }
-                    if(status === "weiter")
-                    {
 
-                    }
                 }
             });
     </script>
