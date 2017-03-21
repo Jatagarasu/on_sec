@@ -7,23 +7,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DashboardController extends Controller
 {
-    private $UserId = 1;
-
     protected $ownerinstructions;
     protected $moderatorinstructions;
     protected $userinstructions;
 
     public function indexAction()
     {
-        $this->getOwnInstructions($this->UserId);
+        $UserId = $this->get('security.token_storage')->getToken()->getUser()->getId();
+        $this->getOwnInstructions($UserId);
 
         return $this->render('HSDOnSecBundle:Dashboard:index.html.twig', array(
-            'moderatorcourses' => $this->getCoursesByUserId($this->UserId),
+            'moderatorcourses' => $this->getCoursesByUserId($UserId),
             //ToDo bitte dynamische UserId eintragen
             'ownerinstructions' => $this->ownerinstructions,
             'moderatorinstructions' => $this->moderatorinstructions,
             'userinstructions' => $this->userinstructions,
-            'subscribercourses' => $this->getsubscribedCourses($this->UserId),
+            'subscribercourses' => $this->getsubscribedCourses($UserId),
         ));
     }
 
