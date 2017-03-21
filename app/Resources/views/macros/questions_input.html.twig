@@ -1,0 +1,176 @@
+{% macro questions_input(parent_form) %}
+  {% set question_name = parent_form.questions.vars.full_name ~ "[__question_id__]" %}
+  {% set answer_name = question_name ~ "[answers][__answer_id__]" %}
+
+  <h1>Fragen:</h1>
+  <div ng-app="instructionQuestions" ng-controller="questionsController" class="questions">
+
+    {# Angular starts here #}
+    {% verbatim %}
+
+      <div ng-repeat="question in questions track by question.index" class="question">
+        <a class="question-remove-button" ng-if="questions.length > 1" href ng-click="removeQuestion(question)">
+          <span class="fa fa-times"></span>
+        </a>
+
+        <div class="question-imagePath-container">
+            <label
+              class="sr-only"
+              for="{{ question.imagePathFullPath }}"> Bild (optional)
+            </label>
+
+            <input
+              type="text"
+              class="question-imagePath-input form-control mb-2 mr-sm-2 mb-sm-0"
+              placeholder="Bild (optional)"
+              ng-model="question.imagePath"
+              id="{{ question.imagePathFullPath }}"
+              name="{{ question.imagePathFullPath }}">
+
+            <a href="#" class="btn btn-primary question-imagePath-button">Bild auswählen...</a>
+        </div>
+
+        <div class="form-group">
+            <label
+              class="sr-only"
+              for="{{ question.questionTextFullPath }}">
+              Frage
+            </label>
+
+            <input
+              type="text"
+              class="form-control mb-2 mr-sm-2 mb-sm-0"
+              placeholder="Wie lautet..."
+              ng-model="question.questionText"
+              id="{{ question.questionTextFullPath }}"
+              name="{{ question.questionTextFullPath }}">
+          </div>
+
+          <div ng-repeat="answer in question.answers track by answer.index" class="answer">
+
+              <label
+                class="sr-only"
+                for="{{answer.answerTextFullPath}}"> Antwort
+              </label>
+
+              <input
+                type="text"
+                class="answer-answerText-input form-control mb-1 mr-sm-2 mb-sm-0"
+                ng-model="answer.answerText"
+                ng-keypress="answerTextEnter($event, question, answer)"
+                placeholder="Antwort {{ answer.index + 1 }}"
+                id="{{ answer.answerTextFullPath }}"
+                name="{{ answer.answerTextFullPath }}">
+
+            <div class="form-check mb-2 mr-sm-2 mb-sm-0 answer-isCorrect-input">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" name="{{ answer.isCorrectFullPath }}"> Korrekt
+              </label>
+            </div>
+
+            <div class="answer-remove-container">
+              <a ng-if="question.answers.length > 2" ng-click="removeAnswer(question, answer)" class="btn btn-danger">
+                <span class="fa fa-times action-icon"></span>
+              </a>
+            </div>
+          </div>
+          <a class="answer-add-button btn btn-success" ng-click="addAnswerTo(question)">+</a>
+      </div>
+
+    <a ng-click="addQuestion()" class="btn btn-primary mb-2" id="add-question">Weitere Frage</a>
+
+    {% endverbatim %}
+    {# Angular ends here #}
+
+  </div>
+
+  <script>
+
+  angular.module('instructionQuestions', []).controller('questionsController', function($scope) {
+    var QUESTION_FULL_PATH  = "{{ question_name }}";
+    var ANSWER_FULL_PATH    = "{{ answer_name }}";
+    var QUESTION_ID         = "__question_id__";
+    var ANSWER_ID           = "__answer_id__";
+
+    $scope.questions = [];
+
+    $scope.addQuestion = function() {
+      var index = $scope.questions.length;
+      var newQuestion = {
+        index:                index,
+        questionText:         '',
+        imagePath:            '',
+        questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
+        imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
+        answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
+        answers:              [],
+      };
+
+      $scope.addAnswerTo(newQuestion);
+      $scope.addAnswerTo(newQuestion);
+
+      $scope.questions.push(newQuestion);
+    };
+
+    $scope.removeQuestion = function(question) {
+      var questions = $scope.questions;
+      questions.splice(question.index, 1);
+      for (var i = question.index; i < questions.length; i++) {
+        questions[i].index = questions[i].index - 1;
+      }
+    };
+
+    $scope.addAnswerTo = function(question) {
+      var questionIndex = question.index;
+      var answerIndex = question.answers.length;
+
+      var newAnswer = {
+        index:              answerIndex,
+        answerText:         '',
+        isCorrect:          false,
+        answerTextFullPath: answerAttributePathWithIndices(questionIndex, answerIndex, 'answerText'),
+        isCorrectFullPath:  answerAttributePathWithIndices(questionIndex, answerIndex, 'isCorrect'),
+      };
+
+      question.answers.push(newAnswer);
+    };
+
+    $scope.removeAnswer = function(question, answer) {
+      question.answers.splice(answer.index, 1);
+
+      for (var i = answer.index; i < question.answers.length; i++) {
+        var currentAnswer = question.answers[i];
+        currentAnswer.index = currentAnswer.index - 1;
+      }
+    }
+
+    $scope.answerTextEnter = function(event, question, answer) {
+      if (event.which === 13) {
+        event.preventDefault();
+        if (answer.answerText != '' && answer.index === question.answers.length - 1) {
+          $scope.addAnswerTo(question);
+        }
+      }
+    }
+
+    var questionAttributePathWithIndex = function(questionIndex, attributeName) {
+      var regexToReplace = new RegExp(QUESTION_ID, 'g');
+      var fullPath = QUESTION_FULL_PATH.replace(regexToReplace, questionIndex);
+      return (fullPath + '[' + attributeName + ']');
+    };
+
+
+    var answerAttributePathWithIndices = function(questionIndex, answerIndex, attributeName) {
+      var questionIdRegEx = new RegExp(QUESTION_ID, 'g');
+      var answerIdRegEx = new RegExp(ANSWER_ID, 'g');
+      var fullPath = ANSWER_FULL_PATH.replace(questionIdRegEx, questionIndex)
+                                     .replace(answerIdRegEx, answerIndex);
+      return (fullPath + '[' + attributeName + ']');
+    };
+
+    $scope.addQuestion(); // add one initial question
+
+  });
+
+  </script>
+{% endmacro %}

@@ -2,29 +2,18 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Role
- *
- * @ORM\Table(name="role")
- * @ORM\Entity(repositoryClass="OnSec\OnSecBundle\Repository\RoleRepository")
  */
 class Role
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 
@@ -32,11 +21,21 @@ class Role
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Gets Rolename
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     /**
@@ -61,34 +60,5 @@ class Role
     public function getName()
     {
         return $this->name;
-    }
-    /**
-     * @var \OnSec\OnSecBundle\Entity\User
-     */
-    private $user;
-
-
-    /**
-     * Set user
-     *
-     * @param \OnSec\OnSecBundle\Entity\User $user
-     *
-     * @return Role
-     */
-    public function setUser(\OnSec\OnSecBundle\Entity\User $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get user
-     *
-     * @return \OnSec\OnSecBundle\Entity\User
-     */
-    public function getUser()
-    {
-        return $this->user;
     }
 }

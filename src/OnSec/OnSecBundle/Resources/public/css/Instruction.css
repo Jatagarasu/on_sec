@@ -5,3 +5,83 @@
 .fragenbild {
     max-height: 300px;
 }
+
+.questions {
+    margin: 20px 0 50px 0;
+}
+
+.info-text {
+    font-style: italic;
+    color: #a1a1a1;
+}
+
+.action-icon {
+    font-size: 12px !important;
+    padding: 0;
+}
+
+.keyword {
+    display: inline-block;
+    background: #00afd8;
+    padding: 0 5px;
+    border-radius: 5px;
+}
+
+.keyword-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.questions {
+    padding-left: 10px;
+}
+
+.question {
+    border-left: 3px solid #00afdd;
+    padding: 14px 0 14px 10px;
+    margin-bottom: 20px;
+}
+
+.question-imagePath-container {
+
+}
+
+.question-imagePath-input {
+    display: inline-block;
+    width: 30%;
+}
+
+.question-imagePath-button {
+    display: inline-block;
+    margin-top: -4px;
+}
+
+.question-remove-button {
+    float: right;
+    color: #c40 !important;
+}
+
+.answer {
+    display: flex;
+}
+
+.answer-answerText-input {
+    flex: 1 0;
+    margin-left: 10px;
+}
+
+.answer-isCorrect-input {
+    padding-top: 6px;
+    margin: 0 10px 0 10px;
+}
+
+.answer-remove-container {
+    padding-top: 4px;
+    width: 14px;
+}
+
+.answer-add-button {
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 20px;
+}

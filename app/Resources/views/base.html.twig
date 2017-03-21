@@ -12,12 +12,22 @@
         'css/Instruction.css'
         'css/Style.css'
         filter='cssrewrite' output='css/compiled/app.css' %}
-        <script>console.log("asset_url: {{ asset_url }}")</script>
         <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
     {% endblock %}
     {% block ownStylesheets %} {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+
+    {% block javascript %}
+        {% javascripts
+        'js/angular.min.js'
+        'js/tether.min.js'
+        'js/jquery.min.js'
+        'js/bootstrap.min.js'
+        output='js/compiled/app.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
 </head>
 <body id="site-body">
 <header id="row">
@@ -38,16 +48,6 @@
     <footer class="impressum" id="col-md-12">
         <h1 class="footerSize">Impressum und Copyright</h1>
     </footer>
-{% endblock %}
-{% block javascript %}
-    {% javascripts
-    'js/angular.min.js'
-    'js/tether.min.js'
-    'js/jquery.min.js'
-    'js/bootstrap.min.js'
-    output='js/compiled/app.js' %}
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
 {% endblock %}
 </body>
 </html>

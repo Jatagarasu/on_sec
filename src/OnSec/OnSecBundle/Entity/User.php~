@@ -2,66 +2,69 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use OnSec\OnSecBundle\Entity\Role;
-
 /**
  * User
- *
- * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="OnSec\OnSecBundle\Repository\UserRepository")
  */
 class User
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var integer
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="surname", type="string", length=255, nullable=true)
      */
     private $surname;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
      */
     private $firstname;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, unique=true)
      */
     private $email;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="notificationActive", type="boolean", nullable=true)
+     * @var boolean
      */
     private $notificationActive;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\Column(name="roles", type="\Doctrine\Common\Collections\Collection")
+     */
+    private $completed_instructions;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
      */
     private $roles;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->completed_instructions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Gets Useremail
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getEmail();
+    }
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -157,7 +160,7 @@ class User
     /**
      * Get notificationActive
      *
-     * @return bool
+     * @return boolean
      */
     public function getNotificationActive()
     {
@@ -165,44 +168,37 @@ class User
     }
 
     /**
-     * Add roles
+     * Add completedInstruction
      *
-     * @param Role $role
+     * @param \OnSec\OnSecBundle\Entity\Instruction $completedInstruction
      *
      * @return User
      */
-    public function setRoles(Role $role)
+    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\Instruction $completedInstruction)
     {
-        $this->roles[] = $role;
+        $this->completed_instructions[] = $completedInstruction;
 
         return $this;
     }
 
     /**
-     * Get roles
+     * Remove completedInstruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\Instruction $completedInstruction
+     */
+    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\Instruction $completedInstruction)
+    {
+        $this->completed_instructions->removeElement($completedInstruction);
+    }
+
+    /**
+     * Get completedInstructions
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getRoles()
+    public function getCompletedInstructions()
     {
-        return $this->roles;
-    }
-    /**
-     * @var \OnSec\OnSecBundle\Entity\Course
-     */
-    private $course;
-
-    /**
-     * @var \OnSec\OnSecBundle\Entity\Instruction
-     */
-    private $instruction;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->completed_instructions;
     }
 
     /**
@@ -230,225 +226,12 @@ class User
     }
 
     /**
-     * Set course
-     *
-     * @param \OnSec\OnSecBundle\Entity\Course $course
-     *
-     * @return User
-     */
-    public function setCourse(\OnSec\OnSecBundle\Entity\Course $course = null)
-    {
-        $this->course = $course;
-
-        return $this;
-    }
-
-    /**
-     * Get course
-     *
-     * @return \OnSec\OnSecBundle\Entity\Course
-     */
-    public function getCourse()
-    {
-        return $this->course;
-    }
-
-    /**
-     * Set instruction
-     *
-     * @param \OnSec\OnSecBundle\Entity\Instruction $instruction
-     *
-     * @return User
-     */
-    public function setInstruction(\OnSec\OnSecBundle\Entity\Instruction $instruction = null)
-    {
-        $this->instruction = $instruction;
-
-        return $this;
-    }
-
-    /**
-     * Get instruction
-     *
-     * @return \OnSec\OnSecBundle\Entity\Instruction
-     */
-    public function getInstruction()
-    {
-        return $this->instruction;
-    }
-    /**
-     * @var \OnSec\OnSecBundle\Entity\Course
-     */
-    private $course_subs;
-
-    /**
-     * @var \OnSec\OnSecBundle\Entity\Course
-     */
-    private $course_mods;
-
-
-    /**
-     * Set courseSubs
-     *
-     * @param \OnSec\OnSecBundle\Entity\Course $courseSubs
-     *
-     * @return User
-     */
-    public function setCourseSubs(\OnSec\OnSecBundle\Entity\Course $courseSubs = null)
-    {
-        $this->course_subs = $courseSubs;
-
-        return $this;
-    }
-
-    /**
-     * Get courseSubs
-     *
-     * @return \OnSec\OnSecBundle\Entity\Course
-     */
-    public function getCourseSubs()
-    {
-        return $this->course_subs;
-    }
-
-    /**
-     * Set courseMods
-     *
-     * @param \OnSec\OnSecBundle\Entity\Course $courseMods
-     *
-     * @return User
-     */
-    public function setCourseMods(\OnSec\OnSecBundle\Entity\Course $courseMods = null)
-    {
-        $this->course_mods = $courseMods;
-
-        return $this;
-    }
-
-    /**
-     * Get courseMods
-     *
-     * @return \OnSec\OnSecBundle\Entity\Course
-     */
-    public function getCourseMods()
-    {
-        return $this->course_mods;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $subscriber;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $moderators;
-
-
-    /**
-     * Add subscriber
-     *
-     * @param \OnSec\OnSecBundle\Entity\Course $subscriber
-     *
-     * @return User
-     */
-    public function addSubscriber(\OnSec\OnSecBundle\Entity\Course $subscriber)
-    {
-        $this->subscriber[] = $subscriber;
-
-        return $this;
-    }
-
-    /**
-     * Remove subscriber
-     *
-     * @param \OnSec\OnSecBundle\Entity\Course $subscriber
-     */
-    public function removeSubscriber(\OnSec\OnSecBundle\Entity\Course $subscriber)
-    {
-        $this->subscriber->removeElement($subscriber);
-    }
-
-    /**
-     * Get subscriber
+     * Get roles
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getSubscriber()
+    public function getRoles()
     {
-        return $this->subscriber;
-    }
-
-    /**
-     * Add moderator
-     *
-     * @param \OnSec\OnSecBundle\Entity\Course $moderator
-     *
-     * @return User
-     */
-    public function addModerator(\OnSec\OnSecBundle\Entity\Course $moderator)
-    {
-        $this->moderators[] = $moderator;
-
-        return $this;
-    }
-
-    /**
-     * Remove moderator
-     *
-     * @param \OnSec\OnSecBundle\Entity\Course $moderator
-     */
-    public function removeModerator(\OnSec\OnSecBundle\Entity\Course $moderator)
-    {
-        $this->moderators->removeElement($moderator);
-    }
-
-    /**
-     * Get moderators
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getModerators()
-    {
-        return $this->moderators;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $instructions;
-
-
-    /**
-     * Add instruction
-     *
-     * @param \OnSec\OnSecBundle\Entity\Instruction $instruction
-     *
-     * @return User
-     */
-    public function addInstruction(\OnSec\OnSecBundle\Entity\Instruction $instruction)
-    {
-        $this->instructions[] = $instruction;
-
-        return $this;
-    }
-
-    /**
-     * Remove instruction
-     *
-     * @param \OnSec\OnSecBundle\Entity\Instruction $instruction
-     */
-    public function removeInstruction(\OnSec\OnSecBundle\Entity\Instruction $instruction)
-    {
-        $this->instructions->removeElement($instruction);
-    }
-
-    /**
-     * Get instructions
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getInstructions()
-    {
-        return $this->instructions;
+        return $this->roles;
     }
 }
