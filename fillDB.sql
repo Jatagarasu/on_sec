@@ -166,9 +166,9 @@ INSERT INTO `keyword` (`id`, `description`) VALUES
 (8, 'Feuer');
 
 INSERT INTO `role` (`id`, `name`) VALUES
-(1, 'student'),
-(2, 'professor'),
-(3, 'mitarbeiter');
+(1, 'ROLE_USER'),
+(2, 'ROLE_ADMIN'),
+(3, 'ROLE_SUPERADMIN');
 
 INSERT INTO `room` (`id`, `description`) VALUES
 (1, 'Lichtlabor'),

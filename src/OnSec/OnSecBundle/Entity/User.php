@@ -285,7 +285,7 @@ class User implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return array('ROLE_ADMIN');
+        return array('ROLE_USER');
         //return $this->roles;
         //TODO: useroles aus der Datenbank übergeben
     }
