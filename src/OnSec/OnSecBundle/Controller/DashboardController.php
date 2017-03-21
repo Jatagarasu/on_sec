@@ -7,20 +7,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DashboardController extends Controller
 {
+    private $UserId = 1;
+
     protected $ownerinstructions;
     protected $moderatorinstructions;
     protected $userinstructions;
 
     public function indexAction()
     {
-        $this->getOwnInstructions(1);
+        $this->getOwnInstructions($this->UserId);
 
         return $this->render('HSDOnSecBundle:Dashboard:index.html.twig', array(
-            'moderatorcourses' => $this->getCoursesByUserId(1),
+            'moderatorcourses' => $this->getCoursesByUserId($this->UserId),
             //ToDo bitte dynamische UserId eintragen
             'ownerinstructions' => $this->ownerinstructions,
             'moderatorinstructions' => $this->moderatorinstructions,
             'userinstructions' => $this->userinstructions,
+            'subscribercourses' => $this->getsubscribedCourses($this->UserId),
         ));
     }
 
@@ -76,5 +79,27 @@ class DashboardController extends Controller
             if(!$alreadyFound)
                 array_push($this->userinstructions, $instruction);
         }
+    }
+
+    private function getsubscribedCourses($userId)
+    {
+        $subscribedCourses = array();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $courses = $em->getRepository('HSDOnSecBundle:Course')->findAll();
+
+        foreach ($courses as $course)
+        {
+            $forSubscribers = $course->getSubscribers();
+            foreach($forSubscribers as $subscriber)
+            {
+                if($subscriber->getId() == $userId)
+                {
+                    array_push($subscribedCourses, $course);
+                }
+            }
+        }
+        return $subscribedCourses;
     }
 }
