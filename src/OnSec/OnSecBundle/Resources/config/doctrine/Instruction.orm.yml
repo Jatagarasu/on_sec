@@ -12,8 +12,8 @@ OnSec\OnSecBundle\Entity\Instruction:
         description:
             type: string
             nullable: false
-        expiredate:
-            type: datetime
+        expiretime:
+            type: integer
             nullable: false
         pdfLink:
             type: string
