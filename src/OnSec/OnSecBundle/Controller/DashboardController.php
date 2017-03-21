@@ -16,6 +16,9 @@ class DashboardController extends Controller
         $UserId = $this->get('security.token_storage')->getToken()->getUser()->getId();
         $this->getOwnInstructions($UserId);
 
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('HSDOnSecBundle:User')->find($UserId);
+
         return $this->render('HSDOnSecBundle:Dashboard:index.html.twig', array(
             'moderatorcourses' => $this->getCoursesByUserId($UserId),
             //ToDo bitte dynamische UserId eintragen
@@ -23,6 +26,7 @@ class DashboardController extends Controller
             'moderatorinstructions' => $this->moderatorinstructions,
             'userinstructions' => $this->userinstructions,
             'subscribercourses' => $this->getsubscribedCourses($UserId),
+            'user' => $user,
         ));
     }
 

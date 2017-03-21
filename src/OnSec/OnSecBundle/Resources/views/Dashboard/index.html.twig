@@ -31,13 +31,13 @@
                         <div id="admin_menu">
                             {% for course in moderatorcourses %}
                                 <div class="card">
-                                    <div class="card-header" data-target="#collapse1" data-toggle="collapse">
+                                    <div class="card-header" data-target="{{ '#collapseadmin%s'|format(course.getId()) }}" data-toggle="collapse">
                                         <h4 class="card-title">
-                                            {{ course.getDescription() }}<span onclick="document.location.href = '{{ path('course_edit', { 'id': course.getId() }) }}'; return false"><i class="fa fa-users" aria-hidden="true"></i></span><span onclick="document.location.href = 'http://www.google.de'; return false"><i class="fa fa-cog"
+                                            {{ course.getDescription() }}<span onclick="document.location.href = 'http://www.google.de'; return false"><i class="fa fa-users" aria-hidden="true"></i></span><span onclick="document.location.href = '{{ path('course_edit', { 'id': course.getId() }) }}'; return false"><i class="fa fa-cog"
                                                                                                           aria-hidden="true"></i></span>
                                         </h4>
                                     </div>
-                                    <div class="card-collapse collapse" id="collapse1">
+                                    <div class="card-collapse collapse" id="{{ 'collapseadmin%s'|format(course.getId()) }}">
                                         <ul class="list-group">
                                             {% for instruction in course.getInstructions() %}
                                                 <li class="list-group-item">{{ instruction.getDescription() }}</li>
@@ -51,15 +51,21 @@
                     <div id="user_menu">
                         {% for coursesub in subscribercourses %}
                             <div class="card">
-                                <div class="card-header" data-target="#collapse1" data-toggle="collapse">
+                                <div class="card-header" data-target="{{ '#collapseuser%s'|format(coursesub.getId()) }}" data-toggle="collapse">
                                     <h4 class="card-title">
                                         {{ coursesub.getDescription() }}
                                     </h4>
                                 </div>
-                                <div class="card-collapse collapse" id="collapse1">
+                                <div class="card-collapse collapse" id="{{ 'collapseuser%s'|format(coursesub.getId()) }}">
                                     <ul class="list-group">
                                         {% for instructionsub in coursesub.getInstructions() %}
-                                            <li class="list-group-item">{{ instructionsub.getDescription() }}<div class="left"></div></li>
+                                            {% for completedinstruction in  user.getCompletedInstructions() %}
+                                                {% if instructionsub.getId() ==  completedinstruction.getId() %}
+                                                    <li class="list-group-item">{{ instructionsub.getDescription() }}<div class="checkbuttonopen"><i style="color: white" class="fa fa-check" aria-hidden="true"></i></div><div style="float: right; margin-right: 30px;">21.05.2017</div></li>
+                                                {% else %}
+                                                    <li class="list-group-item">{{ instructionsub.getDescription() }}<div class="checkbuttonclose"><i style="color: white" class="fa fa-times" aria-hidden="true"></i></div><a href="{{ path('instruction_run', { 'id': instructionsub.getId() }) }}" class="btn btn-success" style="float: right; margin-right: 30px; margin-top: -7px">Start</a></li>
+                                                {% endif %}
+                                            {% endfor %}
                                         {% endfor %}
                                     </ul>
                                 </div>
@@ -75,7 +81,7 @@
                             <div class="card-header">
                                 <h4 class="card-title">
                                     {{ instruction.getDescription() }}<span onclick="document.location.href = '{{ path('instruction_edit', { 'id': instruction.getId() }) }}'; return false"><i class="fa fa-cog" aria-hidden="true"></i></span>
-                                    <div class="left red">Eigent&uuml;mer</div>
+                                    <div class="right red">Eigent&uuml;mer</div>
                                 </h4>
                             </div>
                         </div>
@@ -86,7 +92,7 @@
                                 <div class="card-header">
                                     <h4 class="card-title">
                                         {{ instruction.getDescription() }}<span onclick="document.location.href = '{{ path('instruction_edit', { 'id': instruction.getId() }) }}'; return false"><i class="fa fa-cog" aria-hidden="true"></i></span>
-                                        <div class="left green">Bearbeiter</div>
+                                        <div class="right green">Bearbeiter</div>
                                     </h4>
                                 </div>
                             </div>
@@ -97,7 +103,7 @@
                                 <div class="card-header">
                                     <h4 class="card-title">
                                         {#{ instruction.getDescription() }#}<span onclick="document.location.href = '{#{ path('instruction_edit', { 'id': instruction.getId() }) }#}'; return false"><i class="fa fa-cog" aria-hidden="true"></i></span>
-                                        <div class="left blue">Nutzer</div>
+                                        <div class="right blue">Nutzer</div>
                                     </h4>
                                 </div>
                             </div>
