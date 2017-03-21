@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
-    <div class="container" ng-app="runQuestion" ng-controller="myCtrl">
+    <div id="ngAppOnSecRunQuestions" class="container" ng-controller="runQuestionsController">
         <div id="instructionView">
             <h1 class="headerInstruction">Fragen zu {{ instruction.description }}</h1>
             </br>
@@ -68,49 +68,48 @@
 
         var randomNumbers = [];
         var i=0;
-        while(i<fragenAnzeigeAnzahl)
-        {
+        while(i<fragenAnzeigeAnzahl) {
             console.log(i);
             var randomNum = Math.floor(Math.random() * (anzahl)) ;
             if (randomNumbers.indexOf(randomNum) == -1) {
                 randomNumbers.push(randomNum);
-                i++;
             }
+            i++;
         }
 
         var questionArray = [];
+
         {% for question in instruction.questions %}
-        var question = {};
-        question.text = '{{ question.questionText }}';
-        question.id = '{{ question.id }}';
-        question.imagePath = '{{ asset(question.imagePath) }}'
-        question.result = "";
-        question.boxStyle = "";
-        if (question.imagePath === '{{ asset("") }}'){
-            question.imageAvalible = false;
-        }
-        else
-        {
-            question.imageAvalible = true;
-        }
-        question.answers = [];
-        {% for answer in question.answers %}
-        var answer = {};
-        answer.text = '{{ answer.answerText }}';
-        answer.id = '{{ answer.id }}';
-        answer.isCorrect = '{{ answer.isCorrect }}';
-        answer.checked = false;
-        answer.result = "";
-        question.answers.push(answer);
-        {% endfor %}
-        //console.log("Answers:");
-        //console.log(question.answers);
-        questionArray.push(question);
+            var question = {};
+            question.text = '{{ question.questionText }}';
+            question.id = '{{ question.id }}';
+            question.imagePath = '{{ asset(question.imagePath) }}'
+            question.result = "";
+            question.boxStyle = "";
+            if (question.imagePath === '{{ asset("") }}'){
+                question.imageAvalible = false;
+            }
+            else
+            {
+                question.imageAvalible = true;
+            }
+            question.answers = [];
+
+            {% for answer in question.answers %}
+                var answer = {};
+                answer.text = '{{ answer.answerText }}';
+                answer.id = '{{ answer.id }}';
+                answer.isCorrect = '{{ answer.isCorrect }}';
+                answer.checked = false;
+                answer.result = "";
+                question.answers.push(answer);
+            {% endfor %}
+
+            questionArray.push(question);
         {% endfor %}
 
-        angular.module('runQuestion', [])
-            .controller('myCtrl', function($scope) {
-                console.log("Angular controller wird ausgeführt.");
+        angular.module('onSecRunQuestions', [])
+            .controller('runQuestionsController', function($scope) {
                 $scope.shownQuestionArray = [];
                 for (i = 0; i < randomNumbers.length; i++) {
                     $scope.shownQuestionArray.push(questionArray[randomNumbers[i]]);
@@ -159,6 +158,8 @@
 
                 }
             });
+
+            angular.bootstrap(document.getElementById('ngAppOnSecRunQuestions'), ['onSecRunQuestions'])
     </script>
 
 {% endblock %}
