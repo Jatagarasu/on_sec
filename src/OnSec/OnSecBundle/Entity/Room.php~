@@ -108,4 +108,3 @@ class Room
         return $this->keywords;
     }
 }
-

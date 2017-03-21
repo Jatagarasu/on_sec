@@ -280,7 +280,7 @@ class User implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return array('ROLE_ADMIN');
         //return $this->roles;
         //TODO: userorles aus der Datenabank übergeben
     }
@@ -309,4 +309,3 @@ class User implements UserInterface, \Serializable
             ) = unserialize($serialized);
     }
 }
-

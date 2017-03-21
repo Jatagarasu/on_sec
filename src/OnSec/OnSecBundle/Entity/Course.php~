@@ -286,4 +286,3 @@ class Course
         return $this->instructions;
     }
 }
-
