@@ -28,37 +28,37 @@ INSERT INTO `user` (`id`, `surname`, `firstname`, `email`, `notification_active`
 (8, 'Holl', 'Markus', 'JimKnopf182@web.de', 1, '$2a$06$I6xU79d.j7X9TBQTss2HVuzeGMctvJADSjhz6QF3rrSKoez2lkoCe'),
 (9, 'Landry', 'David', 'bimse110@gmail.com', 0, '$2a$06$AWsGrEAr4dWHpstipghF4OOK35Bmxelo7waOwi.rbPXLS2Q/k1wAK');
 
-INSERT INTO `instruction` (`id`, `owner_id`, `description`, `expiretime`, `pdf_link`) VALUES
-(1, 1, 'Abfall ABC', 2017, 'bundles/hsdonsec/pdf/abfall.pdf'),
-(2, 2, 'Brandschutz', 123, 'bundles/hsdonsec/pdf/Brandschutzunterweisung.pdf'),
-(3, 2, 'Laser', 23, 'bundles/hsdonsec/pdf/Lasersicherheit.pdf'),
-(4, 2, 'Leiter', 300, 'bundles/hsdonsec/pdf/leiter.pdf'),
-(5, 1, 'Sicherheitsunterweisung Beschäftigte', 25, 'bundles/hsdonsec/pdf/Sicherheitsunterweisung_HSD-Beschaeftigte.pdf'),
-(6, 1, 'Sicherheitsunterweisung Studierende', 200, 'bundles/hsdonsec/pdf/Sicherheitsunterweisung_HSD-Studierende.pdf');
+INSERT INTO `instruction` (`id`, `description`, `pdf_link`, `owner_id`, `expiretime`) VALUES
+(1, 'Abfall ABC', 'pdf/abfall.pdf', 1, 2017),
+(2, 'Brandschutz', 'pdf/Brandschutzunterweisung.pdf', 2, 123),
+(3, 'Laser', 'pdf/Lasersicherheit.pdf', 2, 23),
+(4, 'Leiter', 'pdf/leiter.pdf', 2, 300),
+(5, 'Sicherheitsunterweisung BeschÃ¤ftigte', 'pdf/Sicherheitsunterweisung_HSD-Beschaeftigte.pdf', 1, 25),
+(6, 'Sicherheitsunterweisung Studierende', 'pdf/Sicherheitsunterweisung_HSD-Studierende.pdf', 1, 200);
 
 INSERT INTO `question` (`id`, `owner_id`, `question_text`, `image_path`, `created_on`, `updated_on`) VALUES
-(3, 1, 'Was für Abfallstoffe gibt es?', 'bundles/hsdonsec/images/muell.png', '2017-03-20 00:00:00', '2017-03-20 00:00:00'),
-(5, 2, 'Welche Abfallstoffe gibt es nicht?', 'bundles/hsdonsec/images/muell.png', '2017-03-19 00:00:00', '2017-03-21 00:00:00'),
-(6, NULL, 'Was macht man bei größeren Mengen Styropor?', 'bundles/hsdonsec/images/styropor.jpg', '2017-03-18 00:00:00', '2017-03-30 00:00:00'),
-(7, NULL, 'Welche Ansprechpartner gibt es an der HSD?', 'bundles/hsdonsec/images/HSD_Marke.png', NULL, NULL),
-(8, NULL, 'Was sind Sonderabfälle?', 'bundles/hsdonsec/images/abfall.png', NULL, NULL),
+(3, 1, 'Was fÃ¼r Abfallstoffe gibt es?', 'images/muell.png', '2017-03-20 00:00:00', '2017-03-20 00:00:00'),
+(5, 2, 'Welche Abfallstoffe gibt es nicht?', 'images/muell.png', '2017-03-19 00:00:00', '2017-03-21 00:00:00'),
+(6, NULL, 'Was macht man bei grÃ¶ÃŸeren Mengen Styropor?', 'images/styropor.jpg', '2017-03-18 00:00:00', '2017-03-30 00:00:00'),
+(7, NULL, 'Welche Ansprechpartner gibt es an der HSD?', 'images/HSD_Marke.png', NULL, NULL),
+(8, NULL, 'Was sind SonderabfÃ¤lle?', 'images/abfall.png', NULL, NULL),
 (9, NULL, 'Welche Schutzinteressen verfolgt der Bandschutz?\n ', NULL, '2017-03-15 00:00:00', NULL),
-(10, NULL, 'Wie muss man sich im Brandfall verhalten?', 'bundles/hsdonsec/images/brandfall.jpg', '2017-03-22 00:00:00', '2017-03-30 00:00:00'),
-(11, NULL, 'Welches Rettungszeichen ist hier zu sehen?', 'bundles/hsdonsec/images/fluchtwegschild.jpg', '2017-03-22 00:00:00', '2017-03-30 00:00:00'),
+(10, NULL, 'Wie muss man sich im Brandfall verhalten?', 'images/brandfall.jpg', '2017-03-22 00:00:00', '2017-03-30 00:00:00'),
+(11, NULL, 'Welches Rettungszeichen ist hier zu sehen?', 'images/fluchtwegschild.jpg', '2017-03-22 00:00:00', '2017-03-30 00:00:00'),
 (12, NULL, 'Welche Gefahren entstehen durch Brandgase?', NULL, '2017-03-31 00:00:00', NULL),
-(13, NULL, 'Welche Laserklassen gibt es?', 'bundles/hsdonsec/images/laser.png', NULL, NULL),
-(14, NULL, 'Aus welcher Laserklasse ist ein Laserstrahl für das Auge schädlich?', NULL, '2017-03-16 00:00:00', NULL),
+(13, NULL, 'Welche Laserklassen gibt es?', 'images/laser.png', NULL, NULL),
+(14, NULL, 'Aus welcher Laserklasse ist ein Laserstrahl fÃ¼r das Auge schÃ¤dlich?', NULL, '2017-03-16 00:00:00', NULL),
 (15, NULL, 'Was ist der EGW?', NULL, NULL, NULL),
-(16, NULL, 'Welches Zeichen steht für die Wellenlänge?', 'bundles/hsdonsec/images/wellenlänge.gif', '2017-03-16 00:00:00', NULL),
+(16, NULL, 'Welches Zeichen steht fÃ¼r die WellenlÃ¤nge?', 'images/wellenlÃ¤nge.gif', '2017-03-16 00:00:00', NULL),
 (17, NULL, 'Leitern mit welchem Sigel sollte man verwenden?', NULL, '2017-03-22 00:00:00', '2017-03-22 00:00:00'),
 (18, NULL, 'Welche Aussagen stimmen?', NULL, NULL, NULL),
-(19, NULL, 'Wie groß sollte der Anstellwinkel bei Anlegeleitern sein?', 'bundles/hsdonsec/images/leiter.jpg', NULL, NULL),
-(20, NULL, 'Was sollte man bei Tritten beachten?', 'bundles/hsdonsec/images/trittleiter.jpg', NULL, NULL),
-(21, NULL, 'Wann wird der Defibrillator ausschließlich eingesetzt?', 'bundles/hsdonsec/images/Defi_Lebensretter.jpg', NULL, NULL),
-(22, NULL, 'Wo trifft man sich im Brandfall?', 'bundles/hsdonsec/images/brandfall.jpg', NULL, NULL),
+(19, NULL, 'Wie groÃŸ sollte der Anstellwinkel bei Anlegeleitern sein?', 'images/leiter.jpg', NULL, NULL),
+(20, NULL, 'Was sollte man bei Tritten beachten?', 'images/trittleiter.jpg', NULL, NULL),
+(21, NULL, 'Wann wird der Defibrillator ausschlieÃŸlich eingesetzt?', 'images/Defi_Lebensretter.jpg', NULL, NULL),
+(22, NULL, 'Wo trifft man sich im Brandfall?', 'images/brandfall.jpg', NULL, NULL),
 (23, NULL, 'Was ist bei einem Amoklauf zu beachten?', NULL, NULL, NULL),
-(24, NULL, 'Wann wird erste Hilfe benötigt?', NULL, NULL, NULL),
-(25, NULL, 'Was ist im Brandfall zu beachten?', 'bundles/hsdonsec/images/brandfall.jpg', '2017-03-21 00:00:00', '2017-03-22 00:00:00');
+(24, NULL, 'Wann wird erste Hilfe benÃ¶tigt?', NULL, NULL, NULL),
+(25, NULL, 'Was ist im Brandfall zu beachten?', 'images/brandfall.jpg', '2017-03-21 00:00:00', '2017-03-22 00:00:00');
 
 INSERT INTO `answer` (`id`, `question_id`, `answer_text`, `is_correct`, `created_on`, `updated_on`) VALUES
 (1, 8, 'Spraydosen', 1, NULL, NULL),
