@@ -48,10 +48,29 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="card card-outline-info" style="width: 23.9rem;">
-                        <h4 class="card-header">Login</h4>
-                        {% block login %}
-                            {% include 'HSDOnSecBundle:Default:login.html.twig' %}
-                        {% endblock %}
+                        <h4 class="card-header">
+                            Zugang
+                        </h4>
+                        <ul class="nav nav-pills" role="tablist">
+                            <li class="nav-item">
+                                <a href="#login" role="tab" data-toggle="tab" class="nav-link active">Login</a>
+                            </li>
+                            <li class="nav-item" role="tablist">
+                                <a href="#register" role="tab" data-toggle="tab" class="nav-link">Registrieren</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="login" role="tabpanel">
+                                {% block login %}
+                                    {% include 'HSDOnSecBundle:Default:login.html.twig' %}
+                                {% endblock %}
+                            </div>
+                            <div class="tab-pane" id="register" role="tabpanel">
+                                {% block register %}
+                                    {% include 'HSDOnSecBundle:Default:register.html.twig' %}
+                                {% endblock %}
+                            </div>
+                        </div>
                         <div class="card-block">
                             <p class="card-text">Bitte nutzen Sie zum einloggen unseren bekannten Identitätsdienst der
                                 Hochschule Düsseldorf - Shibboleth</p>
