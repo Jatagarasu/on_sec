@@ -272,9 +272,9 @@ class Instruction
         return $this->keywords;
     }
 
-    /*
+
     public function __toString() {
         return $this->description;
     }
-    */
+
 }

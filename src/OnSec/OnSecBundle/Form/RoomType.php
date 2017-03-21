@@ -18,8 +18,9 @@ class RoomType extends AbstractType
                         TextType::class, array(
                             'label' => 'Raumnummer',
                             'attr' => array('class' => 'roomdescription',
+                                            'label' => 'RoomType: Raumnummer',
                                             'placeholder' => 'G.EE.RR')));
-        //$builder->add('description')->add('keywords'); //eigentlich!!
+        //$builder->add('description')->add('keywords'); //eigentlich!! // yyyy-MM-dd
     }
     
     /**

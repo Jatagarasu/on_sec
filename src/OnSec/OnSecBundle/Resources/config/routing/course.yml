@@ -23,6 +23,11 @@ instruction_autocomplete:
     defaults: {_controller: "HSDOnSecBundle:Course:autocomplete_instruction" }
     methods:  GET
 
+room_autocomplete:
+    path:     /new/autocomplete_r
+    defaults: {_controller: "HSDOnSecBundle:Course:autocomplete_room" }
+    methods:  GET
+
 course_edit:
     path:     /{id}/edit
     defaults: { _controller: "HSDOnSecBundle:Course:edit" }

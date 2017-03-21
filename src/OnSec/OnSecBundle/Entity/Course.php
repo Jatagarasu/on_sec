@@ -2,6 +2,8 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Course
  */
@@ -13,6 +15,7 @@ class Course
     private $id;
 
      /**
+     * @Assert\NotBlank()
      * @var string
      */
     private $description;
@@ -276,3 +279,8 @@ class Course
         return $this->instructions;
     }
 }
+
+/*
+ * How to Create a custom Validation Constraint
+ * @Assert\Type("\Room")
+ */

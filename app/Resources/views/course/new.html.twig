@@ -5,116 +5,94 @@
 {% endblock %}
 
 {% block content %}
+{% import 'macros/keywords_input.html.twig' as keywords_input %}
+
+
     <h1>Einen neuen Kurs erstellen</h1>
 
     {{ form_start(form) }}
 
-    {#{{ form_errors(form) }}#}
-        {{ form_row(form.description) }}
+    {{ form_errors(form) }}
 
-        {{ form_row(form.room) }}
-        <button type="button" class="btn" id="add-another-room">Raum hinzufügen</button>
+    <!------Name-------------->
+    {{ form_row(form.description) }}
 
-        <!------Rooms-------------->
-        <ul>
-            {% for room in rooms %}
-                <li> {{ room.getDescription|e}} </li>
-            {% else %}
-                <div>Keine Räume</div>
-            {% endfor %}
-        </ul>
-        <!------/Rooms-------------->
-        <!------Instructions-------------->
+    <!------Rooms-------------->
+    <div class="ui-widget search-room">
+        <label for="access-rooms-input">Raumnummer: </label>
+        <input id="access-room-input" class="form-control" type="text" placeholder="Raum in Form G.EE.RR" autocomplete="on">
+        <!--<button type="button" class="role-button btn" id="search-for-room">Suche</button>-->
+    </div>
+    <br>
 
-        <div class="ui-widget search-instruction">
-            <!--<label for="access-rights-input">User: </label>-->
-            <input id="access-instruction-input" type="text" placeholder="Unterweisung suchen" autocomplete="on">
-            <button type="button" class="role-button btn" id="search-for-instruction">Suche</button>
-        </div>
-        {{ form_row(form.instructions) }}
+    <!------Instructions-------------->
+    <div class="ui-widget search-instruction">
+        <label for="access-rights-input">Unterweisungen hinzufügen: </label>
+        <input id="access-instruction-input" class="form-control" type="text" placeholder="Name oder Schlagwort" autocomplete="on">
 
-        <!------/Instructions-------------->
-
-        <!------Rights-------------->
-            <h2>Rechte</h2>
-            <div class="row">
-            <div class="col-md-11 rights">
-            <!--<label for="access-rights-input">Bearbeiter hinzufügen</label>-->
-
-            <!--<form autocomplete="on" class="input-group add">
-                <input type="text" class="form-control" id="access-rights-input" placeholder="Name oder E-Mail">
-                <button type="button" class="role-button btn" id="add-another-moderator">Bearbeiter hinzufügen</button>
-
-            </form>-->
-            <div class="ui-widget add">
-                <!--<label for="access-rights-input">User: </label>-->
-                <input id="access-rights-input" type="text" placeholder="Name oder E-Mail" autocomplete="on">
-                <button type="button" class="role-button btn" id="add-another-moderator">Bearbeiter hinzufügen</button>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="scrollbox">
             </div>
-
-            <!--<div class="ui-widget" style="margin-top:2em; font-family:Arial">
-                Result:
-                <div id="log" style="height: 200px; width: 300px; overflow: auto;" class="ui-widget-content"></div>
-            </div>-->
-
-
-            <table class="table">
-                <thead class="thead-inverse">
-                <tr>
-                    <th>Name</th>
-                    <th>Rang</th>
-                </tr>
-                </thead>
-                <tbody id="tablebody">
-                <tr>
-                    <td>{{ form_row(form.owner) }}</td>
-                    <td>
-                        Eigentümer
-                    </td>
-                </tr>
-                <tr id="moderator-rows-list"
-                    data-prototype="{{form_widget(form.moderators.vars.prototype)|e}}"
-                    class="moderator-list">
-                {% for moderator in form.moderators %}
-                    <td>
-                        {{ form_errors(moderator) }}
-                        {{ form_widget(moderator) }}
-                    </td>
-                    <td>
-                        Bearbeiter
-                    </td>
-                {% endfor %}
-                </tr>
-                </tbody>
-            </table>
         </div>
-        </div>
-        <!------Rights-------------->
+    </div>
+
+    {#{ form_row(form.instructions) }#}
+
+    <!------Rights-------------->
+    <div class="ui-widget add">
+        <label for="access-rights-input">Rechte vergeben:</label>
+        <input id="access-rights-input" class="form-control" type="text" placeholder="Name oder E-Mail" autocomplete="on">
+    </div>
+
+    <!--<div class="ui-widget" style="margin-top:2em; font-family:Arial">
+        Result:
+        <div id="log" style="height: 200px; width: 300px; overflow: auto;" class="ui-widget-content"></div>
+    </div>-->
 
 
-        <!-------Davids Keywords---------------------->
-        </br>
-        <ul id="keyword-fields-list"
-            data-prototype="{{ form_widget(form.keywords.vars.prototype)|e }}"
-            class="keyword-list">
+    <table class="table">
+        <thead class="thead-inverse tablehead">
+        <tr>
+            <th>Name</th>
+            <th>Rang</th>
+        </tr>
+        </thead>
 
-            {% for keywordField in form.keywords %}
-                <li>
-                    {{ form_errors(keywordField) }}
-                    {{ form_widget(keywordField) }}
-                </li>
-            {% endfor %}
-        </ul>
+        <tbody id="tablebody" class="tablebody">
+        <tr>
+            <td>{{ form_row(form.owner) }}</td>
+            <td>
+                Eigentümer
+            </td>
+        </tr>
 
-        <a href="#" id="add-another-keyword">Schlagwort hinzufügen</a>
-        </br>
-        </br>
-        <!-------Davids Keywords---------------------->
+        <!--
+        <tr id="moderator-rows-list"
+            data-prototype="{##}{form_widget(form.moderators.vars.prototype)|e}}"
+            class="moderator-list">
+            <!--{##}% for moderator in form.moderators %}
+                <td>
+                    {##}{ form_errors(moderator) }}
+                    {##}{ form_widget(moderator) }}
+                </td>
+                <td>
+                    Bearbeiter
+                </td>
+            {##}% endfor %}-->
+        <!--</tr>-->
+        </tbody>
+    </table>
 
-    {#{{ form_row(form.keywords) }}#}
+    <!-------Keywords---------------------->
+    <label for="access-keywords-input">Schlagwörter: </label>
+    {{ keywords_input.keywords_input(form) }}
+    <br>
 
-        <input onClick="window.location.href='{{ path('course_index') }}'" type="submit" value="Abbrechen" class="btn" />
-        <input type="submit" value="Erstellen" class="btn" />
+    <!-------Navigation---------------------->
+    <input onClick="window.location.href='{{ path('course_index') }}'" type="submit" value="Abbrechen" class="btn" />
+    <input type="submit" value="Erstellen" class="btn" />
 
     {{ form_end(form) }}
 
@@ -131,30 +109,80 @@
                 $( "#log" ).scrollTop( 0 );
             }*/
 
+            <!------Rooms-------------->
+            $("#access-room-input").autocomplete({
+
+                source: '{{ path('room_autocomplete') }}',
+                minLength: 1,
+                select: function( event, ui ) {
+                    console.log( ui.item ?
+                        "Selected: " + ui.item.value + " aka " + ui.item.id :
+                        "Nothing selected, input was " + this.value );
+                }
+            });
+
+            <!------Instructions-------------->
+            $("#access-instruction-input").autocomplete({
+
+                source: '{{ path('instruction_autocomplete') }}',
+                minLength: 2,
+                select: function( event, ui ) {
+                    console.log( ui.item ?
+                        "Selected: " + ui.item.value + " aka " + ui.item.id :
+                        "Nothing selected, input was " + this.value );
+
+                    var scrollbox = document.getElementById('scrollbox');
+                    var newElement = document.createElement('div');
+                    newElement.className = 'instruction_element';
+                    newElement.setAttribute('id','new_id_for_new_element');
+                    newElement.innerHTML = ui.item.value;
+
+                    var newButton = document.createElement('button');
+                    newButton.className = 'instruction_button role-button btn';
+                    newButton.setAttribute('id','new_id_for_new_button');
+                    newButton.innerHTML = '-';
+
+                    newElement.appendChild(newButton);
+
+                    scrollbox.appendChild(newElement);
+                }
+            });
+
+            <!------Moderators-------------->
             console.log('{{ path('moderator_autocomplete') }}');
             $("#access-rights-input").autocomplete({
 
                 source: '{{ path('moderator_autocomplete') }}',
                 minLength: 2,
                 select: function( event, ui ) {
-                    log( ui.item ?
+                    console.log( ui.item ?
                         "Selected: " + ui.item.value + " aka " + ui.item.id :
                         "Nothing selected, input was " + this.value );
+
+                    var tablebody = document.getElementById('tablebody');
+                    var newElement = document.createElement('tr');
+                    newElement.className = 'moderator_row';
+                    newElement.setAttribute('id','new_id_for_new_row');
+
+                    var newModerator = document.createElement('td');
+                    newModerator.setAttribute('id','new_id_for_new_collumn');
+                    newModerator.innerHTML = ui.item.value;
+
+                    var newModeratorTitle = document.createElement('td');
+                    newModeratorTitle.innerHTML = 'Bearbeiter';
+
+
+                    newElement.appendChild(newModerator);
+                    newElement.appendChild(newModeratorTitle);
+                    tablebody.appendChild(newElement);
                 }
 
             });
 
-            $("#access-instruction-input").autocomplete({
 
-                source: '{{ path('instruction_autocomplete') }}',
-                minLength: 2,
-                select: function( event, ui ) {
-                    log( ui.item ?
-                        "Selected: " + ui.item.value + " aka " + ui.item.id :
-                        "Nothing selected, input was " + this.value );
-                }
 
-            });
+
+
 
 
             // keep track of how many rows with moderators have been rendered
@@ -174,7 +202,6 @@
                 //grab the prototype template
                 var newWidget = moderatorList.attr('data-prototype');
 
-                //??
                 // replace the "__name__" used in the id and name of the prototype
                 // with a number that's unique to your keywords
                 // end name attribute looks like name="contact[keywords][2]"
@@ -194,34 +221,24 @@
                 newRow.appendTo(moderatorList);
             });
 
-            // --------Davids Keywords---------------------------------
-            // keep track of how many keyword fields have been rendered
-            var keywordCount = '{{ form.keywords|length }}';
 
-
-            $('#add-another-keyword').click(function(e) {
-                console.log('{{ form.keywords|length }}');
-                e.preventDefault();
-
-                var keywordList = $('#keyword-fields-list');
-
-                // grab the prototype template
-                var newWidget = keywordList.attr('data-prototype');
-                // replace the "__name__" used in the id and name of the prototype
-                // with a number that's unique to your keywords
-                // end name attribute looks like name="contact[keywords][2]"
-                newWidget = newWidget.replace(/__name__/g, keywordCount);
-                keywordCount++;
-
-                // create a new list element and add it to the list
-                var newLi = $('<li></li>')
-                    .addClass('keyword-input')
-                    .html(newWidget);
-                newLi.appendTo(keywordList);
-            });
-            // --------Davids Keywords-----------------------------------
-        }); //()
+        });
 
     </script>
 
+    {#{ form_row(form.room) }}
+     <button type="button" class="btn" id="add-another-room">Raum hinzufügen</button>
+
+     <!------Rooms-------------->
+     <ul>
+         {% for room in rooms %}
+             <li> {{ room.getDescription|e}} </li>
+         {% else %}
+             <div>Keine Räume</div>
+         {% endfor %#}
+    <!--        </ul>
+            <!------/Rooms-------------->
+
 {% endblock %}
+
+

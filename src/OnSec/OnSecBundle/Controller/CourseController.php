@@ -39,8 +39,8 @@ class CourseController extends Controller
     public function newAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $rooms = $em->getRepository('HSDOnSecBundle:Room')->findAll();  //neu
-        $users = $em->getRepository('HSDOnSecBundle:Room')->findAll(); //neu
+        //$rooms = $em->getRepository('HSDOnSecBundle:Room')->findAll();  //neu
+        //$users = $em->getRepository('HSDOnSecBundle:Room')->findAll(); //neu
 
         $course = new Course();
         $form = $this->createForm('OnSec\OnSecBundle\Form\CourseType', $course);
@@ -56,8 +56,8 @@ class CourseController extends Controller
 
         return $this->render('course/new.html.twig', array(
             'course' => $course,
-            'rooms' => $rooms,   //neu dazu
-            'users' => $users,  // neu dazu
+            //'rooms' => $rooms,   //neu dazu
+            //'users' => $users,  // neu dazu
             'form' => $form->createView(),
         ));
     }
@@ -67,23 +67,22 @@ class CourseController extends Controller
      *
      */
 
-    public function autocomplete_userAction(Request $request){
+    public function autocomplete_roomAction(Request $request){
 
-        $names = array();
+        $rooms = array();
 
         $term = trim(strip_tags($request->get('term')));
 
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('HSDOnSecBundle:User')->search($term);
+        $entities = $em->getRepository('HSDOnSecBundle:Room')->search($term);
 
         foreach ($entities as $entity){
-            $names[] = $entity->getFirstname()." ".$entity->getSurname();//."({})";
-
+            $rooms[] = $entity->getDescription();//."({})";
         }
 
         $response = new JsonResponse();
-        $response->setData($names);
+        $response->setData($rooms);
 
         return $response;
     }
@@ -104,6 +103,27 @@ class CourseController extends Controller
 
         $response = new JsonResponse();
         $response->setData($instructions);
+
+        return $response;
+    }
+
+    public function autocomplete_userAction(Request $request){
+
+        $names = array();
+
+        $term = trim(strip_tags($request->get('term')));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('HSDOnSecBundle:User')->search($term);
+
+        foreach ($entities as $entity){
+            $names[] = $entity->getFirstname()." ".$entity->getSurname();//."({})";
+
+        }
+
+        $response = new JsonResponse();
+        $response->setData($names);
 
         return $response;
     }

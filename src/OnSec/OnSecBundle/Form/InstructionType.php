@@ -14,16 +14,6 @@ class InstructionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-/*
-        $builder->add('description')
-                ->add('expiredate')
-                ->add('pdfLink')
-                ->add('owner')
-                ->add('course')
-                ->add('questions');
-                
-        $builder->add('description')->add('expiredate')->add('pdfLink')->add('owner')->add('moderators')->add('questions')->add('keywords');
-*/
         $builder
           ->add('description')
           ->add('expiredate')

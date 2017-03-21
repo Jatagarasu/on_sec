@@ -49,6 +49,7 @@ OnSec\OnSecBundle\Entity\Course:
                         referencedColumnName: id
         keywords:
             targetEntity: Keyword
+            cascade: ["persist", "merge"]
             joinTable:
                 name: course_keywords
                 joinColumns:

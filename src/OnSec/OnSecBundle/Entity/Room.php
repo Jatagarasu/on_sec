@@ -30,6 +30,10 @@ class Room
         $this->keywords = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    public function __toString() {
+        return $this->description;
+    }
+
     /**
      * Get id
      *
