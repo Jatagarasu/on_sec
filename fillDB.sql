@@ -18,10 +18,10 @@ DELETE FROM room;
 DELETE FROM user;
 
 INSERT INTO `user` (`id`, `surname`, `firstname`, `email`, `notification_active`, `password`) VALUES
-(1, 'Witte', 'GÃ¼nther', 'witte@fh-duesseldorf.de', 1, '$2a$06$FeDwpvsMSYI268YtvsM1RuMq8okm/eg4uixhFd7YRSarmncfyA5ka'),
+(1, 'Witte', 'Günther', 'witte@fh-duesseldorf.de', 1, '$2a$06$FeDwpvsMSYI268YtvsM1RuMq8okm/eg4uixhFd7YRSarmncfyA5ka'),
 (2, 'Hiller', 'Helmut', 'helmut.hiller@fh-duesseldorf.de ', 0, '$2a$06$MbRirWMaJawkJ6Afy.lCs.qi2Y4lKLgtnFwxqw1g2AtN/WLriPHrq'),
 (3, 'Emmerich', 'Lars-Arne', 'larsarne.emmerich@hs-duesseldorf.de', 0, '$2a$06$8eiubMKQ.mqmXOXwJvsEautxeVQW.VPrqIBmpn.LFrjgcTatT4IoK'),
-(4, 'PleÃŸ', 'Alexander', 'alexander.pless@study.hs-duesseldorf.de', 1, '$2a$06$coy8ZpUFjt9y6kwn/DINx.c3wr8Tq/SvjErKIzIgjch02MtnlEM1q'),
+(4, 'Pleß', 'Alexander', 'alexander.pless@study.hs-duesseldorf.de', 1, '$2a$06$coy8ZpUFjt9y6kwn/DINx.c3wr8Tq/SvjErKIzIgjch02MtnlEM1q'),
 (5, 'Quessel', 'Tobias', 'tobias.qu@gmail.com', 0, '$2a$06$baqSMb68xB3OawNe7e/s7OWt2U7zXwBbW7BvdpzIzoBab3TNk1yH2'),
 (6, 'Schneider', 'Caroline', 'coco-schneider@gmx.de', 1, '$2a$06$.mr6AxyrIomveSiix/8lp.//emV.t7g40RBoDo3cfXdwiCgr4Y1NG'),
 (7, 'Vogelskamp', 'Daniel', 'daniel.vogelskamp@gmail.com', 1, '$2a$06$6.W74Mg8NYtzV5KHoQkN6uQ1UUpT9.Gqzwa7dp0xHixHsoFzuiEvO'),
@@ -33,31 +33,31 @@ INSERT INTO `instruction` (`id`, `description`, `pdf_link`, `owner_id`, `expiret
 (2, 'Brandschutz', 'pdf/Brandschutzunterweisung.pdf', 2, 123),
 (3, 'Laser', 'pdf/Lasersicherheit.pdf', 2, 23),
 (4, 'Leiter', 'pdf/leiter.pdf', 2, 300),
-(5, 'Sicherheitsunterweisung BeschÃ¤ftigte', 'pdf/Sicherheitsunterweisung_HSD-Beschaeftigte.pdf', 1, 25),
+(5, 'Sicherheitsunterweisung Beschäftigte', 'pdf/Sicherheitsunterweisung_HSD-Beschaeftigte.pdf', 1, 25),
 (6, 'Sicherheitsunterweisung Studierende', 'pdf/Sicherheitsunterweisung_HSD-Studierende.pdf', 1, 200);
 
 INSERT INTO `question` (`id`, `owner_id`, `question_text`, `image_path`, `created_on`, `updated_on`) VALUES
-(3, 1, 'Was fÃ¼r Abfallstoffe gibt es?', 'images/muell.png', '2017-03-20 00:00:00', '2017-03-20 00:00:00'),
+(3, 1, 'Was für Abfallstoffe gibt es?', 'images/muell.png', '2017-03-20 00:00:00', '2017-03-20 00:00:00'),
 (5, 2, 'Welche Abfallstoffe gibt es nicht?', 'images/muell.png', '2017-03-19 00:00:00', '2017-03-21 00:00:00'),
-(6, NULL, 'Was macht man bei grÃ¶ÃŸeren Mengen Styropor?', 'images/styropor.jpg', '2017-03-18 00:00:00', '2017-03-30 00:00:00'),
+(6, NULL, 'Was macht man bei größeren Mengen Styropor?', 'images/styropor.jpg', '2017-03-18 00:00:00', '2017-03-30 00:00:00'),
 (7, NULL, 'Welche Ansprechpartner gibt es an der HSD?', 'images/HSD_Marke.png', NULL, NULL),
-(8, NULL, 'Was sind SonderabfÃ¤lle?', 'images/abfall.png', NULL, NULL),
+(8, NULL, 'Was sind Sonderabfälle?', 'images/abfall.png', NULL, NULL),
 (9, NULL, 'Welche Schutzinteressen verfolgt der Bandschutz?\n ', NULL, '2017-03-15 00:00:00', NULL),
 (10, NULL, 'Wie muss man sich im Brandfall verhalten?', 'images/brandfall.jpg', '2017-03-22 00:00:00', '2017-03-30 00:00:00'),
 (11, NULL, 'Welches Rettungszeichen ist hier zu sehen?', 'images/fluchtwegschild.jpg', '2017-03-22 00:00:00', '2017-03-30 00:00:00'),
 (12, NULL, 'Welche Gefahren entstehen durch Brandgase?', NULL, '2017-03-31 00:00:00', NULL),
 (13, NULL, 'Welche Laserklassen gibt es?', 'images/laser.png', NULL, NULL),
-(14, NULL, 'Aus welcher Laserklasse ist ein Laserstrahl fÃ¼r das Auge schÃ¤dlich?', NULL, '2017-03-16 00:00:00', NULL),
+(14, NULL, 'Aus welcher Laserklasse ist ein Laserstrahl für das Auge schädlich?', NULL, '2017-03-16 00:00:00', NULL),
 (15, NULL, 'Was ist der EGW?', NULL, NULL, NULL),
-(16, NULL, 'Welches Zeichen steht fÃ¼r die WellenlÃ¤nge?', 'images/wellenlÃ¤nge.gif', '2017-03-16 00:00:00', NULL),
+(16, NULL, 'Welches Zeichen steht für die Wellenlänge?', 'images/wellenlaenge.gif', '2017-03-16 00:00:00', NULL),
 (17, NULL, 'Leitern mit welchem Sigel sollte man verwenden?', NULL, '2017-03-22 00:00:00', '2017-03-22 00:00:00'),
 (18, NULL, 'Welche Aussagen stimmen?', NULL, NULL, NULL),
-(19, NULL, 'Wie groÃŸ sollte der Anstellwinkel bei Anlegeleitern sein?', 'images/leiter.jpg', NULL, NULL),
+(19, NULL, 'Wie groß sollte der Anstellwinkel bei Anlegeleitern sein?', 'images/leiter.jpg', NULL, NULL),
 (20, NULL, 'Was sollte man bei Tritten beachten?', 'images/trittleiter.jpg', NULL, NULL),
-(21, NULL, 'Wann wird der Defibrillator ausschlieÃŸlich eingesetzt?', 'images/Defi_Lebensretter.jpg', NULL, NULL),
+(21, NULL, 'Wann wird der Defibrillator ausschließlich eingesetzt?', 'images/Defi_Lebensretter.jpg', NULL, NULL),
 (22, NULL, 'Wo trifft man sich im Brandfall?', 'images/brandfall.jpg', NULL, NULL),
 (23, NULL, 'Was ist bei einem Amoklauf zu beachten?', NULL, NULL, NULL),
-(24, NULL, 'Wann wird erste Hilfe benÃ¶tigt?', NULL, NULL, NULL),
+(24, NULL, 'Wann wird erste Hilfe benötigt?', NULL, NULL, NULL),
 (25, NULL, 'Was ist im Brandfall zu beachten?', 'images/brandfall.jpg', '2017-03-21 00:00:00', '2017-03-22 00:00:00');
 
 INSERT INTO `answer` (`id`, `question_id`, `answer_text`, `is_correct`, `created_on`, `updated_on`) VALUES

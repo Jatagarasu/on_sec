@@ -85,3 +85,11 @@
     font-weight: bold;
     font-size: 20px;
 }
+
+.buttonHidden {
+    visibility: hidden
+}
+
+.buttonVisible {
+    visibility: visible
+}

@@ -39,17 +39,20 @@
             </br>
             </div>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div ng-style="textStyle" >{{checkMessage}}</div>
                 </div>
-                {% endverbatim %}
-                <div class="col-lg-6" align="right">
-                    <div class="btn-group pull-right">
-                        <a href="{{ path('instruction_run', {'id': instruction.id }) }}" class="btn btn-primary btn-lg">zur Unterweisung</a>
-                         {% verbatim %}
-                               <a id= "checkButton" ng-click="checkAnswer()" class="btn btn-primary btn-lg disaled">{{buttonText}}</a>
+            </div>
+            {% endverbatim %}
+            </br>
+            <div class="row">
+                <div class="col-lg-12" align="right">
+                    <div class="pull-right">
+                        <a id="unterweisungButton" href="{{ path('instruction_run', {'id': instruction.id }) }}" class="btn btn-primary btn-lg">zurück zur Unterweisung</a>
+                        {% verbatim %}
+                               <a href id= "checkButton" ng-click="checkAnswer()" class="btn btn-primary btn-lg">{{buttonText}}</a>
                          {% endverbatim %}
-                        <a id="weiter" href="{{ path('index') }}" class="btn btn-primary btn-lg disabled">weiter</a>
+                        <a id="weiter" href="{{ path('index') }}" class="btn btn-primary btn-lg buttonHidden">weiter</a>
                     </div>
                 </div>
             </div>
@@ -65,6 +68,11 @@
         var anzahl = {{ instruction.questions|length }};
         var fragenAnzeigeAnzahl = 3;
         var status = "pruefung";
+
+        if(anzahl < fragenAnzeigeAnzahl )
+        {
+            fragenAnzeigeAnzahl = anzahl;
+        }
 
         var randomNumbers = [];
         var i=0;
@@ -143,7 +151,9 @@
                             $scope.textStyle = {'background-color': '#A9F5BC', 'text-align': 'center'};
                             console.log("alles Korrekt");
                             status = "weiter";
-                            $('#weiter').addClass('active').removeClass('disabled');
+                           // $('#weiter').addClass('active').removeClass('disabled');
+                            $('#weiter').addClass('buttonVisible').removeClass('buttonHidden');
+                            $('#unterweisungButton').addClass('buttonHidden');
 
                         }
                         else {
@@ -153,7 +163,7 @@
                             $scope.buttonSwitch = true;
                             status = "unterweisung";
                         }
-                        $('#checkButton').addClass('disbaled').removeClass('active');
+                        $('#checkButton').addClass('buttonHidden');
                     }
 
                 }
