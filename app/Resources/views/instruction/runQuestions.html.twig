@@ -16,16 +16,19 @@
                     <div class="col-lg-12">
                     {{question.result}}
                         <div class="input-group">
-                            <input type="text" class="form-control" readonly="readonly" value="{{question.text}}">
+                            <textarea type="text" class="form-control questionText" rows="1" wrap="soft" readonly="readonly">{{question.text}}</textarea>
                         </div>
                     </div>
+                    </br>
+                    </br>
+                    </br>
                     <div class="col-lg-6">
                         <div ng-repeat="answer in question.answers">
-                        <div class="input-group">
-                        <span class="input-group-addon">
-                            <input type="checkbox" aria-label="Checkbox for following text input" ng-model="answer.checked">
-                        </span>
-                                <input type="text" class="form-control" ng-style="{{answer.style}}" readonly="readonly" value="{{answer.text}} {{answer.isCorrect}}">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <input type="checkbox" aria-label="Checkbox for following text input" ng-model="answer.checked">
+                                </span>
+                                <textarea type="text" class="form-control" rows="2" wrap="soft" ng-style="{{answer.style}}" readonly="readonly">{{answer.isCorrect}} {{answer.text}}</textarea>
                             </div>
                         </div>
                     </div>
@@ -47,13 +50,11 @@
             </br>
             <div class="row">
                 <div class="col-lg-12" align="right">
-                    <div class="pull-right">
-                        <a id="unterweisungButton" href="{{ path('instruction_run', {'id': instruction.id }) }}" class="btn btn-primary btn-lg">zurück zur Unterweisung</a>
-                        {% verbatim %}
+                    <a id="unterweisungButton" href="{{ path('instruction_run', {'id': instruction.id }) }}" class="btn btn-primary btn-lg">zurück zur Unterweisung</a>
+                    {% verbatim %}
                                <a href id= "checkButton" ng-click="checkAnswer()" class="btn btn-primary btn-lg">{{buttonText}}</a>
                          {% endverbatim %}
-                        <a id="weiter" href="{{ path('index') }}" class="btn btn-primary btn-lg buttonHidden">weiter</a>
-                    </div>
+                    <a id="weiter" href="{{ path('index') }}" class="btn btn-primary btn-lg buttonHidden">weiter</a>
                 </div>
             </div>
             </br>
@@ -66,7 +67,7 @@
 
     <script>
         var anzahl = {{ instruction.questions|length }};
-        var fragenAnzeigeAnzahl = 3;
+        var fragenAnzeigeAnzahl = 15;
         var status = "pruefung";
 
         if(anzahl < fragenAnzeigeAnzahl )
@@ -88,32 +89,32 @@
         var questionArray = [];
 
         {% for question in instruction.questions %}
-            var question = {};
-            question.text = '{{ question.questionText }}';
-            question.id = '{{ question.id }}';
-            question.imagePath = '{{ asset(question.imagePath) }}'
-            question.result = "";
-            question.boxStyle = "";
-            if (question.imagePath === '{{ asset("") }}'){
-                question.imageAvalible = false;
-            }
-            else
-            {
-                question.imageAvalible = true;
-            }
-            question.answers = [];
+        var question = {};
+        question.text = '{{ question.questionText }}';
+        question.id = '{{ question.id }}';
+        question.imagePath = '{{ asset(question.imagePath) }}'
+        question.result = "";
+        question.boxStyle = "";
+        if (question.imagePath === '{{ asset("") }}'){
+            question.imageAvalible = false;
+        }
+        else
+        {
+            question.imageAvalible = true;
+        }
+        question.answers = [];
 
-            {% for answer in question.answers %}
-                var answer = {};
-                answer.text = '{{ answer.answerText }}';
-                answer.id = '{{ answer.id }}';
-                answer.isCorrect = '{{ answer.isCorrect }}';
-                answer.checked = false;
-                answer.result = "";
-                question.answers.push(answer);
-            {% endfor %}
+        {% for answer in question.answers %}
+        var answer = {};
+        answer.text = '{{ answer.answerText }}';
+        answer.id = '{{ answer.id }}';
+        answer.isCorrect = '{{ answer.isCorrect }}';
+        answer.checked = false;
+        answer.result = "";
+        question.answers.push(answer);
+        {% endfor %}
 
-            questionArray.push(question);
+        questionArray.push(question);
         {% endfor %}
 
         angular.module('onSecRunQuestions', [])
@@ -151,7 +152,7 @@
                             $scope.textStyle = {'background-color': '#A9F5BC', 'text-align': 'center'};
                             console.log("alles Korrekt");
                             status = "weiter";
-                           // $('#weiter').addClass('active').removeClass('disabled');
+                            // $('#weiter').addClass('active').removeClass('disabled');
                             $('#weiter').addClass('buttonVisible').removeClass('buttonHidden');
                             $('#unterweisungButton').addClass('buttonHidden');
 
@@ -169,7 +170,7 @@
                 }
             });
 
-            angular.bootstrap(document.getElementById('ngAppOnSecRunQuestions'), ['onSecRunQuestions'])
+        angular.bootstrap(document.getElementById('ngAppOnSecRunQuestions'), ['onSecRunQuestions'])
     </script>
 
 {% endblock %}
