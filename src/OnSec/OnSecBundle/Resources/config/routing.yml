@@ -41,3 +41,7 @@ index:
 login:
     path:     /login
     defaults: { _controller: HSDOnSecBundle:Default:index }
+
+createCSV:
+    path:     /createCSV/{course_id}
+    defaults: { _controller: HSDOnSecBundle:Dashboard:createCSV }

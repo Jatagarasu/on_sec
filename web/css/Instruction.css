@@ -23,10 +23,34 @@
 }
 
 .keyword {
-    display: inline-block;
-    background: #00afd8;
-    padding: 0 5px;
-    border-radius: 5px;
+  display: inline-block;
+  background: #00afd8;
+  color: #eee;
+  padding: 0 5px;
+  border-radius: 5px;
+}
+
+.keyword-tag-in-form {
+  display: inline-block;
+  margin: 5px;
+  padding: 5px;
+}
+
+.keyword-tag-in-form span {
+  color: #eee;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background: #00afdd;
+  padding: 5px;
+}
+
+.keyword-tag-in-form a {
+  background: #0066dd;
+  color: #eee;
+  text-decoration: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 5px 10px;
 }
 
 .keyword-list {

@@ -1,78 +1,96 @@
 {% macro keywords_input(parent_form) %}
-    {% verbatim %}
-    <div id="ngAppOnSecKeywords" ng-controller="keywordsInputController">
-        <div class="input-group">
-            <input
-                type="text"
-                id="keyword-input"
-                class="form-control"
-                placeholder="Neues Schlagwort"
-                aria-describedby="basic-addon2">
+{% set keyword_full_path = parent_form.keywords.vars.full_name ~ "[__keyword_id__]" %}
 
-            <a href class="input-group-addon" id="add-keyword">
-              +
-            </a>
-        </div>
+{% verbatim %}
+<div id="ngAppOnSecKeywords" ng-controller="keywordsInputController">
+  <div class="input-group">
+    <input
+    type="text"
+    ng-model="keywordInput"
+    ng-keypress="keywordInputEnterPress($event, keywordInput)"
+    class="form-control"
+    placeholder="Neues Schlagwort"
+    aria-describedby="basic-addon2">
 
-        <ul id="onsec_onsecbundle_instruction_keywords" class="keyword-list"
-          data-index="0"
-        >
-        </ul>
-    </div>
-    {% endverbatim %}
+    <a href ng-click="addKeyword(keywordInput)" class="input-group-addon">
+      +
+    </a>
+  </div>
 
-    <script>
-    angular.module('onSecKeywords', []).controller('keywordsInputController', function($scope) {
-        $scope.angularWorks = "YOP";
-    });
+  <ul class="keyword-list"
+    data-index="0"
+  >
+    <li ng-repeat="keyword in keywords track by keyword.index" class="keyword-tag-in-form">
+      <span>
+        {{ keyword.description }}
+      </span>
+      <a href ng-click="removeKeyword(keyword)">x</a>
+      <input type="hidden" id="{{ keyword.descriptionFullPath }}" name="{{ keyword.descriptionFullPath }}" value="{{ keyword.description }}">
+    </li>
+  </ul>
+</div>
+{% endverbatim %}
 
-    jQuery(document).ready( function() {
-        $('#add-keyword').on('click', function(e) {
-            e.preventDefault();
-            addElement();
-        });
-    });
+{% do parent_form.keywords.setRendered %}
 
-    $('#keyword-input').keypress(function (e) {
-        if (e.which == 13) {
-            e.preventDefault();
-            addElement();
+<script>
+  angular.module('onSecKeywords', [])
+  .controller('keywordsInputController', function($scope) {
+    var KEYWORDS_FULL_PATH  = "{{ keyword_full_path }}";
+    var KEYWORD_ID_NAME     = "__keyword_id__";
+
+    $scope.keywords = [];
+
+    $scope.keywordInputEnterPress = function(event, keyword) {
+      if (event.which === 13) {
+        event.preventDefault();
+          if ($scope.addKeyword(keyword)) {
+            $scope.keywordInput = '';
+         }
+      }
+    };
+
+    $scope.addKeyword = function(keyword) {
+      if (keyword == '') return false;
+      if (keywordsContains(keyword)) return false;
+
+      var index = $scope.keywords.length;
+      var newKeyword = {
+        index:               index,
+        description:         keyword,
+        descriptionFullPath: keywordAttributePathWithIndex(index, 'description'),
+      };
+
+      $scope.keywords.push(newKeyword);
+      return true;
+    };
+
+    $scope.removeKeyword = function(keyword) {
+      var keywords = $scope.keywords;
+      keywords.splice(keyword.index, 1);
+
+      for(var i = keyword.index; i < keywords.length; i++) {
+        keywords[i].index = keywords[i].index - 1;
+      }
+    };
+
+    var keywordsContains = function(keyword) {
+      for (var i = 0; i < $scope.keywords.length; i++) {
+        if ($scope.keywords[i].description == keyword) {
+          return true;
         }
-    });
-
-    function addElement() {
-        var $keywordList    = $('ul.keyword-list')
-        var inputText = $('#keyword-input').val();
-
-        var id = "{{ parent_form.keywords.vars.id }}___name__";
-        var full_name = "{{ parent_form.keywords.vars.full_name }}"
-        var index           = $keywordList.data('index');
-        id = id.replace(/__name__/g, index);
-
-        var $newElement         = $('<div class="keyword"></div');
-        var $newElementLi       = $('<li></li>');
-        var $newHiddenElement   = $('<input type="hidden"/>')
-
-        $newElement.attr('id', id)
-        $newElementLi.html(inputText);
-        $newHiddenElement.attr('id', id + "_description")
-        $newHiddenElement.attr('name', full_name + "[" + index + "][description]")
-        $newHiddenElement.val(inputText);
-
-        $newElement.append($newElementLi);
-        $newElement.append($newHiddenElement);
-
-        $keywordList.append($newElement);
-
-        $keywordList.data('index', index + 1);
-        $('#keyword-input').val('').focus();
+      }
+      return false;
     }
 
-    function removeElement() {
-
+    var keywordAttributePathWithIndex = function(index, attributeName) {
+      var regExToReplace = new RegExp(KEYWORD_ID_NAME, 'g');
+      var fullPath = KEYWORDS_FULL_PATH.replace(regExToReplace, index);
+      return fullPath + '[' + attributeName + ']';
     }
+  });
 
-    angular.bootstrap(document.getElementById('ngAppOnSecKeywords'), ['onSecKeywords']);
-  </script>
+  angular.bootstrap(document.getElementById('ngAppOnSecKeywords'), ['onSecKeywords']);
+</script>
 
 {% endmacro %}
