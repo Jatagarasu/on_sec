@@ -152,7 +152,8 @@
                             // $('#weiter').addClass('active').removeClass('disabled');
                             $('#weiter').addClass('buttonVisible').removeClass('buttonHidden');
                             $('#unterweisungButton').addClass('buttonHidden');
-
+                            //Hinzufügen der abgeschlossenen Unterweisung in der DB
+                            {#{user.addCompletedInstruction(instruction.id)}#}
                         }
                         else {
                             $scope.checkMessage = "Leider hast du nicht alle Fragen korrekt beantwortet. Siehe dir noch einmal die Unterweisung an.";
