@@ -2,10 +2,12 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  * User
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -15,17 +17,22 @@ class User
     /**
      * @var string
      */
-    private $surname;
-
-    /**
-     * @var string
-     */
     private $firstname;
 
     /**
      * @var string
      */
+    private $surname;
+
+    /**
+     * @var string
+     */
     private $email;
+
+    /**
+     * @var string
+     */
+    private $password;
 
     /**
      * @var boolean
@@ -41,6 +48,11 @@ class User
      * @var \Doctrine\Common\Collections\Collection
      */
     private $roles;
+
+    /**
+     * @var string
+     */
+    private $plainPassword;
 
     /**
      * Constructor
@@ -61,14 +73,21 @@ class User
         return $this->getFirstname();
     }
 
-/*    public function search($term){
+    public function getUsername()
+    {
+        return $this->email;
+    }
 
-        return $this->createQueryBuilder('user')
-            ->andWhere('user.surname LIKE :searchTerm')
-            ->setParameter(':searchTerm', '%'.$term.'%')
-            ->getQuery()
-            ->getResult();
-    }*/
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+    }
 
     /**
      * Get id
@@ -78,30 +97,6 @@ class User
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set surname
-     *
-     * @param string $surname
-     *
-     * @return User
-     */
-    public function setSurname($surname)
-    {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
-    /**
-     * Get surname
-     *
-     * @return string
-     */
-    public function getSurname()
-    {
-        return $this->surname;
     }
 
     /**
@@ -129,6 +124,30 @@ class User
     }
 
     /**
+     * Set surname
+     *
+     * @param string $surname
+     *
+     * @return User
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    /**
+     * Get surname
+     *
+     * @return string
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
      * Set email
      *
      * @param string $email
@@ -150,6 +169,30 @@ class User
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
     }
 
     /**
@@ -241,10 +284,50 @@ class User
      */
     public function getRoles()
     {
-        return $this->roles;
+        $roles = array('ROLE_USER');
+        foreach($this->roles as $role){
+            $roles[] = $role->getName();
+        }
+        return $roles;
     }
 
-    /*public function __toString() {
-        return $this->getEmail();
-    }*/
+    /**
+     * @return string
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+            ) = unserialize($serialized);
+    }
 }

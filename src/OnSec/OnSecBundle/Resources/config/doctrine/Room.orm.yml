@@ -26,3 +26,14 @@ OnSec\OnSecBundle\Entity\Room:
                 inverseJoinColumn:
                     keyword_id:
                         referencedColumnName: id
+
+        instructions:
+            targetEntity: Instruction
+            joinTable:
+                name: room_instructions
+                joinColumns:
+                    room_id:
+                        referencedColumnName: id
+                inversedJoinColumn:
+                    instruction_id:
+                        referencedColumnName: id

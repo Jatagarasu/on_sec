@@ -22,20 +22,12 @@ OnSec\OnSecBundle\Entity\Question:
             type: datetime
             nullable: true
 
-    oneToOne:
+    manyToOne:
         owner:
             targetEntity: User
             joinColumn:
-                name: user_id
+                name: owner_id
                 referencedColumnName: id
-
-    #manyToOne:
-        #instruction:
-            #targetEntity: Instruction
-                #inversedBy: questions
-                #joinColumn:
-                    #name: instruction_id
-                    #referencedColumnName: id
 
     oneToMany:
         answers:

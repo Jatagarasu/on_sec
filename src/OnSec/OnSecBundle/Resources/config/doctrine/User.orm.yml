@@ -10,13 +10,16 @@ OnSec\OnSecBundle\Entity\User:
             generator:
                 strategy: AUTO
     fields:
-        surname:
-            type: string
-            nullable: false
         firstname:
             type: string
             nullable: false
+        surname:
+            type: string
+            nullable: false
         email:
+            type: string
+            nullable: false
+        password:
             type: string
             nullable: false
         notificationActive:

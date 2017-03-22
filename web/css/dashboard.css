@@ -1,3 +1,7 @@
+/* ============================================================
+  COMMON
+============================================================ */
+
 .innercontainer {
     background-color: #e9e7e8;
     padding: 10px;
@@ -6,14 +10,14 @@
 
 #topnav {
     float:right;
-    background-color: #ff294d;
-    border-radius: 5px;
 }
 
 #topnav a {
+    background-color: #ff294d;
+    border-radius: 5px;
     color: white;
     text-decoration: none;
-    padding: 3px 10px 3px 10px;
+    padding: 1px 10px 1px 10px;
 }
 
 .card-header {
@@ -78,7 +82,7 @@ a:hover {
     color: #b4b2b3;
 }
 
-.left {
+.right {
     padding-left: 5px;
     float: right;
 }
@@ -105,6 +109,26 @@ hr {
     margin-bottom: 8px !important;
 }
 
+.checkbuttonclose {
+    float: right;
+    background-color: #df0328;
+    margin-top: -5px;
+    padding: 2px 3px 2px 3px;
+    -webkit-box-shadow: inset 0px 0px 25px -2px rgba(0,0,0,0.39);
+    -moz-box-shadow: inset 0px 0px 25px -2px rgba(0,0,0,0.39);
+    box-shadow: inset 0px 0px 25px -2px rgba(0,0,0,0.39);
+}
+
+.checkbuttonopen {
+    float: right;
+    background-color: #60af30;
+    margin-top: -5px;
+    padding: 2px 0px 2px 0px;
+    -webkit-box-shadow: inset 0px 0px 25px -2px rgba(0,0,0,0.39);
+    -moz-box-shadow: inset 0px 0px 25px -2px rgba(0,0,0,0.39);
+    box-shadow: inset 0px 0px 25px -2px rgba(0,0,0,0.39);
+}
+
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color:    #FFFFFF;
 }
@@ -118,4 +142,87 @@ hr {
 }
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
     color:    #FFFFFF;
+}
+
+/* ============================================================
+  SWITCH - ROUND
+============================================================ */
+
+.input_checkbox {
+    top: -3px;
+    left: 5px;
+    position: absolute;
+}
+
+.switch {
+    margin-left: 20px;
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 15px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-bottom: -5px;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: -9px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ff294d;
+    -webkit-transition: .4s;
+    transition: .4s;
+    text-align:right;
+    color:white;
+    -webkit-border-radius: 40px;
+    -moz-border-radius: 40px;
+    -ms-border-radius: 40px;
+    -o-border-radius: 40px;
+    border-radius: 40px;
+    padding:  0 10px 0 10px;
+}
+
+.slider:before {
+    position: absolute;
+    width: 27px;
+    height: 27px;
+    left:0px;
+    bottom: -1px;
+    top: -1px;
+    background-color: #fff;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    -o-border-radius: 100%;
+    border-radius: 100%;
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    -webkit-transition: .4s;
+    -moz-transition: .4s;
+    -o-transition: .4s;
+    transition: .4s;
+    content: "";
+}
+
+input:checked + .slider {
+    background-color: #ff294d;
+    text-align:left;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #ff294d;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(60px);
+    -ms-transform: translateX(60px);
+    transform: translateX(60px);
 }

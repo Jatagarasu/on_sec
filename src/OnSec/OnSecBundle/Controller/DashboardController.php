@@ -2,8 +2,8 @@
 
 namespace OnSec\OnSecBundle\Controller;
 
-use OnSec\OnSecBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DashboardController extends Controller
 {
@@ -13,14 +13,28 @@ class DashboardController extends Controller
 
     public function indexAction()
     {
-        $this->getOwnInstructions(1);
+        $UserId = $this->get('security.token_storage')->getToken()->getUser()->getId();
+        $this->getOwnInstructions($UserId);
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('HSDOnSecBundle:User')->find($UserId);
 
         return $this->render('HSDOnSecBundle:Dashboard:index.html.twig', array(
-            'moderatorcourses' => $this->getCoursesByUserId(1),
+            'moderatorcourses' => $this->getCoursesByUserId($UserId),
             //ToDo bitte dynamische UserId eintragen
             'ownerinstructions' => $this->ownerinstructions,
             'moderatorinstructions' => $this->moderatorinstructions,
             'userinstructions' => $this->userinstructions,
+            'subscribercourses' => $this->getsubscribedCourses($UserId),
+            'user' => $user,
+        ));
+    }
+
+
+    public function modalAction($course)
+    {
+        return $this->render('HSDOnSecBundle:Dashboard:modal.html.twig', array(
+            'course' => $course,
         ));
     }
 
@@ -76,5 +90,68 @@ class DashboardController extends Controller
             if(!$alreadyFound)
                 array_push($this->userinstructions, $instruction);
         }
+    }
+
+    private function getsubscribedCourses($userId)
+    {
+        $subscribedCourses = array();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $courses = $em->getRepository('HSDOnSecBundle:Course')->findAll();
+
+        foreach ($courses as $course)
+        {
+            $forSubscribers = $course->getSubscribers();
+            foreach($forSubscribers as $subscriber)
+            {
+                if($subscriber->getId() == $userId)
+                {
+                    array_push($subscribedCourses, $course);
+                }
+            }
+        }
+        return $subscribedCourses;
+    }
+
+    public function createCSVAction($course_id)
+    {
+        $response = new StreamedResponse();
+        $response->setCallback(function() use ($course_id) {
+            $handle = fopen('php://output', 'w+');
+
+            // Add the header of the CSV file
+            fputcsv($handle, array('Name', 'Vorname', 'E-Mail', 'Anzahl fehlender Unterweisungen'),';');
+
+            $em = $this->getDoctrine()->getManager();
+            $course = $em->getRepository('HSDOnSecBundle:Course')->find($course_id);
+
+
+            foreach ($course->getSubscribers() as $subscriber) {
+                $surname = $subscriber->getSurname();
+                $firstname = $subscriber->getFirstname();
+                $email = $subscriber->getEmail();
+                $progress=0;
+
+                foreach ($subscriber->getCompletedInstructions() as $completed_instruction) {
+                    foreach ($course->getInstructions() as $course_instruction) {
+                        if ($course_instruction == $completed_instruction) {
+                            $progress+=1;
+                        }
+                    }
+                }
+                $missing = count($course->getInstructions()) - $progress;
+
+                fputcsv($handle, array($surname,$firstname,$email,$missing),';');
+
+            }
+            fclose($handle);
+        });
+
+        $response->setStatusCode(200);
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename="export.csv"');
+
+        return $response;
     }
 }

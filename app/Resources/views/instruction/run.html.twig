@@ -2,62 +2,56 @@
 {% block title %}Instruction{% endblock %}
 {% block ownStylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/hsdonsec/css/Instruction.css') }}">
+
+    <!-- Das neueste kompilierte und minimierte CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- Optionales Theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <!-- Das neueste kompilierte und minimierte JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 {% endblock %}
 {% block content %}
-
-    <div class="container">
-
         <div id="instructionView">
-            <h1 class="headerInstruction">Unterweisung {{ instruction.description }} durchführen</h1>
-            <div class="progress">
-                <div id="progBar1" style="width:0%" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" >
-                    <div id="progBarInstruction">
-                        <span id="page_num"></span> / <span id="page_count"></span>
-                    </div>
-
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="headerInstruction">Unterweisung {{ instruction.description }} durchführen</h1>
                 </div>
-            </div>
-            </br>
-
-            <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
-
-            <div align="center">
-                <canvas id="the-canvas"></canvas>
-            </div>
-
-            <div class="row justify-content-end">
-                <div class="col-lg-4">
-                    <div class="btn-group pull-right">
-                        <button id="prev" type="button" class="btn btn-primary btn-lg disabled" >zurück</button>
-                        <button id="next" type="button" class="btn btn-primary btn-lg">vor</button>
-                        <a id="quiz" type="button" href="{{ path('instruction_runQuestions', {'id': instruction.id }) }}" class="btn btn-primary btn-lg disabled">zum Quiz</a>
+                <div class="col-lg-12">
+                    <div id="progBar1" style="width:0%" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" >
+                        <div id="progBarInstruction">
+                            <span id="page_num"></span> / <span id="page_count"></span>
+                        </div>
                     </div>
                 </div>
+                <div class="col-lg-12" align="center">
+                    <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
+                    <canvas id="the-canvas"></canvas>
+                </div>
+                <div class="col-lg-12 text-white" align="right">
+                    <a id="prev" type="button" class="btn btn-primary btn-lg disabled" >zurück</a>
+                    <a id="next" type="button" class="btn btn-primary btn-lg whiteFont" >vor</a>
+                    <a id="quiz" href="{{ path('instruction_runQuestions', {'id': instruction.id }) }}" class="btn btn-primary btn-lg buttonHidden">zum Quiz</a>
+                </div>
             </div>
-
-
-            {# instruction.pdfLink #}
-
         </div>
     </div>
 
     <script>
         // If absolute URL from the remote server is provided, configure the CORS
         // header on that server.
-
-        var url = "{{ asset('bundles/hsdonsec/pdf/leiter.pdf') }}"; //'//cdn.mozilla.net/pdfjs/tracemonkey.pdf';{# instruction.getPdfPath() #}
+        var url = "{{ asset(instruction.getPdfLink()) }}";
         console.log(url);
         // The workerSrc property shall be specified.
         PDFJS.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
-
         var pdfDoc = null,
             pageNum = 1,
             pageRendering = false,
             pageNumPending = null,
-            scale = 0.8,
+            scale = 1.4,
             canvas = document.getElementById('the-canvas'),
             ctx = canvas.getContext('2d');
-
         /**
          * Get page info from document, resize canvas accordingly, and render page.
          * @param num Page number.
@@ -69,14 +63,12 @@
                 var viewport = page.getViewport(scale);
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
-
                 // Render PDF page into canvas context
                 var renderContext = {
                     canvasContext: ctx,
                     viewport: viewport
                 };
                 var renderTask = page.render(renderContext);
-
                 // Wait for rendering to finish
                 renderTask.promise.then(function() {
                     pageRendering = false;
@@ -87,12 +79,9 @@
                     }
                 });
             });
-
             // Update page counters
             document.getElementById('page_num').textContent = pageNum;
-
             $('#progBar1').css('width',pageNum/pdfDoc.numPages*100 + '%');
-
             if(pageNum > 1)
             {
                 $('#prev').addClass('active').removeClass('disabled');
@@ -101,19 +90,16 @@
             {
                 $('#prev').addClass('disabled').removeClass('active');
             }
-
             if(pageNum === pdfDoc.numPages)
             {
                 $('#next').addClass('disabled').removeClass('active');
-                $('#quiz').addClass('active').removeClass('disabled');
+                $('#quiz').addClass('buttonVisible').removeClass('buttonHidden');
             }
             else
             {
                 $('#next').addClass('active').removeClass('disabled');
             }
         }
-
-
         /**
          * If another page rendering in progress, waits until the rendering is
          * finised. Otherwise, executes rendering immediately.
@@ -125,7 +111,6 @@
                 renderPage(num);
             }
         }
-
         /**
          * Displays previous page.
          */
@@ -148,18 +133,14 @@
             queueRenderPage(pageNum);
         }
         document.getElementById('next').addEventListener('click', onNextPage);
-
         /**
          * Asynchronously downloads PDF.
          */
         PDFJS.getDocument(url).then(function(pdfDoc_) {
             pdfDoc = pdfDoc_;
             document.getElementById('page_count').textContent = pdfDoc.numPages;
-
             // Initial/first page rendering
             renderPage(pageNum);
         });
     </script>
-
-
 {% endblock %}

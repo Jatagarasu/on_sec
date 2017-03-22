@@ -51,6 +51,16 @@ class Course
     private $instructions;
 
     /**
+     * Gets Coursedescription
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getDescription();
+    }
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -284,3 +294,4 @@ class Course
  * How to Create a custom Validation Constraint
  * @Assert\Type("\Room")
  */
+

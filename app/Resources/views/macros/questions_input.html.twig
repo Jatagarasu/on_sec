@@ -2,119 +2,178 @@
   {% set question_name = parent_form.questions.vars.full_name ~ "[__question_id__]" %}
   {% set answer_name = question_name ~ "[answers][__answer_id__]" %}
 
-  <h1>Fragen:</h1>
-  <ul class="questions">
-  </ul>
-  <a href="#" class="btn btn-primary mb-2" id="add-question">Frage hinzufügen</a>
-  <br/>
+  {# Angular starts here #}
+  {% verbatim %}
+  <div id="ngAppOnSecQuestions" ng-controller="questionsInputController" >
+    <h1>Fragen:</h1>
+      <div class="questions">
+        <div ng-repeat="question in questions track by question.index" class="question">
+          <a class="question-remove-button" ng-if="questions.length > 1" href ng-click="removeQuestion(question)">
+            <span class="fa fa-times"></span>
+          </a>
+
+          <div class="question-imagePath-container">
+              <label
+                class="sr-only"
+                for="{{ question.imagePathFullPath }}"> Bild (optional)
+              </label>
+
+              <input
+                type="text"
+                class="question-imagePath-input form-control mb-2 mr-sm-2 mb-sm-0"
+                placeholder="Bild (optional)"
+                ng-model="question.imagePath"
+                id="{{ question.imagePathFullPath }}"
+                name="{{ question.imagePathFullPath }}">
+
+              <a href="#" class="btn btn-primary question-imagePath-button">Bild auswählen...</a>
+          </div>
+
+          <div class="form-group">
+              <label
+                class="sr-only"
+                for="{{ question.questionTextFullPath }}">
+                Frage
+              </label>
+
+              <input
+                type="text"
+                class="form-control mb-2 mr-sm-2 mb-sm-0"
+                placeholder="Wie lautet..."
+                ng-model="question.questionText"
+                id="{{ question.questionTextFullPath }}"
+                name="{{ question.questionTextFullPath }}">
+            </div>
+
+            <div ng-repeat="answer in question.answers track by answer.index" class="answer">
+
+                <label
+                  class="sr-only"
+                  for="{{answer.answerTextFullPath}}"> Antwort
+                </label>
+
+                <input
+                  type="text"
+                  class="answer-answerText-input form-control mb-1 mr-sm-2 mb-sm-0"
+                  ng-model="answer.answerText"
+                  ng-keypress="answerTextEnter($event, question, answer)"
+                  placeholder="Antwort {{ answer.index + 1 }}"
+                  id="{{ answer.answerTextFullPath }}"
+                  name="{{ answer.answerTextFullPath }}">
+
+              <div class="form-check mb-2 mr-sm-2 mb-sm-0 answer-isCorrect-input">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox" name="{{ answer.isCorrectFullPath }}"> Korrekt
+                </label>
+              </div>
+
+              <div class="answer-remove-container">
+                <a ng-if="question.answers.length > 2" ng-click="removeAnswer(question, answer)" class="btn btn-danger">
+                  <span class="fa fa-times action-icon"></span>
+                </a>
+              </div>
+            </div>
+            <a class="answer-add-button btn btn-success" ng-click="addAnswerTo(question)">+</a>
+        </div>
+
+      <a ng-click="addQuestion()" class="btn btn-primary mb-2" id="add-question">Weitere Frage</a>
+
+      {% endverbatim %}
+      {# Angular ends here #}
+
+    </div>
+  </div>
+
+{% do parent_form.questions.setRendered %}
 
   <script>
-  jQuery(document).ready(function() {
-    var $questionList = $('ul.questions');
+  angular.module('onSecQuestions', []).controller('questionsInputController', function($scope) {
+    var QUESTION_FULL_PATH  = "{{ question_name }}";
+    var ANSWER_FULL_PATH    = "{{ answer_name }}";
+    var QUESTION_ID         = "__question_id__";
+    var ANSWER_ID           = "__answer_id__";
 
-    $questionList.data('index', $questionList.find('input.question-input').length);
+    $scope.questions = [];
+
+    $scope.addQuestion = function() {
+      var index = $scope.questions.length;
+      var newQuestion = {
+        index:                index,
+        questionText:         '',
+        imagePath:            '',
+        questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
+        imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
+        answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
+        answers:              [],
+      };
+
+      $scope.addAnswerTo(newQuestion);
+      $scope.addAnswerTo(newQuestion);
+
+      $scope.questions.push(newQuestion);
+    };
+
+    $scope.removeQuestion = function(question) {
+      var questions = $scope.questions;
+      questions.splice(question.index, 1);
+      for (var i = question.index; i < questions.length; i++) {
+        questions[i].index = questions[i].index - 1;
+      }
+    };
+
+    $scope.addAnswerTo = function(question) {
+      var questionIndex = question.index;
+      var answerIndex = question.answers.length;
+
+      var newAnswer = {
+        index:              answerIndex,
+        answerText:         '',
+        isCorrect:          false,
+        answerTextFullPath: answerAttributePathWithIndices(questionIndex, answerIndex, 'answerText'),
+        isCorrectFullPath:  answerAttributePathWithIndices(questionIndex, answerIndex, 'isCorrect'),
+      };
+
+      question.answers.push(newAnswer);
+    };
+
+    $scope.removeAnswer = function(question, answer) {
+      question.answers.splice(answer.index, 1);
+
+      for (var i = answer.index; i < question.answers.length; i++) {
+        var currentAnswer = question.answers[i];
+        currentAnswer.index = currentAnswer.index - 1;
+      }
+    }
+
+    $scope.answerTextEnter = function(event, question, answer) {
+      if (event.which === 13) {
+        event.preventDefault();
+        if (answer.answerText != '' && answer.index === question.answers.length - 1) {
+          $scope.addAnswerTo(question);
+        }
+      }
+    }
+
+    var questionAttributePathWithIndex = function(questionIndex, attributeName) {
+      var regexToReplace = new RegExp(QUESTION_ID, 'g');
+      var fullPath = QUESTION_FULL_PATH.replace(regexToReplace, questionIndex);
+      return (fullPath + '[' + attributeName + ']');
+    };
 
 
-    $('#add-question').on('click', function(e) {
-      e.preventDefault();
-      addQuestion($questionList);
-    });
+    var answerAttributePathWithIndices = function(questionIndex, answerIndex, attributeName) {
+      var questionIdRegEx = new RegExp(QUESTION_ID, 'g');
+      var answerIdRegEx = new RegExp(ANSWER_ID, 'g');
+      var fullPath = ANSWER_FULL_PATH.replace(questionIdRegEx, questionIndex)
+                                     .replace(answerIdRegEx, answerIndex);
+      return (fullPath + '[' + attributeName + ']');
+    };
+
+    $scope.addQuestion(); // add one initial question
+
   });
 
-  function addQuestion($questionList) {
-    var questionIndex = $questionList.data('index');
-    console.log("questionIndex:" + questionIndex);
+  angular.bootstrap(document.getElementById('ngAppOnSecQuestions'), ['onSecQuestions']);
 
-    $questionList.append(questionTemplate(questionIndex));
-    addAnswer($questionList, questionIndex);
-    addAnswer($questionList, questionIndex);
-
-    $questionList.data('index', questionIndex + 1);
-  };
-
-  function addAnswer($questionList, questionIndex) {
-    var $answersContainer = $('div#answers_for_' + questionIndex)
-    var answerIndex = $answersContainer.find('input.answer-input').length;
-
-    $answersContainer.append(answerTemplate(questionIndex, answerIndex));
-  }
-
-  function questionTemplate(index) {
-    return `
-      <div id="question___question_id__" class="question">
-        <div class="form-group">
-
-          <label class="sr-only" for="{{ question_name }}[imagePath]">Bild</label>
-          <input type="text" class="question-input form-control mb-2 mr-sm-2 mb-sm-0"
-            placeholder="Bild"
-            id="{{ question_name }}[imagePath]"
-            name="{{ question_name }}[imagePath]">
-
-          <label calss="sr-only" for="{{ question_name }}[questionText]">Frage</label>
-          <input type="text" class="question-input form-control mb-2 mr-sm-2 mb-sm-0"
-            placeholder="Wie lautet..."
-            id="{{ question_name }}[questionText]"
-            name="{{ question_name }}[questionText]">
-
-        </div>
-
-        <div id="answers_for___question_id__" class="answers">
-        </div>
-      </div>
-    `.replace(/__question_id__/g, index);
-  }
-
-  function answerTemplate(questionIndex, answerIndex) {
-    console.log("Frage: " + questionIndex)
-    console.log("Antwort: " + answerIndex)
-    return `
-      <div style="display: flex; flex-direction: row;">
-        <div style="width: 75%;">
-
-          <label class="sr-only" for="{{ answer_name }}[answerText]">Antwort</label>
-          <input type="text" class="answer-input form-control mb-1 mr-sm-2 mb-sm-0"
-            id="{{ answer_name }}[answerText]"
-            placeholder="Antwort __answer_id__"
-            name="{{ answer_name }}[answerText]">
-        </div>
-
-        <div class="form-check mb-2 mr-sm-2 mb-sm-0" style="width: 20%;">
-          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox"name="{{ answer_name }}[isCorrect]"> Korrekt
-          </label>
-        </div>
-      </div>
-    `.replace(/__question_id__/g, questionIndex)
-     .replace(/__answer_id__/g, answerIndex);
-  }
-
-  // jQuery(document).ready(function() {
-  //   var questionKey = "{{ parent_form.questions.vars.full_name }}[__question_id__]";
-  //   var answerSuffix = "[answers][__answer_id__]"
-
-  //   $(div.)
-
-  //   var $collectionHolder = $('ul.questions');
-  //   $collectionHolder.append($newLinkLi);
-  //   $collectionHolder.data('index', $collectionHolder.find(':input').length);
-
-  //   $addLink.on('click', function(e) {
-  //     e.preventDefault();
-  //     addForm($collectionHolder, $newLinkLi);
-  //   });
-
-  // });
-
-  // function addForm() {
-  //   var prototype = $collectionHolder.data('prototype');
-  //   var index = $collectionHolder.data('index');
-
-  //   var newForm = prototype.replace(/__name__/g, index);
-
-  //   $collectionHolder.data('index', index + 1);
-
-  //   var $newFormLi = $('<li></li>').append(newForm);
-  //   $newLinkLi.before($newFormLi);
-  // }
   </script>
 {% endmacro %}
