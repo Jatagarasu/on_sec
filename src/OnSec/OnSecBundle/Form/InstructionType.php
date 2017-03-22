@@ -16,7 +16,7 @@ class InstructionType extends AbstractType
     {
         $builder
           ->add('description')
-          ->add('expiredate')
+          ->add('expiretime')
           ->add('pdfLink')
           ->add('keywords', CollectionType::class, array(
               'entry_type' => KeywordType::class,
