@@ -84,6 +84,8 @@
     </div>
   </div>
 
+{% do parent_form.questions.setRendered %}
+
   <script>
   angular.module('onSecQuestions', []).controller('questionsInputController', function($scope) {
     var QUESTION_FULL_PATH  = "{{ question_name }}";
