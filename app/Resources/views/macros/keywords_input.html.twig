@@ -20,11 +20,11 @@
   <ul class="keyword-list"
     data-index="0"
   >
-    <li ng-repeat="keyword in keywords track by keyword.index">
-      <div>
+    <li ng-repeat="keyword in keywords track by keyword.index" class="keyword-tag-in-form">
+      <span>
         {{ keyword.description }}
-      </div>
-      <a href ng-click="removeKeyword(keyword)">x</a>p
+      </span>
+      <a href ng-click="removeKeyword(keyword)">x</a>
       <input type="hidden" id="{{ keyword.descriptionFullPath }}" name="{{ keyword.descriptionFullPath }}" value="{{ keyword.description }}">
     </li>
   </ul>
