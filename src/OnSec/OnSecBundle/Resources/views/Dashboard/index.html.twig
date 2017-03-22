@@ -33,7 +33,11 @@
                                 <div class="card">
                                     <div class="card-header" data-target="{{ '#collapseadmin%s'|format(course.getId()) }}" data-toggle="collapse">
                                         <h4 class="card-title">
-                                            {{ course.getDescription() }}<span onclick="document.location.href = 'http://www.google.de'; return false"><i class="fa fa-users" aria-hidden="true"></i></span><span onclick="document.location.href = '{{ path('course_edit', { 'id': course.getId() }) }}'; return false"><i class="fa fa-cog"
+                                            {{ course.getDescription() }}
+                                            <span data-toggle="modal" data-target="#MyModal_{{ course.getId() }}">
+                                                <i class="fa fa-users" aria-hidden="true"></i>
+                                            </span>
+                                            <span onclick="document.location.href = '{{ path('course_edit', { 'id': course.getId() }) }}'; return false"><i class="fa fa-cog"
                                                                                                           aria-hidden="true"></i></span>
                                         </h4>
                                     </div>
@@ -43,6 +47,30 @@
                                                 <li class="list-group-item">{{ instruction.getDescription() }}</li>
                                             {% endfor %}
                                         </ul>
+                                    </div>
+                                </div>
+
+
+                                <div id="MyModal_{{ course.getId() }}" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div class="modal-title">Mitglieder von {{ course.getDescription() }}
+                                                    <div class="pull-right">
+                                                        <select class="custom-select" name="semester">
+                                                            {% for semester in ['SS 2016', 'WS 2016/17', 'SS 2017'] %}
+                                                                <option value="{{ semester }}">{{ semester }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                {{ render(controller('HSDOnSecBundle:Dashboard:modal', {'course': course})) }}
+                                            </div>
+                                            <div class="modal-footer"><a class="btn btn-primary" href="{{ path('createCSV', {'course_id': course.getId() }) }}" role="button">CSV exportieren</a></div>
+                                        </div>
                                     </div>
                                 </div>
                             {% endfor %}

@@ -1,0 +1,27 @@
+<table class="table">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Fehlende Unterweisungen</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for subscriber in course.subscribers %}
+            <tr>
+                <td>{{ subscriber.firstname }} {{ subscriber.surname }} </td>
+                <td>{{ subscriber.email }}</td>
+                <td>
+                    {% set done = [] %}
+                    {% for instruction in subscriber.getCompletedInstructions %}
+                        {% if instruction in course.getInstructions %}
+                            {% set done = done|merge([instruction.getId]) %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {{  course.getInstructions|length - done|length }}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
