@@ -4,6 +4,7 @@ namespace OnSec\OnSecBundle\Controller;
 
 use OnSec\OnSecBundle\Entity\Course;
 use OnSec\OnSecBundle\Entity\User;
+use OnSec\OnSecBundle\HSDOnSecBundle;
 use OnSec\OnSecBundle\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,13 +41,39 @@ class CourseController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         //$rooms = $em->getRepository('HSDOnSecBundle:Room')->findAll();  //neu
-        //$users = $em->getRepository('HSDOnSecBundle:Room')->findAll(); //neu
 
         $course = new Course();
+
         $form = $this->createForm('OnSec\OnSecBundle\Form\CourseType', $course);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $userids = $request->get('moderatorId');
+
+            foreach ($userids as $userid){
+                $user = $em->getRepository('HSDOnSecBundle:User')->find($userid);
+                $course->addModerator($user);
+
+            }
+
+            $instructionids = $request->get('instructionId');
+
+            foreach($instructionids as $instructionid){
+
+                $instruction = $em->getRepository('HSDOnSecBundle:Instruction')->find($instructionid);
+                $course->addInstruction($instruction);
+            }
+
+            /*$room = new Room();
+
+
+            $roomNumber = $request->get('roomNumber');
+            §room->setDescription($roomNumber);
+            $course->setRoom($roomNumber);*/
+
+            //$course->setOwner(app.user.getId());
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($course);
             $em->flush($course);
@@ -98,7 +125,12 @@ class CourseController extends Controller
         $entities = $em->getRepository('HSDOnSecBundle:Instruction')->search($term);
 
         foreach ($entities as $entity){
-            $instructions[] = $entity->getDescription();//."({})";
+            //$instructions[] = $entity->getDescription();
+
+            array_push($instructions, array(
+                'label'=>$entity->getDescription(),
+                'value'=>$entity->getDescription(),
+                'id'=>$entity->getId()));
         }
 
         $response = new JsonResponse();
@@ -109,7 +141,7 @@ class CourseController extends Controller
 
     public function autocomplete_userAction(Request $request){
 
-        $names = array();
+        $moderators = array();
 
         $term = trim(strip_tags($request->get('term')));
 
@@ -118,12 +150,14 @@ class CourseController extends Controller
         $entities = $em->getRepository('HSDOnSecBundle:User')->search($term);
 
         foreach ($entities as $entity){
-            $names[] = $entity->getFirstname()." ".$entity->getSurname();//."({})";
 
+            array_push($moderators, array(
+                                'label'=>$entity->getFirstname()." ".$entity->getSurname()." (".$entity->getEmail().")",
+                                'value'=>$entity->getFirstname()." ".$entity->getSurname(),
+                                'id'=>$entity->getId()));
         }
-
         $response = new JsonResponse();
-        $response->setData($names);
+        $response->setData($moderators);
 
         return $response;
     }

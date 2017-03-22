@@ -52,7 +52,7 @@
     </div>-->
 
 
-    <table class="table">
+    <table class="table" id="rights-table">
         <thead class="thead-inverse tablehead">
         <tr>
             <th>Name</th>
@@ -62,7 +62,7 @@
 
         <tbody id="tablebody" class="tablebody">
         <tr>
-            <td>{{ form_row(form.owner) }}</td>
+            <td>{#{app.user.getFirstname()}{app.user.getSurname()#} Eigentümer LogIn</td> {#{ form_row(form.owner) }#}
             <td>
                 Eigentümer
             </td>
@@ -91,8 +91,10 @@
     <br>
 
     <!-------Navigation---------------------->
-    <input onClick="window.location.href='{{ path('course_index') }}'" type="submit" value="Abbrechen" class="btn" />
+    <input id="submit_button" type="submit" value="Abbrechen" class="btn" />
     <input type="submit" value="Erstellen" class="btn" />
+
+    {#onClick="window.location.href='{{ path('course_index') }}'"#}
 
     {{ form_end(form) }}
 
@@ -108,6 +110,18 @@
                 $( "<div>" ).text( message ).prependTo( "#log" );
                 $( "#log" ).scrollTop( 0 );
             }*/
+
+            $("#submit_button").onclick = function(){
+
+                var inputText = $('#access-room-input').val();
+                var $hidden   = $('<input type="hidden"/>');
+                $hidden.attr('name',"roomNumber");
+                $hidden.val(inputText);
+                $('#submit_button').append($hiddenElement);
+
+
+                window.location.href='{{ path('course_index') }}';
+            };
 
             <!------Rooms-------------->
             $("#access-room-input").autocomplete({
@@ -127,6 +141,7 @@
                 source: '{{ path('instruction_autocomplete') }}',
                 minLength: 2,
                 select: function( event, ui ) {
+                    console.log(ui);
                     console.log( ui.item ?
                         "Selected: " + ui.item.value + " aka " + ui.item.id :
                         "Nothing selected, input was " + this.value );
@@ -137,12 +152,17 @@
                     newElement.setAttribute('id','new_id_for_new_element');
                     newElement.innerHTML = ui.item.value;
 
+                    var $hiddenElement   = $('<input type="hidden"/>');
+                    $hiddenElement.attr('name',"instructionId[]");
+                    $hiddenElement.val(ui.item.id);
+
                     var newButton = document.createElement('button');
                     newButton.className = 'instruction_button role-button btn';
                     newButton.setAttribute('id','new_id_for_new_button');
                     newButton.innerHTML = '-';
 
                     newElement.appendChild(newButton);
+                    $('#scrollbox').append($hiddenElement);
 
                     scrollbox.appendChild(newElement);
                 }
@@ -155,6 +175,7 @@
                 source: '{{ path('moderator_autocomplete') }}',
                 minLength: 2,
                 select: function( event, ui ) {
+                    console.log( ui.item);
                     console.log( ui.item ?
                         "Selected: " + ui.item.value + " aka " + ui.item.id :
                         "Nothing selected, input was " + this.value );
@@ -164,15 +185,22 @@
                     newElement.className = 'moderator_row';
                     newElement.setAttribute('id','new_id_for_new_row');
 
+
                     var newModerator = document.createElement('td');
                     newModerator.setAttribute('id','new_id_for_new_collumn');
                     newModerator.innerHTML = ui.item.value;
+
+                    var $newHiddenElement   = $('<input type="hidden"/>');
+                    $newHiddenElement.attr('name',"moderatorId[]");
+                    $newHiddenElement.val(ui.item.id);
+
 
                     var newModeratorTitle = document.createElement('td');
                     newModeratorTitle.innerHTML = 'Bearbeiter';
 
 
                     newElement.appendChild(newModerator);
+                    $('#rights-table').append($newHiddenElement);
                     newElement.appendChild(newModeratorTitle);
                     tablebody.appendChild(newElement);
                 }

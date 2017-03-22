@@ -26,7 +26,7 @@ class CourseType extends AbstractType
                             'attr' => array('class' => 'description',
                                             'placeholder' => 'Name')))
 
-                ->add('room')
+                //->add('room')
                         /*null, array(
                             'label' => 'CourseType: Raumnummer',
                             'attr' => array('class' => 'room')))*/
@@ -42,7 +42,7 @@ class CourseType extends AbstractType
                             'label' => 'CourseType: Unterweisungen',
                             'attr' => array('class' => 'instructions')))*/
 
-                ->add('owner')
+                //->add('owner')
                        /* null, array(
                             'attr' => array('class' => 'owner')))*/
 

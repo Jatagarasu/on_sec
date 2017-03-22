@@ -14,13 +14,19 @@ class InstructionRepository extends \Doctrine\ORM\EntityRepository
     public function search($term){
 
 
+        $result1 = $this->createQueryBuilder('instruction', 'instruction.id')
+                                ->where('instruction.description LIKE :searchTerm')
+                                ->setParameter('searchTerm', '%'.$term.'%')
+                                ->getQuery()
+                                ->getResult();
+                                //->execute();
+        $result2 = $this->createQueryBuilder('instruction', 'instruction.id')
+                                ->join('instruction.keywords','k','WITH','k.description LIKE :searchTerm')
+                                ->setParameter('searchTerm', '%'.$term.'%')
+                                ->getQuery()
+                                ->getResult();
 
-        return $this->createQueryBuilder('instruction')
-                        ->join('instruction.keywords','k','WITH','k.description LIKE :searchTerm')
-                        ->setParameter('searchTerm', '%'.$term.'%')
-                        ->getQuery()
-                        ->execute();
+        return $result1+$result2;
     }
 }
 
-//->orWhere('instruction.description LIKE :searchTerm')
