@@ -1,5 +1,5 @@
 {% macro keywords_input(parent_form) %}
-{% set keyword_full_path = parent_form.keywords.vars.full_name  ~ "[__keyword_id__]" %}
+{% set keyword_full_path = parent_form.keywords.vars.full_name ~ "[__keyword_id__]" %}
 
 {% verbatim %}
 <div id="ngAppOnSecKeywords" ng-controller="keywordsInputController">
@@ -30,6 +30,8 @@
   </ul>
 </div>
 {% endverbatim %}
+
+{% do parent_form.keywords.setRendered %}
 
 <script>
   angular.module('onSecKeywords', [])
