@@ -4,7 +4,7 @@
     </a>
 </div>
 {% if(is_granted("ROLE_SUPERADMIN")) %}
-<div class="col-lg-8">
+<div class="col-md-7">
     <nav class="navbar navbar-default">
         <a class="btn btn-secondary nav-link" href="{{ url('course_index') }}">Kurse</a>
         <a class="btn btn-secondary nav-link" href="{{ url('instruction_index') }}">Unterweisungen</a>
@@ -13,5 +13,9 @@
         <a class="btn btn-secondary nav-link" href="{{ url('room_index') }}">Räume</a>
         <a class="btn btn-secondary nav-link" href="{{ url('user_index') }}">Benutzer</a>
     </nav>
+</div>
+{% else %}
+<div class="col-md-7" style="text-align: center">
+    <h2>OnSec - Online Sicherheitsunterweisungstool</h2>
 </div>
 {% endif %}
