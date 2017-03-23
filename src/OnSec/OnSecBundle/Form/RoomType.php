@@ -14,6 +14,7 @@ class RoomType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
         $builder->add('description',
                         TextType::class, array(
                             'label' => 'Raumnummer',

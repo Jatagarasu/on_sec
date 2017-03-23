@@ -18,7 +18,7 @@
     {{ form_row(form.description) }}
 
     <!------Rooms-------------->
-    <div class="ui-widget search-room">
+    <div class="ui-widget search-room" id="room-element">
         <label for="access-rooms-input">Raumnummer: </label>
         <input id="access-room-input" class="form-control" type="text" placeholder="Raum in Form G.EE.RR" autocomplete="on">
         <!--<button type="button" class="role-button btn" id="search-for-room">Suche</button>-->
@@ -62,7 +62,10 @@
 
         <tbody id="tablebody" class="tablebody">
         <tr>
-            <td>{#{app.user.getFirstname()}{app.user.getSurname()#} Eigentümer LogIn</td> {#{ form_row(form.owner) }#}
+            <td>{{ '%s %s'|format(app.user.firstname,app.user.surname) }}</td> {#{ form_row(form.owner) }#}
+
+
+
             <td>
                 Eigentümer
             </td>
@@ -93,6 +96,7 @@
     <!-------Navigation---------------------->
     <input id="submit_button" type="submit" value="Abbrechen" class="btn" />
     <input type="submit" value="Erstellen" class="btn" />
+    <br>
 
     {#onClick="window.location.href='{{ path('course_index') }}'"#}
 
@@ -112,13 +116,13 @@
             }*/
 
             $("#submit_button").onclick = function(){
-
+/*
                 var inputText = $('#access-room-input').val();
                 var $hidden   = $('<input type="hidden"/>');
                 $hidden.attr('name',"roomNumber");
                 $hidden.val(inputText);
                 $('#submit_button').append($hiddenElement);
-
+*/
 
                 window.location.href='{{ path('course_index') }}';
             };
@@ -132,6 +136,47 @@
                     console.log( ui.item ?
                         "Selected: " + ui.item.value + " aka " + ui.item.id :
                         "Nothing selected, input was " + this.value );
+
+                        var scrollbox = document.getElementById('scrollbox');
+
+                        var instructions = ui.item.instructions;
+
+                        var $hiddenRoom = $('<input type="hidden"/>');
+                        $hiddenRoom.attr('name',"roomId[]");
+                        $hiddenRoom.val(ui.item.id);
+
+                        $('#room-element').append($hiddenRoom);
+
+
+                    console.log(ui.item.id);
+
+                        console.log(instructions);
+
+                        for (var i = 0; i < instructions.length; i++){
+                            var instruction = instructions[i];
+
+                            var newElement = document.createElement('div');
+                            newElement.className = 'instruction_element';
+                            newElement.setAttribute('id','new_id_for_new_element');
+                            newElement.innerHTML = instruction.value;
+
+                            var $hiddenElement   = $('<input type="hidden"/>');
+                            $hiddenElement.attr('name',"instructionId[]");
+                            $hiddenElement.val(instruction.id);
+
+                            var newButton = document.createElement('button');
+                            newButton.className = 'instruction_button role-button btn';
+                            newButton.setAttribute('id','new_id_for_new_button');
+                            newButton.innerHTML = '-';
+
+                            newElement.appendChild(newButton);
+                            $('#scrollbox').append($hiddenElement);
+
+                            scrollbox.appendChild(newElement);
+
+                        }
+
+
                 }
             });
 
@@ -214,7 +259,7 @@
 
 
             // keep track of how many rows with moderators have been rendered
-
+            {#
             var moderatorCount = '{{form.moderators|length}}'
 
             $('#add-another-moderator').click(function(e)
@@ -248,7 +293,7 @@
 
                 newRow.appendTo(moderatorList);
             });
-
+#}
 
         });
 

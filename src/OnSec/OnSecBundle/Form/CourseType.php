@@ -31,13 +31,14 @@ class CourseType extends AbstractType
                             'label' => 'CourseType: Raumnummer',
                             'attr' => array('class' => 'room')))*/
 
+/*
                 ->add('instructions',
                         CollectionType::class, array(
                                 'entry_type' => InstructionType::class,
                                 'allow_add' => true,
                                 'allow_delete' => true,
                                 'by_reference' => false
-                            ))
+                            ))   */
                         /*null, array(
                             'label' => 'CourseType: Unterweisungen',
                             'attr' => array('class' => 'instructions')))*/
@@ -45,14 +46,14 @@ class CourseType extends AbstractType
                 //->add('owner')
                        /* null, array(
                             'attr' => array('class' => 'owner')))*/
-
+/*
                 ->add('moderators',
                         CollectionType::class, array(
                             'entry_type' => UserType::class,
                             'allow_add' => true,
                             'allow_delete' => true,
                             'prototype' => true
-                        ))
+                        ))*/
 
                 ->add('keywords',
                         CollectionType::class, array(

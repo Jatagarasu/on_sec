@@ -51,10 +51,12 @@ class CourseController extends Controller
 
             $userids = $request->get('moderatorId');
 
-            foreach ($userids as $userid){
-                $user = $em->getRepository('HSDOnSecBundle:User')->find($userid);
-                $course->addModerator($user);
+            if(!empty($userids)){
+                foreach ($userids as $userid){
+                    $user = $em->getRepository('HSDOnSecBundle:User')->find($userid);
+                    $course->addModerator($user);
 
+                }
             }
 
             $instructionids = $request->get('instructionId');
@@ -65,14 +67,17 @@ class CourseController extends Controller
                 $course->addInstruction($instruction);
             }
 
-            /*$room = new Room();
+            $roomids = $request->get('roomId');
 
+            if(!empty($roomids)){
+                foreach($roomids as $roomid){
+                    $room = $em->getRepository('HSDOnSecBundle:Room')->find($roomid);
+                    $course->setRoom($room);
+                }
+            }
 
-            $roomNumber = $request->get('roomNumber');
-            §room->setDescription($roomNumber);
-            $course->setRoom($roomNumber);*/
-
-            //$course->setOwner(app.user.getId());
+            /*$owner = $em->getRepository('HSDOnSecBundle:User')->find(app.user.id);
+            $course->setOwner($owner);*/
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($course);
@@ -97,6 +102,7 @@ class CourseController extends Controller
     public function autocomplete_roomAction(Request $request){
 
         $rooms = array();
+        $instructions = array();
 
         $term = trim(strip_tags($request->get('term')));
 
@@ -105,7 +111,21 @@ class CourseController extends Controller
         $entities = $em->getRepository('HSDOnSecBundle:Room')->search($term);
 
         foreach ($entities as $entity){
-            $rooms[] = $entity->getDescription();//."({})";
+
+            foreach($entity->getInstructions() as $instruction){
+
+                array_push($instructions, array(
+                    'label'=>$instruction->getDescription(),
+                    'value'=>$instruction->getDescription(),
+                    'id'=>$instruction->getId()));
+            }
+
+            array_push($rooms, array(
+                'label'=>$entity->getDescription(),
+                'value'=>$entity->getDescription(),
+                'instructions'=> $instructions,
+                'id'=>$entity->getId()));
+
         }
 
         $response = new JsonResponse();
