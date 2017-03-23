@@ -10,4 +10,13 @@ namespace OnSec\OnSecBundle\Repository;
  */
 class RoomRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function search($term){
+
+        return $this->createQueryBuilder('room')
+            ->andWhere('room.description LIKE :searchTerm')
+            ->setParameter('searchTerm', '%'.$term.'%')
+            ->getQuery()
+            ->execute();
+    }
 }

@@ -2,9 +2,15 @@
 
 namespace OnSec\OnSecBundle\Form;
 
+use OnSec\OnSecBundle\Entity\Instruction;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use OnSec\OnSecBundle\Form\UserType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 
 class CourseType extends AbstractType
 {
@@ -13,7 +19,52 @@ class CourseType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('description')->add('room')->add('owner')->add('subscribers')->add('moderators')->add('keywords')->add('instructions');
+
+        $builder->add('description',
+                        TextType::class, array(
+                            'label' => 'Name:',
+                            'attr' => array('class' => 'description',
+                                            'placeholder' => 'Name')))
+
+                //->add('room')
+                        /*null, array(
+                            'label' => 'CourseType: Raumnummer',
+                            'attr' => array('class' => 'room')))*/
+
+/*
+                ->add('instructions',
+                        CollectionType::class, array(
+                                'entry_type' => InstructionType::class,
+                                'allow_add' => true,
+                                'allow_delete' => true,
+                                'by_reference' => false
+                            ))   */
+                        /*null, array(
+                            'label' => 'CourseType: Unterweisungen',
+                            'attr' => array('class' => 'instructions')))*/
+
+                //->add('owner')
+                       /* null, array(
+                            'attr' => array('class' => 'owner')))*/
+/*
+                ->add('moderators',
+                        CollectionType::class, array(
+                            'entry_type' => UserType::class,
+                            'allow_add' => true,
+                            'allow_delete' => true,
+                            'prototype' => true
+                        ))*/
+
+                ->add('keywords',
+                        CollectionType::class, array(
+                            'entry_type' => KeywordType::class,
+                            'allow_add' => true,
+                            'allow_delete' => true,
+                            'prototype' => true
+                        ));
+
+
+
     }
     
     /**
