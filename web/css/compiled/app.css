@@ -89,7 +89,7 @@ a:hover {
     color: #b4b2b3;
 }
 
-.left {
+.right {
     padding-left: 5px;
     float: right;
 }
@@ -114,6 +114,26 @@ hr {
     height:1px;
     margin-top: 8px !important;
     margin-bottom: 8px !important;
+}
+
+.checkbuttonclose {
+    float: right;
+    background-color: #df0328;
+    margin-top: -5px;
+    padding: 2px 3px 2px 3px;
+    -webkit-box-shadow: inset 0px 0px 25px -2px rgba(0,0,0,0.39);
+    -moz-box-shadow: inset 0px 0px 25px -2px rgba(0,0,0,0.39);
+    box-shadow: inset 0px 0px 25px -2px rgba(0,0,0,0.39);
+}
+
+.checkbuttonopen {
+    float: right;
+    background-color: #60af30;
+    margin-top: -5px;
+    padding: 2px 0px 2px 0px;
+    -webkit-box-shadow: inset 0px 0px 25px -2px rgba(0,0,0,0.39);
+    -moz-box-shadow: inset 0px 0px 25px -2px rgba(0,0,0,0.39);
+    box-shadow: inset 0px 0px 25px -2px rgba(0,0,0,0.39);
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */

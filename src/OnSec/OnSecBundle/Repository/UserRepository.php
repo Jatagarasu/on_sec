@@ -10,4 +10,13 @@ namespace OnSec\OnSecBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    public function search($term){
+
+        return $this->createQueryBuilder('user')
+            ->andWhere('user.surname LIKE :searchTerm OR user.email LIKE :searchTerm OR user.firstname LIKE :searchTerm')
+            ->setParameter('searchTerm', '%'.$term.'%')
+            ->getQuery()
+            ->execute();
+    }
 }

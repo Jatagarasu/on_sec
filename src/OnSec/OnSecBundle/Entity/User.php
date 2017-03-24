@@ -70,8 +70,7 @@ class User implements UserInterface, \Serializable
      */
     public function __toString()
     {
-        return $this->getFirstname() . ' ' . $this->getSurname() . ' (' . $this->getEmail() . ')';
-        //generates a string like "Max Mustermann (max@mustermann.com)"
+        return $this->getFirstname();
     }
 
     public function getUsername()
