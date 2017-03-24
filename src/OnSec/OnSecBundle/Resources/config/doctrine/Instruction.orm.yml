@@ -30,7 +30,7 @@ OnSec\OnSecBundle\Entity\Instruction:
     oneToMany:
         completed_instructions:
             targetEntity: CompletedInstruction
-            mappedBy: Instruction
+            mappedBy: instruction
 
 
     manyToMany:

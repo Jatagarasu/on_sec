@@ -29,7 +29,7 @@ OnSec\OnSecBundle\Entity\User:
     oneToMany:
         completed_instructions:
             targetEntity: CompletedInstruction
-            mappedBy: Instruction
+            mappedBy: user
 
     manyToMany:
 #        completed_instructions:
