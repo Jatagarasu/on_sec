@@ -1,0 +1,55 @@
+<?php
+
+namespace OnSec\OnSecBundle\Entity;
+
+/**
+ * CompletedInstruction
+ */
+class CompletedInstruction
+{
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     */
+    private $expireDate;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set expireDate
+     *
+     * @param \DateTime $expireDate
+     *
+     * @return CompletedInstruction
+     */
+    public function setExpireDate($expireDate)
+    {
+        $this->expireDate = $expireDate;
+
+        return $this;
+    }
+
+    /**
+     * Get expireDate
+     *
+     * @return \DateTime
+     */
+    public function getExpireDate()
+    {
+        return $this->expireDate;
+    }
+}
+

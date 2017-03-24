@@ -27,6 +27,12 @@ OnSec\OnSecBundle\Entity\Instruction:
                 name: owner_id
                 referencedColumnName: id
 
+    oneToMany:
+        completed_instructions:
+            targetEntity: CompletedInstruction
+            mappedBy: Instruction
+
+
     manyToMany:
         moderators:
             targetEntity: User

@@ -1,0 +1,32 @@
+OnSec\OnSecBundle\Entity\CompletedInstruction:
+    type: entity
+    table: null
+    repositoryClass: OnSec\OnSecBundle\Repository\CompletedInstructionRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        expireDate:
+            type: datetime
+
+    manyToOne:
+        instruction:
+            targetEntity: Instruction
+            inversedBy: completed_instructions
+            joinColumn:
+                name: instruction_id
+                referencedColumnName: id
+
+        user:
+            targetEntity: User
+            inversedBy: completed_instructions
+            joinColumn:
+                name: user_id
+                referncedColumnName: id
+
+    lifecycleCallbacks: {
+                prePersist: [ initialDateTime ]
+     }

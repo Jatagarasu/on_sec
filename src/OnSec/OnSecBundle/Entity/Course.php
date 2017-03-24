@@ -289,9 +289,3 @@ class Course
         return $this->instructions;
     }
 }
-
-/*
- * How to Create a custom Validation Constraint
- * @Assert\Type("\Room")
- */
-

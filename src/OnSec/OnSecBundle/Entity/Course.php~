@@ -2,6 +2,8 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Course
  */
@@ -12,17 +14,8 @@ class Course
      */
     private $id;
 
-    /**
-     * @var \OnSec\OnSecBundle\Entity\Room
-     *
-     * @ORM\Column(name="room", type="\OnSec\OnSecBundle\Entity\Room")
-     *
-     * Attention!!!!!!!!!!!!
-     *
-     * @ORM\ManyToOne(targetEntity="Room",cascade={"persist"})
-     */
      /**
-     
+     * @Assert\NotBlank()
      * @var string
      */
     private $description;
@@ -296,3 +289,9 @@ class Course
         return $this->instructions;
     }
 }
+
+/*
+ * How to Create a custom Validation Constraint
+ * @Assert\Type("\Room")
+ */
+
