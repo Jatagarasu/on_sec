@@ -63,7 +63,7 @@
 
               <div class="form-check mb-2 mr-sm-2 mb-sm-0 answer-isCorrect-input">
                 <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" name="{{ answer.isCorrectFullPath }}"> Korrekt
+                  <input class="form-check-input" ng-model="answer.isCorrect" type="checkbox" name="{{ answer.isCorrectFullPath }}"> Korrekt
                 </label>
               </div>
 
@@ -76,7 +76,7 @@
             <a class="answer-add-button btn btn-success" ng-click="addAnswerTo(question)">+</a>
         </div>
 
-      <a ng-click="addQuestion()" class="btn btn-primary mb-2" id="add-question">Weitere Frage</a>
+      <a ng-click="addQuestion('', '')" class="btn btn-primary mb-2" id="add-question">Weitere Frage</a>
 
       {% endverbatim %}
       {# Angular ends here #}
@@ -95,12 +95,12 @@
 
     $scope.questions = [];
 
-    $scope.addQuestion = function() {
+    $scope.addQuestion = function(text, imagePath) {
       var index = $scope.questions.length;
       var newQuestion = {
         index:                index,
-        questionText:         '',
-        imagePath:            '',
+        questionText:         text,
+        imagePath:            imagePath,
         questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
         imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
         answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
@@ -169,8 +169,38 @@
       return (fullPath + '[' + attributeName + ']');
     };
 
-    $scope.addQuestion(); // add one initial question
+    // $scope.addQuestion('', ''); // add one initial question
 
+    function fillQuestionsFromSymfony() {
+      {% for question in parent_form.questions %}
+        var answers = [];
+
+        {% for answer in question.vars.value.answers %}
+          var isCorrect = parseInt("{{ answer.isCorrect }}") > 0;
+
+          answers.push({
+            index:        answers.length,
+            answerText:   "{{ answer.answerText }}",
+            isCorrect:    isCorrect,
+          });
+        {% endfor %}
+        var index = $scope.questions.length;
+        var question = {
+          index:                index,
+          questionText:         "{{ question.vars.value.questionText }}",
+          imagePath:            "{{ question.vars.value.imagePath }}",
+          questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
+          imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
+          answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
+          answers:              answers,
+        }
+
+        $scope.questions.push(question);
+      {% endfor %}
+    }
+
+    fillQuestionsFromSymfony();
+    console.log($scope.questions)
   });
 
   angular.bootstrap(document.getElementById('ngAppOnSecQuestions'), ['onSecQuestions']);
