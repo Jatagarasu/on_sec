@@ -173,25 +173,28 @@
 
     function fillQuestionsFromSymfony() {
       {% for question in parent_form.questions %}
+        var questionIndex = $scope.questions.length;
         var answers = [];
 
         {% for answer in question.vars.value.answers %}
           var isCorrect = parseInt("{{ answer.isCorrect }}") > 0;
+          var answerIndex = answers.length;
 
           answers.push({
-            index:        answers.length,
+            index:        answerIndex,
             answerText:   "{{ answer.answerText }}",
             isCorrect:    isCorrect,
+            answerTextFullPath: answerAttributePathWithIndices(questionIndex, answerIndex, 'answerText'),
+            isCorrectFullPath:  answerAttributePathWithIndices(questionIndex, answerIndex, 'isCorrect'),
           });
         {% endfor %}
-        var index = $scope.questions.length;
         var question = {
-          index:                index,
+          index:                questionIndex,
           questionText:         "{{ question.vars.value.questionText }}",
           imagePath:            "{{ question.vars.value.imagePath }}",
-          questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
-          imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
-          answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
+          questionTextFullPath: questionAttributePathWithIndex(questionIndex, 'questionText'),
+          imagePathFullPath:    questionAttributePathWithIndex(questionIndex, 'imagePath'),
+          answersFullPath:      questionAttributePathWithIndex(questionIndex, 'answers'),
           answers:              answers,
         }
 
