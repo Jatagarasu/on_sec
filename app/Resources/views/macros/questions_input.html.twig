@@ -97,15 +97,7 @@
 
     $scope.addEmptyQuestion = function() {
       var index = $scope.questions.length;
-      var newQuestion = {
-        index:                index,
-        questionText:         '',
-        imagePath:            '',
-        questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
-        imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
-        answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
-        answers:              [],
-      };
+      var newQuestion = createQuestion(index, '', '');
 
       $scope.addEmptyAnswerTo(newQuestion);
       $scope.addEmptyAnswerTo(newQuestion);
@@ -123,17 +115,8 @@
 
     $scope.addEmptyAnswerTo = function(question) {
       var questionIndex = question.index;
-      var answerIndex = question.answers.length;
 
-      var newAnswer = {
-        index:              answerIndex,
-        answerText:         '',
-        isCorrect:          false,
-        answerTextFullPath: answerAttributePathWithIndices(questionIndex, answerIndex, 'answerText'),
-        isCorrectFullPath:  answerAttributePathWithIndices(questionIndex, answerIndex, 'isCorrect'),
-      };
-
-      question.answers.push(newAnswer);
+      addAnswerTo(question, '', false);
     };
 
     $scope.removeAnswer = function(question, answer) {
@@ -160,7 +143,6 @@
       return (fullPath + '[' + attributeName + ']');
     };
 
-
     var answerAttributePathWithIndices = function(questionIndex, answerIndex, attributeName) {
       var questionIdRegEx = new RegExp(QUESTION_ID, 'g');
       var answerIdRegEx = new RegExp(ANSWER_ID, 'g');
@@ -170,42 +152,53 @@
     };
 
     function fillQuestionsFromSymfony() {
-      // TODO: Refactoring: do this only if there already are keywords (in #edit),
-      // else: add an empty question with two emtpy answers (as it was before
-      // the form was shared between #new and #edit)
       {% if parent_form.questions|length > 0 %}
         {% for question in parent_form.questions %}
           var questionIndex = $scope.questions.length;
-          var answers = [];
+          var questionText =  "{{ question.vars.value.questionText }}";
+          var imagePath =     "{{ question.vars.value.imagePath }}";
+
+          var question = createQuestion(questionIndex, questionText, imagePath);
 
           {% for answer in question.vars.value.answers %}
-            var isCorrect = parseInt("{{ answer.isCorrect }}") > 0;
-            var answerIndex = answers.length;
+            var answerText =  "{{ answer.answerText }}";
+            var isCorrect =   parseInt("{{ answer.isCorrect }}") > 0;
 
-            answers.push({
-              index:        answerIndex,
-              answerText:   "{{ answer.answerText }}",
-              isCorrect:    isCorrect,
-              answerTextFullPath: answerAttributePathWithIndices(questionIndex, answerIndex, 'answerText'),
-              isCorrectFullPath:  answerAttributePathWithIndices(questionIndex, answerIndex, 'isCorrect'),
-            });
+            addAnswerTo(question, answerText, isCorrect);
           {% endfor %}
-
-          var question = {
-            index:                questionIndex,
-            questionText:         "{{ question.vars.value.questionText }}",
-            imagePath:            "{{ question.vars.value.imagePath }}",
-            questionTextFullPath: questionAttributePathWithIndex(questionIndex, 'questionText'),
-            imagePathFullPath:    questionAttributePathWithIndex(questionIndex, 'imagePath'),
-            answersFullPath:      questionAttributePathWithIndex(questionIndex, 'answers'),
-            answers:              answers,
-          }
 
           $scope.questions.push(question);
         {% endfor %}
       {% else %}
         $scope.addEmptyQuestion(); // Add one initial question
       {% endif %}
+    }
+
+    function createQuestion(index, questionText, imagePath) {
+      return {
+        index:                index,
+        questionText:         questionText,
+        imagePath:            imagePath,
+        questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
+        imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
+        answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
+        answers:              [],
+      }
+    }
+
+    function addAnswerTo(question, answerText, isCorrect) {
+      var questionIndex =   question.index;
+      var answerIndex =     question.answers.length;
+      var answerTextPath =  answerAttributePathWithIndices(questionIndex, answerIndex, 'answerText');
+      var isCorrectPath =   answerAttributePathWithIndices(questionIndex, answerIndex, 'isCorrect');
+
+      question.answers.push({
+        index:              answerIndex,
+        answerText:         answerText,
+        isCorrect:          isCorrect,
+        answerTextFullPath: answerTextPath,
+        isCorrectFullPath:  isCorrectPath,
+      });
     }
 
     fillQuestionsFromSymfony();
