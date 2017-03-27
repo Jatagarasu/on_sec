@@ -73,7 +73,7 @@
                 </a>
               </div>
             </div>
-            <a class="answer-add-button btn btn-success" ng-click="addAnswerTo(question)">+</a>
+            <a class="answer-add-button btn btn-success" ng-click="addEmptyAnswerTo(question)">+</a>
         </div>
 
       <a ng-click="addEmptyQuestion()" class="btn btn-primary mb-2" id="add-question">Weitere Frage</a>
@@ -107,8 +107,8 @@
         answers:              [],
       };
 
-      $scope.addAnswerTo(newQuestion);
-      $scope.addAnswerTo(newQuestion);
+      $scope.addEmptyAnswerTo(newQuestion);
+      $scope.addEmptyAnswerTo(newQuestion);
 
       $scope.questions.push(newQuestion);
     };
@@ -121,7 +121,7 @@
       }
     };
 
-    $scope.addAnswerTo = function(question) {
+    $scope.addEmptyAnswerTo = function(question) {
       var questionIndex = question.index;
       var answerIndex = question.answers.length;
 
@@ -149,7 +149,7 @@
       if (event.which === 13) {
         event.preventDefault();
         if (answer.answerText != '' && answer.index === question.answers.length - 1) {
-          $scope.addAnswerTo(question);
+          $scope.addEmptyAnswerTo(question);
         }
       }
     };
