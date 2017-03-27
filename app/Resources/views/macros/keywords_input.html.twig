@@ -3,6 +3,7 @@
 
 {% verbatim %}
 <div id="ngAppOnSecKeywords" ng-controller="keywordsInputController">
+
   <div class="input-group">
     <input
     type="text"
@@ -88,6 +89,14 @@
       var fullPath = KEYWORDS_FULL_PATH.replace(regExToReplace, index);
       return fullPath + '[' + attributeName + ']';
     }
+
+    function fillKeywordsFromSymfony() {
+      {% for keyword in parent_form.keywords %}
+        $scope.addKeyword("{{ keyword.vars.value }}");
+      {% endfor %}
+    };
+
+    fillKeywordsFromSymfony();
   });
 
   angular.bootstrap(document.getElementById('ngAppOnSecKeywords'), ['onSecKeywords']);

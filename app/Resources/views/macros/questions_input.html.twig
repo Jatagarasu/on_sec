@@ -63,7 +63,7 @@
 
               <div class="form-check mb-2 mr-sm-2 mb-sm-0 answer-isCorrect-input">
                 <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" name="{{ answer.isCorrectFullPath }}"> Korrekt
+                  <input class="form-check-input" ng-model="answer.isCorrect" type="checkbox" name="{{ answer.isCorrectFullPath }}"> Korrekt
                 </label>
               </div>
 
@@ -73,10 +73,10 @@
                 </a>
               </div>
             </div>
-            <a class="answer-add-button btn btn-success" ng-click="addAnswerTo(question)">+</a>
+            <a class="answer-add-button btn btn-success" ng-click="addEmptyAnswerTo(question)">+</a>
         </div>
 
-      <a ng-click="addQuestion()" class="btn btn-primary mb-2" id="add-question">Weitere Frage</a>
+      <a ng-click="addEmptyQuestion()" class="btn btn-primary mb-2" id="add-question">Weitere Frage</a>
 
       {% endverbatim %}
       {# Angular ends here #}
@@ -95,20 +95,12 @@
 
     $scope.questions = [];
 
-    $scope.addQuestion = function() {
+    $scope.addEmptyQuestion = function() {
       var index = $scope.questions.length;
-      var newQuestion = {
-        index:                index,
-        questionText:         '',
-        imagePath:            '',
-        questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
-        imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
-        answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
-        answers:              [],
-      };
+      var newQuestion = createQuestion(index, '', '');
 
-      $scope.addAnswerTo(newQuestion);
-      $scope.addAnswerTo(newQuestion);
+      $scope.addEmptyAnswerTo(newQuestion);
+      $scope.addEmptyAnswerTo(newQuestion);
 
       $scope.questions.push(newQuestion);
     };
@@ -121,19 +113,10 @@
       }
     };
 
-    $scope.addAnswerTo = function(question) {
+    $scope.addEmptyAnswerTo = function(question) {
       var questionIndex = question.index;
-      var answerIndex = question.answers.length;
 
-      var newAnswer = {
-        index:              answerIndex,
-        answerText:         '',
-        isCorrect:          false,
-        answerTextFullPath: answerAttributePathWithIndices(questionIndex, answerIndex, 'answerText'),
-        isCorrectFullPath:  answerAttributePathWithIndices(questionIndex, answerIndex, 'isCorrect'),
-      };
-
-      question.answers.push(newAnswer);
+      addAnswerTo(question, '', false);
     };
 
     $scope.removeAnswer = function(question, answer) {
@@ -143,23 +126,22 @@
         var currentAnswer = question.answers[i];
         currentAnswer.index = currentAnswer.index - 1;
       }
-    }
+    };
 
     $scope.answerTextEnter = function(event, question, answer) {
       if (event.which === 13) {
         event.preventDefault();
         if (answer.answerText != '' && answer.index === question.answers.length - 1) {
-          $scope.addAnswerTo(question);
+          $scope.addEmptyAnswerTo(question);
         }
       }
-    }
+    };
 
     var questionAttributePathWithIndex = function(questionIndex, attributeName) {
       var regexToReplace = new RegExp(QUESTION_ID, 'g');
       var fullPath = QUESTION_FULL_PATH.replace(regexToReplace, questionIndex);
       return (fullPath + '[' + attributeName + ']');
     };
-
 
     var answerAttributePathWithIndices = function(questionIndex, answerIndex, attributeName) {
       var questionIdRegEx = new RegExp(QUESTION_ID, 'g');
@@ -169,8 +151,57 @@
       return (fullPath + '[' + attributeName + ']');
     };
 
-    $scope.addQuestion(); // add one initial question
+    function fillQuestionsFromSymfony() {
+      {% if parent_form.questions|length > 0 %}
+        {% for question in parent_form.questions %}
+          var questionIndex = $scope.questions.length;
+          var questionText =  "{{ question.vars.value.questionText }}";
+          var imagePath =     "{{ question.vars.value.imagePath }}";
 
+          var question = createQuestion(questionIndex, questionText, imagePath);
+
+          {% for answer in question.vars.value.answers %}
+            var answerText =  "{{ answer.answerText }}";
+            var isCorrect =   parseInt("{{ answer.isCorrect }}") > 0;
+
+            addAnswerTo(question, answerText, isCorrect);
+          {% endfor %}
+
+          $scope.questions.push(question);
+        {% endfor %}
+      {% else %}
+        $scope.addEmptyQuestion(); // Add one initial question
+      {% endif %}
+    }
+
+    function createQuestion(index, questionText, imagePath) {
+      return {
+        index:                index,
+        questionText:         questionText,
+        imagePath:            imagePath,
+        questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
+        imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
+        answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
+        answers:              [],
+      }
+    }
+
+    function addAnswerTo(question, answerText, isCorrect) {
+      var questionIndex =   question.index;
+      var answerIndex =     question.answers.length;
+      var answerTextPath =  answerAttributePathWithIndices(questionIndex, answerIndex, 'answerText');
+      var isCorrectPath =   answerAttributePathWithIndices(questionIndex, answerIndex, 'isCorrect');
+
+      question.answers.push({
+        index:              answerIndex,
+        answerText:         answerText,
+        isCorrect:          isCorrect,
+        answerTextFullPath: answerTextPath,
+        isCorrectFullPath:  isCorrectPath,
+      });
+    }
+
+    fillQuestionsFromSymfony();
   });
 
   angular.bootstrap(document.getElementById('ngAppOnSecQuestions'), ['onSecQuestions']);

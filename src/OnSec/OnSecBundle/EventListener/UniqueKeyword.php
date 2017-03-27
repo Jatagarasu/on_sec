@@ -26,10 +26,10 @@ class UniqueKeyword
 
             foreach($keywords as $key => $keyword){
 
-                // let's check for existance of this ingredient
+                // let's check for existance of this keyword
                 $results = $entityManager->getRepository('OnSec\OnSecBundle\Entity\Keyword')->findBy(array('description' => $keyword->getDescription()), array('id' => 'ASC') );
 
-                // if ingredient exists use the existing ingredient
+                // if keyword exists use the existing keyword
                 if (count($results) > 0){
 
                     $keywords[$key] = $results[0];
@@ -74,6 +74,7 @@ class UniqueKeyword
 
                     // remove the duplicated keyword
                     $duplicatedKeyword = $results[1];
+                    $entity->removeKeyword($duplicatedKeyword);
                     $entityManager->remove($duplicatedKeyword);
 
                 }else{
