@@ -76,7 +76,7 @@
             <a class="answer-add-button btn btn-success" ng-click="addAnswerTo(question)">+</a>
         </div>
 
-      <a ng-click="addQuestion('', '')" class="btn btn-primary mb-2" id="add-question">Weitere Frage</a>
+      <a ng-click="addEmptyQuestion()" class="btn btn-primary mb-2" id="add-question">Weitere Frage</a>
 
       {% endverbatim %}
       {# Angular ends here #}
@@ -95,12 +95,12 @@
 
     $scope.questions = [];
 
-    $scope.addQuestion = function(text, imagePath) {
+    $scope.addEmptyQuestion = function() {
       var index = $scope.questions.length;
       var newQuestion = {
         index:                index,
-        questionText:         text,
-        imagePath:            imagePath,
+        questionText:         '',
+        imagePath:            '',
         questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
         imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
         answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
@@ -143,7 +143,7 @@
         var currentAnswer = question.answers[i];
         currentAnswer.index = currentAnswer.index - 1;
       }
-    }
+    };
 
     $scope.answerTextEnter = function(event, question, answer) {
       if (event.which === 13) {
@@ -152,7 +152,7 @@
           $scope.addAnswerTo(question);
         }
       }
-    }
+    };
 
     var questionAttributePathWithIndex = function(questionIndex, attributeName) {
       var regexToReplace = new RegExp(QUESTION_ID, 'g');
@@ -169,41 +169,46 @@
       return (fullPath + '[' + attributeName + ']');
     };
 
-    // $scope.addQuestion('', ''); // add one initial question
-
     function fillQuestionsFromSymfony() {
-      {% for question in parent_form.questions %}
-        var questionIndex = $scope.questions.length;
-        var answers = [];
+      // TODO: Refactoring: do this only if there already are keywords (in #edit),
+      // else: add an empty question with two emtpy answers (as it was before
+      // the form was shared between #new and #edit)
+      {% if parent_form.questions|length > 0 %}
+        {% for question in parent_form.questions %}
+          var questionIndex = $scope.questions.length;
+          var answers = [];
 
-        {% for answer in question.vars.value.answers %}
-          var isCorrect = parseInt("{{ answer.isCorrect }}") > 0;
-          var answerIndex = answers.length;
+          {% for answer in question.vars.value.answers %}
+            var isCorrect = parseInt("{{ answer.isCorrect }}") > 0;
+            var answerIndex = answers.length;
 
-          answers.push({
-            index:        answerIndex,
-            answerText:   "{{ answer.answerText }}",
-            isCorrect:    isCorrect,
-            answerTextFullPath: answerAttributePathWithIndices(questionIndex, answerIndex, 'answerText'),
-            isCorrectFullPath:  answerAttributePathWithIndices(questionIndex, answerIndex, 'isCorrect'),
-          });
+            answers.push({
+              index:        answerIndex,
+              answerText:   "{{ answer.answerText }}",
+              isCorrect:    isCorrect,
+              answerTextFullPath: answerAttributePathWithIndices(questionIndex, answerIndex, 'answerText'),
+              isCorrectFullPath:  answerAttributePathWithIndices(questionIndex, answerIndex, 'isCorrect'),
+            });
+          {% endfor %}
+
+          var question = {
+            index:                questionIndex,
+            questionText:         "{{ question.vars.value.questionText }}",
+            imagePath:            "{{ question.vars.value.imagePath }}",
+            questionTextFullPath: questionAttributePathWithIndex(questionIndex, 'questionText'),
+            imagePathFullPath:    questionAttributePathWithIndex(questionIndex, 'imagePath'),
+            answersFullPath:      questionAttributePathWithIndex(questionIndex, 'answers'),
+            answers:              answers,
+          }
+
+          $scope.questions.push(question);
         {% endfor %}
-        var question = {
-          index:                questionIndex,
-          questionText:         "{{ question.vars.value.questionText }}",
-          imagePath:            "{{ question.vars.value.imagePath }}",
-          questionTextFullPath: questionAttributePathWithIndex(questionIndex, 'questionText'),
-          imagePathFullPath:    questionAttributePathWithIndex(questionIndex, 'imagePath'),
-          answersFullPath:      questionAttributePathWithIndex(questionIndex, 'answers'),
-          answers:              answers,
-        }
-
-        $scope.questions.push(question);
-      {% endfor %}
+      {% else %}
+        $scope.addEmptyQuestion(); // Add one initial question
+      {% endif %}
     }
 
     fillQuestionsFromSymfony();
-    console.log($scope.questions)
   });
 
   angular.bootstrap(document.getElementById('ngAppOnSecQuestions'), ['onSecQuestions']);
