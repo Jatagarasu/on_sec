@@ -29,28 +29,37 @@
         {% endjavascripts %}
     {% endblock %}
 </head>
-<body id="site-body">
-<header id="row">
-    {% block header %}
-        <div id="col-md-12">
-            <div class="navbar navbar-mainmain">
-                {% block navigation %}
-                    {% include 'navigation.html.twig' %}
-                {% endblock %}
-                <div class="col-md-3" style="text-align: right">
-                    <h2>{{ '%s %s'|format(app.user.firstname,app.user.surname) }}<a style="color: #de021a;" href="{#{ path('logout') }#}"><i style="margin-top:5px;margin-left: 5px;" class="fa fa-sign-out" aria-hidden="true"></i></a></h2>
+{# Redirect to Login if user is not logged in #}
+{% if not app.user and not ('login' in app.request.getRequestUri()) %}
+    <meta http-equiv="refresh" content="1; url={{ path('login') }}">
+    <script type="text/javascript">
+        window.location.href = "{{ path('login') }}";
+    </script>
+{% else %}
+
+    <body id="site-body">
+    <header id="row">
+        {% block header %}
+            <div id="col-md-12">
+                <div class="navbar navbar-mainmain">
+                    {% block navigation %}
+                        {% include 'navigation.html.twig' %}
+                    {% endblock %}
+                    <div class="col-md-3" style="text-align: right">
+                        <h2>{{ '%s %s'|format(app.user.firstname,app.user.surname) }}<a style="color: #de021a;" href="{{ path('logout') }}"><i style="margin-top:5px;margin-left: 5px;" class="fa fa-sign-out" aria-hidden="true"></i></a></h2>
+                    </div>
                 </div>
             </div>
-        </div>
+        {% endblock %}
+    </header>
+    <div class="container site-content">
+        {% block content %}{% endblock %}
+    </div>
+    {% block footer %}
+        <footer class="impressum" id="col-md-12">
+            <h1 class="footerSize">Impressum und Copyright</h1>
+        </footer>
     {% endblock %}
-</header>
-<div class="container site-content">
-    {% block content %}{% endblock %}
-</div>
-{% block footer %}
-    <footer class="impressum" id="col-md-12">
-        <h1 class="footerSize">Impressum und Copyright</h1>
-    </footer>
-{% endblock %}
-</body>
+    </body>
+{% endif %}
 </html>
