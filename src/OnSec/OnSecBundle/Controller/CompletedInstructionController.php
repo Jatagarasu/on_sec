@@ -5,8 +5,6 @@ namespace OnSec\OnSecBundle\Controller;
 use OnSec\OnSecBundle\Entity\CompletedInstruction;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use OnSec\OnSecBundle\Entity\User;
-use OnSec\OnSecBundle\Entity\Instruction;
 
 /**
  * Completedinstruction controller.
@@ -124,15 +122,27 @@ class CompletedInstructionController extends Controller
         ;
     }
 
-    public function saveCompletedInstruction(Instruction $instruction, User $user){
+    public function saveAction(Request $request, $instruction){
+
+        $this->saveCompletedInstruction($instruction);
+
+        return $this->redirectToRoute('index');
+
+        /*return $this->render('HSDOnSecBundle:Dashboard:index.html.twig', array( ));*/
+    }
+
+    public function saveCompletedInstruction($id){
 
         $em = $this->getDoctrine()->getManager();
 
+        $instruction = $em->getRepository('HSDOnSecBundle:Instruction')->find($id);
+
         $completedInstruction = new CompletedInstruction();
-        $completedInstruction->setUser($user);
+        $completedInstruction->setUser($this->get('security.token_storage')->getToken()->getUser());
         $completedInstruction->setInstruction($instruction);
 
         $em->persist($completedInstruction);
+        $em->flush();
 
     }
 }

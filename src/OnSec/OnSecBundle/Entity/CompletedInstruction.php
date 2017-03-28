@@ -2,6 +2,7 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+
 /**
  * CompletedInstruction
  */
@@ -119,7 +120,7 @@ class CompletedInstruction
     public function initialDateTime()
     {
         $date = new \DateTime();
-        $date->add('P'.$this->instruction->getExpiretime().'D');
+        $date->add(new \DateInterval('P'.$this->instruction->getExpiretime().'D'));
         $this->setExpireDate($date);
     }
 }

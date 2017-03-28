@@ -2,6 +2,7 @@
 
 namespace OnSec\OnSecBundle\Controller;
 
+use OnSec\OnSecBundle\Entity\CompletedInstruction;
 use OnSec\OnSecBundle\Entity\Instruction;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;

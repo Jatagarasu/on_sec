@@ -51,7 +51,7 @@
                     {% verbatim %}
                                <a href id= "checkButton" ng-click="checkAnswer()" class="btn btn-primary btn-lg">{{buttonText}}</a>
                          {% endverbatim %}
-                    <a id="weiter" href="{{ path('index') }}" class="btn btn-primary btn-lg buttonHidden">weiter</a>
+                    <a id="weiter" href="{{ url('completedinstruction_save', {'instruction': instruction.id}) }}" class="btn btn-primary btn-lg buttonHidden">weiter</a>
                 </div>
             </div>
             </br>

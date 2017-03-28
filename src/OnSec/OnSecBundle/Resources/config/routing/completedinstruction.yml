@@ -22,3 +22,7 @@ completedinstruction_delete:
     path:     /{id}/delete
     defaults: { _controller: "HSDOnSecBundle:CompletedInstruction:delete" }
     methods:  DELETE
+
+completedinstruction_save:
+    path:     /{instruction}/save
+    defaults: { _controller: "HSDOnSecBundle:CompletedInstruction:save" }
