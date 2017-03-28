@@ -2,6 +2,7 @@
 
 namespace OnSec\OnSecBundle\Controller;
 
+use OnSec\OnSecBundle\Entity\CompletedInstruction;
 use OnSec\OnSecBundle\Entity\Instruction;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,6 +84,12 @@ class InstructionController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            foreach ($instruction->getQuestions() as $question) {
+                foreach ($question->getAnswers() as $answer) {
+                    $answer->setQuestion($question);
+                }
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('instruction_edit', array('id' => $instruction->getId()));

@@ -50,6 +50,11 @@ class User implements UserInterface, \Serializable
     private $roles;
 
     /**
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -65,8 +70,7 @@ class User implements UserInterface, \Serializable
      */
     public function __toString()
     {
-        return $this->getFirstname() . ' ' . $this->getSurname() . ' (' . $this->getEmail() . ')';
-        //generates a string like "Max Mustermann (max@mustermann.com)"
+        return $this->getEmail();
     }
 
     public function getUsername()
@@ -218,11 +222,11 @@ class User implements UserInterface, \Serializable
     /**
      * Add completedInstruction
      *
-     * @param \OnSec\OnSecBundle\Entity\Instruction $completedInstruction
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction
      *
      * @return User
      */
-    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\Instruction $completedInstruction)
+    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction)
     {
         $this->completed_instructions[] = $completedInstruction;
 
@@ -232,9 +236,9 @@ class User implements UserInterface, \Serializable
     /**
      * Remove completedInstruction
      *
-     * @param \OnSec\OnSecBundle\Entity\Instruction $completedInstruction
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction
      */
-    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\Instruction $completedInstruction)
+    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction)
     {
         $this->completed_instructions->removeElement($completedInstruction);
     }
@@ -280,9 +284,27 @@ class User implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return array('ROLE_ADMIN');
-        //return $this->roles;
-        //TODO: userorles aus der Datenabank übergeben
+        $roles = array('ROLE_USER');
+        foreach($this->roles as $role){
+            $roles[] = $role->getName();
+        }
+        return $roles;
+    }
+
+    /**
+    * @return string
+    */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
     }
 
     /** @see \Serializable::serialize() */

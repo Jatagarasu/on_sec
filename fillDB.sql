@@ -6,7 +6,7 @@ DELETE FROM instruction_keywords;
 DELETE From instruction_moderators;
 DELETE FROM instruction_questions;
 DELETE FROM room_keywords;
-DELETE FROM user_completedinstructions;
+DELETE FROM completed_instruction;
 DELETE From user_roles;
 DELETE FROM answer;
 DELETE FROM course;
@@ -267,11 +267,13 @@ INSERT INTO `room_keywords` (`room_id`, `keyword_id`) VALUES
 (2, 6),
 (3, 7);
 
-INSERT INTO `user_completedinstructions` (`user_id`, `instruction_id`) VALUES
-(4, 4),
-(5, 6),
-(8, 5),
-(9, 1);
+INSERT INTO `completed_instruction` (`id`, `instruction_id`, `user_id`, `expire_date`, `completion_date`) VALUES
+  (1, 1, 5, '2017-05-19 00:00:00', '2017-03-01 00:00:00'),
+  (2, 4, 4, '2017-07-15 00:00:00', '2017-02-01 00:00:00'),
+  (3, 5, 6, '2017-09-15 00:00:00', '2017-03-10 00:00:00'),
+  (6, 1, 8, '2017-04-15 00:00:00', '2017-03-13 00:00:00'),
+  (7, 6, 8, '2017-03-24 00:00:00', '2017-01-16 00:00:00'),
+  (8, 7, 9, '2017-05-19 00:00:00', '2017-01-17 00:00:00');
 
 INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
 (1, 2),

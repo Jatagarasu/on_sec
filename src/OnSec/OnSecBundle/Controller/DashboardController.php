@@ -116,15 +116,16 @@ class DashboardController extends Controller
 
     public function createCSVAction($course_id)
     {
+        $em = $this->getDoctrine()->getManager();
+        $course = $em->getRepository('HSDOnSecBundle:Course')->find($course_id);
         $response = new StreamedResponse();
-        $response->setCallback(function() use ($course_id) {
+        $response->setCallback(function() use ($course) {
             $handle = fopen('php://output', 'w+');
 
             // Add the header of the CSV file
             fputcsv($handle, array('Name', 'Vorname', 'E-Mail', 'Anzahl fehlender Unterweisungen'),';');
 
-            $em = $this->getDoctrine()->getManager();
-            $course = $em->getRepository('HSDOnSecBundle:Course')->find($course_id);
+
 
 
             foreach ($course->getSubscribers() as $subscriber) {
@@ -149,8 +150,10 @@ class DashboardController extends Controller
         });
 
         $response->setStatusCode(200);
+
         $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
-        $response->headers->set('Content-Disposition', 'attachment; filename="export.csv"');
+        $filename= $course->getDescription();
+        $response->headers->set('Content-Disposition', "attachment; filename=$filename.csv");
 
         return $response;
     }

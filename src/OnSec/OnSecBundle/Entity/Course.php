@@ -2,6 +2,8 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Course
  */
@@ -12,7 +14,8 @@ class Course
      */
     private $id;
 
-    /**
+     /**
+     * @Assert\NotBlank()
      * @var string
      */
     private $description;

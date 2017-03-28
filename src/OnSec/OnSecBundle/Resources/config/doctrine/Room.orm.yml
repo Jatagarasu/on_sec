@@ -1,5 +1,6 @@
 OnSec\OnSecBundle\Entity\Room:
     type: entity
+    repositoryClass: OnSec\OnSecBundle\Repository\RoomRepository
     table: room
 
     id:

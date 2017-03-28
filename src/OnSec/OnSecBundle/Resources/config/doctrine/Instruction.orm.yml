@@ -1,5 +1,6 @@
 OnSec\OnSecBundle\Entity\Instruction:
     type: entity
+    repositoryClass: OnSec\OnSecBundle\Repository\InstructionRepository
     table: instruction
 
     id:
@@ -25,6 +26,12 @@ OnSec\OnSecBundle\Entity\Instruction:
             joinColumn:
                 name: owner_id
                 referencedColumnName: id
+
+    oneToMany:
+        completed_instructions:
+            targetEntity: CompletedInstruction
+            mappedBy: instruction
+
 
     manyToMany:
         moderators:

@@ -1,5 +1,6 @@
 OnSec\OnSecBundle\Entity\User:
     type: entity
+    repositoryClass: OnSec\OnSecBundle\Repository\UserRepository
     table: user
 
     id:
@@ -25,17 +26,22 @@ OnSec\OnSecBundle\Entity\User:
             type: boolean
             nullable: true
 
-    manyToMany:
+    oneToMany:
         completed_instructions:
-            targetEntity: Instruction
-            joinTable:
-                name: user_completedInstructions
-                joinColumns:
-                    user_id:
-                        referencedColumnName: id
-                inversedJoinColumn:
-                    instruction_id:
-                        referencedColumnName: id
+            targetEntity: CompletedInstruction
+            mappedBy: user
+
+    manyToMany:
+#        completed_instructions:
+#            targetEntity: Instruction
+#            joinTable:
+#                name: user_completedInstructions
+#                joinColumns:
+#                    user_id:
+#                        referencedColumnName: id
+#                inversedJoinColumn:
+#                    instruction_id:
+#                        referencedColumnName: id
         roles:
             targetEntity: Role
             joinTable:

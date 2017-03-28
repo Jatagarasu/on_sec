@@ -107,6 +107,8 @@ class Room
     {
         return $this->keywords;
     }
+
+
     /**
      * @var \Doctrine\Common\Collections\Collection
      */

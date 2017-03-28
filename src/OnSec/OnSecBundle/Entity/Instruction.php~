@@ -274,6 +274,8 @@ class Instruction
     {
         return $this->keywords;
     }
+
+
     /**
      * @var integer
      */
@@ -302,5 +304,44 @@ class Instruction
     public function getExpiretime()
     {
         return $this->expiretime;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $completed_instructions;
+
+
+    /**
+     * Add completedInstruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstructions $completedInstruction
+     *
+     * @return Instruction
+     */
+    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstructions $completedInstruction)
+    {
+        $this->completed_instructions[] = $completedInstruction;
+
+        return $this;
+    }
+
+    /**
+     * Remove completedInstruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstructions $completedInstruction
+     */
+    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstructions $completedInstruction)
+    {
+        $this->completed_instructions->removeElement($completedInstruction);
+    }
+
+    /**
+     * Get completedInstructions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCompletedInstructions()
+    {
+        return $this->completed_instructions;
     }
 }
