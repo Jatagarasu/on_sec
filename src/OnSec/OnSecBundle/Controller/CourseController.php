@@ -76,8 +76,9 @@ class CourseController extends Controller
                 }
             }
 
-            /*$owner = $em->getRepository('HSDOnSecBundle:User')->find(app.user.id);
-            $course->setOwner($owner);*/
+            $ownerId = $this->get('security.token_storage')->getToken()->getUser()->getId();
+            $owner = $em->getRepository('HSDOnSecBundle:User')->find($ownerId);
+            $course->setOwner($owner);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($course);
