@@ -10,8 +10,6 @@
 
         {{ form_row(form.expiretime) }}
 
-        <input type="file" id="pdfLink" name="{{ form.pdfLink.vars.full_name }}" required="required" class="inputFile">
-        {% do form.pdfLink.setRendered %}
 
         {{ keywords_input.keywords_input(form) }}
 

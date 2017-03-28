@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class InstructionType extends AbstractType
 {
@@ -18,7 +18,7 @@ class InstructionType extends AbstractType
         $builder
           ->add('description')
           ->add('expiretime')
-          ->add('pdfLink', FileType::class, array('label' => 'PDF'))
+          ->add('pdfFile', VichFileType::class)
           ->add('keywords', CollectionType::class, array(
               'entry_type' => KeywordType::class,
               'allow_add' => true,

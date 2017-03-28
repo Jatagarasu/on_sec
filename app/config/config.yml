@@ -50,7 +50,9 @@ assetic:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-    form_themes: ['bootstrap_3_layout.html.twig']
+    form_themes:
+        - 'bootstrap_3_layout.html.twig'
+        - 'VichUploaderBundle:Form:fields.html.twig'
 
 # Doctrine Configuration
 doctrine:
@@ -99,4 +101,4 @@ vich_uploader:
         instruction_pdf:
             uri_prefix:         /pdf
             upload_destination: '%kernel.root_dir%/../web/pdf'
-            name:               vich_uploader.namer_origname
+            namer:               vich_uploader.namer_origname

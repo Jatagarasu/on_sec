@@ -2,8 +2,12 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * Instruction
+ * @Vich\Uploadable
  */
 class Instruction
 {
@@ -21,6 +25,14 @@ class Instruction
      * @var \DateTime
      */
     private $expiredate;
+
+    /**
+     *
+     * @Vich\UploadableField(mapping="instruction_pdf", fileNameProperty="pdfLink")
+     *
+     * @var File
+     */
+    private $pdfFile;
 
     /**
      * @var string
@@ -137,6 +149,33 @@ class Instruction
         $this->pdfLink = $pdfLink;
 
         return $this;
+    }
+
+    /**
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $pdf
+     *
+     * @return Instruction
+     */
+    public function setPdfFile(File $pdf = null)
+    {
+        $this->pdfFile = $pdf;
+
+        if ($pdf) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getPdfFile()
+    {
+        return $this->pdfFile;
     }
 
     /**

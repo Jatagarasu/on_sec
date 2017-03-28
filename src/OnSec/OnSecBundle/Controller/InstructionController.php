@@ -46,15 +46,15 @@ class InstructionController extends Controller
                 }
             }
 
-            $file     = $instruction->getPdfLink();
-            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            // $file     = $instruction->getPdfLink();
+            // $fileName = md5(uniqid()).'.'.$file->guessExtension();
 
-            $file->move(
-              $this->getParameter('pdf_directory'),
-              $fileName
-            );
+            // $file->move(
+            //   $this->getParameter('pdf_directory'),
+            //   $fileName
+            // );
 
-            $instruction->setPdfLink($fileName);
+            // $instruction->setPdfLink($fileName);
 
             $em->persist($instruction);
             $em->flush($instruction);
