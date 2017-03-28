@@ -19,12 +19,14 @@ OnSec\OnSecBundle\Entity\CompletedInstruction:
             joinColumn:
                 name: instruction_id
                 referencedColumnName: id
+            nullable: false
         user:
             targetEntity: User
             inversedBy: completed_instructions
             joinColumn:
                 name: user_id
                 referncedColumnName: id
+            nullable: false
 
     lifecycleCallbacks: {
                 prePersist: [ initialDateTime ]

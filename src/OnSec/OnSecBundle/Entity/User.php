@@ -42,6 +42,11 @@ class User implements UserInterface, \Serializable
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
+    private $completed_instructions;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
     private $roles;
 
     /**
@@ -65,7 +70,7 @@ class User implements UserInterface, \Serializable
      */
     public function __toString()
     {
-        return $this->getFirstname();
+        return $this->getEmail();
     }
 
     public function getUsername()
@@ -217,11 +222,11 @@ class User implements UserInterface, \Serializable
     /**
      * Add completedInstruction
      *
-     * @param \OnSec\OnSecBundle\Entity\Instruction $completedInstruction
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction
      *
      * @return User
      */
-    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\Instruction $completedInstruction)
+    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction)
     {
         $this->completed_instructions[] = $completedInstruction;
 
@@ -231,9 +236,9 @@ class User implements UserInterface, \Serializable
     /**
      * Remove completedInstruction
      *
-     * @param \OnSec\OnSecBundle\Entity\Instruction $completedInstruction
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction
      */
-    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\Instruction $completedInstruction)
+    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction)
     {
         $this->completed_instructions->removeElement($completedInstruction);
     }
@@ -287,8 +292,8 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return string
-     */
+    * @return string
+    */
     public function getPlainPassword()
     {
         return $this->plainPassword;
@@ -325,10 +330,4 @@ class User implements UserInterface, \Serializable
             // $this->salt
             ) = unserialize($serialized);
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $completed_instructions;
-
-
 }

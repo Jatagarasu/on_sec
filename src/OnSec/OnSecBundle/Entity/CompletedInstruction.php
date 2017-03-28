@@ -8,7 +8,7 @@ namespace OnSec\OnSecBundle\Entity;
 class CompletedInstruction
 {
     /**
-     * @var int
+     * @var integer
      */
     private $id;
 
@@ -17,11 +17,21 @@ class CompletedInstruction
      */
     private $expireDate;
 
+    /**
+     * @var \OnSec\OnSecBundle\Entity\Instruction
+     */
+    private $instruction;
+
+    /**
+     * @var \OnSec\OnSecBundle\Entity\User
+     */
+    private $user;
+
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -51,16 +61,6 @@ class CompletedInstruction
     {
         return $this->expireDate;
     }
-    /**
-     * @var \OnSec\OnSecBundle\Entity\Instruction
-     */
-    private $instruction;
-
-    /**
-     * @var \OnSec\OnSecBundle\Entity\User
-     */
-    private $user;
-
 
     /**
      * Set instruction
@@ -123,3 +123,4 @@ class CompletedInstruction
         $this->setExpireDate($date);
     }
 }
+
