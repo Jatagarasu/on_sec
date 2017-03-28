@@ -19,6 +19,29 @@ class CompletedInstruction
     private $expireDate;
 
     /**
+     * @var \DateTime
+     */
+    private $completionDate;
+
+    /**
+     * @return CompletedInstruction
+     */
+    public function getCompletionDate()
+    {
+        return $this->completionDate;
+    }
+
+    /**
+     * Set completionDate
+     *
+     * @param \DateTime $completionDate
+     */
+    public function setCompletionDate($completionDate)
+    {
+        $this->completionDate = $completionDate;
+    }
+
+    /**
      * @var \OnSec\OnSecBundle\Entity\Instruction
      */
     private $instruction;
@@ -109,6 +132,16 @@ class CompletedInstruction
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @ORM\PrePersist
+     *
+     * Sets the completionDate to todays date.
+     */
+    public function completionDateTime()
+    {
+        $this->setCompletionDate(new \DateTime());
     }
 
     /**

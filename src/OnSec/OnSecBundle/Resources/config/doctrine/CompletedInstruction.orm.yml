@@ -11,6 +11,8 @@ OnSec\OnSecBundle\Entity\CompletedInstruction:
     fields:
         expireDate:
             type: datetime
+        completionDate:
+            type: datetime
 
     manyToOne:
         instruction:
@@ -29,5 +31,5 @@ OnSec\OnSecBundle\Entity\CompletedInstruction:
             nullable: false
 
     lifecycleCallbacks: {
-                prePersist: [ initialDateTime ]
+            prePersist: [initialDateTime, completionDateTime ]
      }
