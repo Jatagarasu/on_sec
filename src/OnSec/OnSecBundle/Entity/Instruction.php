@@ -325,11 +325,11 @@ class Instruction
     /**
      * Add completedInstruction
      *
-     * @param \OnSec\OnSecBundle\Entity\CompletedInstructions $completedInstruction
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction
      *
      * @return Instruction
      */
-    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstructions $completedInstruction)
+    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction)
     {
         $this->completed_instructions[] = $completedInstruction;
 
@@ -339,9 +339,9 @@ class Instruction
     /**
      * Remove completedInstruction
      *
-     * @param \OnSec\OnSecBundle\Entity\CompletedInstructions $completedInstruction
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction
      */
-    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstructions $completedInstruction)
+    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction)
     {
         $this->completed_instructions->removeElement($completedInstruction);
     }

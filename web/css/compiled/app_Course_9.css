@@ -1,0 +1,58 @@
+.add{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.tablehead{
+    border-radius: 10px;
+    margin: 10px 0 0 0;
+}
+
+.tablebody{
+    background-color: lightgrey;
+    margin: 10px 0 0 0;
+    border-radius: 10px;
+}
+
+.instruction_element{
+    background-color: white;
+    margin: 6px 6px 3px 6px;
+    padding: 2px 3px 2px 3px;
+    border-radius: 5px;
+}
+
+.instruction_button {
+    margin: 6px;
+    padding: 3px;
+}
+
+#scrollbox {
+    border-radius: 5px;
+    overflow: scroll;
+    /*width: 600px;*/
+    height: 100px;
+    margin: 10px 0 10px 0;
+    background-color: lightgrey;
+}
+
+/*.navbar {
+    margin-bottom: 10px;
+}
+
+.logo {
+    max-height: 45px;
+    position: relative;
+    bottom: 5px;
+}*/
+
+.room {
+    display: inline-block;
+    background: #00afd8;
+    padding: 0 5px;
+    border-radius: 5px;
+}
+
+.room-list {
+    list-style: none;
+    padding-left: 0;
+}
