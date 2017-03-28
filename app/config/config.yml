@@ -91,3 +91,12 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        instruction_pdf:
+            uri_prefix:         /pdf
+            upload_destination: '%kernel.root_dir%/../web/pdf'
+            name:               vich_uploader.namer_origname
