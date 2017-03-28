@@ -29,12 +29,12 @@ INSERT INTO `user` (`id`, `surname`, `firstname`, `email`, `notification_active`
 (9, 'Landry', 'David', 'bimse110@gmail.com', 0, '$2a$06$AWsGrEAr4dWHpstipghF4OOK35Bmxelo7waOwi.rbPXLS2Q/k1wAK');
 
 INSERT INTO `instruction` (`id`, `description`, `pdf_link`, `owner_id`, `expiretime`) VALUES
-(1, 'Abfall ABC', 'pdf/abfall.pdf', 1, 2017),
-(2, 'Brandschutz', 'pdf/Brandschutzunterweisung.pdf', 2, 123),
-(3, 'Laser', 'pdf/Lasersicherheit.pdf', 2, 23),
-(4, 'Leiter', 'pdf/leiter.pdf', 2, 300),
-(5, 'Sicherheitsunterweisung Beschäftigte', 'pdf/Sicherheitsunterweisung_HSD-Beschaeftigte.pdf', 1, 25),
-(6, 'Sicherheitsunterweisung Studierende', 'pdf/Sicherheitsunterweisung_HSD-Studierende.pdf', 1, 200);
+(1, 'Abfall ABC', 'abfall.pdf', 1, 2017),
+(2, 'Brandschutz', 'Brandschutzunterweisung.pdf', 2, 123),
+(3, 'Laser', 'Lasersicherheit.pdf', 2, 23),
+(4, 'Leiter', 'leiter.pdf', 2, 300),
+(5, 'Sicherheitsunterweisung Beschäftigte', 'Sicherheitsunterweisung_HSD-Beschaeftigte.pdf', 1, 25),
+(6, 'Sicherheitsunterweisung Studierende', 'Sicherheitsunterweisung_HSD-Studierende.pdf', 1, 200);
 
 INSERT INTO `question` (`id`, `owner_id`, `question_text`, `image_path`, `created_on`, `updated_on`) VALUES
 (3, 1, 'Was für Abfallstoffe gibt es?', 'images/muell.png', '2017-03-20 00:00:00', '2017-03-20 00:00:00'),
