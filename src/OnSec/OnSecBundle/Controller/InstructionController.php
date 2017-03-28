@@ -83,6 +83,12 @@ class InstructionController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            foreach ($instruction->getQuestions() as $question) {
+                foreach ($question->getAnswers() as $answer) {
+                    $answer->setQuestion($question);
+                }
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('instruction_edit', array('id' => $instruction->getId()));

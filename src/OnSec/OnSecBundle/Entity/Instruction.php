@@ -242,6 +242,15 @@ class Instruction
     }
 
     /**
+     * @param \OnSec\OnSecBundle\Entity\Keyword $keyword
+     * @return bool
+     */
+    public function hasKeyword(Keyword $keyword)
+    {
+        return $this->getKeywords()->contains($keyword);
+    }
+
+    /**
      * Add keyword
      *
      * @param \OnSec\OnSecBundle\Entity\Keyword $keyword
@@ -250,7 +259,9 @@ class Instruction
      */
     public function addKeyword(\OnSec\OnSecBundle\Entity\Keyword $keyword)
     {
-        $this->keywords[] = $keyword;
+        if (!$this->hasKeyword($keyword)) {
+            $this->keywords[] = $keyword;
+        }
 
         return $this;
     }

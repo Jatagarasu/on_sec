@@ -1,10 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
+{% import 'macros/keywords_input.html.twig' as keywords_input %}
+{% import 'macros/questions_input.html.twig' as questions_input %}
     <h1>Instruction edit</h1>
 
     {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
+        {{ form_row(edit_form.description) }}
+
+        {{ form_row(edit_form.expiretime) }}
+
+        {{ form_row(edit_form.pdfLink) }}
+
+        {{ keywords_input.keywords_input(edit_form) }}
+
+        {{ questions_input.questions_input(edit_form) }}
+
         <input type="submit" value="Edit" />
     {{ form_end(edit_form) }}
 
