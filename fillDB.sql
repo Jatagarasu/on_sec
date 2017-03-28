@@ -6,7 +6,7 @@ DELETE FROM instruction_keywords;
 DELETE From instruction_moderators;
 DELETE FROM instruction_questions;
 DELETE FROM room_keywords;
-DELETE FROM user_completedinstructions;
+DELETE FROM completed_instruction;
 DELETE From user_roles;
 DELETE FROM answer;
 DELETE FROM course;
