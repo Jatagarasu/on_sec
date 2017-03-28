@@ -1,21 +1,29 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <h1>Answer edit</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Antwort bearbeiten</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {{ form_start(edit_form) }}
+                <div class="btn-group">
+                    <input type="submit" value="Änderung speichern"class="btn btn-outline-success" />
+                    <a href="{{ path('answer_index') }}" class="btn btn-outline-primary">Zurück zur Liste</a>
+                </div>
+                {{ form_row(edit_form.answerText, { 'label': 'Antworttext' }) }}
+                {{ form_row(edit_form.isCorrect, { 'label': 'Richtigkeit' }) }}
+                {{ form_row(edit_form.createdOn, { 'label': 'Erstellt am' }) }}
+                {{ form_row(edit_form.updatedOn, { 'label': 'Geändert am' }) }}
+                {{ form_row(edit_form.question, { 'label': 'Zugehörige Frage' }) }}
+            {{ form_end(edit_form) }}
+        </div>
+    </div>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+    {{ form_start(delete_form) }}
+    <input type="submit" value="Eintrag löschen" class="btn btn-outline-danger">
+    {{ form_end(delete_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('answer_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
 {% endblock %}
