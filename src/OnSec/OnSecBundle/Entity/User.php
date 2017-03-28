@@ -42,11 +42,6 @@ class User implements UserInterface, \Serializable
     /**
      * @var \Doctrine\Common\Collections\Collection
      */
-    private $completed_instructions;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
     private $roles;
 
     /**
@@ -330,4 +325,10 @@ class User implements UserInterface, \Serializable
             // $this->salt
             ) = unserialize($serialized);
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $completed_instructions;
+
+
 }

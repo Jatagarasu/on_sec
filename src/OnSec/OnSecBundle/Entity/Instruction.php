@@ -242,6 +242,15 @@ class Instruction
     }
 
     /**
+     * @param \OnSec\OnSecBundle\Entity\Keyword $keyword
+     * @return bool
+     */
+    public function hasKeyword(Keyword $keyword)
+    {
+        return $this->getKeywords()->contains($keyword);
+    }
+
+    /**
      * Add keyword
      *
      * @param \OnSec\OnSecBundle\Entity\Keyword $keyword
@@ -250,7 +259,9 @@ class Instruction
      */
     public function addKeyword(\OnSec\OnSecBundle\Entity\Keyword $keyword)
     {
-        $this->keywords[] = $keyword;
+        if (!$this->hasKeyword($keyword)) {
+            $this->keywords[] = $keyword;
+        }
 
         return $this;
     }
@@ -304,5 +315,44 @@ class Instruction
     public function getExpiretime()
     {
         return $this->expiretime;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $completed_instructions;
+
+
+    /**
+     * Add completedInstruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstructions $completedInstruction
+     *
+     * @return Instruction
+     */
+    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstructions $completedInstruction)
+    {
+        $this->completed_instructions[] = $completedInstruction;
+
+        return $this;
+    }
+
+    /**
+     * Remove completedInstruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstructions $completedInstruction
+     */
+    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstructions $completedInstruction)
+    {
+        $this->completed_instructions->removeElement($completedInstruction);
+    }
+
+    /**
+     * Get completedInstructions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCompletedInstructions()
+    {
+        return $this->completed_instructions;
     }
 }
