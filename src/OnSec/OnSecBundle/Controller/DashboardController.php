@@ -13,21 +13,26 @@ class DashboardController extends Controller
 
     public function indexAction()
     {
-        $UserId = 1;//$this->get('security.token_storage')->getToken()->getUser()->getId();
-        $this->getOwnInstructions($UserId);
+        if (TRUE === $this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            $UserId = $this->get('security.token_storage')->getToken()->getUser()->getId();
 
-        $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('HSDOnSecBundle:User')->find($UserId);
+            $this->getOwnInstructions($UserId);
 
-        return $this->render('HSDOnSecBundle:Dashboard:index.html.twig', array(
-            'moderatorcourses' => $this->getCoursesByUserId($UserId),
-            //ToDo bitte dynamische UserId eintragen
-            'ownerinstructions' => $this->ownerinstructions,
-            'moderatorinstructions' => $this->moderatorinstructions,
-            'userinstructions' => $this->userinstructions,
-            'subscribercourses' => $this->getsubscribedCourses($UserId),
-            'user' => $user,
-        ));
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository('HSDOnSecBundle:User')->find($UserId);
+
+            return $this->render('HSDOnSecBundle:Dashboard:index.html.twig', array(
+                'moderatorcourses' => $this->getCoursesByUserId($UserId),
+                'ownerinstructions' => $this->ownerinstructions,
+                'moderatorinstructions' => $this->moderatorinstructions,
+                'userinstructions' => $this->userinstructions,
+                'subscribercourses' => $this->getsubscribedCourses($UserId),
+                'user' => $user,
+            ));
+        }
+        else {
+            return $this->redirectToRoute('login');
+        }
     }
 
 
@@ -41,6 +46,7 @@ class DashboardController extends Controller
     private function getCoursesByUserId($userId)
     {
         $usercourses = array();
+
         $em = $this->getDoctrine()->getManager();
 
         $courses = $em->getRepository('HSDOnSecBundle:Course')->findAll();

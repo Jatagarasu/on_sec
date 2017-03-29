@@ -34,15 +34,6 @@
         {% endjavascripts %}
     {% endblock %}
 </head>
-
-{# Redirect to Login if user is not logged in #}
-{% if not app.user and not ('login' in app.request.getRequestUri()) %}
-    <meta http-equiv="refresh" content="1; url={{ path('login') }}">
-    <script type="text/javascript">
-        window.location.href = "{{ path('login') }}";
-    </script>
-{% else %}
-
     <body id="site-body">
     <header id="row">
         {% block header %}
@@ -67,6 +58,5 @@
         </footer>
     {% endblock %}
     </body>
-{% endif %}
 </html>
 

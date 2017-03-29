@@ -22,15 +22,7 @@
     </div>
 {% endblock %}
 {% block content %}
-
-    {% if app.user %}
-        <meta http-equiv="refresh" content="1; url={{ path('dashboard') }}">
-        <script type="text/javascript">
-            window.location.href = "{{ path('dashboard') }}";
-        </script>
-    {% else %}
     <div id="content">
-
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -76,11 +68,11 @@
                                     {% endblock %}
                                 </div>
                             </div>
-                            <div class="card-block">
+                            {#<div class="card-block">
                                 <p class="card-text">Bitte nutzen Sie zum einloggen unseren bekannten Identitätsdienst der
                                     Hochschule Düsseldorf - Shibboleth</p>
                                 <a href="{{ path('dashboard') }}" class="btn btn-primary">ohne Login (developement)</a>
-                            </div>
+                            </div>#}
                         </div>
                     </div>
                 </div>
@@ -90,5 +82,4 @@
             </div>
         </div>
     </div>
-    {% endif %}
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}HSDOnSecBundle:Dashboard:index{% endblock %}
+{% block title %}Willkommen - HSD OnSec{% endblock %}
 
 {% block content %}
     {% if(is_granted("ROLE_ADMIN")) %}
@@ -158,11 +158,11 @@
 
                 if(activeTab=="#menu1"){
                     $("#topnav_text").html("<a href={{ path('course_new') }}>Neue Kurs erstellen</a>");
-                    $("#searchinput").attr("placeholder", "Suche hier nach deinen Kursen ...");
+                    $("#searchinput").attr("placeholder", "Filtere hier nach deinen Kursen ...");
                 }
                 else if(activeTab=="#menu2"){
                     $("#topnav_text").html("<a href={{ path('instruction_new') }}>Neue Unterweisung erstellen</a>");
-                    $("#searchinput").attr("placeholder", "Suche hier nach deinen Unterweisungen ...");
+                    $("#searchinput").attr("placeholder", "Filtere hier nach deinen Unterweisungen ...");
                 }
             });
             $('#onoff').click(function () {
@@ -172,7 +172,7 @@
                     $('#onoff').attr("data-onoff","off");
                     $("#showtab").show();
                     $("#coursetab").html("Meine Kurse");
-                    $("#searchinput").attr("placeholder", "Suche hier nach deinen Kursen ...");
+                    $("#searchinput").attr("placeholder", "Filtere hier nach deinen Kursen ...");
                     $("#topnav_text").show();
                     $("#user_menu").hide();
                     $("#admin_menu").show();
