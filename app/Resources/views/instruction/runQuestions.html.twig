@@ -60,12 +60,16 @@
             {% endverbatim %}
             </br>
             <div class="row">
-                <div class="col-lg-12" align="right">
-                    <a id="unterweisungButton" href="{{ path('instruction_run', {'id': instruction.id }) }}" class="btn btn-primary btn-lg">zurück zur Unterweisung</a>
+                <div class="col-lg-4" align="left">
+                        <a id="unterweisungButton" href="{{ path('instruction_run', {'id': instruction.id }) }}" class="btn btn-primary btn-lg">zurück zur Unterweisung</a>
+                </div>
+                <div class="col-lg-4" align="right">
                     {% verbatim %}
-                               <a href id= "checkButton" ng-click="checkAnswer()" class="btn btn-primary btn-lg">{{buttonText}}</a>
-                         {% endverbatim %}
-                    <a id="weiter" href="{{ url('completedinstruction_save', {'instruction': instruction.id}) }}" class="btn btn-primary btn-lg buttonHidden">weiter</a>
+                            <a href id="checkButton" ng-click="checkAnswer()" class="btn btn-primary btn-lg">Antworten prüfen</a>
+                    {% endverbatim %}
+                </div>
+                <div class="col-lg-4" align="right">
+                        <a id="weiter" href="{{ url('completedinstruction_save', {'instruction': instruction.id}) }}" class="btn btn-primary btn-lg buttonHidden">weiter zum Dashboard</a>
                 </div>
             </div>
             </br>
@@ -135,7 +139,6 @@
                     $scope.shownQuestionArray.push(questionArray[randomNumbers[i]]);
                 }
 
-                $scope.buttonText = "Antworten prüfen";
                 $scope.checkMessage = "";
                 $scope.textStyle = "";
                 $scope.boxStyle = "";
