@@ -127,8 +127,6 @@ class CompletedInstructionController extends Controller
         $this->saveCompletedInstruction($instruction);
 
         return $this->redirectToRoute('index');
-
-        /*return $this->render('HSDOnSecBundle:Dashboard:index.html.twig', array( ));*/
     }
 
     public function saveCompletedInstruction($id){

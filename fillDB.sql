@@ -1,7 +1,7 @@
 ﻿DELETE FROM course_instructions;
 DELETE From course_keywords;
 DELETE FROM course_moderators;
-DELETE FROM course_subscribers;
+DELETE FROM course_subscriber;
 DELETE FROM instruction_keywords;
 DELETE From instruction_moderators;
 DELETE FROM instruction_questions;
@@ -37,8 +37,8 @@ INSERT INTO `instruction` (`id`, `description`, `pdf_link`, `owner_id`, `expiret
 (6, 'Sicherheitsunterweisung Studierende', 'pdf/Sicherheitsunterweisung_HSD-Studierende.pdf', 1, 200);
 
 INSERT INTO `question` (`id`, `owner_id`, `question_text`, `image_path`, `created_on`, `updated_on`) VALUES
-(3, 1, 'Was für Abfallstoffe gibt es?', 'images/muell.png', '2017-03-20 00:00:00', '2017-03-20 00:00:00'),
-(5, 2, 'Welche Abfallstoffe gibt es nicht?', 'images/muell.png', '2017-03-19 00:00:00', '2017-03-21 00:00:00'),
+(3, 1, 'Was für Abfallstoffe gibt es?', 'images/muell.jpg', '2017-03-20 00:00:00', '2017-03-20 00:00:00'),
+(5, 2, 'Welche Abfallstoffe gibt es nicht?', 'images/muell.jpg', '2017-03-19 00:00:00', '2017-03-21 00:00:00'),
 (6, NULL, 'Was macht man bei größeren Mengen Styropor?', 'images/styropor.jpg', '2017-03-18 00:00:00', '2017-03-30 00:00:00'),
 (7, NULL, 'Welche Ansprechpartner gibt es an der HSD?', 'images/HSD_Marke.png', NULL, NULL),
 (8, NULL, 'Was sind Sonderabfälle?', 'images/abfall.png', NULL, NULL),
@@ -200,15 +200,15 @@ INSERT INTO `course_moderators` (`course_id`, `user_id`) VALUES
 (2, 1),
 (2, 3);
 
-INSERT INTO `course_subscribers` (`course_id`, `user_id`) VALUES
-(1, 4),
-(1, 5),
-(1, 6),
-(1, 7),
-(2, 4),
-(2, 5),
-(2, 8),
-(2, 9);
+INSERT INTO `course_subscriber` (`id`, `course_id`, `user_id`, `subscribtion_date`) VALUES
+(1, 1, 4, '2017-03-07 00:00:00'),
+(2, 1, 5, '2017-03-06 00:00:00'),
+(3, 1, 6, '2017-03-05 00:00:00'),
+(4, 1, 7, '2017-03-04 00:00:00'),
+(5, 2, 4, '2017-03-03 00:00:00'),
+(6, 2, 5, '2017-03-02 00:00:00'),
+(7, 2, 8, '2017-01-01 00:00:00'),
+(8, 2, 9, '2017-02-01 00:00:00');
 
 
 INSERT INTO `instruction_keywords` (`instruction_id`, `keyword_id`) VALUES
@@ -273,7 +273,7 @@ INSERT INTO `completed_instruction` (`id`, `instruction_id`, `user_id`, `expire_
   (3, 5, 6, '2017-09-15 00:00:00', '2017-03-10 00:00:00'),
   (6, 1, 8, '2017-04-15 00:00:00', '2017-03-13 00:00:00'),
   (7, 6, 8, '2017-03-24 00:00:00', '2017-01-16 00:00:00'),
-  (8, 7, 9, '2017-05-19 00:00:00', '2017-01-17 00:00:00');
+  (8, 2, 9, '2017-05-19 00:00:00', '2017-01-17 00:00:00');
 
 INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
 (1, 2),
@@ -309,3 +309,6 @@ ALTER TABLE `room`
 
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+ALTER TABLE `course_subscriber`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;

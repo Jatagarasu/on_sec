@@ -330,4 +330,43 @@ class User implements UserInterface, \Serializable
             // $this->salt
             ) = unserialize($serialized);
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $course_subscriptions;
+
+
+    /**
+     * Add courseSubscription
+     *
+     * @param \OnSec\OnSecBundle\Entity\Subscriber $courseSubscription
+     *
+     * @return User
+     */
+    public function addCourseSubscription(\OnSec\OnSecBundle\Entity\Subscriber $courseSubscription)
+    {
+        $this->course_subscriptions[] = $courseSubscription;
+
+        return $this;
+    }
+
+    /**
+     * Remove courseSubscription
+     *
+     * @param \OnSec\OnSecBundle\Entity\Subscriber $courseSubscription
+     */
+    public function removeCourseSubscription(\OnSec\OnSecBundle\Entity\Subscriber $courseSubscription)
+    {
+        $this->course_subscriptions->removeElement($courseSubscription);
+    }
+
+    /**
+     * Get courseSubscriptions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourseSubscriptions()
+    {
+        return $this->course_subscriptions;
+    }
 }

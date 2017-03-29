@@ -6,19 +6,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AnswerType extends AbstractType
+class SubscriberType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('answerText')
-            ->add('isCorrect')
-            ->add('createdOn')
-            ->add('updatedOn')
-            ->add('question');
+        $builder->add('subscribtionDate')->add('cours')->add('user');
     }
     
     /**
@@ -27,7 +22,7 @@ class AnswerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'OnSec\OnSecBundle\Entity\Answer'
+            'data_class' => 'OnSec\OnSecBundle\Entity\Subscriber'
         ));
     }
 
@@ -36,7 +31,7 @@ class AnswerType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'onsec_onsecbundle_answer';
+        return 'onsec_onsecbundle_subscriber';
     }
 
 

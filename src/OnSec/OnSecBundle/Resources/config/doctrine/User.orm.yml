@@ -30,6 +30,9 @@ OnSec\OnSecBundle\Entity\User:
         completed_instructions:
             targetEntity: CompletedInstruction
             mappedBy: user
+        course_subscriptions:
+            targetEntity: Subscriber
+            mappedBy: user
 
     manyToMany:
 #        completed_instructions:
