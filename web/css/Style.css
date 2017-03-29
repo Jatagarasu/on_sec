@@ -31,3 +31,7 @@ body {
     position: relative;
     bottom: 0px;
 }
+
+.text-black {
+    color: #000000;
+}
