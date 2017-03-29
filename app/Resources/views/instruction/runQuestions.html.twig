@@ -91,16 +91,12 @@
         }
 
         var randomNumbers = [];
-        var i=0;
-        while(i<fragenAnzeigeAnzahl) {
-            console.log(i);
-            var randomNum = Math.floor(Math.random() * (anzahl)) ;
+        while(randomNumbers.length < fragenAnzeigeAnzahl) {
+            var randomNum = Math.floor(Math.random() * (anzahl));
             if (randomNumbers.indexOf(randomNum) == -1) {
                 randomNumbers.push(randomNum);
             }
-            i++;
         }
-
         var questionArray = [];
 
         {% for question in instruction.questions %}
