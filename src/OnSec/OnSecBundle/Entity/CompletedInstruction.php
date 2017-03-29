@@ -157,4 +157,3 @@ class CompletedInstruction
         $this->setExpireDate($date);
     }
 }
-

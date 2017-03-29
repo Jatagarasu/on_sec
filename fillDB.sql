@@ -1,7 +1,7 @@
 ﻿DELETE FROM course_instructions;
 DELETE From course_keywords;
 DELETE FROM course_moderators;
-DELETE FROM course_subscribers;
+DELETE FROM course_subscriber;
 DELETE FROM instruction_keywords;
 DELETE From instruction_moderators;
 DELETE FROM instruction_questions;
@@ -200,15 +200,15 @@ INSERT INTO `course_moderators` (`course_id`, `user_id`) VALUES
 (2, 1),
 (2, 3);
 
-INSERT INTO `course_subscribers` (`course_id`, `user_id`) VALUES
-(1, 4),
-(1, 5),
-(1, 6),
-(1, 7),
-(2, 4),
-(2, 5),
-(2, 8),
-(2, 9);
+INSERT INTO `course_subscriber` (`id`, `course_id`, `user_id`, `subscribtion_date`) VALUES
+(1, 1, 4, '2017-03-07 00:00:00'),
+(2, 1, 5, '2017-03-06 00:00:00'),
+(3, 1, 6, '2017-03-05 00:00:00'),
+(4, 1, 7, '2017-03-04 00:00:00'),
+(5, 2, 4, '2017-03-03 00:00:00'),
+(6, 2, 5, '2017-03-02 00:00:00'),
+(7, 2, 8, '2017-01-01 00:00:00'),
+(8, 2, 9, '2017-02-01 00:00:00');
 
 
 INSERT INTO `instruction_keywords` (`instruction_id`, `keyword_id`) VALUES
@@ -273,7 +273,7 @@ INSERT INTO `completed_instruction` (`id`, `instruction_id`, `user_id`, `expire_
   (3, 5, 6, '2017-09-15 00:00:00', '2017-03-10 00:00:00'),
   (6, 1, 8, '2017-04-15 00:00:00', '2017-03-13 00:00:00'),
   (7, 6, 8, '2017-03-24 00:00:00', '2017-01-16 00:00:00'),
-  (8, 7, 9, '2017-05-19 00:00:00', '2017-01-17 00:00:00');
+  (8, 2, 9, '2017-05-19 00:00:00', '2017-01-17 00:00:00');
 
 INSERT INTO `user_roles` (`user_id`, `role_id`) VALUES
 (1, 2),
@@ -309,3 +309,6 @@ ALTER TABLE `room`
 
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+ALTER TABLE `course_subscriber`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
