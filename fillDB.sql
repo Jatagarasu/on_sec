@@ -37,8 +37,8 @@ INSERT INTO `instruction` (`id`, `description`, `pdf_link`, `owner_id`, `expiret
 (6, 'Sicherheitsunterweisung Studierende', 'pdf/Sicherheitsunterweisung_HSD-Studierende.pdf', 1, 200);
 
 INSERT INTO `question` (`id`, `owner_id`, `question_text`, `image_path`, `created_on`, `updated_on`) VALUES
-(3, 1, 'Was für Abfallstoffe gibt es?', 'images/muell.png', '2017-03-20 00:00:00', '2017-03-20 00:00:00'),
-(5, 2, 'Welche Abfallstoffe gibt es nicht?', 'images/muell.png', '2017-03-19 00:00:00', '2017-03-21 00:00:00'),
+(3, 1, 'Was für Abfallstoffe gibt es?', 'images/muell.jpg', '2017-03-20 00:00:00', '2017-03-20 00:00:00'),
+(5, 2, 'Welche Abfallstoffe gibt es nicht?', 'images/muell.jpg', '2017-03-19 00:00:00', '2017-03-21 00:00:00'),
 (6, NULL, 'Was macht man bei größeren Mengen Styropor?', 'images/styropor.jpg', '2017-03-18 00:00:00', '2017-03-30 00:00:00'),
 (7, NULL, 'Welche Ansprechpartner gibt es an der HSD?', 'images/HSD_Marke.png', NULL, NULL),
 (8, NULL, 'Was sind Sonderabfälle?', 'images/abfall.png', NULL, NULL),

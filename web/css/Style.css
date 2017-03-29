@@ -1,7 +1,7 @@
 body {
     margin: 0 auto;
     padding: 0;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .navbar-mainmain {
@@ -40,4 +40,8 @@ td
     max-height: 45px;
     position: relative;
     bottom: 0px;
+}
+
+.text-black {
+    color: #000000;
 }

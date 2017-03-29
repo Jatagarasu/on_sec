@@ -13,7 +13,7 @@ class DashboardController extends Controller
 
     public function indexAction()
     {
-        $UserId = $this->get('security.token_storage')->getToken()->getUser()->getId();
+        $UserId = 1;//$this->get('security.token_storage')->getToken()->getUser()->getId();
         $this->getOwnInstructions($UserId);
 
         $em = $this->getDoctrine()->getManager();

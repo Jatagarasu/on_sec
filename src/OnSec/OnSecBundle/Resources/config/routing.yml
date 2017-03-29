@@ -49,3 +49,6 @@ login:
 createCSV:
     path:     /createCSV/{course_id}
     defaults: { _controller: HSDOnSecBundle:Dashboard:createCSV }
+
+logout:
+    path:     /logout
