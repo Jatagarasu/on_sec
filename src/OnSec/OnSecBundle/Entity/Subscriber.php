@@ -119,4 +119,33 @@ class Subscriber
     {
         $this->setSubscribtionDate(new \DateTime());
     }
+    /**
+     * @var \OnSec\OnSecBundle\Entity\Course
+     */
+    private $course;
+
+
+    /**
+     * Set course
+     *
+     * @param \OnSec\OnSecBundle\Entity\Course $course
+     *
+     * @return Subscriber
+     */
+    public function setCourse(\OnSec\OnSecBundle\Entity\Course $course = null)
+    {
+        $this->course = $course;
+
+        return $this;
+    }
+
+    /**
+     * Get course
+     *
+     * @return \OnSec\OnSecBundle\Entity\Course
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }
 }

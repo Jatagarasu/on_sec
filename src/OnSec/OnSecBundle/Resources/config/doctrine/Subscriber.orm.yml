@@ -13,7 +13,7 @@ OnSec\OnSecBundle\Entity\Subscriber:
             type: datetime
 
     manyToOne:
-        cours:
+        course:
             targetEntity: Course
             inversedBy: subscribers
             joinColumn:

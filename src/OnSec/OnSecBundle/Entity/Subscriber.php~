@@ -109,4 +109,14 @@ class Subscriber
     {
         return $this->user;
     }
+
+    /**
+     * @ORM\PrePersist
+     *
+     * Sets the subscribtionDate to todays date.
+     */
+    public function subscribtionDateTime()
+    {
+        $this->setSubscribtionDate(new \DateTime());
+    }
 }
