@@ -19,10 +19,14 @@ class EmailContainsHSDDomainValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if(!preg_match('@hs-duesseldorf.de', $value, $matches)){
+        if(!strpos($value,'@hs-duesseldorf.de')
+            || !strpos($value, '@study.hs-duesseldorf.de')
+            || !strpos($value, '@study.fh-duesseldorf.de')
+            || !strpos($value, '@fh-duesseldorf.de')){
             $this->context->buildViolation($constraint->message)
                 ->setParameter('%string%', $value)
                 ->addViolation();
+            //TODO: Fix that validation issue
         }
     }
 }

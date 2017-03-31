@@ -8,6 +8,7 @@ use OnSec\OnSecBundle\Entity\Role;
 use OnSec\OnSecBundle\Entity\Subscriber;
 use Serializable;
 use Symfony\Component\Security\Core\User\UserInterface;
+use OnSec\OnSecBundle\Validator\Constraints as OnSecAssert;
 
 /**
  * User
@@ -30,6 +31,7 @@ class User implements UserInterface, Serializable
     private $surname;
 
     /**
+     * @OnSecAssert\EmailContainsHSDDomain()
      * @var string
      */
     private $email;
@@ -174,6 +176,17 @@ class User implements UserInterface, Serializable
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * @return bool wether the checked email address contains a string like '_at_hs-duesseldorf.de' or not
+     */
+    public function hasEmailHSDDomain()
+    {
+        if(strpos($this->email, '@hs-duesseldorf.de') === false){
+            return false;
+        }
+        return true;
     }
 
     /**
