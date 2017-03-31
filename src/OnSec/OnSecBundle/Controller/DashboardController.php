@@ -132,15 +132,14 @@ class DashboardController extends Controller
             fputcsv($handle, array('Name', 'Vorname', 'E-Mail', 'Anzahl fehlender Unterweisungen'),';');
 
 
-
-
             foreach ($course->getSubscribers() as $subscriber) {
-                $surname = $subscriber->getSurname();
-                $firstname = $subscriber->getFirstname();
-                $email = $subscriber->getEmail();
+                $user = $subscriber->getUser();
+                $surname = $user->getSurname();
+                $firstname = $user->getFirstname();
+                $email = $user->getEmail();
                 $progress=0;
 
-                foreach ($subscriber->getCompletedInstructions() as $completed_instruction) {
+                foreach ($user->getCompletedInstructions() as $completed_instruction) {
                     foreach ($course->getInstructions() as $course_instruction) {
                         if ($course_instruction == $completed_instruction) {
                             $progress+=1;

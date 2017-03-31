@@ -8,6 +8,7 @@
     </thead>
     <tbody>
         {% for subscriber in course.subscribers %}
+            {% set subscriber = subscriber.getUser %}
             <tr>
                 <td>{{ subscriber.firstname }} {{ subscriber.surname }} </td>
                 <td>{{ subscriber.email }}</td>
