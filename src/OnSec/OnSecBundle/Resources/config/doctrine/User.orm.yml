@@ -19,6 +19,8 @@ OnSec\OnSecBundle\Entity\User:
         email:
             type: string
             nullable: false
+            unique: true
+            length: 191
         password:
             type: string
             nullable: false
