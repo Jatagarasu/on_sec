@@ -2,12 +2,18 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use OnSec\OnSecBundle\Entity\CompletedInstruction;
+use OnSec\OnSecBundle\Entity\Role;
+use OnSec\OnSecBundle\Entity\Subscriber;
+use Serializable;
 use Symfony\Component\Security\Core\User\UserInterface;
+use OnSec\OnSecBundle\Validator\Constraints as OnSecAssert;
 
 /**
  * User
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface, Serializable
 {
     /**
      * @var integer
@@ -25,6 +31,7 @@ class User implements UserInterface, \Serializable
     private $surname;
 
     /**
+     * @OnSecAssert\EmailContainsHSDDomain()
      * @var string
      */
     private $email;
@@ -59,8 +66,8 @@ class User implements UserInterface, \Serializable
      */
     public function __construct()
     {
-        $this->completed_instructions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->completed_instructions = new ArrayCollection();
+        $this->roles = new ArrayCollection();
     }
 
     /**
@@ -172,6 +179,17 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * @return bool wether the checked email address contains a string like '_at_hs-duesseldorf.de' or not
+     */
+    public function hasEmailHSDDomain()
+    {
+        if(strpos($this->email, '@hs-duesseldorf.de') === false){
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Set password
      *
      * @param string $password
@@ -222,11 +240,11 @@ class User implements UserInterface, \Serializable
     /**
      * Add completedInstruction
      *
-     * @param \OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction
+     * @param CompletedInstruction $completedInstruction
      *
      * @return User
      */
-    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction)
+    public function addCompletedInstruction(CompletedInstruction $completedInstruction)
     {
         $this->completed_instructions[] = $completedInstruction;
 
@@ -236,9 +254,9 @@ class User implements UserInterface, \Serializable
     /**
      * Remove completedInstruction
      *
-     * @param \OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction
+     * @param CompletedInstruction $completedInstruction
      */
-    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction)
+    public function removeCompletedInstruction(CompletedInstruction $completedInstruction)
     {
         $this->completed_instructions->removeElement($completedInstruction);
     }
@@ -256,11 +274,11 @@ class User implements UserInterface, \Serializable
     /**
      * Add role
      *
-     * @param \OnSec\OnSecBundle\Entity\Role $role
+     * @param Role $role
      *
      * @return User
      */
-    public function addRole(\OnSec\OnSecBundle\Entity\Role $role)
+    public function addRole(Role $role)
     {
         $this->roles[] = $role;
 
@@ -270,9 +288,9 @@ class User implements UserInterface, \Serializable
     /**
      * Remove role
      *
-     * @param \OnSec\OnSecBundle\Entity\Role $role
+     * @param Role $role
      */
-    public function removeRole(\OnSec\OnSecBundle\Entity\Role $role)
+    public function removeRole(Role $role)
     {
         $this->roles->removeElement($role);
     }
@@ -339,11 +357,11 @@ class User implements UserInterface, \Serializable
     /**
      * Add courseSubscription
      *
-     * @param \OnSec\OnSecBundle\Entity\Subscriber $courseSubscription
+     * @param Subscriber $courseSubscription
      *
      * @return User
      */
-    public function addCourseSubscription(\OnSec\OnSecBundle\Entity\Subscriber $courseSubscription)
+    public function addCourseSubscription(Subscriber $courseSubscription)
     {
         $this->course_subscriptions[] = $courseSubscription;
 
@@ -353,9 +371,9 @@ class User implements UserInterface, \Serializable
     /**
      * Remove courseSubscription
      *
-     * @param \OnSec\OnSecBundle\Entity\Subscriber $courseSubscription
+     * @param Subscriber $courseSubscription
      */
-    public function removeCourseSubscription(\OnSec\OnSecBundle\Entity\Subscriber $courseSubscription)
+    public function removeCourseSubscription(Subscriber $courseSubscription)
     {
         $this->course_subscriptions->removeElement($courseSubscription);
     }

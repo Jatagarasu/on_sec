@@ -32,7 +32,7 @@ class RegisterUserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'OnSec\OnSecBundle\Entity\User'
+            'data_class' => User::class,
         ));
     }
 }
