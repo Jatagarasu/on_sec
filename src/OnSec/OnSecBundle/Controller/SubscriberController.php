@@ -22,7 +22,7 @@ class SubscriberController extends Controller
 
         $subscribers = $em->getRepository('HSDOnSecBundle:Subscriber')->findAll();
 
-        return $this->render('subscriber/index.html.twig', array(
+        return $this->render('HSDOnSecBundle:Subscriber:index.html.twig', array(
             'subscribers' => $subscribers,
         ));
     }
@@ -45,7 +45,7 @@ class SubscriberController extends Controller
             return $this->redirectToRoute('subscriber_show', array('id' => $subscriber->getId()));
         }
 
-        return $this->render('subscriber/new.html.twig', array(
+        return $this->render('HSDOnSecBundle:Subscriber:new.html.twig', array(
             'subscriber' => $subscriber,
             'form' => $form->createView(),
         ));
@@ -59,7 +59,7 @@ class SubscriberController extends Controller
     {
         $deleteForm = $this->createDeleteForm($subscriber);
 
-        return $this->render('subscriber/show.html.twig', array(
+        return $this->render('HSDOnSecBundle:Subscriber:show.html.twig', array(
             'subscriber' => $subscriber,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -81,7 +81,7 @@ class SubscriberController extends Controller
             return $this->redirectToRoute('subscriber_edit', array('id' => $subscriber->getId()));
         }
 
-        return $this->render('subscriber/edit.html.twig', array(
+        return $this->render('HSDOnSecBundle:Subscriber:edit.html.twig', array(
             'subscriber' => $subscriber,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

@@ -1,0 +1,39 @@
+{% extends 'HSDOnSecBundle::base.html.twig' %}
+
+{% block body %}
+    <h1>Completedinstructions list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Expiredate</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for completedInstruction in completedInstructions %}
+            <tr>
+                <td><a href="{{ path('completedinstruction_show', { 'id': completedInstruction.id }) }}">{{ completedInstruction.id }}</a></td>
+                <td>{% if completedInstruction.expireDate %}{{ completedInstruction.expireDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('completedinstruction_show', { 'id': completedInstruction.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('completedinstruction_edit', { 'id': completedInstruction.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('completedinstruction_new') }}">Create a new completedInstruction</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -22,7 +22,7 @@ class CompletedInstructionController extends Controller
 
         $completedInstructions = $em->getRepository('HSDOnSecBundle:CompletedInstruction')->findAll();
 
-        return $this->render('completedinstruction/index.html.twig', array(
+        return $this->render('HSDOnSecBundle:CompletedInstruction:index.html.twig', array(
             'completedInstructions' => $completedInstructions,
         ));
     }
@@ -45,7 +45,7 @@ class CompletedInstructionController extends Controller
             return $this->redirectToRoute('completedinstruction_show', array('id' => $completedInstruction->getId()));
         }
 
-        return $this->render('completedinstruction/new.html.twig', array(
+        return $this->render('HSDOnSecBundle:CompletedInstruction:new.html.twig', array(
             'completedInstruction' => $completedInstruction,
             'form' => $form->createView(),
         ));
@@ -59,7 +59,7 @@ class CompletedInstructionController extends Controller
     {
         $deleteForm = $this->createDeleteForm($completedInstruction);
 
-        return $this->render('completedinstruction/show.html.twig', array(
+        return $this->render('HSDOnSecBundle:CompletedInstruction:show.html.twig', array(
             'completedInstruction' => $completedInstruction,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -81,7 +81,7 @@ class CompletedInstructionController extends Controller
             return $this->redirectToRoute('completedinstruction_edit', array('id' => $completedInstruction->getId()));
         }
 
-        return $this->render('completedinstruction/edit.html.twig', array(
+        return $this->render('HSDOnSecBundle:CompletedInstruction:edit.html.twig', array(
             'completedInstruction' => $completedInstruction,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

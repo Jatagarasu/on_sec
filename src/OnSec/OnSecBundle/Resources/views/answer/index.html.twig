@@ -1,0 +1,42 @@
+{% extends 'HSDOnSecBundle::base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Antworten</h1>
+        </div>
+        <div class="col-md-6">
+            <a href="{{ path('answer_new') }}" class="btn btn-outline-success pull-right">neue Antwort erstellen</a>
+        </div>
+    <table class="table-sm table-striped">
+        <thead>
+            <tr>
+                <!--<th>Id</th>-->
+                <th>Antworttext</th>
+                <th>Richtigkeit</th>
+                <th>Erstelldatum</th>
+                <th>Bearbeitungsdatum</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for answer in answers %}
+            <tr>
+                <!--<td>{#{ answer.id }#}</td>-->
+                <td><a href="{{ path('answer_show', { 'id': answer.id }) }}">{{ answer.answerText }}</a></td>
+                <td>{% if answer.isCorrect %}{{ 'wahr' }}{% else %}{{ 'falsch' }}{% endif %}</td>
+                <td>{% if answer.createdOn %}{{ answer.createdOn|date('d.m.Y H:i:s') }}{% endif %}</td>
+                <td>{% if answer.updatedOn %}{{ answer.updatedOn|date('d.m.Y H:i:s') }}{% endif %}</td>
+                <td>
+                    <div class="btn-group btn-group-sm" style="display: -webkit-box;">
+                        <a class="btn btn-primary" href="{{ path('answer_show', { 'id': answer.id }) }}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                        <a class="btn btn-outline-primary" href="{{ path('answer_edit', { 'id': answer.id }) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+{% endblock %}
