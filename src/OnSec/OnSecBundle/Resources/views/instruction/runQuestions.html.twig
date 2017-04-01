@@ -103,7 +103,7 @@
         var question = {};
         question.text = '{{ question.questionText }}';
         question.id = '{{ question.id }}';
-        question.imagePath = '{{ asset(question.imagePath) }}'
+        question.imagePath = "{{ asset('images/' ~ question.imagePath) }}"
         question.result = "";
         question.boxStyle = "";
         if (question.imagePath === '{{ asset("") }}'){

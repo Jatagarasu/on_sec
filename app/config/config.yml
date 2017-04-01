@@ -104,3 +104,7 @@ vich_uploader:
             uri_prefix:         /pdf
             upload_destination: '%kernel.root_dir%/../web/pdf'
             namer:               vich_uploader.namer_origname
+        question_img:
+            uri_prefix:         /images
+            upload_destination: '%kernel.root_dir%/../web/images'
+            namer:               vich_uploader.namer_origname

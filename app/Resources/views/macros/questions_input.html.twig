@@ -19,7 +19,7 @@
               </label>
 
               <input
-                type="text"
+                type="file"
                 class="question-imagePath-input form-control mb-2 mr-sm-2 mb-sm-0"
                 placeholder="Bild (optional)"
                 ng-model="question.imagePath"
@@ -156,7 +156,7 @@
         {% for question in parent_form.questions %}
           var questionIndex = $scope.questions.length;
           var questionText =  "{{ question.vars.value.questionText }}";
-          var imagePath =     "{{ question.vars.value.imagePath }}";
+          var imagePath =     "{{ question.vars.value.imageFile }}";
 
           var question = createQuestion(questionIndex, questionText, imagePath);
 
@@ -180,7 +180,7 @@
         questionText:         questionText,
         imagePath:            imagePath,
         questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
-        imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
+        imagePathFullPath:    questionAttributePathWithIndex(index, 'imageFile') + '[file]',
         answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
         answers:              [],
       }

@@ -42,7 +42,7 @@ INSERT INTO `question` (`id`, `owner_id`, `question_text`, `image_path`, `create
 (6, NULL, 'Was macht man bei größeren Mengen Styropor?', 'images/styropor.jpg', '2017-03-18 00:00:00', '2017-03-30 00:00:00'),
 (7, NULL, 'Welche Ansprechpartner gibt es an der HSD?', 'images/HSD_Marke.png', NULL, NULL),
 (8, NULL, 'Was sind Sonderabfälle?', 'images/abfall.png', NULL, NULL),
-(9, NULL, 'Welche Schutzinteressen verfolgt der Bandschutz?\n ', NULL, '2017-03-15 00:00:00', NULL),
+(9, NULL, 'Welche Schutzinteressen verfolgt der Bandschutz?', NULL, '2017-03-15 00:00:00', NULL),
 (10, NULL, 'Wie muss man sich im Brandfall verhalten?', 'images/brandfall.jpg', '2017-03-22 00:00:00', '2017-03-30 00:00:00'),
 (11, NULL, 'Welches Rettungszeichen ist hier zu sehen?', 'images/fluchtwegschild.jpg', '2017-03-22 00:00:00', '2017-03-30 00:00:00'),
 (12, NULL, 'Welche Gefahren entstehen durch Brandgase?', NULL, '2017-03-31 00:00:00', NULL),
