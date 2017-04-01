@@ -108,8 +108,8 @@
       select: function(event, ui) {
         if ($scope.addKeyword(ui.item.label)) {
           $scope.keywordInput = '';
+          $timeout(100);
         }
-        $timeout(100);
       }
     });
   });
