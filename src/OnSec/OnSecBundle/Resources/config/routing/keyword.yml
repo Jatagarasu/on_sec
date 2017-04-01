@@ -22,3 +22,8 @@ keyword_delete:
     path:     /{id}/delete
     defaults: { _controller: "HSDOnSecBundle:Keyword:delete" }
     methods:  DELETE
+
+autocomplete:
+    path:     /autocomplete
+    defaults: { _controller: "HSDOnSecBundle:Keyword:autocomplete" }
+    methods:  GET
