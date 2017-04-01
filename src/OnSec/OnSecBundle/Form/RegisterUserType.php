@@ -18,21 +18,21 @@ class RegisterUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstname', TextType::class)
-            ->add('surname', TextType::class)
-            ->add('email', EmailType::class)
+            ->add('firstname', TextType::class, array('label' => 'Vorname'))
+            ->add('surname', TextType::class, array('label' => 'Nachname'))
+            ->add('email', EmailType::class, array('label' => 'eMail'))
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'first_options' => array('label' => 'Passwort'),
-                'second_options' => array('label' => 'Passwort widerholen'),
+                'second_options' => array('label' => 'Passwort wiederholen'),
             ))
-            ->add('notificationActive');
+            /*->add('notificationActive')*/;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'OnSec\OnSecBundle\Entity\User'
+            'data_class' => User::class,
         ));
     }
 }

@@ -22,7 +22,7 @@ class KeywordController extends Controller
 
         $keywords = $em->getRepository('HSDOnSecBundle:Keyword')->findAll();
 
-        return $this->render('keyword/index.html.twig', array(
+        return $this->render('HSDOnSecBundle:Keyword:index.html.twig', array(
             'keywords' => $keywords,
         ));
     }
@@ -45,7 +45,7 @@ class KeywordController extends Controller
             return $this->redirectToRoute('keyword_show', array('id' => $keyword->getId()));
         }
 
-        return $this->render('keyword/new.html.twig', array(
+        return $this->render('HSDOnSecBundle:Keyword:new.html.twig', array(
             'keyword' => $keyword,
             'form' => $form->createView(),
         ));
@@ -59,7 +59,7 @@ class KeywordController extends Controller
     {
         $deleteForm = $this->createDeleteForm($keyword);
 
-        return $this->render('keyword/show.html.twig', array(
+        return $this->render('HSDOnSecBundle:Keyword:show.html.twig', array(
             'keyword' => $keyword,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -81,7 +81,7 @@ class KeywordController extends Controller
             return $this->redirectToRoute('keyword_edit', array('id' => $keyword->getId()));
         }
 
-        return $this->render('keyword/edit.html.twig', array(
+        return $this->render('HSDOnSecBundle:Keyword:edit.html.twig', array(
             'keyword' => $keyword,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

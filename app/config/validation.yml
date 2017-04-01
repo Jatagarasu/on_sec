@@ -1,0 +1,4 @@
+OnSec\OnSecBundle\Entity\User:
+    properties:
+        email:
+            - OnSec\OnSecBundle\Validator\Constraints\EmailContainsHSDDomain: ~

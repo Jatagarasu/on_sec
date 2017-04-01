@@ -28,7 +28,7 @@ class CourseController extends Controller
 
         $courses = $em->getRepository('HSDOnSecBundle:Course')->findAll();
 
-        return $this->render('course/index.html.twig', array(
+        return $this->render('HSDOnSecBundle:Course:index.html.twig', array(
             'courses' => $courses,
         ));
     }
@@ -86,7 +86,7 @@ class CourseController extends Controller
             return $this->redirectToRoute('course_show', array('id' => $course->getId()));
         }
 
-        return $this->render('course/new.html.twig', array(
+        return $this->render('HSDOnSecBundle:Course:new.html.twig', array(
             'course' => $course,
             //'rooms' => $rooms,   //neu dazu
             //'users' => $users,  // neu dazu
@@ -190,7 +190,7 @@ class CourseController extends Controller
     {
         $deleteForm = $this->createDeleteForm($course);
 
-        return $this->render('course/show.html.twig', array(
+        return $this->render('HSDOnSecBundle:Course:show.html.twig', array(
             'course' => $course,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -212,7 +212,7 @@ class CourseController extends Controller
             return $this->redirectToRoute('course_edit', array('id' => $course->getId()));
         }
 
-        return $this->render('course/edit.html.twig', array(
+        return $this->render('HSDOnSecBundle:Course:edit.html.twig', array(
             'course' => $course,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
