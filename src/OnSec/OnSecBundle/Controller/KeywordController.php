@@ -5,6 +5,8 @@ namespace OnSec\OnSecBundle\Controller;
 use OnSec\OnSecBundle\Entity\Keyword;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use OnSec\OnSecBundle\Repository\KeywordRepository;
 
 /**
  * Keyword controller.
@@ -120,5 +122,25 @@ class KeywordController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    public function autocompleteAction(Request $request) {
+      $searchTerm = trim(strip_tags($request->get('term')));
+      $em         = $this->getDoctrine()->getManager();
+      $keywords   = array();
+
+      $entities   = $em->getRepository('HSDOnSecBundle:Keyword')->search($searchTerm);
+
+      foreach ($entities as $entity) {
+          array_push($keywords, array(
+              'label' => $entity->getDescription(),
+              'id'    => $entity->getId(),
+          ));
+      }
+
+      $response = new JsonResponse();
+      $response->setData($keywords);
+
+      return $response;
     }
 }

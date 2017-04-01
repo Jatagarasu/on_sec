@@ -1,5 +1,6 @@
 OnSec\OnSecBundle\Entity\Keyword:
     type: entity
+    repositoryClass: OnSec\OnSecBundle\Repository\KeywordRepository
     table: keyword
 
     id:

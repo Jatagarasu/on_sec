@@ -13,7 +13,8 @@
     ng-keypress="keywordInputEnterPress($event, keywordInput)"
     class="form-control"
     placeholder="Neues Schlagwort"
-    aria-describedby="basic-addon2">
+    aria-describedby="basic-addon2"
+    autocomplete="on">
 
     <a href ng-click="addKeyword(keywordInput)" class="input-group-addon">
       +
@@ -38,18 +39,19 @@
 
 <script>
   angular.module('onSecKeywords', [])
-  .controller('keywordsInputController', function($scope) {
+  .controller('keywordsInputController', function($scope, $timeout) {
     var KEYWORDS_FULL_PATH  = "{{ keyword_full_path }}";
     var KEYWORD_ID_NAME     = "__keyword_id__";
 
     $scope.keywords = [];
 
     $scope.keywordInputEnterPress = function(event, keyword) {
+
       if (event.which === 13) {
         event.preventDefault();
           if ($scope.addKeyword(keyword)) {
             $scope.keywordInput = '';
-         }
+          }
       }
     };
 
@@ -99,6 +101,17 @@
     };
 
     fillKeywordsFromSymfony();
+
+    $('#keyword_input').autocomplete({
+      source:     "{{ path('keyword_autocomplete') }}",
+      minLength:  1,
+      select: function(event, ui) {
+        if ($scope.addKeyword(ui.item.label)) {
+          $scope.keywordInput = '';
+          $timeout(100);
+        }
+      }
+    });
   });
 
   angular.bootstrap(document.getElementById('ngAppOnSecKeywords'), ['onSecKeywords']);
