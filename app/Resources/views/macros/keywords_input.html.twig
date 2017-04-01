@@ -4,8 +4,10 @@
 {% verbatim %}
 <div id="ngAppOnSecKeywords" ng-controller="keywordsInputController">
 
+  <label for="keyword_input">Schlagworte</label>
   <div class="input-group">
     <input
+    id="keyword_input"
     type="text"
     ng-model="keywordInput"
     ng-keypress="keywordInputEnterPress($event, keywordInput)"

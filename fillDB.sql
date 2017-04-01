@@ -29,12 +29,12 @@ INSERT INTO `user` (`id`, `surname`, `firstname`, `email`, `notification_active`
 (9, 'Landry', 'David', 'bimse110@gmail.com', 0, '$2a$06$AWsGrEAr4dWHpstipghF4OOK35Bmxelo7waOwi.rbPXLS2Q/k1wAK');
 
 INSERT INTO `instruction` (`id`, `description`, `pdf_link`, `owner_id`, `expiretime`) VALUES
-(1, 'Abfall ABC', 'pdf/abfall.pdf', 1, 2017),
-(2, 'Brandschutz', 'pdf/Brandschutzunterweisung.pdf', 2, 123),
-(3, 'Laser', 'pdf/Lasersicherheit.pdf', 2, 23),
-(4, 'Leiter', 'pdf/leiter.pdf', 2, 300),
-(5, 'Sicherheitsunterweisung Beschäftigte', 'pdf/Sicherheitsunterweisung_HSD-Beschaeftigte.pdf', 1, 25),
-(6, 'Sicherheitsunterweisung Studierende', 'pdf/Sicherheitsunterweisung_HSD-Studierende.pdf', 1, 200);
+(1, 'Abfall ABC', 'abfall.pdf', 1, 2017),
+(2, 'Brandschutz', 'Brandschutzunterweisung.pdf', 2, 123),
+(3, 'Laser', 'Lasersicherheit.pdf', 2, 23),
+(4, 'Leiter', 'leiter.pdf', 2, 300),
+(5, 'Sicherheitsunterweisung Beschäftigte', 'Sicherheitsunterweisung_HSD-Beschaeftigte.pdf', 1, 25),
+(6, 'Sicherheitsunterweisung Studierende', 'Sicherheitsunterweisung_HSD-Studierende.pdf', 1, 200);
 
 INSERT INTO `question` (`id`, `owner_id`, `question_text`, `image_path`, `created_on`, `updated_on`) VALUES
 (3, 1, 'Was für Abfallstoffe gibt es?', 'images/muell.jpg', '2017-03-20 00:00:00', '2017-03-20 00:00:00'),
@@ -42,7 +42,7 @@ INSERT INTO `question` (`id`, `owner_id`, `question_text`, `image_path`, `create
 (6, NULL, 'Was macht man bei größeren Mengen Styropor?', 'images/styropor.jpg', '2017-03-18 00:00:00', '2017-03-30 00:00:00'),
 (7, NULL, 'Welche Ansprechpartner gibt es an der HSD?', 'images/HSD_Marke.png', NULL, NULL),
 (8, NULL, 'Was sind Sonderabfälle?', 'images/abfall.png', NULL, NULL),
-(9, NULL, 'Welche Schutzinteressen verfolgt der Bandschutz?\n ', NULL, '2017-03-15 00:00:00', NULL),
+(9, NULL, 'Welche Schutzinteressen verfolgt der Bandschutz?', NULL, '2017-03-15 00:00:00', NULL),
 (10, NULL, 'Wie muss man sich im Brandfall verhalten?', 'images/brandfall.jpg', '2017-03-22 00:00:00', '2017-03-30 00:00:00'),
 (11, NULL, 'Welches Rettungszeichen ist hier zu sehen?', 'images/fluchtwegschild.jpg', '2017-03-22 00:00:00', '2017-03-30 00:00:00'),
 (12, NULL, 'Welche Gefahren entstehen durch Brandgase?', NULL, '2017-03-31 00:00:00', NULL),
@@ -312,3 +312,4 @@ ALTER TABLE `user`
 
 ALTER TABLE `course_subscriber`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+

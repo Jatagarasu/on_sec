@@ -47,6 +47,16 @@ class InstructionController extends Controller
                 }
             }
 
+            // $file     = $instruction->getPdfLink();
+            // $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+            // $file->move(
+            //   $this->getParameter('pdf_directory'),
+            //   $fileName
+            // );
+
+            // $instruction->setPdfLink($fileName);
+
             $em->persist($instruction);
             $em->flush($instruction);
 
@@ -92,7 +102,7 @@ class InstructionController extends Controller
 
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('instruction_edit', array('id' => $instruction->getId()));
+            return $this->redirectToRoute('instruction_show', array('id' => $instruction->getId()));
         }
 
         return $this->render('HSDOnSecBundle:Instruction:edit.html.twig', array(
