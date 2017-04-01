@@ -23,7 +23,7 @@ keyword_delete:
     defaults: { _controller: "HSDOnSecBundle:Keyword:delete" }
     methods:  DELETE
 
-autocomplete:
+keyword_autocomplete:
     path:     /autocomplete
     defaults: { _controller: "HSDOnSecBundle:Keyword:autocomplete" }
     methods:  GET
