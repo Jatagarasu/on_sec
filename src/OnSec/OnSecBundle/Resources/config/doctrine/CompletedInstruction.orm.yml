@@ -11,6 +11,8 @@ OnSec\OnSecBundle\Entity\CompletedInstruction:
     fields:
         expireDate:
             type: datetime
+        completionDate:
+            type: datetime
 
     manyToOne:
         instruction:
@@ -19,13 +21,15 @@ OnSec\OnSecBundle\Entity\CompletedInstruction:
             joinColumn:
                 name: instruction_id
                 referencedColumnName: id
+            nullable: false
         user:
             targetEntity: User
             inversedBy: completed_instructions
             joinColumn:
                 name: user_id
                 referncedColumnName: id
+            nullable: false
 
     lifecycleCallbacks: {
-                prePersist: [ initialDateTime ]
+            prePersist: [initialDateTime, completionDateTime ]
      }

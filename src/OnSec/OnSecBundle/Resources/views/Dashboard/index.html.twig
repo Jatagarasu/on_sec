@@ -1,6 +1,6 @@
-{% extends "::base.html.twig" %}
+{% extends "HSDOnSecBundle::base.html.twig" %}
 
-{% block title %}HSDOnSecBundle:Dashboard:index{% endblock %}
+{% block title %}Willkommen - HSD OnSec{% endblock %}
 
 {% block content %}
     {% if(is_granted("ROLE_ADMIN")) %}
@@ -21,7 +21,7 @@
         </li>
     </ul>
     <div class="innercontainer">
-        <input type="search" class="maininput" placeholder="Suche..."/>
+        <input type="search" class="maininput" placeholder="Suche hier nach neuen oder bereits teilgenommenen Kursen oder Unterweisungen ..." id="searchinput"/>
 
         <div class="innerinnercontainer">
             <div class="tab-content">
@@ -30,10 +30,10 @@
                     {% if(is_granted("ROLE_ADMIN")) %}
                         <div id="admin_menu">
                             {% for course in moderatorcourses %}
-                                <div class="card">
+                                <div class="card searchfield">
                                     <div class="card-header" data-target="{{ '#collapseadmin%s'|format(course.getId()) }}" data-toggle="collapse">
                                         <h4 class="card-title">
-                                            {{ course.getDescription() }}
+                                            {{ course.getDescription() }}{% for keyword in course.getKeywords() %}<p hidden>{{ keyword.getDescription() }}</p>{% endfor %}
                                             <span data-toggle="modal" data-target="#MyModal_{{ course.getId() }}">
                                                 <i class="fa fa-users" aria-hidden="true"></i>
                                             </span>
@@ -44,7 +44,7 @@
                                     <div class="card-collapse collapse" id="{{ 'collapseadmin%s'|format(course.getId()) }}">
                                         <ul class="list-group">
                                             {% for instruction in course.getInstructions() %}
-                                                <li class="list-group-item">{{ instruction.getDescription() }}</li>
+                                                <li class="list-group-item">{{ instruction.getDescription() }}{% for keyword in instruction.getKeywords() %}<p hidden>{{ keyword.getDescription() }}</p>{% endfor %}</li>
                                             {% endfor %}
                                         </ul>
                                     </div>
@@ -105,22 +105,22 @@
                 {% if(is_granted("ROLE_ADMIN")) %}
                     <div class="tab-pane fade" id="menu2">
                         {% for instruction in ownerinstructions %}
-                        <div class="card">
+                        <div class="card searchfield">
                             <div class="card-header">
                                 <h4 class="card-title">
                                     {{ instruction.getDescription() }}<span onclick="document.location.href = '{{ path('instruction_edit', { 'id': instruction.getId() }) }}'; return false"><i class="fa fa-cog" aria-hidden="true"></i></span>
-                                    <div class="right red">Eigent&uuml;mer</div>
+                                    <div class="right red">Eigent&uuml;mer</div>{% for keyword in instruction.getKeywords() %}<p hidden>{{ keyword.getDescription() }}</p>{% endfor %}
                                 </h4>
                             </div>
                         </div>
                         {% endfor %}
                         {% if moderatorinstructions|length > 0 %}<hr>{% endif %}
                         {% for instruction in moderatorinstructions %}
-                            <div class="card">
+                            <div class="card searchfield">
                                 <div class="card-header">
                                     <h4 class="card-title">
                                         {{ instruction.getDescription() }}<span onclick="document.location.href = '{{ path('instruction_edit', { 'id': instruction.getId() }) }}'; return false"><i class="fa fa-cog" aria-hidden="true"></i></span>
-                                        <div class="right green">Bearbeiter</div>
+                                        <div class="right green">Bearbeiter</div>{% for keyword in instruction.getKeywords() %}<p hidden>{{ keyword.getDescription() }}</p>{% endfor %}
                                     </h4>
                                 </div>
                             </div>
@@ -158,9 +158,11 @@
 
                 if(activeTab=="#menu1"){
                     $("#topnav_text").html("<a href={{ path('course_new') }}>Neue Kurs erstellen</a>");
+                    $("#searchinput").attr("placeholder", "Filtere hier nach deinen Kursen ...");
                 }
                 else if(activeTab=="#menu2"){
                     $("#topnav_text").html("<a href={{ path('instruction_new') }}>Neue Unterweisung erstellen</a>");
+                    $("#searchinput").attr("placeholder", "Filtere hier nach deinen Unterweisungen ...");
                 }
             });
             $('#onoff').click(function () {
@@ -170,6 +172,7 @@
                     $('#onoff').attr("data-onoff","off");
                     $("#showtab").show();
                     $("#coursetab").html("Meine Kurse");
+                    $("#searchinput").attr("placeholder", "Filtere hier nach deinen Kursen ...");
                     $("#topnav_text").show();
                     $("#user_menu").hide();
                     $("#admin_menu").show();
@@ -180,10 +183,21 @@
                     $('#coursetab')[0].click();
                     $("#showtab").hide();
                     $("#coursetab").html("Meine absolvierten Unterweisungen");
+                    $("#searchinput").attr("placeholder", "Suche hier nach neuen oder bereits teilgenommenen Kursen oder Unterweisungen ...");
                     $("#topnav_text").hide();
                     $("#user_menu").show();
                     $("#admin_menu").hide();
                 }
+            });
+            $('.searchfield').show();
+            $('#searchinput').keyup(function(){
+                $('.searchfield').hide();
+                var txt = $('#searchinput').val();
+                $('.searchfield').each(function(){
+                    if($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1){
+                        $(this).show();
+                    }
+                });
             });
         });
     </script>

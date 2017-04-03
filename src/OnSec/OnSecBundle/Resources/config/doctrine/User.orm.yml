@@ -19,6 +19,8 @@ OnSec\OnSecBundle\Entity\User:
         email:
             type: string
             nullable: false
+            unique: true
+            length: 191
         password:
             type: string
             nullable: false
@@ -29,6 +31,9 @@ OnSec\OnSecBundle\Entity\User:
     oneToMany:
         completed_instructions:
             targetEntity: CompletedInstruction
+            mappedBy: user
+        course_subscriptions:
+            targetEntity: Subscriber
             mappedBy: user
 
     manyToMany:

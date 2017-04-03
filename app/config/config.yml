@@ -7,6 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    pdf_directory: '%kernel.root_dir%/../web/pdf'
 
 framework:
     #esi:             ~
@@ -33,6 +34,8 @@ framework:
     assets: ~
     php_errors:
         log: true
+    profiler:
+        collect: false
 
 # Assetic Configuration
 assetic:
@@ -49,7 +52,9 @@ assetic:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-    form_themes: ['bootstrap_3_layout.html.twig']
+    form_themes:
+        - 'bootstrap_3_layout.html.twig'
+        - 'VichUploaderBundle:Form:fields.html.twig'
 
 # Doctrine Configuration
 doctrine:
@@ -90,3 +95,16 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        instruction_pdf:
+            uri_prefix:         /pdf
+            upload_destination: '%kernel.root_dir%/../web/pdf'
+            namer:               vich_uploader.namer_origname
+        question_img:
+            uri_prefix:         /images
+            upload_destination: '%kernel.root_dir%/../web/images'
+            namer:               vich_uploader.namer_origname

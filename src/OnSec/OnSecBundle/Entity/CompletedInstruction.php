@@ -2,13 +2,14 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+
 /**
  * CompletedInstruction
  */
 class CompletedInstruction
 {
     /**
-     * @var int
+     * @var integer
      */
     private $id;
 
@@ -17,11 +18,44 @@ class CompletedInstruction
      */
     private $expireDate;
 
+    /**
+     * @var \DateTime
+     */
+    private $completionDate;
+
+    /**
+     * @return CompletedInstruction
+     */
+    public function getCompletionDate()
+    {
+        return $this->completionDate;
+    }
+
+    /**
+     * Set completionDate
+     *
+     * @param \DateTime $completionDate
+     */
+    public function setCompletionDate($completionDate)
+    {
+        $this->completionDate = $completionDate;
+    }
+
+    /**
+     * @var \OnSec\OnSecBundle\Entity\Instruction
+     */
+    private $instruction;
+
+    /**
+     * @var \OnSec\OnSecBundle\Entity\User
+     */
+    private $user;
+
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -51,16 +85,6 @@ class CompletedInstruction
     {
         return $this->expireDate;
     }
-    /**
-     * @var \OnSec\OnSecBundle\Entity\Instruction
-     */
-    private $instruction;
-
-    /**
-     * @var \OnSec\OnSecBundle\Entity\User
-     */
-    private $user;
-
 
     /**
      * Set instruction
@@ -113,13 +137,23 @@ class CompletedInstruction
     /**
      * @ORM\PrePersist
      *
+     * Sets the completionDate to todays date.
+     */
+    public function completionDateTime()
+    {
+        $this->setCompletionDate(new \DateTime());
+    }
+
+    /**
+     * @ORM\PrePersist
+     *
      * Sets the expireDate from this completedIntruction onto todays date plus days from the intruction.expiretime attribute
      * e.g. 2000.01.01 + 90 = 2000.03.30
      */
     public function initialDateTime()
     {
         $date = new \DateTime();
-        $date->add('P'.$this->instruction->getExpiretime().'D');
+        $date->add(new \DateInterval('P'.$this->instruction->getExpiretime().'D'));
         $this->setExpireDate($date);
     }
 }

@@ -19,14 +19,12 @@
               </label>
 
               <input
-                type="text"
+                type="file"
                 class="question-imagePath-input form-control mb-2 mr-sm-2 mb-sm-0"
                 placeholder="Bild (optional)"
                 ng-model="question.imagePath"
                 id="{{ question.imagePathFullPath }}"
                 name="{{ question.imagePathFullPath }}">
-
-              <a href="#" class="btn btn-primary question-imagePath-button">Bild auswählen...</a>
           </div>
 
           <div class="form-group">
@@ -73,10 +71,10 @@
                 </a>
               </div>
             </div>
-            <a class="answer-add-button btn btn-success" ng-click="addEmptyAnswerTo(question)">+</a>
+            <a href class="answer-add-button btn btn-success" ng-click="addEmptyAnswerTo(question)">+</a>
         </div>
 
-      <a ng-click="addEmptyQuestion()" class="btn btn-primary mb-2" id="add-question">Weitere Frage</a>
+      <a href ng-click="addEmptyQuestion()" class="btn btn-primary mb-2" id="add-question">Weitere Frage</a>
 
       {% endverbatim %}
       {# Angular ends here #}
@@ -156,7 +154,7 @@
         {% for question in parent_form.questions %}
           var questionIndex = $scope.questions.length;
           var questionText =  "{{ question.vars.value.questionText }}";
-          var imagePath =     "{{ question.vars.value.imagePath }}";
+          var imagePath =     "{{ question.vars.value.imageFile }}";
 
           var question = createQuestion(questionIndex, questionText, imagePath);
 
@@ -180,7 +178,7 @@
         questionText:         questionText,
         imagePath:            imagePath,
         questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
-        imagePathFullPath:    questionAttributePathWithIndex(index, 'imagePath'),
+        imagePathFullPath:    questionAttributePathWithIndex(index, 'imageFile') + '[file]',
         answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
         answers:              [],
       }
