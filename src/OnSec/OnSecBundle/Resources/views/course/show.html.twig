@@ -1,16 +1,16 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
 
 {% block content %}
-    <h1>Course</h1>
+    <h1>Kurs anzeigen</h1>
 
     <table>
         <tbody>
+            {#<tr>#}
+                {#<th>Id</th>#}
+                {#<td>{{ course.id }}</td>#}
+            {#</tr>#}
             <tr>
-                <th>Id</th>
-                <td>{{ course.id }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
+                <th>Beschreibung</th>
                 <td>{{ course.description }}</td>
             </tr>
         </tbody>
@@ -18,14 +18,14 @@
 
     <ul>
         <li>
-            <a href="{{ path('course_index') }}">Back to the list</a>
+            <a href="{{ path('course_index') }}">Zurück zur Liste</a>
         </li>
         <li>
-            <a href="{{ path('course_edit', { 'id': course.id }) }}">Edit</a>
+            <a href="{{ path('course_edit', { 'id': course.id }) }}">Speichern</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Löschen">
             {{ form_end(delete_form) }}
         </li>
     </ul>
