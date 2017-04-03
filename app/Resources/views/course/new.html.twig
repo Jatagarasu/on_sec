@@ -158,18 +158,16 @@
                             var newElement = document.createElement('div');
                             newElement.className = 'instruction_element';
                             newElement.setAttribute('id','new_id_for_new_element');
-                            newElement.innerHTML = instruction.value;
+                            newElement.innerHTML = '<p class="instruction_title col-md-8">'+ instruction.value +'</p><button type="button" class="delete_instruction_button role-button btn btn-sm col-md-4" id="delete_instruction_button">X</button>';
+
+                            //newElement.style.height = $("#new_id_for_new_element").height();
 
                             var $hiddenElement   = $('<input type="hidden"/>');
                             $hiddenElement.attr('name',"instructionId[]");
                             $hiddenElement.val(instruction.id);
 
-                            var newButton = document.createElement('button');
-                            newButton.className = 'instruction_button role-button btn';
-                            newButton.setAttribute('id','new_id_for_new_button');
-                            newButton.innerHTML = '-';
 
-                            newElement.appendChild(newButton);
+                            //newElement.appendChild(newButton);
                             $('#scrollbox').append($hiddenElement);
 
                             scrollbox.appendChild(newElement);
@@ -192,21 +190,26 @@
                         "Nothing selected, input was " + this.value );
 
                     var scrollbox = document.getElementById('scrollbox');
+
                     var newElement = document.createElement('div');
                     newElement.className = 'instruction_element';
                     newElement.setAttribute('id','new_id_for_new_element');
-                    newElement.innerHTML = ui.item.value;
+                    newElement.innerHTML = '<p class="instruction_title col-md-8">'+ ui.item.value +'</p><button type="button" class="delete_instruction_button role-button btn btn-sm col-md-4" id="delete_instruction_button">X</button>';
+                    newElement.style.height = $("#new_id_for_new_element").height();
+
+                    //$("#new_id_for_new_element").height()
+                    //document.getElementsById('new_id_for_new_element').style.height = $("#new_id_for_new_element").height();
 
                     var $hiddenElement   = $('<input type="hidden"/>');
                     $hiddenElement.attr('name',"instructionId[]");
                     $hiddenElement.val(ui.item.id);
 
-                    var newButton = document.createElement('button');
-                    newButton.className = 'instruction_button role-button btn';
+                    /*var newButton = document.createElement('button');
+                    newButton.className = 'delete_instruction_button role-button btn';
                     newButton.setAttribute('id','new_id_for_new_button');
-                    newButton.innerHTML = '-';
+                    newButton.innerHTML = '-';*/
 
-                    newElement.appendChild(newButton);
+                    //newElement.appendChild(newButton);
                     $('#scrollbox').append($hiddenElement);
 
                     scrollbox.appendChild(newElement);

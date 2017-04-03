@@ -15,15 +15,20 @@
 }
 
 .instruction_element{
+    display: inline-block;
+
     background-color: white;
     margin: 6px 6px 3px 6px;
     padding: 2px 3px 2px 3px;
     border-radius: 5px;
+
 }
 
-.instruction_button {
-    margin: 6px;
-    padding: 3px;
+.instruction_title{
+    margin: auto;
+}
+.delete_instruction_button {
+    margin: auto;
 }
 
 #scrollbox {
