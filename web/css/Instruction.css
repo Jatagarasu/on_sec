@@ -8,6 +8,11 @@
     max-width: 500px;
 }
 
+.current-pdf {
+  font-style: italic;
+  color: grey;
+}
+
 .question-imageFile-container {
   display: flex;
   align-items: flex-start;

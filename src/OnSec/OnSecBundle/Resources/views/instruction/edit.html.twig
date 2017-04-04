@@ -8,7 +8,11 @@
     {{ form_start(edit_form) }}
         {{ form_row(edit_form.description) }}
 
+        <span class="current-pdf">Aktuelles Unterweisungs-PDF: {{ instruction.pdfLink }}.</span>
+
         {{ form_row(edit_form.pdfFile) }}
+
+
 
         {{ form_row(edit_form.expiretime) }}
 
