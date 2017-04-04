@@ -1,0 +1,62 @@
+{% macro moderators_input() %}
+
+<div class="ui-widget add">
+    <label for="access-rights-input">Rechte vergeben:</label>
+    <input id="access-rights-input" class="form-control" type="text" placeholder="Name oder E-Mail" autocomplete="on">
+</div>
+
+<table class="table" id="rights-table">
+    <thead class="thead-inverse tablehead">
+    <tr>
+        <th>Name</th>
+        <th>Rang</th>
+    </tr>
+    </thead>
+
+    <tbody id="tablebody" class="tablebody">
+        <tr>
+            <td>
+                {{ '%s %s'|format(app.user.firstname,app.user.surname) }}
+            </td>
+
+            <td>
+                Eigentümer
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+
+$("#access-rights-input").autocomplete({
+
+    source: '{{ path('moderator_autocomplete') }}',
+    minLength: 2,
+    select: function( event, ui ) {
+        var tablebody = document.getElementById('tablebody');
+        var newElement = document.createElement('tr');
+        newElement.className = 'moderator_row';
+        newElement.setAttribute('id','new_id_for_new_row');
+
+        var newModerator = document.createElement('td');
+        newModerator.setAttribute('id','new_id_for_new_collumn');
+        newModerator.innerHTML = ui.item.value;
+
+        var $newHiddenElement   = $('<input type="hidden"/>');
+        $newHiddenElement.attr('name',"moderatorId[]");
+        $newHiddenElement.val(ui.item.id);
+
+        var newModeratorTitle = document.createElement('td');
+        newModeratorTitle.innerHTML = 'Bearbeiter';
+
+        newElement.appendChild(newModerator);
+        $('#rights-table').append($newHiddenElement);
+        newElement.appendChild(newModeratorTitle);
+        tablebody.appendChild(newElement);
+    }
+
+});
+
+</script>
+
+{% endmacro %}

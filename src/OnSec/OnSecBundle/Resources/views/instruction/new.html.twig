@@ -3,6 +3,7 @@
 {% block content %}
 {% import 'macros/keywords_input.html.twig' as keywords_input %}
 {% import 'macros/questions_input.html.twig' as questions_input %}
+{% import 'macros/moderators_input.html.twig' as moderators_input %}
     <h1>neue Unterweisung</h1>
 
     {{ form_start(form) }}
@@ -14,9 +15,9 @@
 
         {{ keywords_input.keywords_input(form) }}
 
-        {{ questions_input.questions_input(form) }}
+        {{ moderators_input.moderators_input() }}
 
-        {{ form_row(form.moderators) }}
+        {{ questions_input.questions_input(form) }}
 
         <input type="submit" value="Speichern" />
     {{ form_end(form) }}
@@ -26,4 +27,5 @@
             <a href="{{ path('instruction_index') }}">Zurück zur Liste</a>
         </li>
     </ul>
+
 {% endblock %}
