@@ -57,6 +57,9 @@ class InstructionController extends Controller
 
             // $instruction->setPdfLink($fileName);
 
+            $currentUser = $this->get('security.token_storage')->getToken()->getUser();
+            $instruction->setOwner($currentUser);
+
             $em->persist($instruction);
             $em->flush($instruction);
 
