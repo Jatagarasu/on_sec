@@ -12,19 +12,25 @@
             <span class="fa fa-times"></span>
           </a>
 
-          <div class="question-imagePath-container">
-              <label
-                class="sr-only"
-                for="{{ question.imagePathFullPath }}"> Bild (optional)
-              </label>
+          <div class="question-imageFile-container">
+              <div class="question-imageFile-input-container">
+                <label
+                  class="sr-only"
+                  for="{{ question.imageFileFullPath }}"> Bild (optional)
+                </label>
 
-              <input
-                type="file"
-                class="question-imagePath-input form-control mb-2 mr-sm-2 mb-sm-0"
-                placeholder="Bild (optional)"
-                ng-model="question.imagePath"
-                id="{{ question.imagePathFullPath }}"
-                name="{{ question.imagePathFullPath }}">
+                <input
+                  type="file"
+                  class="question-imageFile-input form-control mb-2 mr-sm-2 mb-sm-0"
+                  placeholder="Bild (optional)"
+                  ng-model="question.imageFile"
+                  id="{{ question.imageFileFullPath }}"
+                  name="{{ question.imageFileFullPath }}">
+              </div>
+
+              <div class="preview-image-container">
+                <img class="preview-image" src="{{ question.displayImagePath }}" alt="image_photo"/>
+              </div>
           </div>
 
           <div class="form-group">
@@ -95,7 +101,7 @@
 
     $scope.addEmptyQuestion = function() {
       var index = $scope.questions.length;
-      var newQuestion = createQuestion(index, '', '');
+      var newQuestion = createQuestion(index, '', '', '');
 
       $scope.addEmptyAnswerTo(newQuestion);
       $scope.addEmptyAnswerTo(newQuestion);
@@ -153,10 +159,11 @@
       {% if parent_form.questions|length > 0 %}
         {% for question in parent_form.questions %}
           var questionIndex = $scope.questions.length;
-          var questionText =  "{{ question.vars.value.questionText }}";
-          var imagePath =     "{{ question.vars.value.imageFile }}";
+          var questionText =     "{{ question.vars.value.questionText }}";
+          var imageFile =        "{{ question.vars.value.imageFile }}";
+          var displayImagePath = "{{ asset('images/' ~ question.vars.value.imagePath) }}";
 
-          var question = createQuestion(questionIndex, questionText, imagePath);
+          var question = createQuestion(questionIndex, questionText, imageFile, displayImagePath);
 
           {% for answer in question.vars.value.answers %}
             var answerText =  "{{ answer.answerText }}";
@@ -172,14 +179,15 @@
       {% endif %}
     }
 
-    function createQuestion(index, questionText, imagePath) {
+    function createQuestion(index, questionText, imageFile, displayImagePath) {
       return {
         index:                index,
         questionText:         questionText,
-        imagePath:            imagePath,
+        imageFile:            imageFile,
         questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
-        imagePathFullPath:    questionAttributePathWithIndex(index, 'imageFile') + '[file]',
+        imageFileFullPath:    questionAttributePathWithIndex(index, 'imageFile') + '[file]',
         answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
+        displayImagePath:     displayImagePath,
         answers:              [],
       }
     }

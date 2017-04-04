@@ -8,6 +8,23 @@
     max-width: 500px;
 }
 
+.question-imageFile-container {
+  margin-bottom: 20px;
+}
+
+.question-imageFile-input-container {
+  display: inline-block;
+}
+
+.preview-image-container {
+  display: inline-block;
+}
+
+.preview-image {
+  max-height: 200px;
+  max-width: 300px;
+}
+
 .questions {
     margin: 20px 0 50px 0;
 }
