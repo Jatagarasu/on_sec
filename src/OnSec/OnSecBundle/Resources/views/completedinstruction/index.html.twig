@@ -1,39 +1,41 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
 
 {% block body %}
-    <h1>Completedinstructions list</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Abgeschlossene Unterweisungen</h1>
+        </div>
+        <div class="col-md-6">
+            <a href="{{ path('completedinstruction_new') }}" class="btn btn-outline-success pull-right">neuen Datensatz
+                anlegen</a>
+        </div>
 
-    <table>
-        <thead>
+        <table class="table-sm table-striped">
+            <thead>
             <tr>
-                <th>Id</th>
-                <th>Expiredate</th>
-                <th>Actions</th>
+                {#<th>Id</th>#}
+                <th>Ablaufdatum</th>
+                <th>Aktionen</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for completedInstruction in completedInstructions %}
-            <tr>
-                <td><a href="{{ path('completedinstruction_show', { 'id': completedInstruction.id }) }}">{{ completedInstruction.id }}</a></td>
-                <td>{% if completedInstruction.expireDate %}{{ completedInstruction.expireDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('completedinstruction_show', { 'id': completedInstruction.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('completedinstruction_edit', { 'id': completedInstruction.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('completedinstruction_new') }}">Create a new completedInstruction</a>
-        </li>
-    </ul>
+            </thead>
+            <tbody>
+            {% for completedInstruction in completedInstructions %}
+                <tr>
+                    <td>
+                        <a href="{{ path('completedinstruction_show', { 'id': completedInstruction.id }) }}">{{ completedInstruction.id }}</a>
+                    </td>
+                    <td>{% if completedInstruction.expireDate %}{{ completedInstruction.expireDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" style="display: -webkit-box;">
+                            <a href="{{ path('completedinstruction_show', { 'id': completedInstruction.id }) }}"><i
+                                        class="fa fa-eye" aria-hidden="true"></i></a>
+                            <a href="{{ path('completedinstruction_edit', { 'id': completedInstruction.id }) }}"><i
+                                        class="fa fa-pencil" aria-hidden="true"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

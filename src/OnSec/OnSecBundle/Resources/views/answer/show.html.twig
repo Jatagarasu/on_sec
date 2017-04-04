@@ -1,28 +1,28 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
 
 {% block content %}
-    <h1>Answer</h1>
+    <h1>Antworten anzeigen</h1>
 
     <table>
         <tbody>
+            {#<tr>#}
+                {#<th>Id</th>#}
+                {#<td>{{ answer.id }}</td>#}
+            {#</tr>#}
             <tr>
-                <th>Id</th>
-                <td>{{ answer.id }}</td>
-            </tr>
-            <tr>
-                <th>Answertext</th>
+                <th>Antworttext</th>
                 <td>{{ answer.answerText }}</td>
             </tr>
             <tr>
-                <th>Iscorrect</th>
-                <td>{{ answer.isCorrect }}</td>
+                <th>Richtigkeit</th>
+                <td>{% if answer.isCorrect %}{{ 'wahr' }}{% else %}{{ 'falsch' }}{% endif %}</td>
             </tr>
             <tr>
-                <th>Createdon</th>
+                <th>Erstelldatum</th>
                 <td>{% if answer.createdOn %}{{ answer.createdOn|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
             <tr>
-                <th>Updatedon</th>
+                <th>Bearbeitungsdatum</th>
                 <td>{% if answer.updatedOn %}{{ answer.updatedOn|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
         </tbody>
@@ -30,14 +30,14 @@
 
     <ul>
         <li>
-            <a href="{{ path('answer_index') }}">Back to the list</a>
+            <a href="{{ path('answer_index') }}">Zurück zur Liste</a>
         </li>
         <li>
-            <a href="{{ path('answer_edit', { 'id': answer.id }) }}">Edit</a>
+            <a href="{{ path('answer_edit', { 'id': answer.id }) }}">Speichern</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Löschen">
             {{ form_end(delete_form) }}
         </li>
     </ul>

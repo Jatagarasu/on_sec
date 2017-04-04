@@ -1,20 +1,20 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
 
 {% block content %}
-    <h1>User</h1>
+    <h1>Beuntzer anzeigen</h1>
 
     <table>
         <tbody>
+            {#<tr>#}
+                {#<th>Id</th>#}
+                {#<td>{{ user.id }}</td>#}
+            {#</tr>#}
             <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Surname</th>
+                <th>Nachname</th>
                 <td>{{ user.surname }}</td>
             </tr>
             <tr>
-                <th>Firstname</th>
+                <th>Vorname</th>
                 <td>{{ user.firstname }}</td>
             </tr>
             <tr>
@@ -22,22 +22,22 @@
                 <td>{{ user.email }}</td>
             </tr>
             <tr>
-                <th>Notificationactive</th>
-                <td>{% if user.notificationActive %}Yes{% else %}No{% endif %}</td>
+                <th>Benachrichtigungen aktiv</th>
+                <td>{% if user.notificationActive %}<i class="fa fa-check-circle-o text-success" aria-hidden="true"></i>{% else %}<i class="fa fa-circle-o text-warning" aria-hidden="true"></i>{% endif %}</td>
             </tr>
         </tbody>
     </table>
 
     <ul>
         <li>
-            <a href="{{ path('user_index') }}">Back to the list</a>
+            <a href="{{ path('user_index') }}">Zurück zur Liste</a>
         </li>
         <li>
-            <a href="{{ path('user_edit', { 'id': user.id }) }}">Edit</a>
+            <a href="{{ path('user_edit', { 'id': user.id }) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Löschen">
             {{ form_end(delete_form) }}
         </li>
     </ul>

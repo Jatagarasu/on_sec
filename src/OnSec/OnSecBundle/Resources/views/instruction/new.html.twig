@@ -3,7 +3,7 @@
 {% block content %}
 {% import 'macros/keywords_input.html.twig' as keywords_input %}
 {% import 'macros/questions_input.html.twig' as questions_input %}
-    <h1>Instruction creation</h1>
+    <h1>neue Unterweisung</h1>
 
     {{ form_start(form) }}
         {{ form_row(form.description) }}
@@ -16,12 +16,12 @@
 
         {{ questions_input.questions_input(form) }}
 
-        <input type="submit" value="Create" />
+        <input type="submit" value="Speichern" />
     {{ form_end(form) }}
 
     <ul>
         <li>
-            <a href="{{ path('instruction_index') }}">Back to the list</a>
+            <a href="{{ path('instruction_index') }}">Zurück zur Liste</a>
         </li>
     </ul>
 {% endblock %}
