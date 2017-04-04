@@ -223,7 +223,9 @@ class Instruction
      */
     public function addModerator(\OnSec\OnSecBundle\Entity\User $moderator)
     {
-        $this->moderators[] = $moderator;
+        if (!$this->moderators->contains($moderator)) {
+          $this->moderators[] = $moderator;
+        }
 
         return $this;
     }
