@@ -9,6 +9,8 @@
 }
 
 .question-imageFile-container {
+  display: flex;
+  align-items: flex-start;
   margin-bottom: 20px;
 }
 
@@ -16,13 +18,24 @@
   display: inline-block;
 }
 
-.preview-image-container {
+.question-imageFile-input {
+  margin-bottom: 0;
+}
+
+.question-imageFile-delete-input {
   display: inline-block;
 }
 
+.preview-image-container {
+  display: inline-block;
+  border: 8px dotted #88C7D8;
+  border-radius: 14px;
+}
+
 .preview-image {
-  max-height: 200px;
-  max-width: 300px;
+  max-width: 200px;
+  max-height: 150px;
+
 }
 
 .questions {

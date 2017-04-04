@@ -14,22 +14,21 @@
 
           <div class="question-imageFile-container">
               <div class="question-imageFile-input-container">
-                <label
-                  class="sr-only"
-                  for="{{ question.imageFileFullPath }}"> Bild (optional)
-                </label>
-
                 <input
                   type="file"
-                  class="question-imageFile-input form-control mb-2 mr-sm-2 mb-sm-0"
+                  class="question-imageFile-input"
                   placeholder="Bild (optional)"
                   ng-model="question.imageFile"
                   id="{{ question.imageFileFullPath }}"
                   name="{{ question.imageFileFullPath }}">
               </div>
 
-              <div class="preview-image-container">
-                <img class="preview-image" src="{{ question.displayImagePath }}" alt="image_photo"/>
+              <div class="preview-image-container" ng-if="question.displayImagePath">
+                <img class="preview-image" src="{{ question.displayImagePath }}" alt=""/>
+              </div>
+
+              <div class="question-imageFile-delete-input" ng-if="question.displayImagePath">
+                Bild vorhanden (löschen button)
               </div>
           </div>
 
