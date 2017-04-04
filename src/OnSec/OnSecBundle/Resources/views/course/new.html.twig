@@ -6,6 +6,7 @@
 
 {% block content %}
 {% import 'macros/keywords_input.html.twig' as keywords_input %}
+{% import 'macros/moderators_input.html.twig' as moderators_input %}
 
 
     <h1>Einen neuen Kurs erstellen</h1>
@@ -41,52 +42,8 @@
     {#{ form_row(form.instructions) }#}
 
     <!------Rights-------------->
-    <div class="ui-widget add">
-        <label for="access-rights-input">Rechte vergeben:</label>
-        <input id="access-rights-input" class="form-control" type="text" placeholder="Name oder E-Mail" autocomplete="on">
-    </div>
+    {{ moderators_input.moderators_input(course) }}
 
-    <!--<div class="ui-widget" style="margin-top:2em; font-family:Arial">
-        Result:
-        <div id="log" style="height: 200px; width: 300px; overflow: auto;" class="ui-widget-content"></div>
-    </div>-->
-
-
-    <table class="table" id="rights-table">
-        <thead class="thead-inverse tablehead">
-        <tr>
-            <th>Name</th>
-            <th>Rang</th>
-        </tr>
-        </thead>
-
-        <tbody id="tablebody" class="tablebody">
-        <tr>
-            <td>{{ '%s %s'|format(app.user.firstname,app.user.surname) }}</td> {#{ form_row(form.owner) }#}
-
-
-
-            <td>
-                Eigentümer
-            </td>
-        </tr>
-
-        <!--
-        <tr id="moderator-rows-list"
-            data-prototype="{##}{form_widget(form.moderators.vars.prototype)|e}}"
-            class="moderator-list">
-            <!--{##}% for moderator in form.moderators %}
-                <td>
-                    {##}{ form_errors(moderator) }}
-                    {##}{ form_widget(moderator) }}
-                </td>
-                <td>
-                    Bearbeiter
-                </td>
-            {##}% endfor %}-->
-        <!--</tr>-->
-        </tbody>
-    </table>
 
     <!-------Keywords---------------------->
     <label for="access-keywords-input">Schlagwörter: </label>
@@ -213,44 +170,44 @@
                 }
             });
 
-            <!------Moderators-------------->
-            console.log('{{ path('moderator_autocomplete') }}');
-            $("#access-rights-input").autocomplete({
+            // <!------Moderators-------------->
+            // console.log('{{ path('moderator_autocomplete') }}');
+            // $("#access-rights-input").autocomplete({
 
-                source: '{{ path('moderator_autocomplete') }}',
-                minLength: 2,
-                select: function( event, ui ) {
-                    console.log( ui.item);
-                    console.log( ui.item ?
-                        "Selected: " + ui.item.value + " aka " + ui.item.id :
-                        "Nothing selected, input was " + this.value );
+            //     source: '{{ path('moderator_autocomplete') }}',
+            //     minLength: 2,
+            //     select: function( event, ui ) {
+            //         console.log( ui.item);
+            //         console.log( ui.item ?
+            //             "Selected: " + ui.item.value + " aka " + ui.item.id :
+            //             "Nothing selected, input was " + this.value );
 
-                    var tablebody = document.getElementById('tablebody');
-                    var newElement = document.createElement('tr');
-                    newElement.className = 'moderator_row';
-                    newElement.setAttribute('id','new_id_for_new_row');
-
-
-                    var newModerator = document.createElement('td');
-                    newModerator.setAttribute('id','new_id_for_new_collumn');
-                    newModerator.innerHTML = ui.item.value;
-
-                    var $newHiddenElement   = $('<input type="hidden"/>');
-                    $newHiddenElement.attr('name',"moderatorId[]");
-                    $newHiddenElement.val(ui.item.id);
+            //         var tablebody = document.getElementById('tablebody');
+            //         var newElement = document.createElement('tr');
+            //         newElement.className = 'moderator_row';
+            //         newElement.setAttribute('id','new_id_for_new_row');
 
 
-                    var newModeratorTitle = document.createElement('td');
-                    newModeratorTitle.innerHTML = 'Bearbeiter';
+            //         var newModerator = document.createElement('td');
+            //         newModerator.setAttribute('id','new_id_for_new_collumn');
+            //         newModerator.innerHTML = ui.item.value;
+
+            //         var $newHiddenElement   = $('<input type="hidden"/>');
+            //         $newHiddenElement.attr('name',"moderatorId[]");
+            //         $newHiddenElement.val(ui.item.id);
 
 
-                    newElement.appendChild(newModerator);
-                    $('#rights-table').append($newHiddenElement);
-                    newElement.appendChild(newModeratorTitle);
-                    tablebody.appendChild(newElement);
-                }
+            //         var newModeratorTitle = document.createElement('td');
+            //         newModeratorTitle.innerHTML = 'Bearbeiter';
 
-            });
+
+            //         newElement.appendChild(newModerator);
+            //         $('#rights-table').append($newHiddenElement);
+            //         newElement.appendChild(newModeratorTitle);
+            //         tablebody.appendChild(newElement);
+            //     }
+
+            // });
 
 
 

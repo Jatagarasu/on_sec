@@ -47,15 +47,15 @@ class InstructionController extends Controller
                 }
             }
 
-            // $file     = $instruction->getPdfLink();
-            // $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            $moderatorIds = $request->get('moderatorId');
 
-            // $file->move(
-            //   $this->getParameter('pdf_directory'),
-            //   $fileName
-            // );
+            if(!empty($moderatorIds)){
+                foreach ($moderatorIds as $userid){
+                    $user = $em->getRepository('HSDOnSecBundle:User')->find($userid);
+                    $instruction->addModerator($user);
 
-            // $instruction->setPdfLink($fileName);
+                }
+            }
 
             $currentUser = $this->get('security.token_storage')->getToken()->getUser();
             $instruction->setOwner($currentUser);
@@ -97,9 +97,21 @@ class InstructionController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
             foreach ($instruction->getQuestions() as $question) {
                 foreach ($question->getAnswers() as $answer) {
                     $answer->setQuestion($question);
+                }
+            }
+
+            $moderatorIds = $request->get('moderatorId');
+
+            if(!empty($moderatorIds)){
+                foreach ($moderatorIds as $userid){
+                    $user = $em->getRepository('HSDOnSecBundle:User')->find($userid);
+                    $instruction->addModerator($user);
+
                 }
             }
 

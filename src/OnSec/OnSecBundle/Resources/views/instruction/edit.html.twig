@@ -3,6 +3,7 @@
 {% block content %}
 {% import 'macros/keywords_input.html.twig' as keywords_input %}
 {% import 'macros/questions_input.html.twig' as questions_input %}
+{% import 'macros/moderators_input.html.twig' as moderators_input %}
     <h1>Unterweisung bearbeiten</h1>
 
     {{ form_start(edit_form) }}
@@ -16,6 +17,8 @@
         {{ form_row(edit_form.expiretime) }}
 
         {{ keywords_input.keywords_input(edit_form) }}
+
+        {{ moderators_input.moderators_input(instruction) }}
 
         {{ questions_input.questions_input(edit_form) }}
 
