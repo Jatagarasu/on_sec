@@ -129,7 +129,15 @@ class DashboardController extends Controller
             $handle = fopen('php://output', 'w+');
 
             // Add the header of the CSV file
-            fputcsv($handle, array('Name', 'Vorname', 'E-Mail', 'Anzahl fehlender Unterweisungen'),';');
+            date_default_timezone_set("Europe/Berlin");
+            $timestamp = time();
+            $date = date("d.m.Y",$timestamp);
+            $time = date("H:i",$timestamp);
+
+            $description = $course->getDescription();
+            $description = iconv("UTF-8", "WINDOWS-1252", $description);
+            fputcsv($handle, array('Teilnehmer von '.$description.' am '.$date.' um '.$time.' Uhr'),';');
+            fputcsv($handle, array('Name', 'Vorname', 'E-Mail', 'Fehlende Unterweisungen'),';');
 
 
             foreach ($course->getSubscribers() as $subscriber) {
@@ -138,25 +146,35 @@ class DashboardController extends Controller
                 $firstname = $user->getFirstname();
                 $email = $user->getEmail();
                 $progress=0;
+                $missing = [];
 
-                foreach ($user->getCompletedInstructions() as $completed_instruction) {
-                    foreach ($course->getInstructions() as $course_instruction) {
-                        if ($course_instruction == $completed_instruction) {
+                foreach ($course->getInstructions() as $course_instruction) {
+
+                    $found = null;
+                    foreach ($user->getCompletedInstructions() as $completed_instruction) {
+                        if ($course_instruction == $completed_instruction->getInstruction()) {
                             $progress+=1;
+                            $found = 1;
                         }
                     }
+                    if ($found == null) {
+                            array_push($missing,$course_instruction->getDescription());
+                        }
                 }
-                $missing = count($course->getInstructions()) - $progress;
+                //$missing = count($course->getInstructions()) - $progress;
+
+                $firstname = iconv("UTF-8", "WINDOWS-1252", $firstname);
+                $surname = iconv("UTF-8", "WINDOWS-1252", $surname);
+                $missing = iconv("UTF-8", "WINDOWS-1252", implode(", ",$missing));
 
                 fputcsv($handle, array($surname,$firstname,$email,$missing),';');
-
             }
             fclose($handle);
         });
 
         $response->setStatusCode(200);
 
-        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+        $response->headers->set('Content-Type', 'text/csv; charset=WINDOWS-1252');
         $filename= $course->getDescription();
         $response->headers->set('Content-Disposition', "attachment; filename=$filename.csv");
 
