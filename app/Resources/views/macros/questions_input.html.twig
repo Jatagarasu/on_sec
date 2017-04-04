@@ -14,6 +14,9 @@
 
           <div class="question-imageFile-container">
               <div class="question-imageFile-input-container">
+                <label for="{{ question.imageFileFullPath }}">
+                  Bild (optional)
+                </label>
                 <input
                   type="file"
                   class="question-imageFile-input"
@@ -28,7 +31,10 @@
               </div>
 
               <div class="question-imageFile-delete-input" ng-if="question.displayImagePath">
-                Bild vorhanden (löschen button)
+                <label for="question.deleteImageFullPath">Bild löschen?</label>
+                <input type="checkbox"
+                  id="question.deleteImageFullPath"
+                  name="question.deleteImageFullPath">
               </div>
           </div>
 
@@ -160,7 +166,11 @@
           var questionIndex = $scope.questions.length;
           var questionText =     "{{ question.vars.value.questionText }}";
           var imageFile =        "{{ question.vars.value.imageFile }}";
-          var displayImagePath = "{{ asset('images/' ~ question.vars.value.imagePath) }}";
+          var displayImagePath = '';
+
+          {% if question.vars.value.imagePath %}
+            displayImagePath = "{{ asset('images/' ~ question.vars.value.imagePath) }}";
+          {% endif %}
 
           var question = createQuestion(questionIndex, questionText, imageFile, displayImagePath);
 
@@ -185,6 +195,7 @@
         imageFile:            imageFile,
         questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
         imageFileFullPath:    questionAttributePathWithIndex(index, 'imageFile') + '[file]',
+        deleteImageFullPath:  questionAttributePathWithIndex(index, 'imageFile') + '[delete]',
         answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
         displayImagePath:     displayImagePath,
         answers:              [],

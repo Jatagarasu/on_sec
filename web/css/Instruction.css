@@ -29,6 +29,7 @@
 
 .question-imageFile-delete-input {
   display: inline-block;
+  margin-left: 20px;
 }
 
 .preview-image-container {
