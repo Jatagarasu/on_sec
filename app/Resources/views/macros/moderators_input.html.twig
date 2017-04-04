@@ -1,4 +1,4 @@
-{% macro moderators_input() %}
+{% macro moderators_input(entity) %}
 
 <div class="ui-widget add">
     <label for="access-rights-input">Rechte vergeben:</label>
@@ -33,28 +33,44 @@ $("#access-rights-input").autocomplete({
     source: '{{ path('moderator_autocomplete') }}',
     minLength: 2,
     select: function( event, ui ) {
-        var tablebody = document.getElementById('tablebody');
-        var newElement = document.createElement('tr');
-        newElement.className = 'moderator_row';
-        newElement.setAttribute('id','new_id_for_new_row');
-
-        var newModerator = document.createElement('td');
-        newModerator.setAttribute('id','new_id_for_new_collumn');
-        newModerator.innerHTML = ui.item.value;
-
-        var $newHiddenElement   = $('<input type="hidden"/>');
-        $newHiddenElement.attr('name',"moderatorId[]");
-        $newHiddenElement.val(ui.item.id);
-
-        var newModeratorTitle = document.createElement('td');
-        newModeratorTitle.innerHTML = 'Bearbeiter';
-
-        newElement.appendChild(newModerator);
-        $('#rights-table').append($newHiddenElement);
-        newElement.appendChild(newModeratorTitle);
-        tablebody.appendChild(newElement);
+        addModerator(ui.item.value, ui.item.id);
     }
 
+});
+
+function addModerator(value, id) {
+  var tablebody = document.getElementById('tablebody');
+  var newElement = document.createElement('tr');
+  newElement.className = 'moderator_row';
+  newElement.setAttribute('id','new_id_for_new_row');
+
+  var newModerator = document.createElement('td');
+  newModerator.setAttribute('id','new_id_for_new_collumn');
+  newModerator.innerHTML = value;
+
+  var $newHiddenElement   = $('<input type="hidden"/>');
+  $newHiddenElement.attr('name',"moderatorId[]");
+  $newHiddenElement.val(id);
+
+  var newModeratorTitle = document.createElement('td');
+  newModeratorTitle.innerHTML = 'Bearbeiter';
+
+  newElement.appendChild(newModerator);
+  $('#rights-table').append($newHiddenElement);
+  newElement.appendChild(newModeratorTitle);
+  tablebody.appendChild(newElement);
+}
+
+function fillModeratorsFromSymfony() {
+  {% for mod in entity.moderators %}
+    var value = "{{ mod.firstname ~ ' ' ~ mod.surname ~ '(' ~ mod.email ~ ')' }}";
+    var id    = {{ mod.id }};
+    addModerator(value, id);
+  {% endfor %}
+}
+
+$( document ).ready(function() {
+    fillModeratorsFromSymfony();
 });
 
 </script>
