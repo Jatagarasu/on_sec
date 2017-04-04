@@ -26,7 +26,7 @@ class InstructionType extends AbstractType
           ])
           ->add('pdfFile', VichFileType::class, [
               'label' => "Unterweisung (PDF)",
-              'required' => true,
+              'required' => false,
           ])
           ->add('keywords', CollectionType::class, array(
               'entry_type' => KeywordType::class,
