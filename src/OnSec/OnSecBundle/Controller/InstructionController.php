@@ -106,13 +106,16 @@ class InstructionController extends Controller
             }
 
             $moderatorIds = $request->get('moderatorId');
+            $moderators = [];
 
             if(!empty($moderatorIds)){
                 foreach ($moderatorIds as $userid){
                     $user = $em->getRepository('HSDOnSecBundle:User')->find($userid);
-                    $instruction->addModerator($user);
-
+                    $moderators[] = $user;
+                    // $instruction->addModerator($user);
                 }
+
+                $instruction->setModerators($moderators);
             }
 
             $this->getDoctrine()->getManager()->flush();
