@@ -118,6 +118,13 @@
     margin-top: -4px;
 }
 
+.question-index {
+  position: absolute;
+  margin-left: -60px;
+  font-size: 32px;
+  color: #00afdd;
+}
+
 .question-remove-button {
     float: right;
     color: #c40 !important;
