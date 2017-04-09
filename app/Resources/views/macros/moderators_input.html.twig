@@ -10,6 +10,7 @@
     <tr>
         <th>Name</th>
         <th>Rang</th>
+        <th>Aktionen</th>
     </tr>
     </thead>
 
@@ -21,6 +22,10 @@
 
             <td>
                 Eigentümer
+            </td>
+
+            <td>
+
             </td>
         </tr>
     </tbody>
@@ -40,25 +45,44 @@ $("#access-rights-input").autocomplete({
 
 function addModerator(value, id) {
   var tablebody = document.getElementById('tablebody');
-  var newElement = document.createElement('tr');
-  newElement.className = 'moderator_row';
-  newElement.setAttribute('id','new_id_for_new_row');
+  var newRow = document.createElement('tr');
+  newRow.className = 'moderator_row';
+  newRow.setAttribute('id','moderator_' + id);
 
   var newModerator = document.createElement('td');
   newModerator.setAttribute('id','new_id_for_new_collumn');
   newModerator.innerHTML = value;
 
   var $newHiddenElement   = $('<input type="hidden"/>');
+  $newHiddenElement.attr('id',"hidden_moderator_" + id);
   $newHiddenElement.attr('name',"moderatorId[]");
   $newHiddenElement.val(id);
 
   var newModeratorTitle = document.createElement('td');
   newModeratorTitle.innerHTML = 'Bearbeiter';
 
-  newElement.appendChild(newModerator);
+  var $actionsCol = createActionsTd(id);
+
+  newRow.appendChild(newModerator);
   $('#rights-table').append($newHiddenElement);
-  newElement.appendChild(newModeratorTitle);
-  tablebody.appendChild(newElement);
+  newRow.appendChild(newModeratorTitle);
+  newRow.appendChild($actionsCol.get(0));
+  tablebody.appendChild(newRow);
+}
+
+function createActionsTd(id) {
+  var $td = $('<td>');
+
+  var $removeBtn = $('<a href="#">X</a>');
+  $removeBtn.click(function(e) {
+    e.preventDefault();
+    $('#hidden_moderator_' + id).remove();
+    $('#moderator_' + id).remove();
+  })
+
+  $td.append($removeBtn);
+
+  return $td;
 }
 
 function fillModeratorsFromSymfony() {
