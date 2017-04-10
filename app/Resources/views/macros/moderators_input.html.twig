@@ -73,7 +73,7 @@ function addModerator(value, id) {
 function createActionsTd(id) {
   var $td = $('<td>');
 
-  var $removeBtn = $('<a href="#">X</a>');
+  var $removeBtn = $('<a href="#">Löschen</a>');
   $removeBtn.click(function(e) {
     e.preventDefault();
     $('#hidden_moderator_' + id).remove();
@@ -87,7 +87,7 @@ function createActionsTd(id) {
 
 function fillModeratorsFromSymfony() {
   {% for mod in entity.moderators %}
-    var value = "{{ mod.firstname ~ ' ' ~ mod.surname ~ '(' ~ mod.email ~ ')' }}";
+    var value = "{{ mod.firstname ~ ' ' ~ mod.surname ~ ' (' ~ mod.email ~ ')' }}";
     var id    = {{ mod.id }};
     addModerator(value, id);
   {% endfor %}

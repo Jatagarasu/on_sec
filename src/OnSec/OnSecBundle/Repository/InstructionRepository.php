@@ -26,6 +26,7 @@ class InstructionRepository extends \Doctrine\ORM\EntityRepository
                                 ->getQuery()
                                 ->getResult();
 
+
         return $result1+$result2;
     }
 }
