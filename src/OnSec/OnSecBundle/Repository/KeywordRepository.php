@@ -10,4 +10,11 @@ namespace OnSec\OnSecBundle\Repository;
  */
 class KeywordRepository extends \Doctrine\ORM\EntityRepository
 {
+  public function search($term) {
+      return $this->createQueryBuilder('keyword')
+        ->andWhere('keyword.description LIKE :searchTerm')
+        ->setParameter('searchTerm', '%'.$term.'%')
+        ->getQuery()
+        ->execute();
+  }
 }

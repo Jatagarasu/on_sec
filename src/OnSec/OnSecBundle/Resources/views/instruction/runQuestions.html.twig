@@ -1,0 +1,187 @@
+{% extends 'HSDOnSecBundle::base.html.twig' %}
+{% block title %}Instruction{% endblock %}
+{% block ownStylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/hsdonsec/css/Instruction.css') }}">
+{% endblock %}
+{% block content %}
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
+    <div id="ngAppOnSecRunQuestions" class="container" ng-controller="runQuestionsController">
+        <div id="instructionView">
+            <h1 class="headerInstruction">Fragen zu {{ instruction.description }}</h1>
+            </br>
+            {% verbatim %}
+            <div ng-repeat="question in shownQuestionArray track by $index">
+                <div class="questionBox" ng-style="question.boxStyle">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="questionText unselectable">
+                            {{question.text}}
+                        </div>
+                    </div>
+
+                    <div ng-if="question.imageAvalible">
+                        <div class="col-lg-6">
+                            <div ng-repeat="answer in question.answers">
+                                <label class="custom-control custom-checkbox answerText unselectable">
+                                    <input type="checkbox" class="custom-control-input" ng-model="answer.checked">
+                                    <span class="marginIndicator custom-control-indicator"></span>
+                                    <span class="paddingText custom-control-description">{{answer.isCorrect}} {{answer.text}}</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <img class= "fragenbild img-thumbnail" src="{{ question.imagePath }}" alt="imageQuestion"/>
+                        </div>
+                    </div>
+
+                    <div ng-if="!question.imageAvalible">
+                        <div class="col-lg-12">
+                            <div ng-repeat="answer in question.answers">
+                                <label class="custom-control custom-checkbox answerText unselectable">
+                                    <input type="checkbox" class="custom-control-input" ng-model="answer.checked">
+                                    <span class="marginIndicator custom-control-indicator"></span>
+                                    <span class="paddingText custom-control-description">{{answer.isCorrect}} {{answer.text}}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+                  </br>
+                </div>
+            </br>
+            </br>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div ng-style="textStyle" >{{checkMessage}}</div>
+                </div>
+            </div>
+            {% endverbatim %}
+            </br>
+            <div class="row">
+                <div class="col-lg-4" align="left">
+                        <a id="unterweisungButton" href="{{ path('instruction_run', {'id': instruction.id }) }}" class="btn btn-primary btn-lg">zurück zur Unterweisung</a>
+                </div>
+                <div class="col-lg-4" align="right">
+                    {% verbatim %}
+                            <a href id="checkButton" ng-click="checkAnswer()" class="btn btn-primary btn-lg">Antworten prüfen</a>
+                    {% endverbatim %}
+                </div>
+                <div class="col-lg-4" align="right">
+                        <a id="weiter" href="{{ url('completedinstruction_save', {'instruction': instruction.id}) }}" class="btn btn-primary btn-lg buttonHidden">weiter zum Dashboard</a>
+                </div>
+            </div>
+            </br>
+
+        </div>
+    </div>
+
+
+
+
+    <script>
+        var anzahl = {{ instruction.questions|length }};
+        var fragenAnzeigeAnzahl = 3;
+        var status = "pruefung";
+
+        if(anzahl < fragenAnzeigeAnzahl )
+        {
+            fragenAnzeigeAnzahl = anzahl;
+        }
+
+        var randomNumbers = [];
+        while(randomNumbers.length < fragenAnzeigeAnzahl) {
+            var randomNum = Math.floor(Math.random() * (anzahl));
+            if (randomNumbers.indexOf(randomNum) == -1) {
+                randomNumbers.push(randomNum);
+            }
+        }
+        var questionArray = [];
+
+        {% for question in instruction.questions %}
+        var question = {};
+        question.text = '{{ question.questionText }}';
+        question.id = '{{ question.id }}';
+        question.imagePath = "{{ asset('images/' ~ question.imagePath) }}"
+        question.result = "";
+        question.boxStyle = "";
+        if (question.imagePath === '{{ asset("") }}'){
+            question.imageAvalible = false;
+        }
+        else
+        {
+            question.imageAvalible = true;
+        }
+        question.answers = [];
+
+        {% for answer in question.answers %}
+        var answer = {};
+        answer.text = '{{ answer.answerText }}';
+        answer.id = '{{ answer.id }}';
+        answer.isCorrect = '{{ answer.isCorrect }}';
+        answer.checked = false;
+        answer.result = "";
+        question.answers.push(answer);
+        {% endfor %}
+
+        questionArray.push(question);
+        {% endfor %}
+
+        angular.module('onSecRunQuestions', [])
+            .controller('runQuestionsController', function($scope) {
+                $scope.shownQuestionArray = [];
+                for (i = 0; i < randomNumbers.length; i++) {
+                    $scope.shownQuestionArray.push(questionArray[randomNumbers[i]]);
+                }
+
+                $scope.checkMessage = "";
+                $scope.textStyle = "";
+                $scope.boxStyle = "";
+                $scope.checkAnswer = function () {
+
+                    if(status === "pruefung") {
+                        var allRight = true;
+                        for (i = 0; i < $scope.shownQuestionArray.length; i++) {
+                            $scope.shownQuestionArray[i].result = "korrekt beantwortet"
+                            $scope.shownQuestionArray[i].boxStyle = {'border-left':'5px solid #A9F5BC', 'padding':'14px 0 14px 10px', 'margin-bottom':'20px'};
+                            for (j = 0; j < $scope.shownQuestionArray[i].answers.length; j++) {
+                                if ($scope.shownQuestionArray[i].answers[j].checked == ($scope.shownQuestionArray[i].answers[j].isCorrect > 0)) {
+                                    $scope.shownQuestionArray[i].answers[j].result = "richtig";
+                                }
+                                else {
+                                    $scope.shownQuestionArray[i].answers[j].result = "falsch";
+                                    $scope.shownQuestionArray[i].result = "leider falsch beantwortet"
+                                    $scope.shownQuestionArray[i].boxStyle = {'border-left':'5px solid #F78181', 'padding':'14px 0 14px 10px', 'margin-bottom':'20px'};
+                                    allRight = false;
+                                }
+                            }
+                        }
+                        if (allRight) {
+                            $scope.checkMessage = "Du hast alle Fragen richtig beantwortet.";
+                            $scope.textStyle = {'background-color': '#A9F5BC', 'text-align': 'center'};
+                            console.log("alles Korrekt");
+                            status = "weiter";
+                            // $('#weiter').addClass('active').removeClass('disabled');
+                            $('#weiter').addClass('buttonVisible').removeClass('buttonHidden');
+                            $('#unterweisungButton').addClass('buttonHidden');
+                            //Hinzufügen der abgeschlossenen Unterweisung in der DB
+                            {#{user.addCompletedInstruction(instruction.id)}#}
+                        }
+                        else {
+                            $scope.checkMessage = "Leider hast du nicht alle Fragen korrekt beantwortet. Siehe dir noch einmal die Unterweisung an.";
+                            $scope.textStyle = {'background-color': '#F78181', 'text-align': 'center'};
+                            console.log("nicht alles Korrekt");
+                            $scope.buttonSwitch = true;
+                            status = "unterweisung";
+                        }
+                        $('#checkButton').addClass('buttonHidden');
+                    }
+
+                }
+            });
+
+        angular.bootstrap(document.getElementById('ngAppOnSecRunQuestions'), ['onSecRunQuestions'])
+    </script>
+
+{% endblock %}

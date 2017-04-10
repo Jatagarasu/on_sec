@@ -28,7 +28,7 @@ class CourseController extends Controller
 
         $courses = $em->getRepository('HSDOnSecBundle:Course')->findAll();
 
-        return $this->render('course/index.html.twig', array(
+        return $this->render('HSDOnSecBundle:Course:index.html.twig', array(
             'courses' => $courses,
         ));
     }
@@ -76,8 +76,8 @@ class CourseController extends Controller
                 }
             }
 
-            /*$owner = $em->getRepository('HSDOnSecBundle:User')->find(app.user.id);
-            $course->setOwner($owner);*/
+            $owner = $em->getRepository('HSDOnSecBundle:User')->find(app.user.id);
+            $course->setOwner($owner);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($course);
@@ -86,7 +86,7 @@ class CourseController extends Controller
             return $this->redirectToRoute('course_show', array('id' => $course->getId()));
         }
 
-        return $this->render('course/new.html.twig', array(
+        return $this->render('HSDOnSecBundle:Course:new.html.twig', array(
             'course' => $course,
             //'rooms' => $rooms,   //neu dazu
             //'users' => $users,  // neu dazu
@@ -99,7 +99,7 @@ class CourseController extends Controller
      *
      */
 
-    public function autocomplete_roomAction(Request $request){
+ /*   public function autocomplete_roomAction(Request $request){
 
         $rooms = array();
         $instructions = array();
@@ -110,9 +110,9 @@ class CourseController extends Controller
 
         $entities = $em->getRepository('HSDOnSecBundle:Room')->search($term);
 
-        foreach ($entities as $entity){
+        foreach ($entities as $room_entity){
 
-            foreach($entity->getInstructions() as $instruction){
+            foreach($room_entity->getInstructions() as $instruction){
 
                 array_push($instructions, array(
                     'label'=>$instruction->getDescription(),
@@ -121,10 +121,10 @@ class CourseController extends Controller
             }
 
             array_push($rooms, array(
-                'label'=>$entity->getDescription(),
-                'value'=>$entity->getDescription(),
+                'label'=>$room_entity->getDescription(),
+                'value'=>$room_entity->getDescription(),
                 'instructions'=> $instructions,
-                'id'=>$entity->getId()));
+                'id'=>$room_entity->getId()));
 
         }
 
@@ -132,7 +132,7 @@ class CourseController extends Controller
         $response->setData($rooms);
 
         return $response;
-    }
+    }*/
 
     public function autocomplete_instructionAction(Request $request){
 
@@ -142,15 +142,27 @@ class CourseController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('HSDOnSecBundle:Instruction')->search($term);
+        $i_entities = $em->getRepository('HSDOnSecBundle:Instruction')->search($term);
 
-        foreach ($entities as $entity){
-            //$instructions[] = $entity->getDescription();
+        foreach ($i_entities as $i_entity){
 
             array_push($instructions, array(
-                'label'=>$entity->getDescription(),
-                'value'=>$entity->getDescription(),
-                'id'=>$entity->getId()));
+                'label'=>$i_entity->getDescription(),
+                'value'=>$i_entity->getDescription(),
+                'id'=>$i_entity->getId()));
+        }
+
+        $r_entities = $em->getRepository('HSDOnSecBundle:Room')->search($term);
+
+        foreach ($r_entities as $r_entity){
+
+            foreach($r_entity->getInstructions() as $instruction){
+
+                array_push($instructions, array(
+                    'label'=>$instruction->getDescription(),
+                    'value'=>$instruction->getDescription(),
+                    'id'=>$instruction->getId()));
+            }
         }
 
         $response = new JsonResponse();
@@ -190,7 +202,7 @@ class CourseController extends Controller
     {
         $deleteForm = $this->createDeleteForm($course);
 
-        return $this->render('course/show.html.twig', array(
+        return $this->render('HSDOnSecBundle:Course:show.html.twig', array(
             'course' => $course,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -212,7 +224,7 @@ class CourseController extends Controller
             return $this->redirectToRoute('course_edit', array('id' => $course->getId()));
         }
 
-        return $this->render('course/edit.html.twig', array(
+        return $this->render('HSDOnSecBundle:Course:edit.html.twig', array(
             'course' => $course,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

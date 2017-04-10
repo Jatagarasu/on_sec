@@ -2,8 +2,12 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * Question
+ * @Vich\Uploadable
  */
 class Question
 {
@@ -16,6 +20,14 @@ class Question
      * @var string
      */
     private $questionText;
+
+    /**
+     *
+     * @Vich\UploadableField(mapping="question_img", fileNameProperty="imagePath")
+     *
+     * @var File
+     */
+    private $imageFile;
 
     /**
      * @var string
@@ -109,6 +121,34 @@ class Question
         $this->imagePath = $imagePath;
 
         return $this;
+    }
+
+    /**
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $pdf
+     *
+     * @return Instruction
+     */
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        if ($image) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedOn = new \DateTimeImmutable();
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 
     /**

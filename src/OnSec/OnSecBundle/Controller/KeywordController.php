@@ -5,6 +5,8 @@ namespace OnSec\OnSecBundle\Controller;
 use OnSec\OnSecBundle\Entity\Keyword;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use OnSec\OnSecBundle\Repository\KeywordRepository;
 
 /**
  * Keyword controller.
@@ -22,7 +24,7 @@ class KeywordController extends Controller
 
         $keywords = $em->getRepository('HSDOnSecBundle:Keyword')->findAll();
 
-        return $this->render('keyword/index.html.twig', array(
+        return $this->render('HSDOnSecBundle:Keyword:index.html.twig', array(
             'keywords' => $keywords,
         ));
     }
@@ -45,7 +47,7 @@ class KeywordController extends Controller
             return $this->redirectToRoute('keyword_show', array('id' => $keyword->getId()));
         }
 
-        return $this->render('keyword/new.html.twig', array(
+        return $this->render('HSDOnSecBundle:Keyword:new.html.twig', array(
             'keyword' => $keyword,
             'form' => $form->createView(),
         ));
@@ -59,7 +61,7 @@ class KeywordController extends Controller
     {
         $deleteForm = $this->createDeleteForm($keyword);
 
-        return $this->render('keyword/show.html.twig', array(
+        return $this->render('HSDOnSecBundle:Keyword:show.html.twig', array(
             'keyword' => $keyword,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -81,7 +83,7 @@ class KeywordController extends Controller
             return $this->redirectToRoute('keyword_edit', array('id' => $keyword->getId()));
         }
 
-        return $this->render('keyword/edit.html.twig', array(
+        return $this->render('HSDOnSecBundle:Keyword:edit.html.twig', array(
             'keyword' => $keyword,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -120,5 +122,25 @@ class KeywordController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    public function autocompleteAction(Request $request) {
+      $searchTerm = trim(strip_tags($request->get('term')));
+      $em         = $this->getDoctrine()->getManager();
+      $keywords   = array();
+
+      $entities   = $em->getRepository('HSDOnSecBundle:Keyword')->search($searchTerm);
+
+      foreach ($entities as $entity) {
+          array_push($keywords, array(
+              'label' => $entity->getDescription(),
+              'id'    => $entity->getId(),
+          ));
+      }
+
+      $response = new JsonResponse();
+      $response->setData($keywords);
+
+      return $response;
     }
 }

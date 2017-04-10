@@ -2,6 +2,7 @@
 
 namespace OnSec\OnSecBundle\Controller;
 
+use OnSec\OnSecBundle\Entity\CompletedInstruction;
 use OnSec\OnSecBundle\Entity\Instruction;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ class InstructionController extends Controller
 
         $instructions = $em->getRepository('HSDOnSecBundle:Instruction')->findAll();
 
-        return $this->render('instruction/index.html.twig', array(
+        return $this->render('HSDOnSecBundle:Instruction:index.html.twig', array(
             'instructions' => $instructions,
         ));
     }
@@ -46,13 +47,23 @@ class InstructionController extends Controller
                 }
             }
 
+            // $file     = $instruction->getPdfLink();
+            // $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+            // $file->move(
+            //   $this->getParameter('pdf_directory'),
+            //   $fileName
+            // );
+
+            // $instruction->setPdfLink($fileName);
+
             $em->persist($instruction);
             $em->flush($instruction);
 
             return $this->redirectToRoute('instruction_show', array('id' => $instruction->getId()));
         }
 
-        return $this->render('instruction/new.html.twig', array(
+        return $this->render('HSDOnSecBundle:Instruction:new.html.twig', array(
             'instruction' => $instruction,
             'form' => $form->createView(),
         ));
@@ -66,7 +77,7 @@ class InstructionController extends Controller
     {
         $deleteForm = $this->createDeleteForm($instruction);
 
-        return $this->render('instruction/show.html.twig', array(
+        return $this->render('HSDOnSecBundle:Instruction:show.html.twig', array(
             'instruction' => $instruction,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -91,10 +102,10 @@ class InstructionController extends Controller
 
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('instruction_edit', array('id' => $instruction->getId()));
+            return $this->redirectToRoute('instruction_show', array('id' => $instruction->getId()));
         }
 
-        return $this->render('instruction/edit.html.twig', array(
+        return $this->render('HSDOnSecBundle:Instruction:edit.html.twig', array(
             'instruction' => $instruction,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -143,7 +154,7 @@ class InstructionController extends Controller
     {
         $deleteForm = $this->createDeleteForm($instruction);
 
-        return $this->render('instruction/run.html.twig', array(
+        return $this->render('HSDOnSecBundle:Instruction:run.html.twig', array(
             'instruction' => $instruction,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -157,7 +168,7 @@ class InstructionController extends Controller
     {
         $deleteForm = $this->createDeleteForm($instruction);
 
-        return $this->render('instruction/runQuestions.html.twig', array(
+        return $this->render('HSDOnSecBundle:Instruction:runQuestions.html.twig', array(
             'instruction' => $instruction,
             'delete_form' => $deleteForm->createView(),
         ));

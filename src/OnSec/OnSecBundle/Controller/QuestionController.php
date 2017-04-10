@@ -22,7 +22,7 @@ class QuestionController extends Controller
 
         $questions = $em->getRepository('HSDOnSecBundle:Question')->findAll();
 
-        return $this->render('question/index.html.twig', array(
+        return $this->render('HSDOnSecBundle:Question:index.html.twig', array(
             'questions' => $questions,
         ));
     }
@@ -45,7 +45,7 @@ class QuestionController extends Controller
             return $this->redirectToRoute('question_show', array('id' => $question->getId()));
         }
 
-        return $this->render('question/new.html.twig', array(
+        return $this->render('HSDOnSecBundle:Question:new.html.twig', array(
             'question' => $question,
             'form' => $form->createView(),
         ));
@@ -59,7 +59,7 @@ class QuestionController extends Controller
     {
         $deleteForm = $this->createDeleteForm($question);
 
-        return $this->render('question/show.html.twig', array(
+        return $this->render('HSDOnSecBundle:Question:show.html.twig', array(
             'question' => $question,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -81,7 +81,7 @@ class QuestionController extends Controller
             return $this->redirectToRoute('question_edit', array('id' => $question->getId()));
         }
 
-        return $this->render('question/edit.html.twig', array(
+        return $this->render('HSDOnSecBundle:Question:edit.html.twig', array(
             'question' => $question,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

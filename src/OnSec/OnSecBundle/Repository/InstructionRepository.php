@@ -26,14 +26,6 @@ class InstructionRepository extends \Doctrine\ORM\EntityRepository
                                 ->getQuery()
                                 ->getResult();
 
-        /*$result3 = $this->createQueryBuilder('instruction','instruction.id')
-                                ->join('instruction.keywords')
-
-                    return $this->createQueryBuilder('room')
-                        ->andWhere('room.description LIKE :searchTerm')
-                        ->setParameter('searchTerm', '%'.$term.'%')
-                        ->getQuery()
-                        ->execute();*/
 
         return $result1+$result2;
     }
