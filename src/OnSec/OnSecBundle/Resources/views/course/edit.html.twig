@@ -6,6 +6,8 @@
 
 {% block content %}
 {% import 'macros/keywords_input.html.twig' as keywords_input %}
+{% import 'macros/moderators_input.html.twig' as moderators_input %}
+
 
 
     <h1>Kurs {{ course.description }} bearbeiten</h1>
@@ -66,11 +68,14 @@
     <br>
 
     <!------Rights-------------->
-    <div class="ui-widget add">
+<!--    <div class="ui-widget add">
         <label for="access-rights-input">Rechte vergeben:</label>
         <input id="access-rights-input" class="form-control" type="text" placeholder="Name oder E-Mail" autocomplete="on">
-    </div>
+    </div>-->
 
+{{ moderators_input.moderators_input(course) }}
+
+    <!--
     <table class="table" id="rights-table">
         <thead class="thead-inverse tablehead">
         <tr>
@@ -82,19 +87,22 @@
         <tbody id="tablebody" class="tablebody">
         <tr>
             <!--<td>{#{ '%s %s'|format(app.user.firstname,app.user.surname) }#}</td> {#{ form_row(form.owner) }#}-->
-            <td>{{ '%s %s'|format(course.owner.firstname,course.owner.surname) }}</td>
+        <!--
+        <td>{#{ '%s %s'|format(course.owner.firstname,course.owner.surname) }#}</td>
 
             <!--<td>{#{ course.owner}#}</td>-->
+        <!--
             <td>
                 Eigentümer
             </td>
 
-            {% for moderator in course.moderators %}
+
+            {##}% for moderator in course.moderators %}
                 <script type="text/javascript">
                     $(document).ready(function() {
 
-                        var id = '{{ moderator.id }}';
-                        var name = '{{ '%s %s'|format(moderator.firstname, moderator.surname) }}';
+                        var id = '{##}{ moderator.id }}';
+                        var name = '{##}{ '%s %s'|format(moderator.firstname, moderator.surname) }}';
 
                         var tablebody = $('#tablebody');
 
@@ -128,7 +136,7 @@
                     });
                 </script>
 
-            {% endfor %}
+            {##}% endfor %}
 
         </tr>
         </tbody>
@@ -276,7 +284,6 @@
                         "Nothing selected, input was " + this.value );
 
                     //var tablebody = document.getElementById('tablebody');
-
                     var tablebody = $('#tablebody');
 
                     var newElement = $('<tr>');
@@ -307,49 +314,6 @@
                 }
 
             });
-
-
-
-
-
-
-
-            // keep track of how many rows with moderators have been rendered
-            {#
-            var moderatorCount = '{{form.moderators|length}}'
-
-            $('#add-another-moderator').click(function(e)
-            {
-                console.log('click');
-                console.log('{{ form.moderators|length }}');
-                e.preventDefault();
-
-                //var user = User();
-
-                var moderatorList = $('#moderator-rows-list');
-
-                //grab the prototype template
-                var newWidget = moderatorList.attr('data-prototype');
-
-                // replace the "__name__" used in the id and name of the prototype
-                // with a number that's unique to your keywords
-                // end name attribute looks like name="contact[keywords][2]"
-                newWidget = newWidget.replace(/__name__/g, moderatorCount);
-                moderatorCount++;
-
-                // create a new row and add it to the table
-                var newColumn1 = $('<td></td>')
-                    .addClass('moderator-input')
-                    .html(newWidget);
-                var newColumn2 = $('<td>Bearbeiter</td>');
-
-                var newRow= $('<tr></tr>');
-                newRow.appendChild(newColumn1);
-                newRow.appendChild(newColumn2);
-
-                newRow.appendTo(moderatorList);
-            });
-#}
 
         });
 
