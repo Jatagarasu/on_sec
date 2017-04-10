@@ -38,8 +38,56 @@ class DashboardController extends Controller
 
     public function modalAction($course)
     {
+        $em = $this->getDoctrine()->getManager();
+        $course = $em->getRepository('HSDOnSecBundle:Course')->find($course);
+        $subscribers = $course->getSubscribers();
+        $semester_array = array();
+
+        foreach ($subscribers as $subscriber) {
+            if(($subscriber->getSubscribtionDate()->format('m')>2 && $subscriber->getSubscribtionDate()->format('m')<9)) {
+                $semester = "SS ".$subscriber->getSubscribtionDate()->format('Y');
+
+                if (isset($semester_array[$semester])) {
+                    array_push($semester_array[$semester], $subscriber);
+                }
+                else {
+                    $semester_array[$semester] = array ();
+                    array_push($semester_array[$semester], $subscriber);
+                }
+            }
+            else if($subscriber->getSubscribtionDate()->format('m')>8 && $subscriber->getSubscribtionDate()->format('m')<13)
+            {
+                $thisyear = $subscriber->getSubscribtionDate()->format('Y');
+                $nextyear = $subscriber->getSubscribtionDate()->modify('+1 year')->format('Y');
+                $semester = "WS " . $thisyear . "/" . $nextyear;
+
+                if (isset($semester_array[$semester])) {
+                    array_push($semester_array[$semester], $subscriber);
+                }
+                else {
+                    $semester_array[$semester] = array ();
+                    array_push($semester_array[$semester], $subscriber);
+                }
+            }
+            else
+            {
+                $thisyear = $subscriber->getSubscribtionDate()->format('Y');
+                $lastyear = $subscriber->getSubscribtionDate()->modify('-1 year')->format('Y');
+                $semester = "WS " . $lastyear . "/" . $thisyear;
+
+                if (isset($semester_array[$semester])) {
+                    array_push($semester_array[$semester], $subscriber);
+                }
+                else {
+                    $semester_array[$semester] = array ();
+                    array_push($semester_array[$semester], $subscriber);
+                }
+            }
+        }
+
         return $this->render('HSDOnSecBundle:Dashboard:modal.html.twig', array(
-            'course' => $course,
+            'semester_array' => $semester_array,
+            'course' => $course
         ));
     }
 
@@ -124,6 +172,21 @@ class DashboardController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $course = $em->getRepository('HSDOnSecBundle:Course')->find($course_id);
+
+        $subscribers = $course->getSubscribers();
+        foreach ($subscribers as $subscriber) {
+            $date = $subscriber->getSubscribtionDate();
+            $year = intval (date("Y", $date));
+            $month = intval (date("m", $date));
+
+
+            date_default_timezone_set("Europe/Berlin");
+            $timestamp = time();
+            $current_year = intval (date("Y", $timestamp));
+            $current_month = intval (date("m", $timestamp));
+
+        }
+
         $response = new StreamedResponse();
         $response->setCallback(function() use ($course) {
             $handle = fopen('php://output', 'w+');

@@ -7,6 +7,8 @@
             </tr>
         </thead>
         <tbody>
+
+            {% dump(semester_array) %}
             {% for subscriber in course.subscribers %}
                 {% set subscriber = subscriber.getUser %}
                 <tr>

@@ -58,9 +58,22 @@
                                                 <div class="modal-title">
                                                     <span class ="modalTitleText">Teilnehmer von {{ course.getDescription() }} </span>
                                                     <div class="pull-right">
-                                                        <select class="custom-select" name="semester">
-                                                            {% for semester in ['SS 2016', 'WS 2016/17', 'SS 2017'] %}
-                                                                <option value="{{ semester }}">{{ semester }}</option>
+                                                        <select id="semester_dropdown" class="custom-select" name="semester">
+                                                            {% set ss = [] %}
+                                                            {% set ws_o = [] %}
+                                                            {% set ws_n = [] %}
+
+                                                            {%  for subscriber in course.getSubscribers() %}
+                                                                {% set year =  subscriber.getSubscribtionDate()|date('Y') %}
+
+                                                                {% if subscriber.getSubscribtionDate()|date('Y-m-d') >= subscriber.getSubscribtionDate()|date('Y-03-01') and subscriber.getSubscribtionDate()|date('Y-m-d') < subscriber.getSubscribtionDate()|date('Y-09-01') %}
+                                                                    {% set ss = ss|merge([subscriber])%}
+                                                                {% elseif subscriber.getSubscribtionDate()|date('Y-m-d') >= subscriber.getSubscribtionDate()|date('Y-09-01') and subscriber.getSubscribtionDate()|date('Y-m-d') < subscriber.getSubscribtionDate()|date(year+1 ~ '-03-01') %}
+                                                                    {% set ws_n = ws_n|merge([subscriber])%}
+                                                                {% elseif subscriber.getSubscribtionDate()|date('Y-m-d') > subscriber.getSubscribtionDate()|date(year-1 ~ '-09-01') and subscriber.getSubscribtionDate()|date('Y-m-d') < subscriber.getSubscribtionDate()|date('Y-03-01') %}
+                                                                    {% set ws_o = ws_n|merge([subscriber])%}
+                                                                    <option value="{{ subscriber.getSubscribtionDate()|date('Y-m-d') }}">{{ subscriber.getSubscribtionDate()|date('Y-m-d') }}</option>
+                                                                {% endif %}
                                                             {% endfor %}
                                                         </select>
                                                     </div>
@@ -209,7 +222,7 @@
             });
         });
 
-
+        $('#semester_dropdown').
 
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
