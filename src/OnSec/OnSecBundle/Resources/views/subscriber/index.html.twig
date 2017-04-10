@@ -1,39 +1,44 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
 
 {% block body %}
-    <h1>Subscribers list</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Subscribtiondate</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for subscriber in subscribers %}
-            <tr>
-                <td><a href="{{ path('subscriber_show', { 'id': subscriber.id }) }}">{{ subscriber.id }}</a></td>
-                <td>{% if subscriber.subscribtionDate %}{{ subscriber.subscribtionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('subscriber_show', { 'id': subscriber.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('subscriber_edit', { 'id': subscriber.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('subscriber_new') }}">Create a new subscriber</a>
-        </li>
-    </ul>
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Teilnehmer</h1>
+        </div>
+        <div class="col-md-6">
+            <a href="{{ path('subscriber_new') }}" class="btn btn-outline-success pull-right">neuen Teilnehmer
+                erzeugen</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table-sm table-striped">
+                <thead>
+                <tr>
+                    {#<th>Id</th>#}
+                    <th>Datum der Teilnahme</th>
+                    <th>Aktionen</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for subscriber in subscribers %}
+                    <tr>
+                        {#<td>{{ subscriber.id }}</td>#}
+                        <td>{% if subscriber.subscribtionDate %}{{ subscriber.subscribtionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" style="display: -webkit-box;">
+                                <a class="btn btn-primary"
+                                   href="{{ path('subscriber_show', { 'id': subscriber.id }) }}"><i class="fa fa-eye"
+                                                                                                    aria-hidden="true"></i></a>
+                                <a class="btn btn-outline-primary"
+                                   href="{{ path('subscriber_edit', { 'id': subscriber.id }) }}"><i class="fa fa-pencil"
+                                                                                                    aria-hidden="true"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

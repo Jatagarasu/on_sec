@@ -6,6 +6,7 @@
 
 {% block content %}
 {% import 'macros/keywords_input.html.twig' as keywords_input %}
+{% import 'macros/moderators_input.html.twig' as moderators_input %}
 
 
     <h1>Einen neuen Kurs erstellen</h1>
@@ -42,11 +43,9 @@
     <br>
 
     <!------Rights-------------->
-    <div class="ui-widget add">
-        <label for="access-rights-input">Rechte vergeben:</label>
-        <input id="access-rights-input" class="form-control" type="text" placeholder="Name oder E-Mail" autocomplete="on">
-    </div>
+    {{ moderators_input.moderators_input(course) }}
 
+<!--
     <table class="table" id="rights-table">
         <thead class="thead-inverse tablehead">
             <tr>
@@ -57,13 +56,14 @@
 
         <tbody id="tablebody" class="tablebody">
             <tr>
-                <td>{{ '%s %s'|format(app.user.firstname,app.user.surname) }}</td> {#{ form_row(form.owner) }#}
+                <td>{#{ '%s %s'|format(app.user.firstname,app.user.surname) }}</td> {#{ form_row(form.owner) }#}
                 <td>
                     Eigentümer
                 </td>
             </tr>
         </tbody>
     </table>
+-->
 
     <br></br>
 
@@ -182,18 +182,19 @@
                 }
             });
 
-            <!------Moderators-------------->
-            console.log('{{ path('moderator_autocomplete') }}');
-            $("#access-rights-input").autocomplete({
+            // <!------Moderators-------------->
+            // console.log('{{ path('moderator_autocomplete') }}');
+            // $("#access-rights-input").autocomplete({
 
-                source: '{{ path('moderator_autocomplete') }}',
-                minLength: 2,
-                select: function( event, ui ) {
-                    console.log( ui.item);
-                    console.log( ui.item ?
-                        "Selected: " + ui.item.value + " aka " + ui.item.id :
-                        "Nothing selected, input was " + this.value );
+            //     source: '{{ path('moderator_autocomplete') }}',
+            //     minLength: 2,
+            //     select: function( event, ui ) {
+            //         console.log( ui.item);
+            //         console.log( ui.item ?
+            //             "Selected: " + ui.item.value + " aka " + ui.item.id :
+            //             "Nothing selected, input was " + this.value );
 
+/*MEIN STUFF
                     //var tablebody = document.getElementById('tablebody');
 
                     var tablebody = $('#tablebody');
@@ -220,31 +221,54 @@
                     newElement.append(removeBtn);
                     tablebody.append(newElement);
 
+*/
+            //         var tablebody = document.getElementById('tablebody');
+            //         var newElement = document.createElement('tr');
+            //         newElement.className = 'moderator_row';
+            //         newElement.setAttribute('id','new_id_for_new_row');
+/*ALTERSTUFF
 
                     //var newElement = document.createElement('tr');
                     //newElement.className = 'moderator_row';
                     //newElement.setAttribute('id','new_id_for_new_row');
 
+*/
+/*MEIN STUFF
 
                     //var newModerator = document.createElement('td');
                     //newModerator.setAttribute('id','new_id_for_new_collumn');
                     //newModerator.innerHTML = ui.item.value;
+*/
+
+            //         var newModerator = document.createElement('td');
+            //         newModerator.setAttribute('id','new_id_for_new_collumn');
+            //         newModerator.innerHTML = ui.item.value;
+
+            //         var $newHiddenElement   = $('<input type="hidden"/>');
+            //         $newHiddenElement.attr('name',"moderatorId[]");
+            //         $newHiddenElement.val(ui.item.id);
+
 
                     //var $newHiddenElement   = $('<input type="hidden"/>');
                     //$newHiddenElement.attr('name',"moderatorId[]");
                     //$newHiddenElement.val(ui.item.id);
 
+/*MEIN STUFF
                     //var newModeratorTitle = document.createElement('td');
                     //newModeratorTitle.innerHTML = 'Bearbeiter';
+*/
+/*ALTERSTUFF
+            //         var newModeratorTitle = document.createElement('td');
+            //         newModeratorTitle.innerHTML = 'Bearbeiter';
+*/
 
+            //         newElement.appendChild(newModerator);
+            //         $('#rights-table').append($newHiddenElement);
+            //         newElement.appendChild(newModeratorTitle);
+            //         tablebody.appendChild(newElement);
+            //     }
 
-                    newElement.appendChild(newModerator);
-                    $('#rights-table').append($newHiddenElement);
-                    newElement.appendChild(newModeratorTitle);
-                    tablebody.appendChild(newElement);
-                }
-
-            });
+            // });
 
 
 

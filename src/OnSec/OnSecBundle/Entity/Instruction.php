@@ -157,11 +157,13 @@ class Instruction
      *
      * @return Instruction
      */
-    public function setPdfFile(File $pdf = null)
+    public function setPdfFile($pdf = null)
     {
-        $this->pdfFile = $pdf;
+        if ($pdf instanceof File) {
+          $this->pdfFile = $pdf;
+        }
 
-        if ($pdf) {
+        if ($pdf instanceof UploadedFile) {
             // It is required that at least one field changes if you are using doctrine
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
@@ -221,9 +223,18 @@ class Instruction
      */
     public function addModerator(\OnSec\OnSecBundle\Entity\User $moderator)
     {
-        $this->moderators[] = $moderator;
+        if (!$this->moderators->contains($moderator)) {
+          $this->moderators[] = $moderator;
+        }
 
         return $this;
+    }
+
+    public function setModerators($moderators)
+    {
+      $this->moderators = $moderators;
+
+      return $this;
     }
 
     /**

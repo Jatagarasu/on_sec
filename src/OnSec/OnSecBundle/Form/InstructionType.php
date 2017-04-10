@@ -26,7 +26,8 @@ class InstructionType extends AbstractType
           ])
           ->add('pdfFile', VichFileType::class, [
               'label' => "Unterweisung (PDF)",
-              'required' => true,
+              'allow_delete' => false,
+              'required' => false,
           ])
           ->add('keywords', CollectionType::class, array(
               'entry_type' => KeywordType::class,
@@ -34,7 +35,8 @@ class InstructionType extends AbstractType
               'allow_delete' => true,
               'by_reference' => false
           ))
-          ->add('moderators')
+          // Moderators are not added per usual form structure, hence commented out
+          // ->add('moderators')
           ->add('questions', CollectionType::class, array(
               'entry_type' => QuestionType::class,
               'allow_add' => true,
