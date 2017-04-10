@@ -1,45 +1,50 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
 
 {% block content %}
-    <h1>Questions list</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Questiontext</th>
-                <th>Imagepath</th>
-                <th>Createdon</th>
-                <th>Updatedon</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for question in questions %}
-            <tr>
-                <td><a href="{{ path('question_show', { 'id': question.id }) }}">{{ question.id }}</a></td>
-                <td>{{ question.questionText }}</td>
-                <td>{{ question.imagePath }}</td>
-                <td>{% if question.createdOn %}{{ question.createdOn|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if question.updatedOn %}{{ question.updatedOn|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('question_show', { 'id': question.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('question_edit', { 'id': question.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('question_new') }}">Create a new question</a>
-        </li>
-    </ul>
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Fragen</h1>
+        </div>
+        <div class="col-md-6">
+            <a href="{{ path('question_new') }}" class="btn btn-outline-success pull-right">neue Frage erstellen</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table-sm table-striped">
+                <thead>
+                <tr>
+                    {#<th>Id</th>#}
+                    <th>Fragentext</th>
+                    <th>Pfad zum Bild</th>
+                    <th>Erstelldatum</th>
+                    <th>Bearbeitungsdatum</th>
+                    <th>Aktionen</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for question in questions %}
+                    <tr>
+                        {#<td>{{ question.id }}</td>#}
+                        <td><a href="{{ path('question_show', { 'id': question.id }) }}">{{ question.questionText }}</a>
+                        </td>
+                        <td>{{ question.imagePath }}</td>
+                        <td>{% if question.createdOn %}{{ question.createdOn|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>{% if question.updatedOn %}{{ question.updatedOn|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" style="display: -webkit-box;">
+                                <a class="btn btn-primary" href="{{ path('question_show', { 'id': question.id }) }}"><i
+                                            class="fa fa-eye"
+                                            aria-hidden="true"></i></a>
+                                <a class="btn btn-outline-primary"
+                                   href="{{ path('question_edit', { 'id': question.id }) }}"><i class="fa fa-pencil"
+                                                                                                aria-hidden="true"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

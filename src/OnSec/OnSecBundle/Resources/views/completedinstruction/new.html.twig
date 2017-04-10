@@ -1,16 +1,16 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
 
 {% block body %}
-    <h1>Completedinstruction creation</h1>
+    <h1>neue Abgeschlossene Unterweisung anlegen</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <input type="submit" value="Speichern" />
     {{ form_end(form) }}
 
     <ul>
         <li>
-            <a href="{{ path('completedinstruction_index') }}">Back to the list</a>
+            <a href="{{ path('completedinstruction_index') }}">Zurück zur Liste</a>
         </li>
     </ul>
 {% endblock %}

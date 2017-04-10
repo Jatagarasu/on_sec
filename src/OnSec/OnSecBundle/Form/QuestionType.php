@@ -5,7 +5,7 @@ namespace OnSec\OnSecBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichFileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class QuestionType extends AbstractType
@@ -16,7 +16,7 @@ class QuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('questionText')
-            ->add('imageFile', VichFileType::class, [
+            ->add('imageFile', VichImageType::class, [
                 'label' => 'Bild (jpg, png)',
                 'required' => false,
             ])

@@ -1,16 +1,16 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
 
 {% block body %}
-    <h1>Completedinstruction</h1>
+    <h1>Abgeschlossene Unterweisung anzeigen</h1>
 
     <table>
         <tbody>
+            {#<tr>#}
+                {#<th>Id</th>#}
+                {#<td>{{ completedInstruction.id }}</td>#}
+            {#</tr>#}
             <tr>
-                <th>Id</th>
-                <td>{{ completedInstruction.id }}</td>
-            </tr>
-            <tr>
-                <th>Expiredate</th>
+                <th>Ablaufdatum</th>
                 <td>{% if completedInstruction.expireDate %}{{ completedInstruction.expireDate|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
         </tbody>
@@ -18,14 +18,14 @@
 
     <ul>
         <li>
-            <a href="{{ path('completedinstruction_index') }}">Back to the list</a>
+            <a href="{{ path('completedinstruction_index') }}">Zurück zur Liste</a>
         </li>
         <li>
-            <a href="{{ path('completedinstruction_edit', { 'id': completedInstruction.id }) }}">Edit</a>
+            <a href="{{ path('completedinstruction_edit', { 'id': completedInstruction.id }) }}">Bearbeiten</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Löschen">
             {{ form_end(delete_form) }}
         </li>
     </ul>
