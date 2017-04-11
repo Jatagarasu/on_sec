@@ -1,7 +1,6 @@
 body {
     margin: 0 auto;
     padding: 0;
-    overflow: scroll;
 }
 
 .navbar-mainmain {
@@ -22,6 +21,16 @@ body {
     font-size: 28pt;
 }
 
+table
+{
+    display: inline; !important;
+}
+
+td
+{
+   white-space: nowrap; !important;
+}
+
 .navbar {
     margin-bottom: 10px;
 }
@@ -30,4 +39,8 @@ body {
     max-height: 45px;
     position: relative;
     bottom: 0px;
+}
+
+.text-black {
+    color: #000000;
 }

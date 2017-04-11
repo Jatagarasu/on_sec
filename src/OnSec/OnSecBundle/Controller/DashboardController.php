@@ -2,8 +2,11 @@
 
 namespace OnSec\OnSecBundle\Controller;
 
+use OnSec\OnSecBundle\Entity\Subscriber;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DashboardController extends Controller
 {
@@ -16,10 +19,18 @@ class DashboardController extends Controller
         if (TRUE === $this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
             $UserId = $this->get('security.token_storage')->getToken()->getUser()->getId();
 
+            $session_param = $this->get('session')->get('coursename');
+            if(isset($session_param) && !empty($session_param))
+            {
+                $this->get('session')->set('coursename','');
+            }
+
             $this->getOwnInstructions($UserId);
 
             $em = $this->getDoctrine()->getManager();
             $user = $em->getRepository('HSDOnSecBundle:User')->find($UserId);
+
+            $this->updatecurrentSubscribtions($UserId);
 
             return $this->render('HSDOnSecBundle:Dashboard:index.html.twig', array(
                 'moderatorcourses' => $this->getCoursesByUserId($UserId),
@@ -28,6 +39,7 @@ class DashboardController extends Controller
                 'userinstructions' => $this->userinstructions,
                 'subscribercourses' => $this->getsubscribedCourses($UserId),
                 'user' => $user,
+                'successSubscribedCourse' => $session_param,
             ));
         }
         else {
@@ -43,6 +55,69 @@ class DashboardController extends Controller
         ));
     }
 
+    public function searchAction(Request $request)
+    {
+        if (TRUE === $this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            $userId = $this->get('security.token_storage')->getToken()->getUser()->getId();
+
+            $subscribedCourses = array();
+
+            $term = trim(strip_tags($request->get('term')));
+
+            $em = $this->getDoctrine()->getManager();
+
+            $foundCourses = $em->getRepository('HSDOnSecBundle:Course')->search($term);
+
+            foreach ($foundCourses as $course){
+                $forSubscribers = $course->getSubscribers();
+                $found = false;
+                foreach($forSubscribers as $subscriber)
+                {
+                    if($subscriber->getUser()->getId() == $userId)
+                    {
+                        $found = true;
+                    }
+                }
+                if(!$found)
+                    $subscribedCourses[(string)$course->getId()] = $course->getDescription();
+                    //array_push($subscribedCourses, $course->getDescription());
+            }
+
+            return new Response(json_encode($subscribedCourses));
+        }
+        else {
+            return $this->redirectToRoute('login');
+        }
+    }
+
+    public function addSubscriberAction($course_id)
+    {
+        if (TRUE === $this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
+            $em = $this->getDoctrine()->getManager();
+
+            $userid = $this->get('security.token_storage')->getToken()->getUser()->getId();
+
+            $user = $em->getRepository('HSDOnSecBundle:User')->find($userid);
+            $course = $em->getRepository('HSDOnSecBundle:Course')->find($course_id);
+
+            $subscriber = new Subscriber();
+            $subscriber->subscribtionDateTime();
+            $subscriber->setCourse($course);
+            $subscriber->setUser($user);
+
+            $em->persist($subscriber);
+            $em->flush($subscriber);
+
+            $user->addCourseSubscription($subscriber);
+
+            $this->get('session')->set('coursename',$course->getDescription());
+            return $this->redirectToRoute('dashboard');
+        }
+        else {
+            return $this->redirectToRoute('login');
+        }
+    }
+
     private function getCoursesByUserId($userId)
     {
         $usercourses = array();
@@ -53,10 +128,13 @@ class DashboardController extends Controller
 
         foreach ($courses as $course)
         {
-            foreach ($course->getModerators() as $moderator)
-            {
-                if($moderator->getId() == $userId)
-                    array_push($usercourses, $course);
+            if($course->getOwner()->getId() == $userId)
+                array_push($usercourses, $course);
+            else {
+                foreach ($course->getModerators() as $moderator) {
+                    if ($moderator->getId() == $userId)
+                        array_push($usercourses, $course);
+                }
             }
         }
         return $usercourses;
@@ -111,13 +189,54 @@ class DashboardController extends Controller
             $forSubscribers = $course->getSubscribers();
             foreach($forSubscribers as $subscriber)
             {
-                if($subscriber->getId() == $userId)
+                if($subscriber->getUser()->getId() == $userId)
                 {
                     array_push($subscribedCourses, $course);
                 }
             }
         }
         return $subscribedCourses;
+    }
+
+    private function updatecurrentSubscribtions($userId)
+    {
+        $CurrentSemesterBegin = new \DateTime();
+        if($CurrentSemesterBegin->format('m')>0 && $CurrentSemesterBegin->format('m')<3)
+        {
+            $lastYear = $CurrentSemesterBegin;
+            $lastYear->modify('-1 year');
+            $CurrentSemesterBegin->setDate($lastYear->format('Y'), 9, 1);
+        }
+        else if($CurrentSemesterBegin->format('m')>8 && $CurrentSemesterBegin->format('m')<13)
+        {
+            $CurrentSemesterBegin->setDate($CurrentSemesterBegin->format('Y'), 9, 1);
+        }
+        else
+        {
+            $CurrentSemesterBegin->setDate($CurrentSemesterBegin->format('Y'), 3, 1);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $courses = $em->getRepository('HSDOnSecBundle:Course')->findAll();
+        $user = $em->getRepository('HSDOnSecBundle:User')->find($userId);
+
+        foreach ($courses as $course)
+        {
+            $forSubscribers = $course->getSubscribers();
+            foreach($forSubscribers as $subscriber)
+            {
+                if($subscriber->getUser()->getId() == $userId)
+                {
+                    if($subscriber->getSubscribtionDate()->format("Y-m-d") < $CurrentSemesterBegin->format("Y-m-d")) {
+                        $em = $this->getDoctrine()->getManager();
+                        $em->remove($subscriber);
+                        $em->flush();
+                        //$user->removeCourseSubscription($subscriber);
+                    }
+                }
+            }
+        }
     }
 
     public function createCSVAction($course_id)
