@@ -1,58 +1,86 @@
-    <table class="table" id="modal_table">
-        <thead class="thead-inverse">
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Fehlende Unterweisungen</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            {% dump(semester_array) %}
-            {% for subscriber in course.subscribers %}
-                {% set subscriber = subscriber.getUser %}
-                <tr>
-                    <td>{{ subscriber.firstname }} {{ subscriber.surname }} </td>
-                    <td>{{ subscriber.email }}</td>
-                    <td>
-                        {% set done = [] %}
-                        {% set notdone = [] %}
-                        {% for courseInstruction in course.getInstructions %}
-                            {% set found = null %}
-                            {% for completedInstruction in subscriber.getCompletedInstructions %}
-                                {% if courseInstruction.getId == completedInstruction.getInstruction.getId %}
-                                    {% set found = completedInstruction.getInstruction.getId  %}
-                                {% endif %}
-                            {% endfor %}
-                            {% if found %}
-                                {% set done = done|merge([found]) %}
-                            {% else %}
-                                {% set notdone = notdone|merge([courseInstruction.getDescription]) %}
-                            {% endif %}
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title">
+                <span class ="modalTitleText">Teilnehmer von {{ course.getDescription() }} </span>
+                <div class="pull-right">
+                    <select id="semester_dropdown" class="custom-select" name="semester">
+                        {% for key,val in semester_array %}
+                            <option value="{{ key }}">{{ key }}</option>
                         {% endfor %}
-                        <div data-toggle="tooltip" data-placement="left" title="
-                        {% if notdone|length == 1 %}
-                            Es fehlt:
-                        {% elseif notdone == [] %}
-                            Alle Unterweisungen absolviert.
-                        {% else %}
-                            Es fehlen:
-                        {% endif %}
+                    </select>
+                </div>
+            </div>
+        </div>
 
-                        {% set count= 0 %}
-                        {% set notDoneLenght = notdone|length - 1 %}
-                        {% for description in notdone %}
-                            {% set count= count+1 %}
-                            {% if count != notDoneLenght %}
-                                {{ description }}.
-                            {% else %}
-                                {{ description }},
-                            {% endif %}
-                        {% endfor %}">
-                            {{ course.getInstructions|length - done|length }}
-                        </div>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <div class="modal-body">
+
+            <table class="table" id="modal_table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Fehlende Unterweisungen</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {% dump(semester_array) %}
+                    {% for subscriber in course.subscribers %}
+                        {% set subscriber = subscriber.getUser %}
+                        <tr>
+                            <td>{{ subscriber.firstname }} {{ subscriber.surname }} </td>
+                            <td>{{ subscriber.email }}</td>
+                            <td>
+                                {% set done = [] %}
+                                {% set notdone = [] %}
+                                {% for courseInstruction in course.getInstructions %}
+                                    {% set found = null %}
+                                    {% for completedInstruction in subscriber.getCompletedInstructions %}
+                                        {% if courseInstruction.getId == completedInstruction.getInstruction.getId %}
+                                            {% set found = completedInstruction.getInstruction.getId  %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if found %}
+                                        {% set done = done|merge([found]) %}
+                                    {% else %}
+                                        {% set notdone = notdone|merge([courseInstruction.getDescription]) %}
+                                    {% endif %}
+                                {% endfor %}
+                                <div data-toggle="tooltip" data-placement="left" title="
+                                {% if notdone|length == 1 %}
+                                    Es fehlt:
+                                {% elseif notdone == [] %}
+                                    Alle Unterweisungen absolviert.
+                                {% else %}
+                                    Es fehlen:
+                                {% endif %}
+
+                                {% set count= 0 %}
+                                {% set notDoneLenght = notdone|length - 1 %}
+                                {% for description in notdone %}
+                                    {% set count= count+1 %}
+                                    {% if count != notDoneLenght %}
+                                        {{ description }}.
+                                    {% else %}
+                                        {{ description }},
+                                    {% endif %}
+                                {% endfor %}">
+                                    {{ course.getInstructions|length - done|length }}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-outline-primary" href="{{ path('createCSV', {'course_id': course.getId() }) }}" role="button">
+                <i class="fa fa-download" aria-hidden="true"></i>
+
+                CSV exportieren
+            </a>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Schließen</button>
+        </div>
+    </div>
+</div>
