@@ -8,6 +8,42 @@
     max-width: 500px;
 }
 
+.current-pdf {
+  font-style: italic;
+  color: grey;
+}
+
+.question-imageFile-container {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.question-imageFile-input-container {
+  display: inline-block;
+}
+
+.question-imageFile-input {
+  margin-bottom: 0;
+}
+
+.question-imageFile-delete-input {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.preview-image-container {
+  display: inline-block;
+  border: 8px dotted #88C7D8;
+  border-radius: 14px;
+}
+
+.preview-image {
+  max-width: 200px;
+  max-height: 150px;
+
+}
+
 .questions {
     margin: 20px 0 50px 0;
 }
@@ -158,6 +194,24 @@ textarea {
     border-width: 1px;
     border-style: solid;
     border-color: rgb(221, 221, 221);
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.marginIndicator {
+    margin-top: 12px;
+    margin-left: 12px;
+}
+
+.paddingText {
+    padding-left: 25px;
 }
 
 .unselectable {

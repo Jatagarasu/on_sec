@@ -1,43 +1,50 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
 
 {% block content %}
-    <h1>Instructions list</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Description</th>
-                <th>Expiretime</th>
-                <th>Pdflink</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for instruction in instructions %}
-            <tr>
-                <td><a href="{{ path('instruction_show', { 'id': instruction.id }) }}">{{ instruction.id }}</a></td>
-                <td>{{ instruction.description }}</td>
-                <td>{% if instruction.expiretime %}{{ instruction.expiretime|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ instruction.pdfLink }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('instruction_show', { 'id': instruction.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('instruction_edit', { 'id': instruction.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('instruction_new') }}">Create a new instruction</a>
-        </li>
-    </ul>
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Unterweisungen</h1>
+        </div>
+        <div class="col-md-6">
+            <a href="{{ path('instruction_new') }}" class="btn btn-outline-success pull-right">neue Unterweisung
+                anlegen</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table-sm table-striped">
+                <thead>
+                <tr>
+                    {#<th>Id</th>#}
+                    <th>Beschreibung</th>
+                    <th>Standart Ablaufzeit</th>
+                    <th>Link zum PDF</th>
+                    <th>Aktionen</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for instruction in instructions %}
+                    <tr>
+                        {#<td>{{ instruction.id }}</td>#}
+                        <td>
+                            <a href="{{ path('instruction_show', { 'id': instruction.id }) }}">{{ instruction.description }}</a>
+                        </td>
+                        <td>{% if instruction.expiretime %}{{ instruction.expiretime|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>{{ instruction.pdfLink }}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" style="display: -webkit-box;">
+                                <a class="btn btn-primary"
+                                   href="{{ path('instruction_show', { 'id': instruction.id }) }}"><i
+                                            class="fa fa-eye" aria-hidden="true"></i></a>
+                                <a class="btn btn-outline-primary"
+                                   href="{{ path('instruction_edit', { 'id': instruction.id }) }}"><i
+                                            class="fa fa-pencil" aria-hidden="true"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

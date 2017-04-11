@@ -3,27 +3,35 @@
 {% block content %}
 {% import 'macros/keywords_input.html.twig' as keywords_input %}
 {% import 'macros/questions_input.html.twig' as questions_input %}
-    <h1>Instruction edit</h1>
+{% import 'macros/moderators_input.html.twig' as moderators_input %}
+    <h1>Unterweisung bearbeiten</h1>
 
     {{ form_start(edit_form) }}
         {{ form_row(edit_form.description) }}
+
+        <span class="current-pdf">Aktuelles Unterweisungs-PDF: {{ instruction.pdfLink }}.</span>
+
+        {{ form_row(edit_form.pdfFile) }}
+
 
         {{ form_row(edit_form.expiretime) }}
 
         {{ keywords_input.keywords_input(edit_form) }}
 
+        {{ moderators_input.moderators_input(instruction) }}
+
         {{ questions_input.questions_input(edit_form) }}
 
-        <input type="submit" value="Edit" />
+        <input type="submit" value="Speichern" />
     {{ form_end(edit_form) }}
 
     <ul>
         <li>
-            <a href="{{ path('instruction_index') }}">Back to the list</a>
+            <a href="{{ path('instruction_index') }}">Zurück zur Liste</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Löschen">
             {{ form_end(delete_form) }}
         </li>
     </ul>

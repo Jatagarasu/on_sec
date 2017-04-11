@@ -8,6 +8,42 @@
     max-width: 500px;
 }
 
+.current-pdf {
+  font-style: italic;
+  color: grey;
+}
+
+.question-imageFile-container {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.question-imageFile-input-container {
+  display: inline-block;
+}
+
+.question-imageFile-input {
+  margin-bottom: 0;
+}
+
+.question-imageFile-delete-input {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.preview-image-container {
+  display: inline-block;
+  border: 8px dotted #88C7D8;
+  border-radius: 14px;
+}
+
+.preview-image {
+  max-width: 200px;
+  max-height: 150px;
+
+}
+
 .questions {
     margin: 20px 0 50px 0;
 }
@@ -80,6 +116,13 @@
 .question-imagePath-button {
     display: inline-block;
     margin-top: -4px;
+}
+
+.question-index {
+  position: absolute;
+  margin-left: -60px;
+  font-size: 32px;
+  color: #00afdd;
 }
 
 .question-remove-button {

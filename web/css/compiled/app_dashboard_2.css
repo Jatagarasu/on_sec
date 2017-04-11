@@ -68,6 +68,8 @@ a:hover {
     border: 0px;
 }
 
+
+
 .fa {
     font-size: 30px !important;
     padding: 0px 5px 0px 5px;
@@ -79,6 +81,24 @@ a:hover {
 
 .fa-cog {
     color: #b4b2b3;
+}
+
+.modalTitleText {
+    font-size: x-large;
+}
+
+#modal_table {
+    display: table !important;
+}
+
+div.modal-footer > a {
+    float: left;
+}
+
+div.modal-footer > a > i  {
+    font-size: 19px !important;
+    padding: 0px 5px 0px 0px;
+    float: left;
 }
 
 .right {

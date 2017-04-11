@@ -89,6 +89,24 @@ a:hover {
     color: #b4b2b3;
 }
 
+.modalTitleText {
+    font-size: x-large;
+}
+
+#modal_table {
+    display: table !important;
+}
+
+div.modal-footer > a {
+    float: left;
+}
+
+div.modal-footer > a > i  {
+    font-size: 19px !important;
+    padding: 0px 5px 0px 0px;
+    float: left;
+}
+
 .right {
     padding-left: 5px;
     float: right;

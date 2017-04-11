@@ -1,28 +1,28 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
 
 {% block content %}
-    <h1>Question</h1>
+    <h1>Frage anzeigen</h1>
 
     <table>
         <tbody>
+            {#<tr>#}
+                {#<th>Id</th>#}
+                {#<td>{{ question.id }}</td>#}
+            {#</tr>#}
             <tr>
-                <th>Id</th>
-                <td>{{ question.id }}</td>
-            </tr>
-            <tr>
-                <th>Questiontext</th>
+                <th>Fragentext</th>
                 <td>{{ question.questionText }}</td>
             </tr>
             <tr>
-                <th>Imagepath</th>
+                <th>Pfad zum Bild</th>
                 <td>{{ question.imagePath }}</td>
             </tr>
             <tr>
-                <th>Createdon</th>
+                <th>Erstelldatum</th>
                 <td>{% if question.createdOn %}{{ question.createdOn|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
             <tr>
-                <th>Updatedon</th>
+                <th>Bearbeitungsdatum</th>
                 <td>{% if question.updatedOn %}{{ question.updatedOn|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
         </tbody>
@@ -30,14 +30,14 @@
 
     <ul>
         <li>
-            <a href="{{ path('question_index') }}">Back to the list</a>
+            <a href="{{ path('question_index') }}">Zurück zur Liste</a>
         </li>
         <li>
-            <a href="{{ path('question_edit', { 'id': question.id }) }}">Edit</a>
+            <a href="{{ path('question_edit', { 'id': question.id }) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <input type="submit" value="Löschen">
             {{ form_end(delete_form) }}
         </li>
     </ul>
