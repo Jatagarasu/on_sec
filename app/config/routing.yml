@@ -10,3 +10,8 @@ dashboard:
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+ajax_semester_filter:
+    path:     /dashboard/semester_filter
+    defaults: { _controller: "HSDOnSecBundle:Dashboard:semesterFilter" }
+    methods:  GET

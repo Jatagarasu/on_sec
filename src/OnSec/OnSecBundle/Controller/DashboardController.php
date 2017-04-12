@@ -3,6 +3,7 @@
 namespace OnSec\OnSecBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DashboardController extends Controller
@@ -36,8 +37,19 @@ class DashboardController extends Controller
     }
 
 
-    public function modalAction($course)
-    {
+    public function semesterFilterAction(Request $request) {
+        $semester = trim(strip_tags($request->get('semester')));
+        $courseId = trim(strip_tags($request->get('courseId')));
+
+        $em = $this->getDoctrine()->getManager();
+        $course = $em->getRepository('HSDOnSecBundle:Course')->find($courseId);
+
+        $semester_array = $this->filterSemester($course);
+
+        return new Response(json_encode($semester_array[$semester]));
+    }
+
+    private function filterSemester($course) {
         $em = $this->getDoctrine()->getManager();
         $course = $em->getRepository('HSDOnSecBundle:Course')->find($course);
         $subscribers = $course->getSubscribers();
@@ -84,6 +96,12 @@ class DashboardController extends Controller
                 }
             }
         }
+        return $semester_array;
+    }
+
+    public function modalAction($course)
+    {
+        $semester_array = $this->filterSemester($course);
 
         return $this->render('HSDOnSecBundle:Dashboard:modal.html.twig', array(
             'semester_array' => $semester_array,
