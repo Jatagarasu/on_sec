@@ -146,8 +146,6 @@
 
 .answer-add-button {
     margin-left: 10px;
-    font-weight: bold;
-    font-size: 20px;
 }
 
 .buttonHidden {
@@ -217,10 +215,23 @@ textarea {
 }
 
 .smaller-icons {
-  font-size: 18px !important;
+  font-size: 17px !important;
   padding: 0;
 }
 
 .additional-note {
   color: grey;
+}
+
+.button-row {
+  margin: 20px 0;
+}
+
+.action-buttons {
+  margin: 10px 0;
+}
+
+.instruction-delete-button {
+  float: right;
+  margin-bottom: 20px;
 }
