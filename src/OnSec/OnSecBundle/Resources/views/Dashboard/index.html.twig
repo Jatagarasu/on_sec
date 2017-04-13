@@ -10,7 +10,7 @@
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <strong>Glückwunsch!</strong> Du nimmst nun erfolgreich im Kurs {{ successSubscribedCourse }} teil.
+                    <strong>Glückwunsch!</strong> Sie nehmen nun am Kurs {{ successSubscribedCourse }} teil.
                 </div>
             </div>
         </div>
@@ -34,11 +34,11 @@
     </ul>
     <div class="innercontainer">
         <input type="search" class="maininput"
-               placeholder="Suche hier nach neuen Kursen ..."
+               placeholder="Nach Kursen suchen ..."
                id="searchinput"/>
 
         <div class="innerinnercontainer">
-            <p id="noInstructions">Du hast noch bei keinem Kurs teilgenommen, bitte benutze die Suche, um
+            <p id="noInstructions">Sie haben bisher an keinem Kurs teilgenommen, bitte benutzen Sie die Suche, um
                 teilzunehmen.</p>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="menu1">
@@ -266,22 +266,22 @@
                         $("#noInstructions").hide();
                     }
                     else {
-                        $("#noInstructions").html("Du hast noch keinen eigenen Kurs erstellt, bitte erstelle einen Neuen.");
+                        $("#noInstructions").html("Sie haben noch keine Kurse erstellt.");
                         $("#noInstructions").delay(300).show(0);
                     }
-                    $("#topnav_text").html("<a href={{ path('course_new') }}>Neue Kurs erstellen</a>");
-                    $("#searchinput").attr("placeholder", "Filtere hier nach deinen Kursen ...");
+                    $("#topnav_text").html("<a href={{ path('course_new') }}>Neuen Kurs erstellen</a>");
+                    $("#searchinput").attr("placeholder", "Filtern Sie hier nach Ihren Kursen ...");
                 }
                 else if (activeTab == "#menu2") {
                     if (ownerinstructions_json.length > 0 || moderatorinstructions_json.length > 0) {
                         $("#noInstructions").hide();
                     }
                     else {
-                        $("#noInstructions").html("Du hast noch keine eigene Unterweisungen erstellt, bitte erstelle eine Neue.");
+                        $("#noInstructions").html("Sie haben noch keine Unterweisungen erstellt.");
                         $("#noInstructions").delay(300).show(0);
                     }
                     $("#topnav_text").html("<a href={{ path('instruction_new') }}>Neue Unterweisung erstellen</a>");
-                    $("#searchinput").attr("placeholder", "Filtere hier nach deinen Unterweisungen ...");
+                    $("#searchinput").attr("placeholder", "Filtern Sie hier nach Ihren Unterweisungen ...");
                 }
             });
 
@@ -296,7 +296,7 @@
                         $("#noInstructions").hide();
                     }
                     else {
-                        $("#noInstructions").html("Du hast noch keinen eigenen Kurs erstellt, bitte erstelle einen Neuen.");
+                        $("#noInstructions").html("Sie haben noch keine eigenen Kurse erstellt.");
                         $("#noInstructions").delay(300).show(0);
                     }
                     $("#onoff").html("Admin-Ansicht");
@@ -318,14 +318,14 @@
                         $("#noInstructions").hide();
                     }
                     else {
-                        $("#noInstructions").html("Du hast noch bei keinem Kurs teilgenommen, bitte benutze die Suche, um teilzunehmen.");
+                        $("#noInstructions").html("Sie haben bisher an keinem Kurs teilgenommen, bitte benutzen Sie dazu die Suche.");
                         $("#noInstructions").delay(300).show(0);
                     }
                     $("#onoff").html("User-Ansicht");
                     $('#onoff').attr("data-onoff", "on");
                     $('#coursetab')[0].click();
                     $("#coursetab").html("Meine absolvierten Unterweisungen");
-                    $("#searchinput").attr("placeholder", "Suche hier nach neuen Kursen ...");
+                    $("#searchinput").attr("placeholder", "Nach Kursen suchen ...");
                     $("#user_menu").show();
                     $('.user_menu_normal').show();
                 }
@@ -372,7 +372,7 @@
                                         $('.user_menu_search').show();
                                     }
                                     else {
-                                        $("#noInstructions").html("Keine Kurse gefunden, versuche es mit einem anderen Begriff.");
+                                        $("#noInstructions").html("Keine Kurse gefunden, versuchen Sie es mit einem anderen Begriff.");
                                         $("#noInstructions").show();
                                     }
                                 }
@@ -385,7 +385,7 @@
                             $("#noInstructions").hide();
                         }
                         else {
-                            $("#noInstructions").html("Du hast noch bei keinem Kurs teilgenommen, bitte benutze die Suche, um teilzunehmen.");
+                            $("#noInstructions").html("Sie haben bisher an keinem Kurs teilgenommen, bitte benutzen Sie dazu die Suche.");
                             $("#noInstructions").delay(300).show(0);
                         }
                     }
