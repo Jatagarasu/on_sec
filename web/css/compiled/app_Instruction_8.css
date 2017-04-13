@@ -118,6 +118,13 @@
     margin-top: -4px;
 }
 
+.question-index {
+  position: absolute;
+  margin-left: -60px;
+  font-size: 32px;
+  color: #00afdd;
+}
+
 .question-remove-button {
     float: right;
     color: #c40 !important;
@@ -194,24 +201,6 @@ textarea {
     border-width: 1px;
     border-style: solid;
     border-color: rgb(221, 221, 221);
-}
-
-.unselectable {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-.marginIndicator {
-    margin-top: 12px;
-    margin-left: 12px;
-}
-
-.paddingText {
-    padding-left: 25px;
 }
 
 .unselectable {
