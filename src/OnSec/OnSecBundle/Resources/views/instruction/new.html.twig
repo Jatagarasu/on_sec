@@ -19,13 +19,14 @@
 
         {{ questions_input.questions_input(form) }}
 
-        <input type="submit" value="Speichern" />
+        <input class="btn btn-success" type="submit" value="Speichern" />
     {{ form_end(form) }}
-
-    <ul>
-        <li>
-            <a href="{{ path('instruction_index') }}">Zurück zur Liste</a>
-        </li>
-    </ul>
+    <div>
+      <a class="btn btn-warning"
+         href="{{ path('instruction_index') }}"
+         onclick="return confirm('Erstellung abbrechen? Bisherige Eingaben und Uploads gehen dadurch verloren.')">
+        Zurück zur Liste
+      </a>
+    </div>
 
 {% endblock %}
