@@ -3,30 +3,39 @@
 {% block content %}
     <h1>{{ instruction.description }}</h1>
 
-    <table>
-        <tbody>
-            {#<tr>#}
-                {#<th>Id</th>#}
-                {#<td>{{ instruction.id }}</td>#}
-            {#</tr>#}
-            <tr>
-                <th>Ablaufdatum</th>
-                <td>{% if instruction.expiretime %}{{ instruction.expiretime|date('D, d.m.Y') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>PDF</th>
-                <td>{{ instruction.pdfLink }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <b>Ablaufzeit</b> <i class="additional-note">(so lange ist diese Unterweisung nach Teilnahme gültig)</i>:
+    <br/>
+    {{ (instruction.expiretime / 182)|round}} Semester
+    <br/><br/>
 
-    Schlagwörter
-    {% for keyword in instruction.getKeywords() %}
-        <div class="keyword">{{ keyword.getDescription() }}</div>
-    {% endfor %}
+    <b>PDF:</b>
+    <br/>
+    {{ instruction.pdfLink }}
+    <br/><br/>
+
+    <b>Schlagwörter:</b>
+    <br/>
+    {% if instruction.getKeywords() is empty %}
+      <i>Keine</i>
+    {% else %}
+      {% for keyword in instruction.getKeywords() %}
+          <div class="keyword">{{ keyword.getDescription() }}</div>
+      {% endfor %}
+    {% endif %}
+    <br/><br/>
+
+    <b>Bearbeiter:</b>
+    <br/>
+    {% if instruction.getModerators() is empty %}
+      <i>Keine</i>
+    {% else %}
+      {% for moderator in instruction.getModerators() %}
+        {{ moderator.getFullName() }} {%- if not loop.last %},{% endif %}
+      {% endfor %}
+    {% endif %}
 
     <div class="questions">
-        <h2>Fragen</h2>
+        <h2>Fragen:</h2>
         {% if instruction.getQuestions()|length > 0 %}
             <table class="table">
                 <thead class="thead-inverse">
@@ -45,10 +54,7 @@
                         <td class="text-md-right">{{ question.getAnswers()|length }}</td>
                         <td class="text-md-right">
                             <a href="{{ path('question_edit', {'id': question.id }) }}" class="btn btn-primary">
-                                <span class="fa fa-pencil action-icon"></span>
-                            </a>
-                            <a href="" class="btn btn-danger">
-                                <span class="fa fa-times action-icon"></span>
+                                <span class="fa fa-pencil smaller-icons"></span>
                             </a>
                         </td>
                     </tr>
@@ -60,17 +66,19 @@
         {% endif %}
     </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('instruction_index') }}">Zurück zur Liste</a>
-        </li>
-        <li>
-            <a href="{{ path('instruction_edit', { 'id': instruction.id }) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Löschen">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    <div class="btn-group">
+            <a class="btn btn-primary" href="{{ path('instruction_index') }}">
+              <i class="fa fa-arrow-left smaller-icons" aria-hidden="true"></i> Zurück zur Liste
+            </a>
+            <a class="btn btn-warning" href="{{ path('instruction_edit', { 'id': instruction.id }) }}">
+              <i class="fa fa-pencil smaller-icons" aria-hidden="true"></i> Bearbeiten
+            </a>
+    </div>
+    {{ form_start(delete_form, {
+      'attr': {
+        'onclick': 'return confirm("Diese Unterweisung endgültig löschen?")',
+      }
+    }) }}
+    <input class="btn btn-danger instruction-delete-button" type="submit" value="Diese Unterweisung löschen">
+    {{ form_end(delete_form) }}
 {% endblock %}
