@@ -52,7 +52,8 @@
                 placeholder="Wie lautet..."
                 ng-model="question.questionText"
                 id="{{ question.questionTextFullPath }}"
-                name="{{ question.questionTextFullPath }}">
+                name="{{ question.questionTextFullPath }}"
+                required="true">
             </div>
 
             <div ng-repeat="answer in question.answers track by answer.index" class="answer">
@@ -69,7 +70,8 @@
                   ng-keypress="answerTextEnter($event, question, answer)"
                   placeholder="Antwort {{ answer.index + 1 }}"
                   id="{{ answer.answerTextFullPath }}"
-                  name="{{ answer.answerTextFullPath }}">
+                  name="{{ answer.answerTextFullPath }}"
+                  required="true">
 
               <div class="form-check mb-2 mr-sm-2 mb-sm-0 answer-isCorrect-input">
                 <label class="form-check-label">
