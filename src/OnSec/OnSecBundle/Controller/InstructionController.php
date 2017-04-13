@@ -41,6 +41,9 @@ class InstructionController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
+            $expireTimeInDays = $instruction->getExpiretime() * 182;
+            $instruction->setExpiretime($expireTimeInDays);
+
             foreach ($instruction->getQuestions() as $question) {
                 foreach ($question->getAnswers() as $answer) {
                     $answer->setQuestion($question);
