@@ -144,6 +144,9 @@ class InstructionController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $instruction->getKeywords()->clear();
+            $instruction->getQuestions()->clear();
+            $instruction->getModerators()->clear();
             $em->remove($instruction);
             $em->flush();
         }

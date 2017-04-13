@@ -3,30 +3,27 @@
 {% block content %}
     <h1>{{ instruction.description }}</h1>
 
-    <table>
-        <tbody>
-            {#<tr>#}
-                {#<th>Id</th>#}
-                {#<td>{{ instruction.id }}</td>#}
-            {#</tr>#}
-            <tr>
-                <th>Ablaufdatum</th>
-                <td>{% if instruction.expiretime %}{{ instruction.expiretime|date('D, d.m.Y') }}{% endif %}</td>
-            </tr>
-            <tr>
-                <th>PDF</th>
-                <td>{{ instruction.pdfLink }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <b>Ablaufzeit</b> <i>(so lange ist diese Unterweisung nach Teilnahme gültig)</i>:
+    <br/>
+    {{ instruction.expiretime / 182 }} Semester<br/><br/>
 
-    Schlagwörter
-    {% for keyword in instruction.getKeywords() %}
-        <div class="keyword">{{ keyword.getDescription() }}</div>
-    {% endfor %}
+    <b>PDF:</b>
+    <br/>
+    {{ instruction.pdfLink }}
+    <br/><br/>
+
+    <b>Schlagwörter:</b>
+    <br/>
+    {% if instruction.getKeywords() is empty %}
+      <i>Keine</i>
+    {% else %}
+      {% for keyword in instruction.getKeywords() %}
+          <div class="keyword">{{ keyword.getDescription() }}</div>
+      {% endfor %}
+    {% endif %}
 
     <div class="questions">
-        <h2>Fragen</h2>
+        <h2>Fragen:</h2>
         {% if instruction.getQuestions()|length > 0 %}
             <table class="table">
                 <thead class="thead-inverse">
@@ -60,17 +57,15 @@
         {% endif %}
     </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('instruction_index') }}">Zurück zur Liste</a>
-        </li>
-        <li>
-            <a href="{{ path('instruction_edit', { 'id': instruction.id }) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Löschen">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    <div class="btn-group">
+            <a class="btn btn-primary" href="{{ path('instruction_index') }}">
+              <i class="fa fa-arrow-left smaller-icons" aria-hidden="true"></i> Zurück zur Liste
+            </a>
+            <a class="btn btn-warning" href="{{ path('instruction_edit', { 'id': instruction.id }) }}">
+              <i class="fa fa-pencil smaller-icons" aria-hidden="true"></i> Bearbeiten
+            </a>
+    </div>
+    {{ form_start(delete_form, {'attr': {'onclick': 'return confirm("Diese Unterweisung endgültig löschen?")'}} ) }}
+    <input class="btn btn-danger" type="submit" value="Löschen" style="float: right;">
+    {{ form_end(delete_form) }}
 {% endblock %}
