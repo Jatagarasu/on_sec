@@ -3,9 +3,10 @@
 {% block content %}
     <h1>{{ instruction.description }}</h1>
 
-    <b>Ablaufzeit</b> <i>(so lange ist diese Unterweisung nach Teilnahme gültig)</i>:
+    <b>Ablaufzeit</b> <i class="additional-note">(so lange ist diese Unterweisung nach Teilnahme gültig)</i>:
     <br/>
-    {{ instruction.expiretime / 182 }} Semester<br/><br/>
+    {{ (instruction.expiretime / 182)|round}} Semester
+    <br/><br/>
 
     <b>PDF:</b>
     <br/>
@@ -19,6 +20,17 @@
     {% else %}
       {% for keyword in instruction.getKeywords() %}
           <div class="keyword">{{ keyword.getDescription() }}</div>
+      {% endfor %}
+    {% endif %}
+    <br/><br/>
+
+    <b>Bearbeiter:</b>
+    <br/>
+    {% if instruction.getModerators() is empty %}
+      <i>Keine</i>
+    {% else %}
+      {% for moderator in instruction.getModerators() %}
+        {{ moderator.getFullName() }} {%- if not loop.last %},{% endif %}
       {% endfor %}
     {% endif %}
 
@@ -42,10 +54,7 @@
                         <td class="text-md-right">{{ question.getAnswers()|length }}</td>
                         <td class="text-md-right">
                             <a href="{{ path('question_edit', {'id': question.id }) }}" class="btn btn-primary">
-                                <span class="fa fa-pencil action-icon"></span>
-                            </a>
-                            <a href="" class="btn btn-danger">
-                                <span class="fa fa-times action-icon"></span>
+                                <span class="fa fa-pencil smaller-icons"></span>
                             </a>
                         </td>
                     </tr>
@@ -65,7 +74,11 @@
               <i class="fa fa-pencil smaller-icons" aria-hidden="true"></i> Bearbeiten
             </a>
     </div>
-    {{ form_start(delete_form, {'attr': {'onclick': 'return confirm("Diese Unterweisung endgültig löschen?")'}} ) }}
-    <input class="btn btn-danger" type="submit" value="Löschen" style="float: right;">
+    {{ form_start(delete_form, {
+      'attr': {
+        'onclick': 'return confirm("Diese Unterweisung endgültig löschen?")',
+      }
+    }) }}
+    <input class="btn btn-danger" type="submit" value="Diese Unterweisung löschen" style="float: right;">
     {{ form_end(delete_form) }}
 {% endblock %}

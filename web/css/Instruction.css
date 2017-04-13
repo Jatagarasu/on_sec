@@ -53,11 +53,6 @@
     color: #a1a1a1;
 }
 
-.action-icon {
-  font-size: 12px !important;
-  padding: 0;
-}
-
 .keyword {
   display: inline-block;
   background: #00afd8;
@@ -223,4 +218,9 @@ textarea {
 
 .smaller-icons {
   font-size: 18px !important;
+  padding: 0;
+}
+
+.additional-note {
+  color: grey;
 }
