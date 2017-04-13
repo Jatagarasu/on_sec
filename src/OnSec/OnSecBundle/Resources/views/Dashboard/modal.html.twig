@@ -10,83 +10,6 @@
                         {% for key,val in semester_array %}
                             <option value="{{ key }}">{{ key }}</option>
                         {% endfor %}
-
-                            <script type="text/javascript">
-
-
-
-                                $(document).ready(function(){
-
-                                    var e = document.getElementById("semester_dropdown");
-                                    var selected_semester = e.options[e.selectedIndex].value;
-
-
-
-                                    {% for subscriber in semester_array['SS 2017'] %}
-                                        {% set subscriber = subscriber.getUser %}
-
-                                        var name = '{{ subscriber.firstname }}'+ ' ' + '{{ subscriber.surname }}';
-                                        var email = '{{ subscriber.email }}';
-
-                                        {% set done = [] %}
-                                        {% set notdone = [] %}
-
-                                        {% for courseInstruction in course.getInstructions %}
-                                            {% set found = null %}
-
-                                            {% for completedInstruction in subscriber.getCompletedInstructions %}
-                                                {% if courseInstruction.getId == completedInstruction.getInstruction.getId %}
-                                                    {% set found = completedInstruction.getInstruction.getId  %}
-                                                {% endif %}
-                                            {% endfor %}
-
-                                            {% if found %}
-                                                {% set done = done|merge([found]) %}
-                                            {% else %}
-                                                {% set notdone = notdone|merge([courseInstruction.getDescription]) %}
-                                            {% endif %}
-                                        {% endfor %}
-
-                                        var htmlElement = '<td><div data-toggle="tooltip" data-placement="left" title="';
-                                        var htmlTitle;
-                                        var htmlDescription;
-
-                                        {% if notdone|length == 1 %}
-                                            htmlTitle= 'Es fehlt:';
-                                        {% elseif notdone == [] %}
-                                            htmlTitle='Alle Unterweisungen absolviert.';
-                                        {% else %}
-                                            htmlTitle='Es fehlen:';
-                                        {% endif %}
-
-                                        {% set count= 0 %}
-                                        {% set notDoneLenght = notdone|length - 1 %}
-
-                                        {% for description in notdone %}
-                                            {% set count= count+1 %}
-                                            {% if count != notDoneLenght %}
-                                                htmlDescription = '{{ description }}'+'.';
-                                            {% else %}
-                                                htmlDescription = '{{ description }}'+',';
-                                            {% endif %}
-                                        {% endfor %}
-
-                                        var htmlEnd = '">' + '{{ course.getInstructions|length - done|length }}' + '</div></td>';
-
-                                        var element = $('<tr>');
-                                        element.addClass('html_elment');
-                                        element.attr('id','tr_id');
-                                        element.html('<td>' + name + '</td><td>' + email + '</td>' + htmlElement + htmlTitle + htmlDescription + htmlEnd);
-
-                                        console.log('<td>' + name + '</td><td>' + email + '</td>' + htmlElement + htmlTitle + htmlDescription + htmlEnd);
-
-                                        $('#ttt').append(element);
-
-
-                                    {% endfor %}
-
-                                });
-                            </script>
                     </select>
                 </div>
             </div>
@@ -102,7 +25,8 @@
                         <th>Fehlende Unterweisungen</th>
                     </tr>
                 </thead>
-                <tbody id="ttt">
+                <tbody id="subscriberBody">
+
                 </tbody>
             </table>
         </div>
@@ -116,3 +40,27 @@
         </div>
     </div>
 </div>
+
+<a id="myButton" href="#">Leer</a>
+
+<h1>Hier kommt Mr TestBuddy</h1>
+<table>
+    <tbody id="testBody">
+
+    </tbody>
+</table>
+
+<script>
+    $('#myButton').on('click', function() {
+        $.ajax({
+            type: "POST",
+            data: {semester: 'SS 2017', courseId: 1  },
+            url: '{{ path('ajax_semester_filter') }}',
+            success: function(response){
+                template = response;
+                $('#testBody').html(template.html);
+            }
+        });
+    });
+
+</script>

@@ -19,4 +19,5 @@ app:
 ajax_semester_filter:
     path:     /dashboard/semester_filter
     defaults: { _controller: "HSDOnSecBundle:Dashboard:semesterFilter" }
-    methods:  GET
+    options:
+        expose: true

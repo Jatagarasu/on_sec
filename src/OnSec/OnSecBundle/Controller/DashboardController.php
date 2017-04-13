@@ -57,7 +57,16 @@ class DashboardController extends Controller
 
         $semester_array = $this->filterSemester($course);
 
-        return new Response(json_encode($semester_array[$semester]));
+        $selected_semester = $semester_array[$semester];
+
+        $template = $this->forward('HSDOnSecBundle:Dashboard:subscriberList.html.twig', array(
+            'subscriber_array' => $selected_semester,
+        ))->getContent();
+
+        $json = json_encode($template);
+        $response = new Response($json, 200);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     private function filterSemester($course) {
