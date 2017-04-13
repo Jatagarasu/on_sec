@@ -2,8 +2,12 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * Instruction
+ * @Vich\Uploadable
  */
 class Instruction
 {
@@ -21,6 +25,14 @@ class Instruction
      * @var \DateTime
      */
     private $expiredate;
+
+    /**
+     *
+     * @Vich\UploadableField(mapping="instruction_pdf", fileNameProperty="pdfLink")
+     *
+     * @var File
+     */
+    private $pdfFile;
 
     /**
      * @var string
@@ -46,6 +58,16 @@ class Instruction
      * @var \Doctrine\Common\Collections\Collection
      */
     private $keywords;
+
+    /**
+     * Gets Instructiondescription
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getDescription();
+    }
 
     /**
      * Constructor
@@ -130,6 +152,35 @@ class Instruction
     }
 
     /**
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $pdf
+     *
+     * @return Instruction
+     */
+    public function setPdfFile($pdf = null)
+    {
+        if ($pdf instanceof File) {
+          $this->pdfFile = $pdf;
+        }
+
+        if ($pdf instanceof UploadedFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getPdfFile()
+    {
+        return $this->pdfFile;
+    }
+
+    /**
      * Get pdfLink
      *
      * @return string
@@ -172,9 +223,18 @@ class Instruction
      */
     public function addModerator(\OnSec\OnSecBundle\Entity\User $moderator)
     {
-        $this->moderators[] = $moderator;
+        if (!$this->moderators->contains($moderator)) {
+          $this->moderators[] = $moderator;
+        }
 
         return $this;
+    }
+
+    public function setModerators($moderators)
+    {
+      $this->moderators = $moderators;
+
+      return $this;
     }
 
     /**
@@ -232,6 +292,15 @@ class Instruction
     }
 
     /**
+     * @param \OnSec\OnSecBundle\Entity\Keyword $keyword
+     * @return bool
+     */
+    public function hasKeyword(Keyword $keyword)
+    {
+        return $this->getKeywords()->contains($keyword);
+    }
+
+    /**
      * Add keyword
      *
      * @param \OnSec\OnSecBundle\Entity\Keyword $keyword
@@ -240,14 +309,9 @@ class Instruction
      */
     public function addKeyword(\OnSec\OnSecBundle\Entity\Keyword $keyword)
     {
-        $this->keywords->add($keyword);
-
-        return $this;
-    }
-
-    public function addKeywordViaString($keywordString) {
-        $keyword = new Keyword($keywordString);
-        $this->keywords->add($keyword);
+        if (!$this->hasKeyword($keyword)) {
+            $this->keywords[] = $keyword;
+        }
 
         return $this;
     }
@@ -271,5 +335,74 @@ class Instruction
     {
         return $this->keywords;
     }
-}
 
+
+    /**
+     * @var integer
+     */
+    private $expiretime;
+
+
+    /**
+     * Set expiretime
+     *
+     * @param integer $expiretime
+     *
+     * @return Instruction
+     */
+    public function setExpiretime($expiretime)
+    {
+        $this->expiretime = $expiretime;
+
+        return $this;
+    }
+
+    /**
+     * Get expiretime
+     *
+     * @return integer
+     */
+    public function getExpiretime()
+    {
+        return $this->expiretime;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $completed_instructions;
+
+
+    /**
+     * Add completedInstruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction
+     *
+     * @return Instruction
+     */
+    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction)
+    {
+        $this->completed_instructions[] = $completedInstruction;
+
+        return $this;
+    }
+
+    /**
+     * Remove completedInstruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction
+     */
+    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction)
+    {
+        $this->completed_instructions->removeElement($completedInstruction);
+    }
+
+    /**
+     * Get completedInstructions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCompletedInstructions()
+    {
+        return $this->completed_instructions;
+    }
+}

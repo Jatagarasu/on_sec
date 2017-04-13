@@ -1,5 +1,6 @@
 OnSec\OnSecBundle\Entity\Course:
     type: entity
+    repositoryClass: OnSec\OnSecBundle\Repository\CourseRepository
     table: course
 
     id:
@@ -26,17 +27,22 @@ OnSec\OnSecBundle\Entity\Course:
                 name: owner_id
                 referencedColumnName: id
 
-    manyToMany:
+    oneToMany:
         subscribers:
-            targetEntity: User
-            joinTable:
-                name: course_subscribers
-                joinColumns:
-                    course_id:
-                        referencedColumnName: id
-                inverseJoinColumn:
-                    subscriber_id:
-                        referencedColumnName: id
+            targetEntity: Subscriber
+            mappedBy: course
+
+    manyToMany:
+#        subscribers:
+#            targetEntity: User
+#            joinTable:
+#                name: course_subscribers
+#                joinColumns:
+#                    course_id:
+#                        referencedColumnName: id
+#                inverseJoinColumn:
+#                    subscriber_id:
+#                        referencedColumnName: id
         moderators:
             targetEntity: User
             joinTable:
@@ -49,6 +55,7 @@ OnSec\OnSecBundle\Entity\Course:
                         referencedColumnName: id
         keywords:
             targetEntity: Keyword
+            cascade: ["persist", "merge"]
             joinTable:
                 name: course_keywords
                 joinColumns:

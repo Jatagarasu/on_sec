@@ -1,0 +1,32 @@
+{% extends 'HSDOnSecBundle::base.html.twig' %}
+
+{% block body %}
+    <h1>Teilnehmer</h1>
+
+    <table>
+        <tbody>
+            {#<tr>#}
+                {#<th>Id</th>#}
+                {#<td>{{ subscriber.id }}</td>#}
+            {#</tr>#}
+            <tr>
+                <th>Datum der Teilnahme</th>
+                <td>{% if subscriber.subscribtionDate %}{{ subscriber.subscribtionDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('subscriber_index') }}">Zurück zur Liste</a>
+        </li>
+        <li>
+            <a href="{{ path('subscriber_edit', { 'id': subscriber.id }) }}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Löschen">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

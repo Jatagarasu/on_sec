@@ -1,0 +1,28 @@
+completedinstruction_index:
+    path:     /
+    defaults: { _controller: "HSDOnSecBundle:CompletedInstruction:index" }
+    methods:  GET
+
+completedinstruction_show:
+    path:     /{id}/show
+    defaults: { _controller: "HSDOnSecBundle:CompletedInstruction:show" }
+    methods:  GET
+
+completedinstruction_new:
+    path:     /new
+    defaults: { _controller: "HSDOnSecBundle:CompletedInstruction:new" }
+    methods:  [GET, POST]
+
+completedinstruction_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "HSDOnSecBundle:CompletedInstruction:edit" }
+    methods:  [GET, POST]
+
+completedinstruction_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "HSDOnSecBundle:CompletedInstruction:delete" }
+    methods:  DELETE
+
+completedinstruction_save:
+    path:     /{instruction}/save
+    defaults: { _controller: "HSDOnSecBundle:CompletedInstruction:save" }

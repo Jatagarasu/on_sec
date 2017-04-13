@@ -1,9 +1,47 @@
 .headerInstruction{
-    font-size: 20pt;
+    font-size: 25pt;
+    font-weight: bold;
 }
 
 .fragenbild {
-    max-height: 300px;
+    max-height: 400px;
+    max-width: 500px;
+}
+
+.current-pdf {
+  font-style: italic;
+  color: grey;
+}
+
+.question-imageFile-container {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.question-imageFile-input-container {
+  display: inline-block;
+}
+
+.question-imageFile-input {
+  margin-bottom: 0;
+}
+
+.question-imageFile-delete-input {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.preview-image-container {
+  display: inline-block;
+  border: 8px dotted #88C7D8;
+  border-radius: 14px;
+}
+
+.preview-image {
+  max-width: 200px;
+  max-height: 150px;
+
 }
 
 .questions {
@@ -15,16 +53,35 @@
     color: #a1a1a1;
 }
 
-.action-icon {
-  font-size: 12px !important;
-  padding: 0;
+.keyword {
+  display: inline-block;
+  background: #00afd8;
+  color: #eee;
+  padding: 0 5px;
+  border-radius: 5px;
 }
 
-.keyword {
-    display: inline-block;
-    background: #00afd8;
-    padding: 0 5px;
-    border-radius: 5px;
+.keyword-tag-in-form {
+  display: inline-block;
+  margin: 5px;
+  padding: 5px;
+}
+
+.keyword-tag-in-form span {
+  color: #eee;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background: #00afdd;
+  padding: 5px;
+}
+
+.keyword-tag-in-form a {
+  background: #0066dd;
+  color: #eee;
+  text-decoration: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 5px 10px;
 }
 
 .keyword-list {
@@ -32,17 +89,149 @@
     padding-left: 0;
 }
 
-.keyword-input {
-    display: inline-block;
-    padding: 0;
+.questions {
+    padding-left: 10px;
 }
 
-.keyword-input > div {
-    display: inline-block;
-    width: 120px;
-    padding: 0;
+.question {
+    border-left: 3px solid #00afdd;
+    padding: 14px 0 14px 10px;
+    margin-bottom: 20px;
 }
 
-.keyword-input > div > div > .control-label {
-    margin: 0;
+.question-imagePath-container {
+
+}
+
+.question-imagePath-input {
+    display: inline-block;
+    width: 30%;
+}
+
+.question-imagePath-button {
+    display: inline-block;
+    margin-top: -4px;
+}
+
+.question-index {
+  position: absolute;
+  margin-left: -60px;
+  font-size: 32px;
+  color: #00afdd;
+}
+
+.question-remove-button {
+    float: right;
+    color: #c40 !important;
+}
+
+.answer {
+    display: flex;
+}
+
+.answer-answerText-input {
+    flex: 1 0;
+    margin-left: 10px;
+}
+
+.answer-isCorrect-input {
+    padding-top: 6px;
+    margin: 0 10px 0 10px;
+}
+
+.answer-remove-container {
+    padding-top: 4px;
+    width: 14px;
+}
+
+.answer-add-button {
+    margin-left: 10px;
+}
+
+.buttonHidden {
+    visibility: hidden;
+}
+
+.buttonVisible {
+    visibility: visible;
+}
+
+textarea {
+    resize: none;
+}
+
+.questionText {
+    font-weight: 500;
+    top: 20px;
+    font-size: 25px;
+    background-color: rgb(245, 245, 245);
+    margin-bottom: 2px;
+    margin-right: 15px;
+    padding-top: 0.75rem;
+    padding-right: 1.25rem;
+    padding-bottom: 0.75rem;
+    padding-left: 1.25rem;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(0, 0, 0, 0.121569);
+
+}
+
+.questionBox {
+    border-left: 5px solid #00afdd;
+    padding: 14px 0 14px 10px;
+    margin-bottom: 20px;
+    background-color: rgb(233, 231, 232);
+}
+
+.answerText {
+    position: relative;
+    display: block;
+    margin-bottom: -1px;
+    margin-right: 15px;
+    background-color: rgb(255, 255, 255);
+    padding: 0.75rem 1.25rem;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(221, 221, 221);
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.marginIndicator {
+    margin-top: 12px;
+    margin-left: 12px;
+}
+
+.paddingText {
+    padding-left: 25px;
+}
+
+.smaller-icons {
+  font-size: 17px !important;
+  padding: 0;
+}
+
+.additional-note {
+  color: grey;
+}
+
+.button-row {
+  margin: 20px 0;
+}
+
+.action-buttons {
+  margin: 10px 0;
+}
+
+.instruction-delete-button {
+  float: right;
+  margin-bottom: 20px;
 }

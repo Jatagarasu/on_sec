@@ -1,0 +1,31 @@
+{% extends 'HSDOnSecBundle::base.html.twig' %}
+
+{% block content %}
+{% import 'macros/keywords_input.html.twig' as keywords_input %}
+{% import 'macros/questions_input.html.twig' as questions_input %}
+{% import 'macros/moderators_input.html.twig' as moderators_input %}
+    <h1>neue Unterweisung</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.description) }}
+
+        {{ form_row(form.pdfFile) }}
+
+        {{ form_row(form.expiretime) }}
+
+        {{ keywords_input.keywords_input(form) }}
+
+        {{ moderators_input.moderators_input(instruction) }}
+
+        {{ questions_input.questions_input(form) }}
+
+        <input class="btn btn-success action-buttons" style="display: float; float: right;" type="submit" value="Erstellen" />
+    {{ form_end(form) }}
+
+      <a class="btn btn-warning action-buttons"
+         href="{{ path('instruction_index') }}"
+         onclick="return confirm('Erstellung abbrechen? Bisherige Eingaben und Uploads gehen dadurch verloren.')">
+         <i class="fa fa-arrow-left smaller-icons" aria-hidden="true"></i> Abbrechen
+      </a>
+
+{% endblock %}

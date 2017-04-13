@@ -2,10 +2,18 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use OnSec\OnSecBundle\Entity\CompletedInstruction;
+use OnSec\OnSecBundle\Entity\Role;
+use OnSec\OnSecBundle\Entity\Subscriber;
+use Serializable;
+use Symfony\Component\Security\Core\User\UserInterface;
+use OnSec\OnSecBundle\Validator\Constraints as OnSecAssert;
+
 /**
  * User
  */
-class User
+class User implements UserInterface, Serializable
 {
     /**
      * @var integer
@@ -15,17 +23,23 @@ class User
     /**
      * @var string
      */
-    private $surname;
-
-    /**
-     * @var string
-     */
     private $firstname;
 
     /**
      * @var string
      */
+    private $surname;
+
+    /**
+     * @OnSecAssert\EmailContainsHSDDomain()
+     * @var string
+     */
     private $email;
+
+    /**
+     * @var string
+     */
+    private $password;
 
     /**
      * @var boolean
@@ -43,12 +57,43 @@ class User
     private $roles;
 
     /**
+     * @var string
+     */
+    private $plainPassword;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
-        $this->completed_instructions = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->completed_instructions = new ArrayCollection();
+        $this->roles = new ArrayCollection();
+    }
+
+    /**
+     * Gets Useremail
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getEmail();
+    }
+
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
     }
 
     /**
@@ -59,30 +104,6 @@ class User
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set surname
-     *
-     * @param string $surname
-     *
-     * @return User
-     */
-    public function setSurname($surname)
-    {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
-    /**
-     * Get surname
-     *
-     * @return string
-     */
-    public function getSurname()
-    {
-        return $this->surname;
     }
 
     /**
@@ -110,6 +131,30 @@ class User
     }
 
     /**
+     * Set surname
+     *
+     * @param string $surname
+     *
+     * @return User
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    /**
+     * Get surname
+     *
+     * @return string
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
      * Set email
      *
      * @param string $email
@@ -131,6 +176,41 @@ class User
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * @return bool wether the checked email address contains a string like '_at_hs-duesseldorf.de' or not
+     */
+    public function hasEmailHSDDomain()
+    {
+        if(strpos($this->email, '@hs-duesseldorf.de') === false){
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
     }
 
     /**
@@ -160,11 +240,11 @@ class User
     /**
      * Add completedInstruction
      *
-     * @param \OnSec\OnSecBundle\Entity\Instruction $completedInstruction
+     * @param CompletedInstruction $completedInstruction
      *
      * @return User
      */
-    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\Instruction $completedInstruction)
+    public function addCompletedInstruction(CompletedInstruction $completedInstruction)
     {
         $this->completed_instructions[] = $completedInstruction;
 
@@ -174,9 +254,9 @@ class User
     /**
      * Remove completedInstruction
      *
-     * @param \OnSec\OnSecBundle\Entity\Instruction $completedInstruction
+     * @param CompletedInstruction $completedInstruction
      */
-    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\Instruction $completedInstruction)
+    public function removeCompletedInstruction(CompletedInstruction $completedInstruction)
     {
         $this->completed_instructions->removeElement($completedInstruction);
     }
@@ -194,11 +274,11 @@ class User
     /**
      * Add role
      *
-     * @param \OnSec\OnSecBundle\Entity\Role $role
+     * @param Role $role
      *
      * @return User
      */
-    public function addRole(\OnSec\OnSecBundle\Entity\Role $role)
+    public function addRole(Role $role)
     {
         $this->roles[] = $role;
 
@@ -208,9 +288,9 @@ class User
     /**
      * Remove role
      *
-     * @param \OnSec\OnSecBundle\Entity\Role $role
+     * @param Role $role
      */
-    public function removeRole(\OnSec\OnSecBundle\Entity\Role $role)
+    public function removeRole(Role $role)
     {
         $this->roles->removeElement($role);
     }
@@ -222,11 +302,97 @@ class User
      */
     public function getRoles()
     {
-        return $this->roles;
+        $roles = array('ROLE_USER');
+        foreach($this->roles as $role){
+            $roles[] = $role->getName();
+        }
+        return $roles;
     }
 
-    public function __toString() {
-        return $this->getEmail();
+    /**
+    * @return string
+    */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+            ) = unserialize($serialized);
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $course_subscriptions;
+
+
+    /**
+     * Add courseSubscription
+     *
+     * @param Subscriber $courseSubscription
+     *
+     * @return User
+     */
+    public function addCourseSubscription(Subscriber $courseSubscription)
+    {
+        $this->course_subscriptions[] = $courseSubscription;
+
+        return $this;
+    }
+
+    /**
+     * Remove courseSubscription
+     *
+     * @param Subscriber $courseSubscription
+     */
+    public function removeCourseSubscription(Subscriber $courseSubscription)
+    {
+        $this->course_subscriptions->removeElement($courseSubscription);
+    }
+
+    /**
+     * Get courseSubscriptions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourseSubscriptions()
+    {
+        return $this->course_subscriptions;
+    }
+
+    /**
+     * Get full name
+     *
+     */
+    public function getFullName() {
+      return $this->getFirstname().' '.$this->getSurname();
     }
 }
-

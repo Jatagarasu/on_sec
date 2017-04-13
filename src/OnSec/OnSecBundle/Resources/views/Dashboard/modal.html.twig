@@ -1,0 +1,56 @@
+    <table class="table" id="modal_table">
+        <thead class="thead-inverse">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Fehlende Unterweisungen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subscriber in course.subscribers %}
+                {% set subscriber = subscriber.getUser %}
+                <tr>
+                    <td>{{ subscriber.firstname }} {{ subscriber.surname }} </td>
+                    <td>{{ subscriber.email }}</td>
+                    <td>
+                        {% set done = [] %}
+                        {% set notdone = [] %}
+                        {% for courseInstruction in course.getInstructions %}
+                            {% set found = null %}
+                            {% for completedInstruction in subscriber.getCompletedInstructions %}
+                                {% if courseInstruction.getId == completedInstruction.getInstruction.getId %}
+                                    {% set found = completedInstruction.getInstruction.getId  %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if found %}
+                                {% set done = done|merge([found]) %}
+                            {% else %}
+                                {% set notdone = notdone|merge([courseInstruction.getDescription]) %}
+                            {% endif %}
+                        {% endfor %}
+                        <div data-toggle="tooltip" data-placement="left" title="
+                        {% if notdone|length == 1 %}
+                            Es fehlt:
+                        {% elseif notdone == [] %}
+                            Alle Unterweisungen absolviert.
+                        {% else %}
+                            Es fehlen:
+                        {% endif %}
+
+                        {% set count= 0 %}
+                        {% set notDoneLenght = notdone|length - 1 %}
+                        {% for description in notdone %}
+                            {% set count= count+1 %}
+                            {% if count != notDoneLenght %}
+                                {{ description }}.
+                            {% else %}
+                                {{ description }},
+                            {% endif %}
+                        {% endfor %}">
+                            {{ course.getInstructions|length - done|length }}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>

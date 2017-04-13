@@ -1,5 +1,6 @@
 OnSec\OnSecBundle\Entity\Room:
     type: entity
+    repositoryClass: OnSec\OnSecBundle\Repository\RoomRepository
     table: room
 
     id:
@@ -24,4 +25,15 @@ OnSec\OnSecBundle\Entity\Room:
                         referencedColumnName: id
                 inverseJoinColumn:
                     keyword_id:
+                        referencedColumnName: id
+
+        instructions:
+            targetEntity: Instruction
+            joinTable:
+                name: room_instructions
+                joinColumns:
+                    room_id:
+                        referencedColumnName: id
+                inversedJoinColumn:
+                    instruction_id:
                         referencedColumnName: id

@@ -1,0 +1,233 @@
+{% macro questions_input(parent_form) %}
+  {% set question_name = parent_form.questions.vars.full_name ~ "[__question_id__]" %}
+  {% set answer_name = question_name ~ "[answers][__answer_id__]" %}
+
+  {# Angular starts here #}
+  {% verbatim %}
+  <div id="ngAppOnSecQuestions" ng-controller="questionsInputController" >
+    <h1>Fragen:</h1>
+      <div class="questions">
+        <div ng-repeat="question in questions track by question.index" class="question">
+          <span class="question-index">{{ question.index + 1 }}</span>
+          <a class="question-remove-button" ng-if="questions.length > 1" href ng-click="removeQuestion(question)">
+            <span class="fa fa-times"></span>
+          </a>
+
+          <div class="question-imageFile-container">
+              <div class="question-imageFile-input-container">
+                <label for="{{ question.imageFileFullPath }}">
+                  Bild (optional)
+                </label>
+                <input
+                  type="file"
+                  class="question-imageFile-input"
+                  placeholder="Bild (optional)"
+                  ng-model="question.imageFile"
+                  id="{{ question.imageFileFullPath }}"
+                  name="{{ question.imageFileFullPath }}">
+              </div>
+
+              <div class="preview-image-container" ng-if="question.displayImagePath">
+                <img class="preview-image" src="{{ question.displayImagePath }}" alt=""/>
+              </div>
+
+              <div class="question-imageFile-delete-input" ng-if="question.displayImagePath">
+                <label for="question.deleteImageFullPath">Bild löschen?</label>
+                <input type="checkbox"
+                  id="question.deleteImageFullPath"
+                  name="question.deleteImageFullPath">
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label
+                class="sr-only"
+                for="{{ question.questionTextFullPath }}">
+                Frage
+              </label>
+
+              <input
+                type="text"
+                class="form-control mb-2 mr-sm-2 mb-sm-0"
+                placeholder="Wie lautet..."
+                ng-model="question.questionText"
+                id="{{ question.questionTextFullPath }}"
+                name="{{ question.questionTextFullPath }}"
+                required="true">
+            </div>
+
+            <div ng-repeat="answer in question.answers track by answer.index" class="answer">
+
+                <label
+                  class="sr-only"
+                  for="{{answer.answerTextFullPath}}"> Antwort
+                </label>
+
+                <input
+                  type="text"
+                  class="answer-answerText-input form-control mb-1 mr-sm-2 mb-sm-0"
+                  ng-model="answer.answerText"
+                  ng-keypress="answerTextEnter($event, question, answer)"
+                  placeholder="Antwort {{ answer.index + 1 }}"
+                  id="{{ answer.answerTextFullPath }}"
+                  name="{{ answer.answerTextFullPath }}"
+                  required="true">
+
+              <div class="form-check mb-2 mr-sm-2 mb-sm-0 answer-isCorrect-input">
+                <label class="form-check-label">
+                  <input class="form-check-input" ng-model="answer.isCorrect" type="checkbox" name="{{ answer.isCorrectFullPath }}"> Korrekt
+                </label>
+              </div>
+
+              <div class="answer-remove-container">
+                <a href ng-if="question.answers.length > 2" ng-click="removeAnswer(question, answer)" class="btn btn-danger">
+                  <span class="fa fa-times smaller-icons"></span>
+                </a>
+              </div>
+            </div>
+            <a href class="answer-add-button btn btn-success" ng-click="addEmptyAnswerTo(question)">
+              <i class="fa fa-plus smaller-icons" aria-hidden="true"></i> Antwort
+            </a>
+        </div>
+
+      <a href ng-click="addEmptyQuestion()" class="btn btn-primary mb-2" id="add-question">
+        <i class="fa fa-plus smaller-icons" aria-hidden="true"></i> Frage
+      </a>
+
+      {% endverbatim %}
+      {# Angular ends here #}
+
+    </div>
+  </div>
+
+{% do parent_form.questions.setRendered %}
+
+  <script>
+  angular.module('onSecQuestions', []).controller('questionsInputController', function($scope) {
+    var QUESTION_FULL_PATH  = "{{ question_name }}";
+    var ANSWER_FULL_PATH    = "{{ answer_name }}";
+    var QUESTION_ID         = "__question_id__";
+    var ANSWER_ID           = "__answer_id__";
+
+    $scope.questions = [];
+
+    $scope.addEmptyQuestion = function() {
+      var index = $scope.questions.length;
+      var newQuestion = createQuestion(index, '', '', '');
+
+      $scope.addEmptyAnswerTo(newQuestion);
+      $scope.addEmptyAnswerTo(newQuestion);
+
+      $scope.questions.push(newQuestion);
+    };
+
+    $scope.removeQuestion = function(question) {
+      var questions = $scope.questions;
+      questions.splice(question.index, 1);
+      for (var i = question.index; i < questions.length; i++) {
+        questions[i].index = questions[i].index - 1;
+      }
+    };
+
+    $scope.addEmptyAnswerTo = function(question) {
+      var questionIndex = question.index;
+
+      addAnswerTo(question, '', false);
+    };
+
+    $scope.removeAnswer = function(question, answer) {
+      question.answers.splice(answer.index, 1);
+
+      for (var i = answer.index; i < question.answers.length; i++) {
+        var currentAnswer = question.answers[i];
+        currentAnswer.index = currentAnswer.index - 1;
+      }
+    };
+
+    $scope.answerTextEnter = function(event, question, answer) {
+      if (event.which === 13) {
+        event.preventDefault();
+        if (answer.answerText != '' && answer.index === question.answers.length - 1) {
+          $scope.addEmptyAnswerTo(question);
+        }
+      }
+    };
+
+    var questionAttributePathWithIndex = function(questionIndex, attributeName) {
+      var regexToReplace = new RegExp(QUESTION_ID, 'g');
+      var fullPath = QUESTION_FULL_PATH.replace(regexToReplace, questionIndex);
+      return (fullPath + '[' + attributeName + ']');
+    };
+
+    var answerAttributePathWithIndices = function(questionIndex, answerIndex, attributeName) {
+      var questionIdRegEx = new RegExp(QUESTION_ID, 'g');
+      var answerIdRegEx = new RegExp(ANSWER_ID, 'g');
+      var fullPath = ANSWER_FULL_PATH.replace(questionIdRegEx, questionIndex)
+                                     .replace(answerIdRegEx, answerIndex);
+      return (fullPath + '[' + attributeName + ']');
+    };
+
+    function fillQuestionsFromSymfony() {
+      {% if parent_form.questions|length > 0 %}
+        {% for question in parent_form.questions %}
+          var questionIndex = $scope.questions.length;
+          var questionText =     "{{ question.vars.value.questionText }}";
+          var imageFile =        "{{ question.vars.value.imageFile }}";
+          var displayImagePath = '';
+
+          {% if question.vars.value.imagePath %}
+            displayImagePath = "{{ asset('images/' ~ question.vars.value.imagePath) }}";
+          {% endif %}
+
+          var question = createQuestion(questionIndex, questionText, imageFile, displayImagePath);
+
+          {% for answer in question.vars.value.answers %}
+            var answerText =  "{{ answer.answerText }}";
+            var isCorrect =   parseInt("{{ answer.isCorrect }}") > 0;
+
+            addAnswerTo(question, answerText, isCorrect);
+          {% endfor %}
+
+          $scope.questions.push(question);
+        {% endfor %}
+      {% else %}
+        $scope.addEmptyQuestion(); // Add one initial question
+      {% endif %}
+    }
+
+    function createQuestion(index, questionText, imageFile, displayImagePath) {
+      return {
+        index:                index,
+        questionText:         questionText,
+        imageFile:            imageFile,
+        questionTextFullPath: questionAttributePathWithIndex(index, 'questionText'),
+        imageFileFullPath:    questionAttributePathWithIndex(index, 'imageFile') + '[file]',
+        deleteImageFullPath:  questionAttributePathWithIndex(index, 'imageFile') + '[delete]',
+        answersFullPath:      questionAttributePathWithIndex(index, 'answers'),
+        displayImagePath:     displayImagePath,
+        answers:              [],
+      }
+    }
+
+    function addAnswerTo(question, answerText, isCorrect) {
+      var questionIndex =   question.index;
+      var answerIndex =     question.answers.length;
+      var answerTextPath =  answerAttributePathWithIndices(questionIndex, answerIndex, 'answerText');
+      var isCorrectPath =   answerAttributePathWithIndices(questionIndex, answerIndex, 'isCorrect');
+
+      question.answers.push({
+        index:              answerIndex,
+        answerText:         answerText,
+        isCorrect:          isCorrect,
+        answerTextFullPath: answerTextPath,
+        isCorrectFullPath:  isCorrectPath,
+      });
+    }
+
+    fillQuestionsFromSymfony();
+  });
+
+  angular.bootstrap(document.getElementById('ngAppOnSecQuestions'), ['onSecQuestions']);
+
+  </script>
+{% endmacro %}

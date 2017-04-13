@@ -22,7 +22,7 @@ class RoomController extends Controller
 
         $rooms = $em->getRepository('HSDOnSecBundle:Room')->findAll();
 
-        return $this->render('room/index.html.twig', array(
+        return $this->render('HSDOnSecBundle:Room:index.html.twig', array(
             'rooms' => $rooms,
         ));
     }
@@ -45,7 +45,7 @@ class RoomController extends Controller
             return $this->redirectToRoute('room_show', array('id' => $room->getId()));
         }
 
-        return $this->render('room/new.html.twig', array(
+        return $this->render('HSDOnSecBundle:Room:new.html.twig', array(
             'room' => $room,
             'form' => $form->createView(),
         ));
@@ -59,7 +59,7 @@ class RoomController extends Controller
     {
         $deleteForm = $this->createDeleteForm($room);
 
-        return $this->render('room/show.html.twig', array(
+        return $this->render('HSDOnSecBundle:Room:show.html.twig', array(
             'room' => $room,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -81,7 +81,7 @@ class RoomController extends Controller
             return $this->redirectToRoute('room_edit', array('id' => $room->getId()));
         }
 
-        return $this->render('room/edit.html.twig', array(
+        return $this->render('HSDOnSecBundle:Room:edit.html.twig', array(
             'room' => $room,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

@@ -1,0 +1,42 @@
+{% extends 'HSDOnSecBundle::base.html.twig' %}
+
+{% block content %}
+{% import 'macros/keywords_input.html.twig' as keywords_input %}
+{% import 'macros/questions_input.html.twig' as questions_input %}
+{% import 'macros/moderators_input.html.twig' as moderators_input %}
+    <h1>Unterweisung bearbeiten</h1>
+
+    {{ form_start(edit_form) }}
+        {{ form_row(edit_form.description) }}
+
+        <span class="current-pdf">Aktuelles Unterweisungs-PDF: {{ instruction.pdfLink }}.</span>
+
+        {{ form_row(edit_form.pdfFile) }}
+
+
+        {{ form_row(edit_form.expiretime) }}
+
+        {{ keywords_input.keywords_input(edit_form) }}
+
+        {{ moderators_input.moderators_input(instruction) }}
+
+        {{ questions_input.questions_input(edit_form) }}
+
+        <input class="btn btn-success action-buttons" type="submit" value="Speichern" />
+    {{ form_end(edit_form) }}
+
+    <a class="btn btn-warning"
+      href="{{ path('instruction_index') }}"
+      onclick="return confirm('Änderungen verwerfen?')">
+      <i class="fa fa-arrow-left smaller-icons" aria-hidden="true"></i> Abbrechen
+    </a>
+
+    {{ form_start(delete_form, {
+      'attr': {
+        'onclick': 'return confirm("Diese Unterweisung endgültig löschen?")',
+      }
+    }) }}
+        <input class="btn btn-danger instruction-delete-button"
+          type="submit" value="Diese Unterweisung Löschen">
+    {{ form_end(delete_form) }}
+{% endblock %}

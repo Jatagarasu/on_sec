@@ -34,6 +34,33 @@ hsd_on_sec_user:
     resource: "@HSDOnSecBundle/Resources/config/routing/user.yml"
     prefix:   /user
 
+hsd_on_sec_completedinstruction:
+    resource: "@HSDOnSecBundle/Resources/config/routing/completedinstruction.yml"
+    prefix:   /completedinstruction
+
+hsd_on_sec_subscriber:
+    resource: "@HSDOnSecBundle/Resources/config/routing/subscriber.yml"
+    prefix:   /subscriber
+
+register:
+    path:     /register
+    defaults: { _controller: HSDOnSecBundle:Registration:register}
+
 index:
     path:     /index
     defaults: { _controller: HSDOnSecBundle:Dashboard:index }
+
+login:
+    path:     /login
+    defaults: { _controller: HSDOnSecBundle:Default:index }
+
+createCSV:
+    path:     /createCSV/{course_id}
+    defaults: { _controller: HSDOnSecBundle:Dashboard:createCSV }
+
+addSubscriber:
+    path:     /addSubscriber/{course_id}
+    defaults: { _controller: HSDOnSecBundle:Dashboard:addSubscriber }
+
+logout:
+    path:     /logout

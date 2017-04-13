@@ -2,6 +2,8 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Course
  */
@@ -12,7 +14,8 @@ class Course
      */
     private $id;
 
-    /**
+     /**
+     * @Assert\NotBlank()
      * @var string
      */
     private $description;
@@ -46,6 +49,16 @@ class Course
      * @var \Doctrine\Common\Collections\Collection
      */
     private $instructions;
+
+    /**
+     * Gets Coursedescription
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getDescription();
+    }
 
     /**
      * Constructor
@@ -183,7 +196,9 @@ class Course
      */
     public function addModerator(\OnSec\OnSecBundle\Entity\User $moderator)
     {
-        $this->moderators[] = $moderator;
+        if (!$this->moderators->contains($moderator)) {
+          $this->moderators[] = $moderator;
+        }
 
         return $this;
     }
@@ -276,4 +291,3 @@ class Course
         return $this->instructions;
     }
 }
-

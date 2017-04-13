@@ -1,5 +1,6 @@
 OnSec\OnSecBundle\Entity\Instruction:
     type: entity
+    repositoryClass: OnSec\OnSecBundle\Repository\InstructionRepository
     table: instruction
 
     id:
@@ -12,8 +13,8 @@ OnSec\OnSecBundle\Entity\Instruction:
         description:
             type: string
             nullable: false
-        expiredate:
-            type: datetime
+        expiretime:
+            type: integer
             nullable: false
         pdfLink:
             type: string
@@ -25,6 +26,12 @@ OnSec\OnSecBundle\Entity\Instruction:
             joinColumn:
                 name: owner_id
                 referencedColumnName: id
+
+    oneToMany:
+        completed_instructions:
+            targetEntity: CompletedInstruction
+            mappedBy: instruction
+
 
     manyToMany:
         moderators:
@@ -39,6 +46,7 @@ OnSec\OnSecBundle\Entity\Instruction:
                         referencedColumnName: id
         questions:
             targetEntity: Question
+            cascade: ["persist", "merge"]
             joinTable:
                 name: instruction_questions
                 joinColumns:

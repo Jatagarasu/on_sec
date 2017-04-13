@@ -1,0 +1,16 @@
+{% extends 'HSDOnSecBundle::base.html.twig' %}
+
+{% block content %}
+    <h1>neue Rolle erstellen</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Speichern" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('role_index') }}">Zurück zur Liste</a>
+        </li>
+    </ul>
+{% endblock %}

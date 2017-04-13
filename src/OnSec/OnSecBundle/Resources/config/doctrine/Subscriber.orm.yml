@@ -1,0 +1,33 @@
+OnSec\OnSecBundle\Entity\Subscriber:
+    type: entity
+    table: course_subscriber
+    repositoryClass: OnSec\OnSecBundle\Repository\SubscriberRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        subscribtionDate:
+            type: datetime
+
+    manyToOne:
+        course:
+            targetEntity: Course
+            inversedBy: subscribers
+            joinColumn:
+                name: course_id
+                referencedColumnName: id
+            nullable: false
+        user:
+            targetEntity: User
+            inversedBy: course_subscriptions
+            joinColumn:
+                name: user_id
+                referencedColumName: id
+            nullable: false
+
+    lifecycleCallbacks: {
+            prePersist: [subscribtionDateTime]
+     }

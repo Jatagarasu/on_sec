@@ -1,0 +1,84 @@
+{% extends 'HSDOnSecBundle::base.html.twig' %}
+
+{% block content %}
+    <h1>{{ instruction.description }}</h1>
+
+    <b>Ablaufzeit</b> <i class="additional-note">(so lange ist diese Unterweisung nach Teilnahme gültig)</i>:
+    <br/>
+    {{ (instruction.expiretime / 182)|round}} Semester
+    <br/><br/>
+
+    <b>PDF:</b>
+    <br/>
+    {{ instruction.pdfLink }}
+    <br/><br/>
+
+    <b>Schlagwörter:</b>
+    <br/>
+    {% if instruction.getKeywords() is empty %}
+      <i>Keine</i>
+    {% else %}
+      {% for keyword in instruction.getKeywords() %}
+          <div class="keyword">{{ keyword.getDescription() }}</div>
+      {% endfor %}
+    {% endif %}
+    <br/><br/>
+
+    <b>Bearbeiter:</b>
+    <br/>
+    {% if instruction.getModerators() is empty %}
+      <i>Keine</i>
+    {% else %}
+      {% for moderator in instruction.getModerators() %}
+        {{ moderator.getFullName() }} {%- if not loop.last %},{% endif %}
+      {% endfor %}
+    {% endif %}
+
+    <div class="questions">
+        <h2>Fragen:</h2>
+        {% if instruction.getQuestions()|length > 0 %}
+            <table class="table">
+                <thead class="thead-inverse">
+                <tr>
+                    <th>Text</th>
+                    <th>Bild</th>
+                    <th class="text-md-right">Antworten</th>
+                    <th class="text-md-right">Aktionen</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for question in instruction.getQuestions() %}
+                    <tr>
+                        <td>{{ question.questionText }}</td>
+                        <td>{{ question.imagePath }}</td>
+                        <td class="text-md-right">{{ question.getAnswers()|length }}</td>
+                        <td class="text-md-right">
+                            <a href="{{ path('question_edit', {'id': question.id }) }}" class="btn btn-primary">
+                                <span class="fa fa-pencil smaller-icons"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <span class="info-text">Diese Unterweisung besitzt noch keine Fragen.</span>
+        {% endif %}
+    </div>
+
+    <div class="btn-group">
+            <a class="btn btn-primary" href="{{ path('instruction_index') }}">
+              <i class="fa fa-arrow-left smaller-icons" aria-hidden="true"></i> Zurück zur Liste
+            </a>
+            <a class="btn btn-warning" href="{{ path('instruction_edit', { 'id': instruction.id }) }}">
+              <i class="fa fa-pencil smaller-icons" aria-hidden="true"></i> Bearbeiten
+            </a>
+    </div>
+    {{ form_start(delete_form, {
+      'attr': {
+        'onclick': 'return confirm("Diese Unterweisung endgültig löschen?")',
+      }
+    }) }}
+    <input class="btn btn-danger instruction-delete-button" type="submit" value="Diese Unterweisung löschen">
+    {{ form_end(delete_form) }}
+{% endblock %}

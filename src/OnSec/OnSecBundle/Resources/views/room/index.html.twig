@@ -1,0 +1,44 @@
+{% extends 'HSDOnSecBundle::base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Räume</h1>
+        </div>
+        <div class="col-md-6">
+            <a href="{{ path('room_new') }}" class="btn btn-outline-success pull-right">neuen Raum anlegen</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table-sm table-striped">
+                <thead>
+                <tr>
+                    {#<th>Id</th>#}
+                    <th>Beschreibung</th>
+                    <th>Aktionen</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for room in rooms %}
+                    <tr>
+                        {#<td>{{ room.id }}</td>#}
+                        <td><a href="{{ path('room_show', { 'id': room.id }) }}">{{ room.description }}</a></td>
+                        <td>
+                            <div class="btn-group btn-group-sm" style="display: -webkit-box;">
+                                <a class="btn btn-primary" href="{{ path('room_show', { 'id': room.id }) }}"><i
+                                            class="fa fa-eye"
+                                            aria-hidden="true"></i></a>
+
+                                <a class="btn btn-outline-primary"
+                                   href="{{ path('room_edit', { 'id': room.id }) }}"><i class="fa fa-pencil"
+                                                                                        aria-hidden="true"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

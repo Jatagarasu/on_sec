@@ -1,0 +1,43 @@
+{% extends 'HSDOnSecBundle::base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Rollen</h1>
+        </div>
+        <div class="col-md-6">
+            <a href="{{ path('role_new') }}" class="btn btn-outline-success pull-right">neue Rolle erstellen</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table-sm table-striped">
+                <thead>
+                <tr>
+                    {#<th>Id</th>#}
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for role in roles %}
+                    <tr>
+                        {#<td>{{ role.id }}</td>#}
+                        <td><a href="{{ path('role_show', { 'id': role.id }) }}">{{ role.name }}</a></td>
+                        <td>
+                            <div class="btn-group btn-group-sm" style="display: -webkit-box;">
+                                <a class="btn btn-primary" href="{{ path('role_show', { 'id': role.id }) }}"><i
+                                            class="fa fa-eye"
+                                            aria-hidden="true"></i></a>
+                                <a class="btn btn-outline-primary" href="{{ path('role_edit', { 'id': role.id }) }}"><i
+                                            class="fa fa-pencil"
+                                            aria-hidden="true"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

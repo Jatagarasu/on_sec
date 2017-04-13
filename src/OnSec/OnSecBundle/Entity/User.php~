@@ -2,10 +2,12 @@
 
 namespace OnSec\OnSecBundle\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  * User
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var integer
@@ -15,17 +17,22 @@ class User
     /**
      * @var string
      */
-    private $surname;
-
-    /**
-     * @var string
-     */
     private $firstname;
 
     /**
      * @var string
      */
+    private $surname;
+
+    /**
+     * @var string
+     */
     private $email;
+
+    /**
+     * @var string
+     */
+    private $password;
 
     /**
      * @var boolean
@@ -41,6 +48,11 @@ class User
      * @var \Doctrine\Common\Collections\Collection
      */
     private $roles;
+
+    /**
+     * @var string
+     */
+    private $plainPassword;
 
     /**
      * Constructor
@@ -61,6 +73,22 @@ class User
         return $this->getEmail();
     }
 
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
     /**
      * Get id
      *
@@ -69,30 +97,6 @@ class User
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set surname
-     *
-     * @param string $surname
-     *
-     * @return User
-     */
-    public function setSurname($surname)
-    {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
-    /**
-     * Get surname
-     *
-     * @return string
-     */
-    public function getSurname()
-    {
-        return $this->surname;
     }
 
     /**
@@ -120,6 +124,30 @@ class User
     }
 
     /**
+     * Set surname
+     *
+     * @param string $surname
+     *
+     * @return User
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
+
+        return $this;
+    }
+
+    /**
+     * Get surname
+     *
+     * @return string
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
+
+    /**
      * Set email
      *
      * @param string $email
@@ -141,6 +169,30 @@ class User
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
     }
 
     /**
@@ -170,11 +222,11 @@ class User
     /**
      * Add completedInstruction
      *
-     * @param \OnSec\OnSecBundle\Entity\Instruction $completedInstruction
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction
      *
      * @return User
      */
-    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\Instruction $completedInstruction)
+    public function addCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction)
     {
         $this->completed_instructions[] = $completedInstruction;
 
@@ -184,9 +236,9 @@ class User
     /**
      * Remove completedInstruction
      *
-     * @param \OnSec\OnSecBundle\Entity\Instruction $completedInstruction
+     * @param \OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction
      */
-    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\Instruction $completedInstruction)
+    public function removeCompletedInstruction(\OnSec\OnSecBundle\Entity\CompletedInstruction $completedInstruction)
     {
         $this->completed_instructions->removeElement($completedInstruction);
     }
@@ -232,6 +284,89 @@ class User
      */
     public function getRoles()
     {
-        return $this->roles;
+        $roles = array('ROLE_USER');
+        foreach($this->roles as $role){
+            $roles[] = $role->getName();
+        }
+        return $roles;
+    }
+
+    /**
+    * @return string
+    */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string $plainPassword
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->email,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+            ) = unserialize($serialized);
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $course_subscriptions;
+
+
+    /**
+     * Add courseSubscription
+     *
+     * @param \OnSec\OnSecBundle\Entity\Subscriber $courseSubscription
+     *
+     * @return User
+     */
+    public function addCourseSubscription(\OnSec\OnSecBundle\Entity\Subscriber $courseSubscription)
+    {
+        $this->course_subscriptions[] = $courseSubscription;
+
+        return $this;
+    }
+
+    /**
+     * Remove courseSubscription
+     *
+     * @param \OnSec\OnSecBundle\Entity\Subscriber $courseSubscription
+     */
+    public function removeCourseSubscription(\OnSec\OnSecBundle\Entity\Subscriber $courseSubscription)
+    {
+        $this->course_subscriptions->removeElement($courseSubscription);
+    }
+
+    /**
+     * Get courseSubscriptions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourseSubscriptions()
+    {
+        return $this->course_subscriptions;
     }
 }

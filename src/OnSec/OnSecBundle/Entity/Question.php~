@@ -57,6 +57,9 @@ class Question
      */
     public function __toString()
     {
+        if(is_null($this->getQuestionText())) {
+            return 'NULL';
+        }
         return $this->getQuestionText();
     }
 

@@ -17,6 +17,15 @@ class Keyword
      */
     private $description;
 
+    /**
+     * Gets Keyworddescription
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getDescription();
+    }
 
     /**
      * Get id
@@ -52,4 +61,3 @@ class Keyword
         return $this->description;
     }
 }
-

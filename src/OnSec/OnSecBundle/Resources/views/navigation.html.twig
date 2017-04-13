@@ -1,0 +1,21 @@
+<div class="col-md-2">
+    <a href="{{ path('hsd_on_sec_homepage') }}"><img src="{{ asset('images/hsd-marke-v1-hsd-rotrgb-m-schw.png') }}"
+                                                     class="logo" alt="logo">
+    </a>
+</div>
+{% if(is_granted("ROLE_SUPERADMIN")) %}
+<div class="col-md-7">
+    <nav class="navbar navbar-default">
+        <a class="btn btn-secondary nav-link" href="{{ url('course_index') }}">Kurse</a>
+        <a class="btn btn-secondary nav-link" href="{{ url('instruction_index') }}">Unterweisungen</a>
+        <a class="btn btn-secondary nav-link" href="{{ url('question_index') }}">Fragen</a>
+        <a class="btn btn-secondary nav-link" href="{{ path('answer_index') }}">Antworten</a>
+        <a class="btn btn-secondary nav-link" href="{{ url('room_index') }}">Räume</a>
+        <a class="btn btn-secondary nav-link" href="{{ url('user_index') }}">Benutzer</a>
+    </nav>
+</div>
+{% else %}
+<div class="col-md-7" style="text-align: center">
+    <h2>OnSec - Online Sicherheitsunterweisungstool</h2>
+</div>
+{% endif %}

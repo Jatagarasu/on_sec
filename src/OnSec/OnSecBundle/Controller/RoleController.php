@@ -22,7 +22,7 @@ class RoleController extends Controller
 
         $roles = $em->getRepository('HSDOnSecBundle:Role')->findAll();
 
-        return $this->render('role/index.html.twig', array(
+        return $this->render('HSDOnSecBundle:Role:index.html.twig', array(
             'roles' => $roles,
         ));
     }
@@ -45,7 +45,7 @@ class RoleController extends Controller
             return $this->redirectToRoute('role_show', array('id' => $role->getId()));
         }
 
-        return $this->render('role/new.html.twig', array(
+        return $this->render('HSDOnSecBundle:Role:new.html.twig', array(
             'role' => $role,
             'form' => $form->createView(),
         ));
@@ -81,7 +81,7 @@ class RoleController extends Controller
             return $this->redirectToRoute('role_edit', array('id' => $role->getId()));
         }
 
-        return $this->render('role/edit.html.twig', array(
+        return $this->render('HSDOnSecBundle:Role:edit.html.twig', array(
             'role' => $role,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

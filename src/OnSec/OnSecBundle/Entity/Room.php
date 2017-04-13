@@ -31,6 +31,16 @@ class Room
     }
 
     /**
+     * Gets Roomdescription
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getDescription();
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -97,5 +107,45 @@ class Room
     {
         return $this->keywords;
     }
-}
 
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $instructions;
+
+
+    /**
+     * Add instruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\Instruction $instruction
+     *
+     * @return Room
+     */
+    public function addInstruction(\OnSec\OnSecBundle\Entity\Instruction $instruction)
+    {
+        $this->instructions[] = $instruction;
+
+        return $this;
+    }
+
+    /**
+     * Remove instruction
+     *
+     * @param \OnSec\OnSecBundle\Entity\Instruction $instruction
+     */
+    public function removeInstruction(\OnSec\OnSecBundle\Entity\Instruction $instruction)
+    {
+        $this->instructions->removeElement($instruction);
+    }
+
+    /**
+     * Get instructions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInstructions()
+    {
+        return $this->instructions;
+    }
+}
