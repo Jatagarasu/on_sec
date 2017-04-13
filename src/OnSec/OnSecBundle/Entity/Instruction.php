@@ -230,6 +230,13 @@ class Instruction
         return $this;
     }
 
+    public function setModerators($moderators)
+    {
+      $this->moderators = $moderators;
+
+      return $this;
+    }
+
     /**
      * Remove moderator
      *

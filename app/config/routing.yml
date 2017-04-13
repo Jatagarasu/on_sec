@@ -7,6 +7,11 @@ dashboard:
     defaults: { _controller: "HSDOnSecBundle:Dashboard:index" }
     methods:  GET
 
+ajax_search:
+    path:     /dashboard/search
+    defaults: { _controller: "HSDOnSecBundle:Dashboard:search" }
+    methods:  GET
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation

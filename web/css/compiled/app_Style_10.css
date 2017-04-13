@@ -1,7 +1,6 @@
 body {
     margin: 0 auto;
     padding: 0;
-    overflow-y: scroll;
 }
 
 .navbar-mainmain {
@@ -22,6 +21,15 @@ body {
     font-size: 28pt;
 }
 
+table
+{
+    display: inline; !important;
+}
+
+td
+{
+   white-space: nowrap; !important;
+}
 
 
 .navbar {

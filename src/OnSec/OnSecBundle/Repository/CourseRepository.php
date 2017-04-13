@@ -10,4 +10,21 @@ namespace OnSec\OnSecBundle\Repository;
  */
 class CourseRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function search($term){
+
+
+        $result1 = $this->createQueryBuilder('course', 'course.id')
+            ->where('course.description LIKE :searchTerm')
+            ->setParameter('searchTerm', '%'.$term.'%')
+            ->getQuery()
+            ->getResult();
+        //->execute();
+        $result2 = $this->createQueryBuilder('course', 'course.id')
+            ->join('course.keywords','k','WITH','k.description LIKE :searchTerm')
+            ->setParameter('searchTerm', '%'.$term.'%')
+            ->getQuery()
+            ->getResult();
+
+        return $result1+$result2;
+    }
 }
