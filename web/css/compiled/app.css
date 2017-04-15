@@ -75,7 +75,13 @@ a:hover {
     border: 0px;
 }
 
+.linkstyle {
+    color: #373a41;
+}
 
+.linkstyle:hover {
+    color: #ff294d;
+}
 
 .fa {
     font-size: 30px !important;
@@ -190,7 +196,7 @@ hr {
     margin-left: 20px;
     position: relative;
     display: inline-block;
-    width: 80px;
+    width: 140px;
     height: 15px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -213,11 +219,11 @@ hr {
     transition: .4s;
     text-align:right;
     color:white;
-    -webkit-border-radius: 40px;
-    -moz-border-radius: 40px;
-    -ms-border-radius: 40px;
-    -o-border-radius: 40px;
-    border-radius: 40px;
+    -webkit-border-radius: 80px;
+    -moz-border-radius: 80px;
+    -ms-border-radius: 80px;
+    -o-border-radius: 80px;
+    border-radius: 80px;
     padding:  0 10px 0 10px;
 }
 
@@ -254,9 +260,9 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-    -webkit-transform: translateX(60px);
-    -ms-transform: translateX(60px);
-    transform: translateX(60px);
+    -webkit-transform: translateX(120px);
+    -ms-transform: translateX(120px);
+    transform: translateX(120px);
 }
 /*!
  *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
@@ -343,7 +349,7 @@ input:checked + .slider:before {
     color: #a1a1a1;
 }
 
-.action-icon {
+.smaller-icons {
   font-size: 12px !important;
   padding: 0;
 }
@@ -408,6 +414,13 @@ input:checked + .slider:before {
     margin-top: -4px;
 }
 
+.question-index {
+  position: absolute;
+  margin-left: -60px;
+  font-size: 32px;
+  color: #00afdd;
+}
+
 .question-remove-button {
     float: right;
     color: #c40 !important;
@@ -464,6 +477,7 @@ textarea {
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: rgba(0, 0, 0, 0.121569);
+
 }
 
 .questionBox {
@@ -508,6 +522,12 @@ textarea {
     padding-bottom: 10px;
 }
 
+
+#rights-table{
+    display: table; !important;
+
+}
+
 .tablehead{
     border-radius: 10px;
     margin: 10px 0 0 0;
@@ -520,15 +540,25 @@ textarea {
 }
 
 .instruction_element{
+    display: inline-block;
+
     background-color: white;
     margin: 6px 6px 3px 6px;
     padding: 2px 3px 2px 3px;
     border-radius: 5px;
+
 }
 
-.instruction_button {
-    margin: 6px;
-    padding: 3px;
+.delete_moderator{
+    background-color: white;
+    position: absolute;
+}
+
+.instruction_title{
+    margin: auto;
+}
+.delete_instruction_button {
+    margin: auto;
 }
 
 #scrollbox {
@@ -584,15 +614,7 @@ body {
     font-size: 28pt;
 }
 
-table
-{
-    display: inline; !important;
-}
 
-td
-{
-   white-space: nowrap; !important;
-}
 
 .navbar {
     margin-bottom: 10px;

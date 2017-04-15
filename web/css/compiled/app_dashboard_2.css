@@ -68,7 +68,13 @@ a:hover {
     border: 0px;
 }
 
+.linkstyle {
+    color: #373a41;
+}
 
+.linkstyle:hover {
+    color: #ff294d;
+}
 
 .fa {
     font-size: 30px !important;
@@ -183,7 +189,7 @@ hr {
     margin-left: 20px;
     position: relative;
     display: inline-block;
-    width: 80px;
+    width: 140px;
     height: 15px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -206,11 +212,11 @@ hr {
     transition: .4s;
     text-align:right;
     color:white;
-    -webkit-border-radius: 40px;
-    -moz-border-radius: 40px;
-    -ms-border-radius: 40px;
-    -o-border-radius: 40px;
-    border-radius: 40px;
+    -webkit-border-radius: 80px;
+    -moz-border-radius: 80px;
+    -ms-border-radius: 80px;
+    -o-border-radius: 80px;
+    border-radius: 80px;
     padding:  0 10px 0 10px;
 }
 
@@ -247,7 +253,7 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-    -webkit-transform: translateX(60px);
-    -ms-transform: translateX(60px);
-    transform: translateX(60px);
+    -webkit-transform: translateX(120px);
+    -ms-transform: translateX(120px);
+    transform: translateX(120px);
 }

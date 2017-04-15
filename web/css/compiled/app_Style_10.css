@@ -21,15 +21,6 @@ body {
     font-size: 28pt;
 }
 
-table
-{
-    display: inline; !important;
-}
-
-td
-{
-   white-space: nowrap; !important;
-}
 
 
 .navbar {
