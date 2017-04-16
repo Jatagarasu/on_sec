@@ -4,7 +4,7 @@ namespace OnSec\OnSecBundle\Controller;
 
 use OnSec\OnSecBundle\Entity\Subscriber;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -59,8 +59,9 @@ class DashboardController extends Controller
 
         $selected_semester = $semester_array[$semester];
 
-        $template = $this->forward('HSDOnSecBundle:Dashboard:subscriberList.html.twig', array(
+        $template = $this->render('HSDOnSecBundle:Dashboard:subscriberList.html.twig', array(
             'subscriber_array' => $selected_semester,
+            'course' => $course,
         ))->getContent();
 
         $json = json_encode($template);
@@ -315,22 +316,10 @@ class DashboardController extends Controller
 
     public function createCSVAction($course_id)
     {
+        //TODO: Filter by dropdown-key
+
         $em = $this->getDoctrine()->getManager();
         $course = $em->getRepository('HSDOnSecBundle:Course')->find($course_id);
-
-        $subscribers = $course->getSubscribers();
-        foreach ($subscribers as $subscriber) {
-            $date = $subscriber->getSubscribtionDate();
-            $year = intval (date("Y", $date));
-            $month = intval (date("m", $date));
-
-
-            date_default_timezone_set("Europe/Berlin");
-            $timestamp = time();
-            $current_year = intval (date("Y", $timestamp));
-            $current_month = intval (date("m", $timestamp));
-
-        }
 
         $response = new StreamedResponse();
         $response->setCallback(function() use ($course) {
@@ -345,8 +334,12 @@ class DashboardController extends Controller
             $description = $course->getDescription();
             $description = iconv("UTF-8", "WINDOWS-1252", $description);
             fputcsv($handle, array('Teilnehmer von '.$description.' am '.$date.' um '.$time.' Uhr'),';');
+            fputcsv($handle, array(''),';');
             fputcsv($handle, array('Name', 'Vorname', 'E-Mail', 'Fehlende Unterweisungen'),';');
 
+
+            // TODO: Sort by surname
+            $subscriber_array = array();
 
             foreach ($course->getSubscribers() as $subscriber) {
                 $user = $subscriber->getUser();
@@ -374,6 +367,7 @@ class DashboardController extends Controller
                 $firstname = iconv("UTF-8", "WINDOWS-1252", $firstname);
                 $surname = iconv("UTF-8", "WINDOWS-1252", $surname);
                 $missing = iconv("UTF-8", "WINDOWS-1252", implode(", ",$missing));
+
 
                 fputcsv($handle, array($surname,$firstname,$email,$missing),';');
             }
