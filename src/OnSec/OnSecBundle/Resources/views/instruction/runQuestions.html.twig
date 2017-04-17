@@ -1,13 +1,10 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
 {% block title %}Instruction{% endblock %}
-{% block ownStylesheets %}
-    <link rel="stylesheet" href="{{ asset('bundles/hsdonsec/css/Instruction.css') }}">
-{% endblock %}
 {% block content %}
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
     <div id="ngAppOnSecRunQuestions" class="container" ng-controller="runQuestionsController">
         <div id="instructionView">
-            <h1 class="headerInstruction">Fragen zu {{ instruction.description }}</h1>
+          <h1 class="headerInstruction">Fragen zu {{ instruction.description }}</h1>
             </br>
             {% verbatim %}
             <div ng-repeat="question in shownQuestionArray track by $index">
@@ -52,9 +49,16 @@
             </br>
             </br>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div ng-style="textStyle" >{{checkMessage}}</div>
+              <div ng-if="allRightMessage">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-success" id="success-alert" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>Glückwunsch!</strong> Sie haben alle Fragen richtig beantwortet.
+                        </div>
+                    </div>
                 </div>
             </div>
             {% endverbatim %}
@@ -135,7 +139,6 @@
                     $scope.shownQuestionArray.push(questionArray[randomNumbers[i]]);
                 }
 
-                $scope.checkMessage = "";
                 $scope.textStyle = "";
                 $scope.boxStyle = "";
                 $scope.checkAnswer = function () {
@@ -158,8 +161,6 @@
                             }
                         }
                         if (allRight) {
-                            $scope.checkMessage = "Du hast alle Fragen richtig beantwortet.";
-                            $scope.textStyle = {'background-color': '#A9F5BC', 'text-align': 'center'};
                             console.log("alles Korrekt");
                             status = "weiter";
                             // $('#weiter').addClass('active').removeClass('disabled');
@@ -169,13 +170,12 @@
                             {#{user.addCompletedInstruction(instruction.id)}#}
                         }
                         else {
-                            $scope.checkMessage = "Leider hast du nicht alle Fragen korrekt beantwortet. Siehe dir noch einmal die Unterweisung an.";
-                            $scope.textStyle = {'background-color': '#F78181', 'text-align': 'center'};
                             console.log("nicht alles Korrekt");
                             $scope.buttonSwitch = true;
                             status = "unterweisung";
                         }
                         $('#checkButton').addClass('buttonHidden');
+                        $scope.allRightMessage = allRight;
                     }
 
                 }
