@@ -5,6 +5,8 @@ namespace OnSec\OnSecBundle\Controller;
 use OnSec\OnSecBundle\Entity\Room;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 /**
  * Room controller.
@@ -120,5 +122,30 @@ class RoomController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    public function autocompleteAction(Request $request){
+
+        $rooms = array();
+
+        $term = trim(strip_tags($request->get('term')));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('HSDOnSecBundle:Room')->search($term);
+
+        foreach ($entities as $room_entity){
+
+            array_push($rooms, array(
+                'label'=>$room_entity->getDescription(),
+                'value'=>$room_entity->getDescription(),
+                'id'=>$room_entity->getId()));
+
+        }
+
+        $response = new JsonResponse();
+        $response->setData($rooms);
+
+        return $response;
     }
 }

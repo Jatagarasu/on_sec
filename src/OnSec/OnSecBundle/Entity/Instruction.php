@@ -405,4 +405,45 @@ class Instruction
     {
         return $this->completed_instructions;
     }
+
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $rooms;
+
+
+    /**
+     * Add room
+     *
+     * @param \OnSec\OnSecBundle\Entity\Room $room
+     *
+     * @return Instruction
+     */
+    public function addRoom(\OnSec\OnSecBundle\Entity\Room $room)
+    {
+        $this->rooms[] = $room;
+
+        return $this;
+    }
+
+    /**
+     * Remove room
+     *
+     * @param \OnSec\OnSecBundle\Entity\Room $room
+     */
+    public function removeRoom(\OnSec\OnSecBundle\Entity\Room $room)
+    {
+        $this->rooms->removeElement($room);
+    }
+
+    /**
+     * Get rooms
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRooms()
+    {
+        return $this->rooms;
+    }
 }

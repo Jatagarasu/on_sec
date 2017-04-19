@@ -22,3 +22,8 @@ room_delete:
     path:     /{id}/delete
     defaults: { _controller: "HSDOnSecBundle:Room:delete" }
     methods:  DELETE
+
+room_autocomplete:
+    path:     /autocomplete
+    defaults: { _controller: "HSDOnSecBundle:Room:autocomplete" }
+    methods:  GET
