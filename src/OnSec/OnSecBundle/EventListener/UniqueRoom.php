@@ -48,13 +48,10 @@ class UniqueRoom
 
         $entity = $args->getEntity();
 
-        // we're interested in Dishes only
         if ($entity instanceof Instruction) {
 
             $entityManager = $args->getEntityManager();
             $rooms = $entity->getRooms();
-
-            var_dump($rooms);
 
 
             foreach($rooms as $room){
@@ -62,11 +59,7 @@ class UniqueRoom
                 // let's check for existance of this room
                 // find by name and sort by id keep the older room first
 
-                var_dump($room->getDescription());
-
                 $results = $entityManager->getRepository('OnSec\OnSecBundle\Entity\Room')->findBy(array('description' => $room->getDescription()), array('id' => 'ASC') );
-
-                var_dump($results);
 
 
                 // if room exists at least two rows will be returned

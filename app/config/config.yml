@@ -34,8 +34,8 @@ framework:
     assets: ~
     php_errors:
         log: true
-    #profiler:
-        #collect: false
+    profiler:
+        collect: false
 
 # Assetic Configuration
 assetic:
