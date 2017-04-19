@@ -52,7 +52,8 @@
                 placeholder="Wie lautet..."
                 ng-model="question.questionText"
                 id="{{ question.questionTextFullPath }}"
-                name="{{ question.questionTextFullPath }}">
+                name="{{ question.questionTextFullPath }}"
+                required="true">
             </div>
 
             <div ng-repeat="answer in question.answers track by answer.index" class="answer">
@@ -69,7 +70,8 @@
                   ng-keypress="answerTextEnter($event, question, answer)"
                   placeholder="Antwort {{ answer.index + 1 }}"
                   id="{{ answer.answerTextFullPath }}"
-                  name="{{ answer.answerTextFullPath }}">
+                  name="{{ answer.answerTextFullPath }}"
+                  required="true">
 
               <div class="form-check mb-2 mr-sm-2 mb-sm-0 answer-isCorrect-input">
                 <label class="form-check-label">
@@ -78,15 +80,19 @@
               </div>
 
               <div class="answer-remove-container">
-                <a ng-if="question.answers.length > 2" ng-click="removeAnswer(question, answer)" class="btn btn-danger">
-                  <span class="fa fa-times action-icon"></span>
+                <a href ng-if="question.answers.length > 2" ng-click="removeAnswer(question, answer)" class="btn btn-danger">
+                  <span class="fa fa-times smaller-icons"></span>
                 </a>
               </div>
             </div>
-            <a href class="answer-add-button btn btn-success" ng-click="addEmptyAnswerTo(question)">+</a>
+            <a href class="answer-add-button btn btn-success" ng-click="addEmptyAnswerTo(question)">
+              <i class="fa fa-plus smaller-icons" aria-hidden="true"></i> Antwort
+            </a>
         </div>
 
-      <a href ng-click="addEmptyQuestion()" class="btn btn-primary mb-2" id="add-question">Weitere Frage</a>
+      <a href ng-click="addEmptyQuestion()" class="btn btn-primary mb-2" id="add-question">
+        <i class="fa fa-plus smaller-icons" aria-hidden="true"></i> Frage
+      </a>
 
       {% endverbatim %}
       {# Angular ends here #}

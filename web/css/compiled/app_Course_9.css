@@ -3,6 +3,12 @@
     padding-bottom: 10px;
 }
 
+
+#rights-table{
+    display: table; !important;
+
+}
+
 .tablehead{
     border-radius: 10px;
     margin: 10px 0 0 0;
@@ -15,15 +21,25 @@
 }
 
 .instruction_element{
+    display: inline-block;
+
     background-color: white;
     margin: 6px 6px 3px 6px;
     padding: 2px 3px 2px 3px;
     border-radius: 5px;
+
 }
 
-.instruction_button {
-    margin: 6px;
-    padding: 3px;
+.delete_moderator{
+    background-color: white;
+    position: absolute;
+}
+
+.instruction_title{
+    margin: auto;
+}
+.delete_instruction_button {
+    margin: auto;
 }
 
 #scrollbox {

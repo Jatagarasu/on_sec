@@ -22,7 +22,7 @@ class InstructionType extends AbstractType
               'label' => 'Titel',
           ])
           ->add('expiretime', IntegerType::class, [
-              'label' => 'Ablaufzeit',
+              'label' => 'Ablaufzeit in Semestern',
           ])
           ->add('pdfFile', VichFileType::class, [
               'label' => "Unterweisung (PDF)",

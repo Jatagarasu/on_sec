@@ -387,4 +387,12 @@ class User implements UserInterface, Serializable
     {
         return $this->course_subscriptions;
     }
+
+    /**
+     * Get full name
+     *
+     */
+    public function getFullName() {
+      return $this->getFirstname().' '.$this->getSurname();
+    }
 }
