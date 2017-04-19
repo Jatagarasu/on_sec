@@ -34,8 +34,8 @@ framework:
     assets: ~
     php_errors:
         log: true
-    profiler:
-        collect: false
+    #profiler:
+        #collect: false
 
 # Assetic Configuration
 assetic:
@@ -84,6 +84,12 @@ doctrine:
 services:
     my.listener:
         class: OnSec\OnSecBundle\EventListener\UniqueKeyword
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: prePersist }
+
+    my.listener2:
+        class: OnSec\OnSecBundle\EventListener\UniqueRoom
         tags:
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: prePersist }

@@ -77,6 +77,8 @@ class Instruction
         $this->moderators = new \Doctrine\Common\Collections\ArrayCollection();
         $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->keywords = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->rooms = new \Doctrine\Common\Collections\ArrayCollection();
+
     }
 
     /**
@@ -422,9 +424,20 @@ class Instruction
      */
     public function addRoom(\OnSec\OnSecBundle\Entity\Room $room)
     {
+        //if(!$this->hasRoom($room)) {
         $this->rooms[] = $room;
+    //}
 
         return $this;
+    }
+
+    /**
+     * @param \OnSec\OnSecBundle\Entity\Room $room
+     * @return bool
+     */
+    public function hasRoom(Room $room)
+    {
+        return $this->getRooms()->contains($room);
     }
 
     /**

@@ -5,7 +5,6 @@ namespace OnSec\OnSecBundle\EventListener;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 
 use Onsec\OnSecBundle\Entity\Instruction;
-use OnSec\OnSecBundle\Entity\Keyword;
 
 class UniqueRoom
 {
@@ -18,22 +17,18 @@ class UniqueRoom
 
         $entity = $args->getEntity();
 
-        // we're interested in Dishes only
-        if ($entity instanceof Instruction) { //Room hat mehrere Instructions
+        if ($entity instanceof Instruction) {
 
             $entityManager = $args->getEntityManager();
-            $keywords = $entity->getKeywords(); //getInstructions
+            $rooms = $entity->getRooms();
 
-            foreach($keywords as $key => $keyword){
+            foreach($rooms as $key => $room){
 
-                // let's check for existance of this keyword
-                $results = $entityManager->getRepository('OnSec\OnSecBundle\Entity\Keyword')->findBy(array('description' => $keyword->getDescription()), array('id' => 'ASC') );
+                $results = $entityManager->getRepository('OnSec\OnSecBundle\Entity\Room')->findBy(array('description' => $room->getDescription()), array('id' => 'ASC') );
 
-                // if keyword exists use the existing keyword
                 if (count($results) > 0){
 
-                    $keywords[$key] = $results[0];
-
+                    $rooms[$key] = $results[0];
                 }
 
             }
@@ -45,7 +40,7 @@ class UniqueRoom
     /**
      * Called on updates of existent entities
      *
-     * New keywords were already created and persisted (although not flushed)
+     * New rooms were already created and persisted (although not flushed)
      * so we decide now wether to add them to Instructions or delete the duplicated ones
      */
     public function preUpdate(LifecycleEventArgs $args)
@@ -57,30 +52,39 @@ class UniqueRoom
         if ($entity instanceof Instruction) {
 
             $entityManager = $args->getEntityManager();
-            $keywords = $entity->getKeywords();
+            $rooms = $entity->getRooms();
 
-            foreach($keywords as $keyword){
+            var_dump($rooms);
 
-                // let's check for existance of this keyword
-                // find by name and sort by id keep the older keyword first
-                $results = $entityManager->getRepository('OnSec\OnSecBundle\Entity\Keyword')->findBy(array('description' => $keyword->getDescription()), array('id' => 'ASC') );
 
-                // if keyword exists at least two rows will be returned
+            foreach($rooms as $room){
+
+                // let's check for existance of this room
+                // find by name and sort by id keep the older room first
+
+                var_dump($room->getDescription());
+
+                $results = $entityManager->getRepository('OnSec\OnSecBundle\Entity\Room')->findBy(array('description' => $room->getDescription()), array('id' => 'ASC') );
+
+                var_dump($results);
+
+
+                // if room exists at least two rows will be returned
                 // keep the first and discard the second
                 if (count($results) > 1){
 
-                    $knownKeyword = $results[0];
-                    $entity->addKeyword($knownKeyword);
+                    $knownRoom = $results[0];
+                    $entity->addRoom($knownRoom);
 
-                    // remove the duplicated keyword
-                    $duplicatedKeyword = $results[1];
-                    $entity->removeKeyword($duplicatedKeyword);
-                    $entityManager->remove($duplicatedKeyword);
+                    // remove the duplicated room
+                    $duplicatedRoom = $results[1];
+                    $entity->removeRoom($duplicatedRoom);
+                    $entityManager->remove($duplicatedRoom);
 
                 }else{
 
-                    // keyword doesn't exist yet, add relation
-                    $entity->addKeyword($keyword);
+                    // room doesn't exist yet, add relation
+                    $entity->addRoom($room);
 
                 }
 
