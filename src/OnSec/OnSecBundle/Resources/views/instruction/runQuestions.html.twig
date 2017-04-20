@@ -1,7 +1,6 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
 {% block title %}Instruction{% endblock %}
 {% block content %}
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
     <div id="ngAppOnSecRunQuestions" class="container" ng-controller="runQuestionsController">
         <div id="instructionView">
           <h1 class="headerInstruction">Fragen zu {{ instruction.description }}</h1>
@@ -48,7 +47,7 @@
                 </div>
             </br>
             </br>
-            </div>
+            </div >
               <div ng-if="allRightMessage">
                 <div class="row">
                     <div class="col-md-12">
@@ -60,6 +59,19 @@
                         </div>
                     </div>
                 </div>
+              </div>
+                <div ng-if="!allRightMessage">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger buttonHidden" id="danger-alert" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>Schade!</strong> Sie haben leider nicht alle Fragen richtig beantwortet. Bitte sehen Sie sich die Unterweisung noch einmal an.
+                        </div>
+                    </div>
+                </div>
+              </div>
             </div>
             {% endverbatim %}
             </br>
@@ -108,7 +120,7 @@
         question.text = '{{ question.questionText }}';
         question.id = '{{ question.id }}';
         question.imagePath = "{{ asset('images/' ~ question.imagePath) }}"
-        console.log(question.imagePath);
+        //console.log(question.imagePath);
         question.result = "";
         question.boxStyle = "";
         if (question.imagePath === '{{ asset("") }}' || question.imagePath === "/on_sec/web/images/"){
@@ -118,7 +130,7 @@
         {
             question.imageAvalible = true;
         }
-        console.log(question.imageAvalible);
+        //console.log(question.imageAvalible);
         question.answers = [];
 
         {% for answer in question.answers %}
@@ -141,6 +153,7 @@
                     $scope.shownQuestionArray.push(questionArray[randomNumbers[i]]);
                 }
 
+                $scope.showMessage = false;
                 $scope.textStyle = "";
                 $scope.boxStyle = "";
                 $scope.checkAnswer = function () {
@@ -178,6 +191,7 @@
                         }
                         $('#checkButton').addClass('buttonHidden');
                         $scope.allRightMessage = allRight;
+                        $('#danger-alert').removeClass('buttonHidden');
                     }
 
                 }
