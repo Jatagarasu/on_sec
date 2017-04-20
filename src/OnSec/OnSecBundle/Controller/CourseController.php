@@ -97,45 +97,6 @@ class CourseController extends Controller
         ));
     }
 
-    /**
-     * newCourse Autocomplete for Moderators
-     *
-     */
-
- /*   public function autocomplete_roomAction(Request $request){
-
-        $rooms = array();
-        $instructions = array();
-
-        $term = trim(strip_tags($request->get('term')));
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('HSDOnSecBundle:Room')->search($term);
-
-        foreach ($entities as $room_entity){
-
-            foreach($room_entity->getInstructions() as $instruction){
-
-                array_push($instructions, array(
-                    'label'=>$instruction->getDescription(),
-                    'value'=>$instruction->getDescription(),
-                    'id'=>$instruction->getId()));
-            }
-
-            array_push($rooms, array(
-                'label'=>$room_entity->getDescription(),
-                'value'=>$room_entity->getDescription(),
-                'instructions'=> $instructions,
-                'id'=>$room_entity->getId()));
-
-        }
-
-        $response = new JsonResponse();
-        $response->setData($rooms);
-
-        return $response;
-    }*/
 
     public function autocomplete_instructionAction(Request $request){
 

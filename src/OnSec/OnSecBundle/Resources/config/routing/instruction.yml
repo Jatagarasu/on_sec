@@ -13,6 +13,11 @@ instruction_new:
     defaults: { _controller: "HSDOnSecBundle:Instruction:new" }
     methods:  [GET, POST]
 
+room_autocomplete:
+    path:     /new/autocomplete_r
+    defaults: {_controller: "HSDOnSecBundle:Instruction:autocomplete_room" }
+    methods:  GET
+
 instruction_edit:
     path:     /{id}/edit
     defaults: { _controller: "HSDOnSecBundle:Instruction:edit" }
