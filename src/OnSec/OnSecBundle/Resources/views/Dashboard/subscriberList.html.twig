@@ -2,7 +2,7 @@
     {% set subscriber = subscriber.getUser %}
     {{ subscriber }}
     <tr>
-        <td>{{ subscriber.firstname }} {{ subscriber.surname }} </td>
+        <td>{{ subscriber.surname }}, {{ subscriber.firstname }} </td>
         <td>{{ subscriber.email }}</td>
         <td>
             {% set done = [] %}
@@ -20,27 +20,27 @@
                     {% set notdone = notdone|merge([courseInstruction.getDescription]) %}
                 {% endif %}
             {% endfor %}
-            <div data-toggle="tooltip" data-placement="left" title="
-                        {% if notdone|length == 1 %}
-                            Es fehlt:
-                        {% elseif notdone == [] %}
-                            Alle Unterweisungen absolviert.
-                        {% else %}
-                            Es fehlen:
-                        {% endif %}
 
-                        {% set count= 0 %}
-                        {% set notDoneLenght = notdone|length - 1 %}
-                        {% for description in notdone %}
-                            {% set count= count+1 %}
-                            {% if count != notDoneLenght %}
-                                {{ description }}.
-                            {% else %}
-                                {{ description }},
-                            {% endif %}
-                        {% endfor %}">
-                {{ course.getInstructions|length - done|length }}
-            </div>
+            {% if notdone|length == 1 %}
+                {% set tooltip_pre = 'Es fehlt: ' %}
+            {% elseif notdone == [] %}
+                {% set tooltip_pre = 'Alle Unterweisungen absolviert.' %}
+            {% else %}
+                {% set tooltip_pre = 'Es fehlen: ' %}
+            {% endif %}
+            {% set count = 0 %}
+            {% set notDoneLenght = notdone|length - 1 %}
+            {% set tooltip_desc = '' %}
+            {% for description in notdone %}
+                {% set count= count+1 %}
+                {% if count != notDoneLenght+1 %}
+                    {% set tooltip_desc = tooltip_desc~description~', ' %}
+                {% else %}
+                    {% set tooltip_desc = tooltip_desc~description~'.' %}
+                {% endif %}
+            {% endfor %}
+            <!-- //TODO: show tooltips -->
+            <div data-toggle="tooltip" data-placement="left" title="{{ tooltip_pre~tooltip_desc }}">{{ course.getInstructions|length - done|length }}</div>
         </td>
     </tr>
 {% endfor %}

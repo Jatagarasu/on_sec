@@ -57,9 +57,10 @@
                                                 <p hidden>{{ keyword.getDescription() }}</p>
                                             {% endfor %}
                                             <span data-toggle="modal" data-target="#MyModal_{{ course.getId() }}">
-                                                <i style="float:right;" class="fa fa-users" aria-hidden="true"></i>
+                                                <i data-toggle="tooltip" data-placement="top" title="Teilnehmer" style="float:right;" class="fa fa-users" aria-hidden="true"></i>
                                             </span>
                                             <span onclick="document.location.href = '{{ path('course_edit', { 'id': course.getId() }) }}'; return false"><i
+                                                        data-toggle="tooltip" title="Kurs bearbeiten"
                                                         style="float:right;" class="fa fa-cog"
                                                         aria-hidden="true"></i></span>
                                         </h4>

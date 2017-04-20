@@ -47,7 +47,9 @@ class DashboardController extends Controller
         }
     }
 
-
+    /**
+     * Gets the array-request of the select-dropdown via ajax and returns a json-response with the correct subscribers
+     */
     public function semesterFilterAction(Request $request) {
         $semester = trim(strip_tags($request->get('semester')));
         $courseId = trim(strip_tags($request->get('courseId')));
@@ -70,6 +72,10 @@ class DashboardController extends Controller
         return $response;
     }
 
+
+    /**
+     * Creates an array of a course with the semester description as key and an array of subscribers as key
+     */
     private function filterSemester($course) {
         $em = $this->getDoctrine()->getManager();
         $course = $em->getRepository('HSDOnSecBundle:Course')->find($course);
@@ -117,7 +123,19 @@ class DashboardController extends Controller
                 }
             }
         }
-        return $semester_array;
+
+        $sortedArray = [];
+
+        foreach ($semester_array as $key=>$semester) {
+            usort($semester, function ($a, $b)
+            {
+                return strcmp($a->getUser()->getSurname(), $b->getUser()->getSurname());
+            });
+            $sortedArray[$key] = $semester;
+        }
+
+
+        return $sortedArray;
     }
 
     public function modalAction($course)
@@ -314,15 +332,19 @@ class DashboardController extends Controller
         }
     }
 
-    public function createCSVAction($course_id)
+    /**
+     * Creates a csv-document, via course and semester-key
+     */
+    public function createCSVAction(Request $request)
     {
-        //TODO: Filter by dropdown-key
+        $course_id = trim(strip_tags($request->get('course_id')));;
+        $semester_key = trim(strip_tags($request->get('semester_key')));;
 
         $em = $this->getDoctrine()->getManager();
         $course = $em->getRepository('HSDOnSecBundle:Course')->find($course_id);
 
         $response = new StreamedResponse();
-        $response->setCallback(function() use ($course) {
+        $response->setCallback(function() use ($course, $semester_key) {
             $handle = fopen('php://output', 'w+');
 
             // Add the header of the CSV file
@@ -333,15 +355,16 @@ class DashboardController extends Controller
 
             $description = $course->getDescription();
             $description = iconv("UTF-8", "WINDOWS-1252", $description);
-            fputcsv($handle, array('Teilnehmer von '.$description.' am '.$date.' um '.$time.' Uhr'),';');
+            fputcsv($handle, array('Teilnehmer des Kurses "'.$description.'" im '.$semester_key.', heruntergeladen am '.$date.' um '.$time.' Uhr.'),';');
             fputcsv($handle, array(''),';');
             fputcsv($handle, array('Name', 'Vorname', 'E-Mail', 'Fehlende Unterweisungen'),';');
 
+            $semester_array = $this->filterSemester($course);
+            //$semester_key = str_replace($semester_key, "_", "/");
+            $subscriber_array = $semester_array[$semester_key];
 
-            // TODO: Sort by surname
-            $subscriber_array = array();
 
-            foreach ($course->getSubscribers() as $subscriber) {
+            foreach ($subscriber_array as $subscriber) {
                 $user = $subscriber->getUser();
                 $surname = $user->getSurname();
                 $firstname = $user->getFirstname();
@@ -362,7 +385,6 @@ class DashboardController extends Controller
                             array_push($missing,$course_instruction->getDescription());
                         }
                 }
-                //$missing = count($course->getInstructions()) - $progress;
 
                 $firstname = iconv("UTF-8", "WINDOWS-1252", $firstname);
                 $surname = iconv("UTF-8", "WINDOWS-1252", $surname);

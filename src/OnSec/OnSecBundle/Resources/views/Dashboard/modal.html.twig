@@ -6,6 +6,7 @@
             <div class="modal-title">
                 <span class ="modalTitleText">Teilnehmer von {{ course.getDescription() }} </span>
                 <div class="pull-right">
+
                         <select id="semester_dropdown_{{ course.getId }}" class="custom-select" name="semester">
 
                             {% for key,val in semester_array %}
@@ -32,7 +33,8 @@
             </table>
         </div>
         <div class="modal-footer">
-            <a class="btn btn-outline-primary" href="{{ path('createCSV', {'course_id': course.getId() }) }}" role="button">
+
+            <a class="btn btn-outline-primary" id="createCSV_{{ course.getId }}" role="button">
                 <i class="fa fa-download" aria-hidden="true"></i>
 
                 CSV exportieren
@@ -53,7 +55,6 @@
             var currentDropdown = '#semester_dropdown_'+'{{ course.getId() }}';
 
             var currentModalBody = '#subscriberBody_'+'{{ course.getId() }}';
-            //alert("hier!");
             var url = "{{ path('ajax_semester_filter') }}";
             var key = $(currentDropdown).val();
 
@@ -72,6 +73,18 @@
 
         var currentDropdown = '#semester_dropdown_'+'{{ course.getId() }}';
         $(currentDropdown).on("change", getSubscribers);
+
+
+        var courseId = '#createCSV_'+'{{ course.getId() }}';
+        $(courseId).on("click", function(e){
+            e.preventDefault();
+            var url = "{{ path('createCSV', {'course_id': course.getId(), 'semester_key': 'currentSemester' }) }}";
+            var currentDropdown = '#semester_dropdown_'+'{{ course.getId() }}';
+            key = $(currentDropdown).val();
+            url = url.replace('currentSemester', key);
+            window.location.href = url ;
+        });
+
     });
 
 </script>
