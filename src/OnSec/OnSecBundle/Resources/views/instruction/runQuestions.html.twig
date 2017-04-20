@@ -85,7 +85,7 @@
                     {% endverbatim %}
                 </div>
                 <div class="col-lg-4" align="right">
-                        <a id="weiter" href="{{ url('completedinstruction_save', {'instruction': instruction.id}) }}" class="btn btn-primary btn-lg buttonHidden">weiter zum Dashboard</a>
+                        <a id="weiter" href="{{ url('completedinstruction_save', {'instruction': instruction.id}) }}" class="btn btn-primary btn-lg buttonHidden">Unterweisung abschließen</a>
                 </div>
             </div>
             </br>
@@ -176,7 +176,7 @@
                             }
                         }
                         if (allRight) {
-                            console.log("alles Korrekt");
+                            //console.log("alles Korrekt");
                             status = "weiter";
                             // $('#weiter').addClass('active').removeClass('disabled');
                             $('#weiter').addClass('buttonVisible').removeClass('buttonHidden');
@@ -185,7 +185,7 @@
                             {#{user.addCompletedInstruction(instruction.id)}#}
                         }
                         else {
-                            console.log("nicht alles Korrekt");
+                            //console.log("nicht alles Korrekt");
                             $scope.buttonSwitch = true;
                             status = "unterweisung";
                         }
