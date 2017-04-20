@@ -56,9 +56,10 @@
                                                 <p hidden>{{ keyword.getDescription() }}</p>
                                             {% endfor %}
                                             <span data-toggle="modal" data-target="#MyModal_{{ course.getId() }}">
-                                                <i style="float:right;" class="fa fa-users" aria-hidden="true"></i>
+                                                <i data-toggle="tooltip" data-placement="top" title="Teilnehmer" style="float:right;" class="fa fa-users" aria-hidden="true"></i>
                                             </span>
                                             <span onclick="document.location.href = '{{ path('course_edit', { 'id': course.getId() }) }}'; return false"><i
+                                                        data-toggle="tooltip" title="Kurs bearbeiten"
                                                         style="float:right;" class="fa fa-cog"
                                                         aria-hidden="true"></i></span>
                                         </h4>
@@ -83,34 +84,7 @@
 
 
                                 <div id="MyModal_{{ course.getId() }}" class="modal fade" role="dialog">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <div class="modal-title">
-                                                    <span class ="modalTitleText">Teilnehmer von {{ course.getDescription() }} </span>
-                                                    <div class="pull-right">
-                                                        <select class="custom-select" name="semester">
-                                                            {% for semester in ['SS 2016', 'WS 2016/17', 'SS 2017'] %}
-                                                                <option value="{{ semester }}">{{ semester }}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="modal-body">
-                                                {{ render(controller('HSDOnSecBundle:Dashboard:modal', {'course': course})) }}
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a class="btn btn-outline-primary" href="{{ path('createCSV', {'course_id': course.getId() }) }}" role="button">
-                                                        <i class="fa fa-download" aria-hidden="true"></i>
-
-                                                    CSV exportieren
-                                                </a>
-                                                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Schließen</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {{ render(controller('HSDOnSecBundle:Dashboard:modal', {'course': course})) }}
                                 </div>
                             {% endfor %}
                         </div>
@@ -405,8 +379,6 @@
 
             $('[data-toggle="tooltip"]').tooltip();
         });
-
-
 
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
