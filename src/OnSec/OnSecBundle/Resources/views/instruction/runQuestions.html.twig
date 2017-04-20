@@ -22,7 +22,7 @@
                                 <label class="custom-control custom-checkbox answerText unselectable">
                                     <input type="checkbox" class="custom-control-input" ng-model="answer.checked">
                                     <span class="marginIndicator custom-control-indicator"></span>
-                                    <span class="paddingText custom-control-description">{{answer.isCorrect}} {{answer.text}}</span>
+                                    <span class="paddingText custom-control-description">{{answer.text}}</span>
                                 </label>
                             </div>
                         </div>
@@ -37,7 +37,7 @@
                                 <label class="custom-control custom-checkbox answerText unselectable">
                                     <input type="checkbox" class="custom-control-input" ng-model="answer.checked">
                                     <span class="marginIndicator custom-control-indicator"></span>
-                                    <span class="paddingText custom-control-description">{{answer.isCorrect}} {{answer.text}}</span>
+                                    <span class="paddingText custom-control-description">{{answer.text}}</span>
                                 </label>
                             </div>
                         </div>
@@ -108,15 +108,17 @@
         question.text = '{{ question.questionText }}';
         question.id = '{{ question.id }}';
         question.imagePath = "{{ asset('images/' ~ question.imagePath) }}"
+        console.log(question.imagePath);
         question.result = "";
         question.boxStyle = "";
-        if (question.imagePath === '{{ asset("") }}'){
+        if (question.imagePath === '{{ asset("") }}' || question.imagePath === "/on_sec/web/images/"){
             question.imageAvalible = false;
         }
         else
         {
             question.imageAvalible = true;
         }
+        console.log(question.imageAvalible);
         question.answers = [];
 
         {% for answer in question.answers %}
