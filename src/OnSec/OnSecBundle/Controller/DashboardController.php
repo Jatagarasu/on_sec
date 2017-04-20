@@ -36,7 +36,7 @@ class DashboardController extends Controller
                 'moderatorcourses' => $this->getCoursesByUserId($UserId),
                 'ownerinstructions' => $this->ownerinstructions,
                 'moderatorinstructions' => $this->moderatorinstructions,
-                'userinstructions' => $this->userinstructions,
+                //'userinstructions' => $this->userinstructions,
                 'subscribercourses' => $this->getsubscribedCourses($UserId),
                 'user' => $user,
                 'successSubscribedCourse' => $session_param,
