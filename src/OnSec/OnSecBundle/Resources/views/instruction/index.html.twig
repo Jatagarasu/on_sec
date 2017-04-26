@@ -1,9 +1,11 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
+{% set page_title = "Unterweisungen" %}
+{% block title %}{{page_title}}{% endblock %}
 
 {% block content %}
     <div class="row">
         <div class="col-md-6">
-            <h1>Unterweisungen</h1>
+            <h1>{{page_title}}</h1>
         </div>
         <div class="col-md-6">
             <a href="{{ path('instruction_new') }}" class="btn btn-outline-success pull-right">neue Unterweisung

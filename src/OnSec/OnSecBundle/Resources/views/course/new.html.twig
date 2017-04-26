@@ -1,4 +1,7 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
+{% set page_title = "Kurs anlegen" %}
+{% block title %}{{page_title}}{% endblock %}
+
 
 {% block ownStylesheets %}
     <link rel="stylesheet" href="{{ asset('bundles/hsdonsec/css/Course.css') }}">
@@ -9,7 +12,7 @@
 {% import 'macros/moderators_input.html.twig' as moderators_input %}
 
 
-    <h1>Einen neuen Kurs erstellen</h1>
+    <h1>{{page_title}}</h1>
 
     {{ form_start(form) }}
 
@@ -37,13 +40,14 @@
     {{ keywords_input.keywords_input(form) }}
     <br>
 
-    <input id="submit_button" type="submit" value="Abbrechen" class="btn" />
+    <a href="{{ path('course_index') }}">Abbrechen</a>
+    <!-- nicht gut!!: <input id="submit_button" type="submit" value="Abbrechen" class="btn" />-->
     <input type="submit" value="Erstellen" class="btn" />
     <br></br>
 
     {{ form_end(form) }}
 
-     <!--<a href="]{#{{ path('course_index') }}#}">Zurück zu der Kursübersicht</a>-->
+
 
     <script>
 
@@ -63,6 +67,8 @@
                     console.log( ui.item ?
                         "Selected: " + ui.item.value + " aka " + ui.item.id :
                         "Nothing selected, input was " + this.value );
+
+
 
                     var scrollbox = $('#scrollbox');
 
@@ -86,6 +92,10 @@
 
                     newElement.append(removeBtn);
                     scrollbox.append(newElement);
+
+                    $("#access-instruction-input").val('');
+
+                    return false;
                 }
             });
 

@@ -1,4 +1,7 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
+{% set page_title = "HSD OnSec - Registrierung" %}
+{% block title %}{{page_title}}{% endblock %}
+
 {% block content %}
     {% if message == 'success' %}
         <div class="row">

@@ -96,6 +96,7 @@
 
     function fillRoomsFromSymfony() {
       {% for room in parent_form.rooms %}
+        console.log("{{ room.vars.value }}");
         $scope.addRoom("{{ room.vars.value }}");
       {% endfor %}
     };
