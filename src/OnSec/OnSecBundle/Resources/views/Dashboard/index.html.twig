@@ -98,42 +98,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                {# modal show #}
-                                <div id="mymodal">
-                                    <div id="MyModal_{{ course.getId() }}" class="modal fade" role="dialog">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <div class="modal-title">
-                                                        <span class="modalTitleText">Teilnehmer von {{ course.getDescription() }} </span>
-                                                        <div class="pull-right">
-                                                            <select class="custom-select" name="semester">
-                                                                {% for semester in ['SS 2016', 'WS 2016/17', 'SS 2017'] %}
-                                                                    <option value="{{ semester }}">{{ semester }}</option>
-                                                                {% endfor %}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="modal-body">
-                                                    {{ render(controller('HSDOnSecBundle:Dashboard:modal', {'course': course})) }}
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <a class="btn btn-outline-primary"
-                                                       href="{{ path('createCSV', {'course_id': course.getId() }) }}"
-                                                       role="button">
-                                                        <i class="fa fa-download" aria-hidden="true"></i>
-
-                                                        CSV exportieren
-                                                    </a>
-                                                    <button type="button" class="btn btn-outline-secondary"
-                                                            data-dismiss="modal">Schließen
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div id="MyModal_{{ course.getId() }}" class="modal fade" role="dialog">
+                                {{ render(controller('HSDOnSecBundle:Dashboard:modal', {'course': course})) }}
                                 </div>
                             {% endfor %}
                         </div>

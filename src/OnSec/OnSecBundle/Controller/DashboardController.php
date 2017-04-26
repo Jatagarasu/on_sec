@@ -360,7 +360,6 @@ class DashboardController extends Controller
             fputcsv($handle, array('Name', 'Vorname', 'E-Mail', 'Fehlende Unterweisungen'),';');
 
             $semester_array = $this->filterSemester($course);
-            //$semester_key = str_replace($semester_key, "_", "/");
             $subscriber_array = $semester_array[$semester_key];
 
 
