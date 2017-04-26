@@ -15,3 +15,9 @@ ajax_search:
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+ajax_semester_filter:
+    path:     /dashboard/semester_filter
+    defaults: { _controller: "HSDOnSecBundle:Dashboard:semesterFilter" }
+    options:
+        expose: true
