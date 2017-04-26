@@ -37,13 +37,14 @@
     {{ keywords_input.keywords_input(form) }}
     <br>
 
-    <input id="submit_button" type="submit" value="Abbrechen" class="btn" />
+    <a href="{{ path('course_index') }}">Abbrechen</a>
+    <!-- nicht gut!!: <input id="submit_button" type="submit" value="Abbrechen" class="btn" />-->
     <input type="submit" value="Erstellen" class="btn" />
     <br></br>
 
     {{ form_end(form) }}
 
-     <!--<a href="]{#{{ path('course_index') }}#}">Zurück zu der Kursübersicht</a>-->
+
 
     <script>
 
@@ -63,6 +64,8 @@
                     console.log( ui.item ?
                         "Selected: " + ui.item.value + " aka " + ui.item.id :
                         "Nothing selected, input was " + this.value );
+
+
 
                     var scrollbox = $('#scrollbox');
 
@@ -86,6 +89,10 @@
 
                     newElement.append(removeBtn);
                     scrollbox.append(newElement);
+
+                    $("#access-instruction-input").val('');
+
+                    return false;
                 }
             });
 

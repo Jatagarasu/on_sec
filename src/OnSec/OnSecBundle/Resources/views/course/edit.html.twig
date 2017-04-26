@@ -268,14 +268,18 @@
 
                     newElement.append(removeBtn);
                     scrollbox.append(newElement);
+
+                    $("#access-instruction-input").val('');
+
+                    return false;
                 }
             });
 
             <!------Moderators-------------->
-            console.log('{{ path('moderator_autocomplete') }}');
+/*            console.log('{##}{ path('moderator_autocomplete') }}');
             $("#access-rights-input").autocomplete({
 
-                source: '{{ path('moderator_autocomplete') }}',
+                source: '{##}{ path('moderator_autocomplete') }}',
                 minLength: 2,
                 select: function( event, ui ) {
                     console.log( ui.item);
@@ -298,7 +302,7 @@
 
                     tablebody.append($hiddenElement);
 
-                    var removeBtn = $('<a href="#" class="delete_moderator">X</a>');
+                    var removeBtn = $('<a href="#" class="delete_moderator">Löschen</a>');
                     removeBtn.click(function() {
                         $('#moderator_id_' + ui.item.id).remove();
                         $('#hidden_id_' + ui.item.id).remove();
@@ -313,7 +317,7 @@
                     tablebody.appendChild(newElement);
                 }
 
-            });
+            });*/
 
         });
 
