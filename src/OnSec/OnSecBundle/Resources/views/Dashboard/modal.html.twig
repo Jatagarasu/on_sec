@@ -1,56 +1,111 @@
-    <table class="table" id="modal_table">
-        <thead class="thead-inverse">
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Fehlende Unterweisungen</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for subscriber in course.subscribers %}
-                {% set subscriber = subscriber.getUser %}
-                <tr>
-                    <td>{{ subscriber.firstname }} {{ subscriber.surname }} </td>
-                    <td>{{ subscriber.email }}</td>
-                    <td>
-                        {% set done = [] %}
-                        {% set notdone = [] %}
-                        {% for courseInstruction in course.getInstructions %}
-                            {% set found = null %}
-                            {% for completedInstruction in subscriber.getCompletedInstructions %}
-                                {% if courseInstruction.getId == completedInstruction.getInstruction.getId %}
-                                    {% set found = completedInstruction.getInstruction.getId  %}
-                                {% endif %}
-                            {% endfor %}
-                            {% if found %}
-                                {% set done = done|merge([found]) %}
-                            {% else %}
-                                {% set notdone = notdone|merge([courseInstruction.getDescription]) %}
-                            {% endif %}
-                        {% endfor %}
-                        <div data-toggle="tooltip" data-placement="left" title="
-                        {% if notdone|length == 1 %}
-                            Es fehlt:
-                        {% elseif notdone == [] %}
-                            Alle Unterweisungen absolviert.
-                        {% else %}
-                            Es fehlen:
-                        {% endif %}
 
-                        {% set count= 0 %}
-                        {% set notDoneLenght = notdone|length - 1 %}
-                        {% for description in notdone %}
-                            {% set count= count+1 %}
-                            {% if count != notDoneLenght %}
-                                {{ description }}.
-                            {% else %}
-                                {{ description }},
-                            {% endif %}
-                        {% endfor %}">
-                            {{ course.getInstructions|length - done|length }}
-                        </div>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+{% if course.getSubscribers is not empty %}
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title">
+                <span class ="modalTitleText">Teilnehmer von {{ course.getDescription() }} </span>
+                <div class="pull-right">
+
+                        <select id="semester_dropdown_{{ course.getId }}" class="custom-select" name="semester">
+
+                            {% for key,val in semester_array %}
+                                <option value="{{ key }}">{{ key }}</option>
+                            {% endfor %}
+                        </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-body">
+
+            <table class="table" id="modal_table">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Fehlende Unterweisungen</th>
+                    </tr>
+                </thead>
+                <tbody id="subscriberBody_{{ course.getId }}">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+
+            <a class="btn btn-outline-primary" id="createCSV_{{ course.getId }}" role="button">
+                <i class="fa fa-download" aria-hidden="true"></i>
+
+                CSV exportieren
+            </a>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Schließen</button>
+        </div>
+    </div>
+</div>
+<script>
+
+
+    $(document).ready(function(){
+        getSubscribers();
+
+        function getSubscribers (){
+
+
+            var currentDropdown = '#semester_dropdown_'+'{{ course.getId() }}';
+
+            var currentModalBody = '#subscriberBody_'+'{{ course.getId() }}';
+            var url = "{{ path('ajax_semester_filter') }}";
+            var key = $(currentDropdown).val();
+
+            jQuery.ajax({
+                url: url,
+                data: { semester: key, courseId: {{ course.getId() }}},
+                success: function(response) {
+                    template = response;
+                    $(currentModalBody).html(template);
+                },
+                error: function() { alert ('fail');
+                }
+            });
+
+        }
+
+        var currentDropdown = '#semester_dropdown_'+'{{ course.getId() }}';
+        $(currentDropdown).on("change", getSubscribers);
+
+
+        var courseId = '#createCSV_'+'{{ course.getId() }}';
+        $(courseId).on("click", function(e){
+            e.preventDefault();
+            var url = "{{ path('createCSV', {'course_id': course.getId(), 'semester_key': 'currentSemester' }) }}";
+            var currentDropdown = '#semester_dropdown_'+'{{ course.getId() }}';
+            key = $(currentDropdown).val();
+            url = url.replace('currentSemester', key);
+            window.location.href = url ;
+        });
+
+    });
+
+</script>
+
+
+{% else %}
+
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+
+        <div class="modal-title">
+        <span class ="modalTitleText">Bisher keine Teilnehmer an {{ course.getDescription() }}. </span>
+
+        </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Schließen</button>
+        </div>
+    </div>
+</div>
+
+{% endif %}

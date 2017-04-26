@@ -55,8 +55,10 @@ login:
     defaults: { _controller: HSDOnSecBundle:Default:index }
 
 createCSV:
-    path:     /createCSV/{course_id}
+    path:     /createCSV/{course_id}/{semester_key}
     defaults: { _controller: HSDOnSecBundle:Dashboard:createCSV }
+    requirements:
+      semester_key: .+
 
 addSubscriber:
     path:     /addSubscriber/{course_id}
