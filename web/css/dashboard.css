@@ -21,8 +21,11 @@
 }
 
 .card-header {
-    cursor:pointer;
     height: 50px;
+}
+
+.pointerstyle {
+    cursor:pointer;
 }
 
 .card-header>h4 {

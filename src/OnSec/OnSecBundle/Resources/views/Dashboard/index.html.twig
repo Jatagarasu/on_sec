@@ -45,7 +45,7 @@
                         <div id="admin_menu">
                             {% for course in moderatorcourses %}
                                 <div class="card searchfield">
-                                    <div class="card-header"
+                                    <div class="card-header pointerstyle"
                                          data-target="{{ '#collapseadmin%s'|format(course.getId()) }}"
                                          data-toggle="collapse">
                                         <h4 class="card-title">
@@ -58,10 +58,9 @@
                                             <span data-toggle="modal" data-target="#MyModal_{{ course.getId() }}">
                                                 <i data-toggle="tooltip" data-placement="top" title="Teilnehmer" style="float:right;" class="fa fa-users" aria-hidden="true"></i>
                                             </span>
-                                            <span onclick="document.location.href = '{{ path('course_edit', { 'id': course.getId() }) }}'; return false"><i
-                                                        data-toggle="tooltip" title="Kurs bearbeiten"
-                                                        style="float:right;" class="fa fa-cog"
-                                                        aria-hidden="true"></i></span>
+                                            <span class="no-collapsable" onclick="document.location.href = '{{ path('course_edit', { 'id': course.getId() }) }}'; return false">
+                                                <i data-toggle="tooltip" title="Kurs bearbeiten" style="float:right;" class="fa fa-cog" aria-hidden="true"></i>
+                                            </span>
                                         </h4>
                                     </div>
                                     <div class="card-collapse collapse"
@@ -81,10 +80,36 @@
                                         </ul>
                                     </div>
                                 </div>
+                                <div id="mymodal"><div id="MyModal_{{ course.getId() }}" class="modal fade" role="dialog">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <div class="modal-title">
+                                                    <span class ="modalTitleText">Teilnehmer von {{ course.getDescription() }} </span>
+                                                    <div class="pull-right">
+                                                        <select class="custom-select" name="semester">
+                                                            {% for semester in ['SS 2016', 'WS 2016/17', 'SS 2017'] %}
+                                                                <option value="{{ semester }}">{{ semester }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
 
+                                            <div class="modal-body">
+                                                {{ render(controller('HSDOnSecBundle:Dashboard:modal', {'course': course})) }}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a class="btn btn-outline-primary" href="{{ path('createCSV', {'course_id': course.getId() }) }}" role="button">
+                                                        <i class="fa fa-download" aria-hidden="true"></i>
 
-                                <div id="MyModal_{{ course.getId() }}" class="modal fade" role="dialog">
-                                    {{ render(controller('HSDOnSecBundle:Dashboard:modal', {'course': course})) }}
+                                                    CSV exportieren
+                                                </a>
+                                                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Schließen</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 </div>
                             {% endfor %}
                         </div>
@@ -93,7 +118,7 @@
                         <div class="user_menu_normal">
                             {% for coursesub in subscribercourses %}
                                 <div class="card">
-                                    <div class="card-header "
+                                    <div class="card-header pointerstyle"
                                          data-target="{{ '#collapseuser%s'|format(coursesub.getId()) }}"
                                          data-toggle="collapse">
                                         <h4 class="card-title">
@@ -150,7 +175,7 @@
                     <div class="tab-pane fade" id="menu2">
                         {% for instruction in ownerinstructions %}
                             <div class="card searchfield">
-                                <div class="card-header">
+                                <div class="card-header pointerstyle">
                                     <h4 class="card-title">
                                         <i data-toggle="tooltip"
                                            title="Unterweisung"
@@ -176,7 +201,7 @@
                             <hr>{% endif %}
                         {% for instruction in moderatorinstructions %}
                             <div class="card searchfield">
-                                <div class="card-header">
+                                <div class="card-header pointerstyle">
                                     <h4 class="card-title">
                                         <i data-toggle="tooltip"
                                            title="Unterweisung"
@@ -333,7 +358,7 @@
                                         $.each(result, function (index, att) {
                                             var url = '{{ path('addSubscriber', { 'course_id': 'course_id' }) }}';
                                             url = url.replace("course_id", index);
-                                            var title = "<div class='card'><div class='card-header'><h4 class='card-title'><i data-toggle='tooltip' title='Kurs' class='fa fa-university' aria-hidden='true'></i>" + att + "<a href='" + url + "' class='btn btn-success' style='float: right;margin-top: -7px;'>Teilnehmen</a></h4></div></div>";
+                                            var title = "<div class='card'><div class='card-header pointerstyle'><h4 class='card-title'><i data-toggle='tooltip' title='Kurs' class='fa fa-university' aria-hidden='true'></i>" + att + "<a href='" + url + "' class='btn btn-success' style='float: right;margin-top: -7px;'>Teilnehmen</a></h4></div></div>";
                                             if (counter == 0) {
                                                 $('.user_menu_search').html(title);
                                             }
@@ -378,10 +403,15 @@
             });
 
             $('[data-toggle="tooltip"]').tooltip();
+
+            /*$('#mymodal').on('show.bs.modal', function (e) {
+                console.log("goooooo");
+            })*/
         });
 
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
+
+        $('.no-collapsable').click(function (e) {
+            e.stopPropagation();
+        });
     </script>
 {% endblock %}
