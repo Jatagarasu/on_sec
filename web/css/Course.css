@@ -44,7 +44,7 @@
 
 #scrollbox {
     border-radius: 5px;
-    overflow: scroll;
+    overflow: auto;
     /*width: 600px;*/
     height: 100px;
     margin: 10px 0 10px 0;
