@@ -40,7 +40,8 @@
                 {% endif %}
             {% endfor %}
             <!-- //TODO: show tooltips -->
-            <div data-toggle="tooltip" data-placement="left" title="{{ tooltip_pre~tooltip_desc }}">{{ course.getInstructions|length - done|length }}</div>
+            <script>$('[data-toggle="tooltip"]').tooltip();</script>
+            <div style="width: 100%;" data-toggle="tooltip" data-placement="left" title="{{ tooltip_pre~tooltip_desc }}">{{ course.getInstructions|length - done|length }}</div>
         </td>
     </tr>
 {% endfor %}

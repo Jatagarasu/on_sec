@@ -1,9 +1,12 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
+{% set page_title = "Kurse" %}
+{% block title %}{{page_title}}{% endblock %}
+
 
 {% block content %}
     <div class="row">
         <div class="col-md-6">
-            <h1>Kurse</h1>
+            <h1>{{page_title}}</h1>
         </div>
         <div class="col-md-6">
             <a href="{{ path('course_new') }}" class="btn btn-outline-success pull-right">neuen Kurs anlegen</a>

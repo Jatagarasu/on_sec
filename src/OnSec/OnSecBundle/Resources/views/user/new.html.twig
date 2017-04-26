@@ -1,7 +1,9 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
+{% set page_title = "Nutzer anlegen" %}
+{% block title %}{{page_title}}{% endblock %}
 
 {% block content %}
-    <h1>neuen Benutzer Anlegen</h1>
+    <h1>{{page_title}}</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}

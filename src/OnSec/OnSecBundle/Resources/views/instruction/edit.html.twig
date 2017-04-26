@@ -1,4 +1,6 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
+{% set page_title = "Unterweisung bearbeiten" %}
+{% block title %}{{page_title}}{% endblock %}
 
 {% block content %}
 {% import 'macros/keywords_input.html.twig' as keywords_input %}
@@ -6,7 +8,7 @@
 {% import 'macros/moderators_input.html.twig' as moderators_input %}
 {% import 'macros/rooms_input.html.twig' as rooms_input %}
 
-    <h1>Unterweisung bearbeiten</h1>
+    <h1>Unterweisung {{instruction.description}} bearbeiten</h1>
 
     {{ form_start(edit_form) }}
         {{ form_row(edit_form.description) }}
