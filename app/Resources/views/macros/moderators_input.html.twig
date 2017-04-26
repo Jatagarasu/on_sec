@@ -34,13 +34,14 @@
 <script>
 
 $("#access-rights-input").autocomplete({
-
     source: '{{ path('moderator_autocomplete') }}',
     minLength: 2,
     select: function( event, ui ) {
-        addModerator(ui.item.value, ui.item.id);
+        addModerator(ui.item.label, ui.item.id);
+        console.log(ui.item.label);
+        $("#access-rights-input").val('');
+        return false;
     }
-
 });
 
 function addModerator(value, id) {

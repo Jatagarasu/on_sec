@@ -3,6 +3,7 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+    {# check if successSubscribedCourse is not empty them print Success Alert #}
     {% if successSubscribedCourse|length >0 %}
         <div class="row">
             <div class="col-md-12">
@@ -15,6 +16,8 @@
             </div>
         </div>
     {% endif %}
+
+    {# check user is admin then show toggle button #}
     {% if(is_granted("ROLE_ADMIN")) %}
         <div id="topnav">
             <span id="topnav_text"></span>
@@ -24,25 +27,34 @@
             </label>
         </div>
     {% endif %}
+
+    {# navigations tabs #}
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a data-toggle="tab" class="nav-link active linkstyle" href="#menu1" role="tab" id="coursetab">Ihre Kurse</a>
+            <a data-toggle="tab" class="nav-link active linkstyle" href="#menu1" role="tab" id="coursetab">Ihre
+                Kurse</a>
         </li>
         <li class="nav-item" id="showtab">
             <a data-toggle="tab" class="nav-link unactive linkstyle" href="#menu2" role="tab">Unterweisungen</a>
         </li>
     </ul>
+
+    {# inner container with search field and again innerinnercontainer for styling #}
     <div class="innercontainer">
         <input type="search" class="maininput"
                placeholder="Nach Kursen suchen ..."
                id="searchinput"/>
 
+        {# innerinnercontainer with either no instructions or list of elemets(accordeon) #}
         <div class="innerinnercontainer">
-            <p id="noInstructions">Sie haben bisher an keinem Kurs teilgenommen, bitte benutzen Sie die Suche, um teilzunehmen.</p>
+            <p id="noInstructions">Sie haben bisher an keinem Kurs teilgenommen, bitte benutzen Sie die Suche, um
+                teilzunehmen.</p>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="menu1">
+                    {# check user is admin then show admin menu #}
                     {% if(is_granted("ROLE_ADMIN")) %}
                         <div id="admin_menu">
+                            {# run through all courses where user is moderator/owner #}
                             {% for course in moderatorcourses %}
                                 <div class="card searchfield">
                                     <div class="card-header pointerstyle"
@@ -52,17 +64,23 @@
                                             <i data-toggle="tooltip" title="Kurs" class="fa fa-university"
                                                aria-hidden="true"></i>
                                             {{ course.getDescription() }}
+                                            {# write all keywords hidden to enable search #}
                                             {% for keyword in course.getKeywords() %}
                                                 <p hidden>{{ keyword.getDescription() }}</p>
                                             {% endfor %}
+                                            {# for every entry show modal icon and edit button #}
                                             <span data-toggle="modal" data-target="#MyModal_{{ course.getId() }}">
-                                                <i data-toggle="tooltip" data-placement="top" title="Teilnehmer" style="float:right;" class="fa fa-users" aria-hidden="true"></i>
+                                                <i data-toggle="tooltip" data-placement="top" title="Teilnehmer"
+                                                   style="float:right;" class="fa fa-users" aria-hidden="true"></i>
                                             </span>
-                                            <span class="no-collapsable" onclick="document.location.href = '{{ path('course_edit', { 'id': course.getId() }) }}'; return false">
-                                                <i data-toggle="tooltip" title="Kurs bearbeiten" style="float:right;" class="fa fa-cog" aria-hidden="true"></i>
+                                            <span class="no-collapsable"
+                                                  onclick="document.location.href = '{{ path('course_edit', { 'id': course.getId() }) }}'; return false">
+                                                <i data-toggle="tooltip" title="Kurs bearbeiten" style="float:right;"
+                                                   class="fa fa-cog" aria-hidden="true"></i>
                                             </span>
                                         </h4>
                                     </div>
+                                    {# write all instructions to every course #}
                                     <div class="card-collapse collapse"
                                          id="{{ 'collapseadmin%s'|format(course.getId()) }}">
                                         <ul class="list-group">
@@ -86,8 +104,11 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                    {# menu for user #}
                     <div id="user_menu">
+                        {# decide between normal user menu and search user menu #}
                         <div class="user_menu_normal">
+                            {# run through every subscribed courses #}
                             {% for coursesub in subscribercourses %}
                                 <div class="card">
                                     <div class="card-header pointerstyle"
@@ -96,12 +117,14 @@
                                         <h4 class="card-title">
                                             <i data-toggle="tooltip" title="Kurs" class="fa fa-university"
                                                aria-hidden="true"></i> {{ coursesub.getDescription() }}
-                                            <div style="float:right">Ablauf Status</div>
+                                            <!--<div style="float:right">Ablauf Status</div>-->
                                         </h4>
                                     </div>
+                                    {# show all instructions to every course #}
                                     <div class="card-collapse collapse"
                                          id="{{ 'collapseuser%s'|format(coursesub.getId()) }}">
                                         <ul class="list-group">
+                                            {# check for every instruction if this course is completed or not #}
                                             {% for instructionsub in coursesub.getInstructions() %}
                                                 {% set expireSemester = null %}
                                                 {% for completedinstruction in user.getCompletedInstructions() %}
@@ -109,29 +132,39 @@
                                                         {% set expireSemester = completedinstruction.getExpireDateSemester() %}
                                                     {% endif %}
                                                 {% endfor %}
+                                                {# show completed or not #}
                                                 {% if expireSemester is not null %}
                                                     <li class="list-group-item">
-                                                        <i data-toggle="tooltip" title="Unterweisung" class="fa fa-book" aria-hidden="true"></i>
+                                                        <i data-toggle="tooltip" title="Unterweisung" class="fa fa-book"
+                                                           aria-hidden="true"></i>
                                                         {{ instructionsub.getDescription() }}
-                                                        <div class="checkbuttonopen" data-toggle="tooltip" title="Unterweisung bestanden" >
-                                                            <i style="color: white; float:right;" class="fa fa-check" aria-hidden="true"></i>
+                                                        <div class="checkbuttonopen" data-toggle="tooltip"
+                                                             title="Unterweisung bestanden">
+                                                            <i style="color: white; float:right;" class="fa fa-check"
+                                                               aria-hidden="true"></i>
                                                         </div>
-                                                        <div style="float: right; margin-right: 30px;">
+                                                        <div style="float: right; margin-right: 30px;" data-toggle="tooltip" title="Gültigkeit">
                                                             {{ expireSemester }}
                                                         </div>
                                                     </li>
                                                 {% else %}
                                                     <li class="list-group-item">
-                                                        <i data-toggle="tooltip" title="Unterweisung" class="fa fa-book" aria-hidden="true"></i>
+                                                        <i data-toggle="tooltip" title="Unterweisung" class="fa fa-book"
+                                                           aria-hidden="true"></i>
                                                         {{ instructionsub.getDescription() }}
-                                                        <div class="checkbuttonclose" data-toggle="tooltip" title="Unterweisung noch nicht bestanden" >
-                                                            <i style="color: white; float:right;" class="fa fa-times" aria-hidden="true"></i>
+                                                        <div class="checkbuttonclose" data-toggle="tooltip"
+                                                             title="Unterweisung noch nicht bestanden">
+                                                            <i style="color: white; float:right;" class="fa fa-times"
+                                                               aria-hidden="true"></i>
                                                         </div>
-                                                        <a href="{{ path('instruction_run', { 'id': instructionsub.getId() }) }}" class="btn btn-success" style="float: right; margin-right: 30px; margin-top: -7px">
+                                                        <a href="{{ path('instruction_run', { 'id': instructionsub.getId() }) }}"
+                                                           class="btn btn-success"
+                                                           style="float: right; margin-right: 30px; margin-top: -7px">
                                                             Start
                                                         </a>
                                                     </li>
                                                 {% endif %}
+                                                {# hidden keywords for search #}
                                                 {% for keyword in instructionsub.getKeywords() %}<p
                                                         hidden>{{ keyword.getDescription() }}</p>{% endfor %}
                                             {% endfor %}
@@ -140,11 +173,14 @@
                                 </div>
                             {% endfor %}
                         </div>
+                        {# fill in with search input #}
                         <div class="user_menu_search"></div>
                     </div>
                 </div>
+                {# show menu2 with admin view with own instructions #}
                 {% if(is_granted("ROLE_ADMIN")) %}
                     <div class="tab-pane fade" id="menu2">
+                        {# run through all moderator instructions and own instructions with different cards #}
                         {% for instruction in ownerinstructions %}
                             <div class="card searchfield">
                                 <div class="card-header pointerstyle">
@@ -203,6 +239,7 @@
 
     <script>
         $(document).ready(function () {
+            //default variables
             var ishome = true;
             var subscribercourses_json = $.parseJSON("{{ subscribercourses|json_encode() }}");
             var moderatorcourses_json = $.parseJSON("{{ moderatorcourses|json_encode() }}");
@@ -213,6 +250,7 @@
             $("#topnav_text").hide();
             $("#showtab").hide();
             $("#admin_menu").hide();
+            //check for elements
             if (subscribercourses_json.length > 0) {
                 $("#noInstructions").hide();
             }
@@ -231,7 +269,9 @@
 
                 var activeTab = localStorage.getItem('activeTab');
 
+                //differ menu1 and menu2
                 if (activeTab == "#menu1") {
+                    //check for elements
                     if (moderatorcourses_json.length > 0) {
                         $("#noInstructions").hide();
                     }
@@ -243,6 +283,7 @@
                     $("#searchinput").attr("placeholder", "Filtern Sie hier nach Ihren Kursen ...");
                 }
                 else if (activeTab == "#menu2") {
+                    //check for elements
                     if (ownerinstructions_json.length > 0 || moderatorinstructions_json.length > 0) {
                         $("#noInstructions").hide();
                     }
@@ -262,6 +303,7 @@
                     ishome = false;
                     $("#user_menu").hide();
                     $("#searchinput").val('');
+                    //check for elements
                     if (moderatorcourses_json.length > 0) {
                         $("#noInstructions").hide();
                     }
@@ -306,10 +348,13 @@
             $('.searchfield').show();
             $('#searchinput').keyup(function () {
                 var txt = $('#searchinput').val();
+                //differ from normal user search and admin search
+                //normal user search search just for new courses and admin view just filters shown list
                 if (ishome) {
                     $("#noInstructions").hide();
                     $('.user_menu_search').hide();
                     $('.user_menu_normal').hide();
+                    //everytime a char is inputted then make a ajax search to dashboard route action and show the results
                     if (txt.length > 0) {
                         var that = this;
                         if (searchRequest != null)
@@ -360,6 +405,7 @@
                         }
                     }
                 }
+                //else for just filter search
                 else {
                     $('.searchfield').hide();
                     $('.searchfield').each(function () {
@@ -370,15 +416,17 @@
                 }
             });
 
+            //alert fade after 5 seconds
             $(".alert").fadeTo(5000, 500).slideUp(500, function () {
                 $(".alert").slideUp(500);
             });
 
+            //tooltip with bootstrap
             $('[data-toggle="tooltip"]').tooltip();
 
             /*$('#mymodal').on('show.bs.modal', function (e) {
-                console.log("goooooo");
-            })*/
+             console.log("goooooo");
+             })*/
         });
 
 
