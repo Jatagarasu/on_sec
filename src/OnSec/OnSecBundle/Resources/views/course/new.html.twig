@@ -40,8 +40,12 @@
     {{ keywords_input.keywords_input(form) }}
     <br>
 
-    <a href="{{ path('course_index') }}">Abbrechen</a>
-    <!-- nicht gut!!: <input id="submit_button" type="submit" value="Abbrechen" class="btn" />-->
+    <a class="btn btn-warning action-buttons"
+       href="{{ path('course_index') }}"
+       onclick="return confirm('Erstellung abbrechen? Bisherige Eingaben und Uploads gehen dadurch verloren.')">
+        <i class="fa fa-arrow-left smaller-icons" aria-hidden="true"></i> Abbrechen
+    </a>
+
     <input type="submit" value="Erstellen" class="btn" />
     <br></br>
 
