@@ -69,10 +69,19 @@
                                                 <p hidden>{{ keyword.getDescription() }}</p>
                                             {% endfor %}
                                             {# for every entry show modal icon and edit button #}
-                                            <span data-toggle="modal" data-target="#MyModal_{{ course.getId() }}">
+                                            <span class="no-collapsable_{{ course.getId() }}" data-target="#MyModal_{{ course.getId() }}">
                                                 <i data-toggle="tooltip" data-placement="top" title="Teilnehmer"
                                                    style="float:right;" class="fa fa-users" aria-hidden="true"></i>
                                             </span>
+
+                                            <script>
+                                                //dont open accordeon with link in card header
+                                                $('.no-collapsable_{{ course.getId() }}').click(function (e) {
+                                                    $("#MyModal_{{ course.getId() }}").modal();
+                                                    e.stopPropagation();
+                                                });
+                                            </script>
+
                                             <span class="no-collapsable"
                                                   onclick="document.location.href = '{{ path('course_edit', { 'id': course.getId() }) }}'; return false">
                                                 <i data-toggle="tooltip" title="Kurs bearbeiten" style="float:right;"
@@ -98,7 +107,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div id="MyModal_{{ course.getId() }}" class="modal fade" role="dialog">
+                                <div id="MyModal_{{ course.getId() }}" class="modal fade myModal" role="dialog">
                                 {{ render(controller('HSDOnSecBundle:Dashboard:modal', {'course': course})) }}
                                 </div>
                             {% endfor %}
@@ -191,9 +200,9 @@
                                            aria-hidden="true"></i>
                                         {{ instruction.getDescription() }}
                                         <span onclick="document.location.href = '{{ path('instruction_edit', { 'id': instruction.getId() }) }}'; return false">
-                                            <i style="float:right;" class="fa fa-cog" aria-hidden="true"></i>
+                                            <i style="float:right;" class="fa fa-cog" aria-hidden="true" data-toggle="tooltip" title="Unterweisung bearbeiten"></i>
                                         </span>
-                                        <div class="right red">
+                                        <div class="right red" data-toggle="tooltip" title="Rechte">
                                             Eigent&uuml;mer
                                         </div>
                                         {% for keyword in instruction.getKeywords() %}
@@ -217,9 +226,9 @@
                                            aria-hidden="true"></i>
                                         {{ instruction.getDescription() }}
                                         <span onclick="document.location.href = '{{ path('instruction_edit', { 'id': instruction.getId() }) }}'; return false">
-                                            <i style="float:right;" class="fa fa-cog" aria-hidden="true"></i>
+                                            <i style="float:right;" class="fa fa-cog" aria-hidden="true" data-toggle="tooltip" title="Unterweisung bearbeiten"></i>
                                         </span>
-                                        <div class="right green">
+                                        <div class="right green" data-toggle="tooltip" title="Rechte">
                                             Bearbeiter
                                         </div>
                                         {% for keyword in instruction.getKeywords() %}
@@ -423,13 +432,9 @@
 
             //tooltip with bootstrap
             $('[data-toggle="tooltip"]').tooltip();
-
-            /*$('#mymodal').on('show.bs.modal', function (e) {
-             console.log("goooooo");
-             })*/
         });
 
-
+        //dont open accordeon when link clicked
         $('.no-collapsable').click(function (e) {
             e.stopPropagation();
         });
