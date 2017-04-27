@@ -27,7 +27,7 @@ OnSec\OnSecBundle\Entity\CompletedInstruction:
             inversedBy: completed_instructions
             joinColumn:
                 name: user_id
-                referncedColumnName: id
+                referencedColumnName: id
             nullable: false
 
     lifecycleCallbacks: {

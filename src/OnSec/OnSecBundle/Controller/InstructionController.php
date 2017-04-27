@@ -180,7 +180,9 @@ class InstructionController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('instruction_index');
+
+        $this->get('session')->set('alert','Unterweisung erfolgreich entfernt.');
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
