@@ -44,7 +44,7 @@
 
 #scrollbox {
     border-radius: 5px;
-    overflow: scroll;
+    overflow: auto;
     /*width: 600px;*/
     height: 100px;
     margin: 10px 0 10px 0;
@@ -71,4 +71,9 @@
 .room-list {
     list-style: none;
     padding-left: 0;
+}
+
+.course-delete-button {
+  float: right;
+  margin-bottom: 20px;
 }

@@ -4,6 +4,7 @@ namespace OnSec\OnSecBundle\Controller;
 
 use OnSec\OnSecBundle\Entity\CompletedInstruction;
 use OnSec\OnSecBundle\Entity\Instruction;
+use OnSec\OnSecBundle\Entity\Room;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -35,6 +36,8 @@ class InstructionController extends Controller
     public function newAction(Request $request)
     {
         $instruction = new Instruction();
+
+
         $form = $this->createForm('OnSec\OnSecBundle\Form\InstructionType', $instruction);
         $form->handleRequest($request);
 
@@ -66,7 +69,31 @@ class InstructionController extends Controller
             $em->persist($instruction);
             $em->flush($instruction);
 
-            return $this->redirectToRoute('instruction_show', array('id' => $instruction->getId()));
+            /* Adding Room */
+
+
+            /*if(!empty($roomJsonArray)){
+                foreach ($roomJsonArray as $roomJsonObject){
+
+                    $roomObject = json_decode($roomJsonObject);
+                    $roomId = $roomObject->{'id'};
+
+                    $room = $em->getRepository('HSDOnSecBundle:Room')->find($roomId);
+                    if($room==null){
+
+                        $roomName = $roomObject->{'name'};
+                        $newroom = new Room();
+                        $newroom->setDescription($roomName);
+                        $newroom->addInstruction($instruction);
+                    }
+                    else{
+                        $room->addInstruction($instruction);
+                    }
+                }
+            }*/
+
+            $this->get('session')->set('alert','Unterweisung erfolgreich erstellt.');
+            return $this->redirectToRoute('dashboard', array('id' => $instruction->getId()));
         }
 
         return $this->render('HSDOnSecBundle:Instruction:new.html.twig', array(
@@ -74,6 +101,7 @@ class InstructionController extends Controller
             'form' => $form->createView(),
         ));
     }
+
 
     /**
      * Finds and displays a instruction entity.
@@ -123,7 +151,8 @@ class InstructionController extends Controller
 
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('instruction_show', array('id' => $instruction->getId()));
+            $this->get('session')->set('alert','Unterweisung wurde erfolgreich geändert.');
+            return $this->redirectToRoute('dashboard', array('id' => $instruction->getId()));
         }
 
         return $this->render('HSDOnSecBundle:Instruction:edit.html.twig', array(

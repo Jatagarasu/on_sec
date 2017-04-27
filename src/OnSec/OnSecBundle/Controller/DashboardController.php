@@ -4,8 +4,8 @@ namespace OnSec\OnSecBundle\Controller;
 
 use OnSec\OnSecBundle\Entity\Subscriber;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class DashboardController extends Controller
@@ -25,6 +25,12 @@ class DashboardController extends Controller
                 $this->get('session')->set('coursename','');
             }
 
+            $alert = $this->get('session')->get('alert');
+            if(isset($alert) && !empty($alert))
+            {
+                $this->get('session')->set('alert','');
+            }
+
             $this->getOwnInstructions($UserId);
 
             $em = $this->getDoctrine()->getManager();
@@ -36,10 +42,11 @@ class DashboardController extends Controller
                 'moderatorcourses' => $this->getCoursesByUserId($UserId),
                 'ownerinstructions' => $this->ownerinstructions,
                 'moderatorinstructions' => $this->moderatorinstructions,
-                'userinstructions' => $this->userinstructions,
+                //'userinstructions' => $this->userinstructions,
                 'subscribercourses' => $this->getsubscribedCourses($UserId),
                 'user' => $user,
                 'successSubscribedCourse' => $session_param,
+                'alert' => $alert,
             ));
         }
         else {
@@ -47,11 +54,104 @@ class DashboardController extends Controller
         }
     }
 
+    /**
+     * Gets the array-request of the select-dropdown via ajax and returns a json-response with the correct subscribers
+     */
+    public function semesterFilterAction(Request $request) {
+        $semester = trim(strip_tags($request->get('semester')));
+        $courseId = trim(strip_tags($request->get('courseId')));
+
+        $em = $this->getDoctrine()->getManager();
+        $course = $em->getRepository('HSDOnSecBundle:Course')->find($courseId);
+
+        $semester_array = $this->filterSemester($course);
+
+        $selected_semester = $semester_array[$semester];
+
+        $template = $this->render('HSDOnSecBundle:Dashboard:subscriberList.html.twig', array(
+            'subscriber_array' => $selected_semester,
+            'course' => $course,
+        ))->getContent();
+
+        $json = json_encode($template);
+        $response = new Response($json, 200);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+
+    /**
+     * Creates an array of a course with the semester description as key and an array of subscribers as key
+     */
+    private function filterSemester($course) {
+        $em = $this->getDoctrine()->getManager();
+        $course = $em->getRepository('HSDOnSecBundle:Course')->find($course);
+        $subscribers = $course->getSubscribers();
+        $semester_array = array();
+
+        foreach ($subscribers as $subscriber) {
+            if(($subscriber->getSubscribtionDate()->format('m')>2 && $subscriber->getSubscribtionDate()->format('m')<9)) {
+                $semester = "SS ".$subscriber->getSubscribtionDate()->format('Y');
+
+                if (isset($semester_array[$semester])) {
+                    array_push($semester_array[$semester], $subscriber);
+                }
+                else {
+                    $semester_array[$semester] = array ();
+                    array_push($semester_array[$semester], $subscriber);
+                }
+            }
+            else if($subscriber->getSubscribtionDate()->format('m')>8 && $subscriber->getSubscribtionDate()->format('m')<13)
+            {
+                $thisyear = $subscriber->getSubscribtionDate()->format('Y');
+                $nextyear = $subscriber->getSubscribtionDate()->modify('+1 year')->format('Y');
+                $semester = "WS " . $thisyear . "/" . $nextyear;
+
+                if (isset($semester_array[$semester])) {
+                    array_push($semester_array[$semester], $subscriber);
+                }
+                else {
+                    $semester_array[$semester] = array ();
+                    array_push($semester_array[$semester], $subscriber);
+                }
+            }
+            else
+            {
+                $thisyear = $subscriber->getSubscribtionDate()->format('Y');
+                $lastyear = $subscriber->getSubscribtionDate()->modify('-1 year')->format('Y');
+                $semester = "WS " . $lastyear . "/" . $thisyear;
+
+                if (isset($semester_array[$semester])) {
+                    array_push($semester_array[$semester], $subscriber);
+                }
+                else {
+                    $semester_array[$semester] = array ();
+                    array_push($semester_array[$semester], $subscriber);
+                }
+            }
+        }
+
+        $sortedArray = [];
+
+        foreach ($semester_array as $key=>$semester) {
+            usort($semester, function ($a, $b)
+            {
+                return strcmp($a->getUser()->getSurname(), $b->getUser()->getSurname());
+            });
+            $sortedArray[$key] = $semester;
+        }
+
+
+        return $sortedArray;
+    }
 
     public function modalAction($course)
     {
+        $semester_array = $this->filterSemester($course);
+
         return $this->render('HSDOnSecBundle:Dashboard:modal.html.twig', array(
-            'course' => $course,
+            'semester_array' => $semester_array,
+            'course' => $course
         ));
     }
 
@@ -239,12 +339,19 @@ class DashboardController extends Controller
         }
     }
 
-    public function createCSVAction($course_id)
+    /**
+     * Creates a csv-document, via course and semester-key
+     */
+    public function createCSVAction(Request $request)
     {
+        $course_id = trim(strip_tags($request->get('course_id')));;
+        $semester_key = trim(strip_tags($request->get('semester_key')));;
+
         $em = $this->getDoctrine()->getManager();
         $course = $em->getRepository('HSDOnSecBundle:Course')->find($course_id);
+
         $response = new StreamedResponse();
-        $response->setCallback(function() use ($course) {
+        $response->setCallback(function() use ($course, $semester_key) {
             $handle = fopen('php://output', 'w+');
 
             // Add the header of the CSV file
@@ -255,11 +362,15 @@ class DashboardController extends Controller
 
             $description = $course->getDescription();
             $description = iconv("UTF-8", "WINDOWS-1252", $description);
-            fputcsv($handle, array('Teilnehmer von '.$description.' am '.$date.' um '.$time.' Uhr'),';');
+            fputcsv($handle, array('Teilnehmer des Kurses "'.$description.'" im '.$semester_key.', heruntergeladen am '.$date.' um '.$time.' Uhr.'),';');
+            fputcsv($handle, array(''),';');
             fputcsv($handle, array('Name', 'Vorname', 'E-Mail', 'Fehlende Unterweisungen'),';');
 
+            $semester_array = $this->filterSemester($course);
+            $subscriber_array = $semester_array[$semester_key];
 
-            foreach ($course->getSubscribers() as $subscriber) {
+
+            foreach ($subscriber_array as $subscriber) {
                 $user = $subscriber->getUser();
                 $surname = $user->getSurname();
                 $firstname = $user->getFirstname();
@@ -280,11 +391,11 @@ class DashboardController extends Controller
                             array_push($missing,$course_instruction->getDescription());
                         }
                 }
-                //$missing = count($course->getInstructions()) - $progress;
 
                 $firstname = iconv("UTF-8", "WINDOWS-1252", $firstname);
                 $surname = iconv("UTF-8", "WINDOWS-1252", $surname);
                 $missing = iconv("UTF-8", "WINDOWS-1252", implode(", ",$missing));
+
 
                 fputcsv($handle, array($surname,$firstname,$email,$missing),';');
             }

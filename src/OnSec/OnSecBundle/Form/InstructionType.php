@@ -42,7 +42,13 @@ class InstructionType extends AbstractType
               'allow_add' => true,
               'allow_delete' => true,
               'by_reference' => false
-          ));
+          ))
+        ->add('rooms', CollectionType::class, array(
+            'entry_type' => RoomType::class,
+            'allow_add' => true,
+            'allow_delete' => true,
+            'by_reference' => false
+        ));
 
     }
 

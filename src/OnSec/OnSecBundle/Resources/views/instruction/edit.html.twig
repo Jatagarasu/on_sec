@@ -1,13 +1,19 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
+{% set page_title = "Unterweisung bearbeiten" %}
+{% block title %}{{page_title}}{% endblock %}
 
 {% block content %}
 {% import 'macros/keywords_input.html.twig' as keywords_input %}
 {% import 'macros/questions_input.html.twig' as questions_input %}
 {% import 'macros/moderators_input.html.twig' as moderators_input %}
-    <h1>Unterweisung bearbeiten</h1>
+{% import 'macros/rooms_input.html.twig' as rooms_input %}
+
+    <h1>Unterweisung {{instruction.description}} bearbeiten</h1>
 
     {{ form_start(edit_form) }}
         {{ form_row(edit_form.description) }}
+
+        {{ rooms_input.rooms_input(edit_form) }}
 
         <span class="current-pdf">Aktuelles Unterweisungs-PDF: {{ instruction.pdfLink }}.</span>
 

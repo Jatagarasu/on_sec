@@ -1,7 +1,9 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
+{% set page_title = instruction.description %}
+{% block title %}{{page_title}}{% endblock %}
 
 {% block content %}
-    <h1>{{ instruction.description }}</h1>
+    <h1>{{ page_title }}</h1>
 
     <b>Ablaufzeit</b> <i class="additional-note">(so lange ist diese Unterweisung nach Teilnahme gültig)</i>:
     <br/>

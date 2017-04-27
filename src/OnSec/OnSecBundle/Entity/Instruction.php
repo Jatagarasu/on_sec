@@ -77,6 +77,8 @@ class Instruction
         $this->moderators = new \Doctrine\Common\Collections\ArrayCollection();
         $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->keywords = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->rooms = new \Doctrine\Common\Collections\ArrayCollection();
+
     }
 
     /**
@@ -404,5 +406,57 @@ class Instruction
     public function getCompletedInstructions()
     {
         return $this->completed_instructions;
+    }
+
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $rooms;
+
+
+    /**
+     * Add room
+     *
+     * @param \OnSec\OnSecBundle\Entity\Room $room
+     *
+     * @return Instruction
+     */
+    public function addRoom(\OnSec\OnSecBundle\Entity\Room $room)
+    {
+        //if(!$this->hasRoom($room)) {
+        $this->rooms[] = $room;
+    //}
+
+        return $this;
+    }
+
+    /**
+     * @param \OnSec\OnSecBundle\Entity\Room $room
+     * @return bool
+     */
+    public function hasRoom(Room $room)
+    {
+        return $this->getRooms()->contains($room);
+    }
+
+    /**
+     * Remove room
+     *
+     * @param \OnSec\OnSecBundle\Entity\Room $room
+     */
+    public function removeRoom(\OnSec\OnSecBundle\Entity\Room $room)
+    {
+        $this->rooms->removeElement($room);
+    }
+
+    /**
+     * Get rooms
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRooms()
+    {
+        return $this->rooms;
     }
 }

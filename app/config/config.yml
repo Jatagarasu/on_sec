@@ -88,6 +88,12 @@ services:
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: prePersist }
 
+    my.listener2:
+        class: OnSec\OnSecBundle\EventListener\UniqueRoom
+        tags:
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: prePersist }
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"

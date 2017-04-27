@@ -86,7 +86,8 @@ class CourseController extends Controller
             $em->persist($course);
             $em->flush($course);
 
-            return $this->redirectToRoute('course_show', array('id' => $course->getId()));
+            $this->get('session')->set('alert','Kurs erfolgreich erstellt.');
+            return $this->redirectToRoute('dashboard', array('id' => $course->getId()));
         }
 
         return $this->render('HSDOnSecBundle:Course:new.html.twig', array(
@@ -97,45 +98,6 @@ class CourseController extends Controller
         ));
     }
 
-    /**
-     * newCourse Autocomplete for Moderators
-     *
-     */
-
- /*   public function autocomplete_roomAction(Request $request){
-
-        $rooms = array();
-        $instructions = array();
-
-        $term = trim(strip_tags($request->get('term')));
-
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('HSDOnSecBundle:Room')->search($term);
-
-        foreach ($entities as $room_entity){
-
-            foreach($room_entity->getInstructions() as $instruction){
-
-                array_push($instructions, array(
-                    'label'=>$instruction->getDescription(),
-                    'value'=>$instruction->getDescription(),
-                    'id'=>$instruction->getId()));
-            }
-
-            array_push($rooms, array(
-                'label'=>$room_entity->getDescription(),
-                'value'=>$room_entity->getDescription(),
-                'instructions'=> $instructions,
-                'id'=>$room_entity->getId()));
-
-        }
-
-        $response = new JsonResponse();
-        $response->setData($rooms);
-
-        return $response;
-    }*/
 
     public function autocomplete_instructionAction(Request $request){
 
@@ -224,7 +186,8 @@ class CourseController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('course_edit', array('id' => $course->getId()));
+            $this->get('session')->set('alert','Kurs erfolgreich überarbeitet.');
+            return $this->redirectToRoute('dashboard', array('id' => $course->getId()));
         }
 
         return $this->render('HSDOnSecBundle:Course:edit.html.twig', array(
@@ -240,16 +203,23 @@ class CourseController extends Controller
      */
     public function deleteAction(Request $request, Course $course)
     {
+
         $form = $this->createDeleteForm($course);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $em = $this->getDoctrine()->getManager();
+
+            $course->getKeywords()->clear();
+            $course->getInstructions()->clear();
+            $course->getModerators()->clear();
+
             $em->remove($course);
             $em->flush();
         }
 
-        return $this->redirectToRoute('course_index');
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
@@ -261,6 +231,7 @@ class CourseController extends Controller
      */
     private function createDeleteForm(Course $course)
     {
+
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('course_delete', array('id' => $course->getId())))
             ->setMethod('DELETE')

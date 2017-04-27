@@ -66,3 +66,16 @@ OnSec\OnSecBundle\Entity\Instruction:
                 inverseJoinColumn:
                     keyword_id:
                         referencedColumnName: id
+
+        rooms:
+            targetEntity: Room
+            cascade: ["persist", "merge"]
+            inversedBy: instructions
+            joinTable:
+                name: room_instructions
+                joinColumns:
+                    instruction_id:
+                        referencedColumnName: id
+                inversedJoinColumn:
+                    room_id:
+                        referencedColumnName: id

@@ -1,0 +1,121 @@
+{% macro rooms_input(parent_form) %}
+{% set room_full_path = parent_form.rooms.vars.full_name ~ "[__room_id__]" %}
+
+{% verbatim %}
+<div id="ngAppOnSecRooms" ng-controller="roomsInputController">
+
+  <label for="room_input">Räume:</label>
+  <div class="input-group">
+    <input
+    id="room_input"
+    type="text"
+    ng-model="roomInput"
+    ng-keypress="roomInputEnterPress($event, roomInput)"
+    class="form-control"
+    placeholder="GG.E.RRR (Bezeichnung)"
+    aria-describedby="basic-addon2"
+    autocomplete="on">
+
+    <a href ng-click="addRoom(roomInput)" class="input-group-addon">
+      +
+    </a>
+  </div>
+
+  <ul class="room-list"
+    data-index="0"
+  >
+    <li ng-repeat="room in rooms track by room.index" class="room-tag-in-form">
+      <span>
+        {{ room.description }}
+      </span>
+      <a href ng-click="removeRoom(room)">x</a>
+      <input type="hidden" id="{{ room.descriptionFullPath }}" name="{{ room.descriptionFullPath }}" value="{{ room.description }}">
+    </li>
+  </ul>
+</div>
+{% endverbatim %}
+
+{% do parent_form.rooms.setRendered %}
+
+<script>
+  angular.module('onSecRooms', [])
+  .controller('roomsInputController', function($scope, $timeout) {
+    var ROOMS_FULL_PATH  = "{{ room_full_path }}";
+    var ROOM_ID_NAME     = "__room_id__";
+
+    $scope.rooms = [];
+
+    $scope.roomInputEnterPress = function(event, room) {
+
+      if (event.which === 13) {
+        event.preventDefault();
+          if ($scope.addRoom(room)) {
+            $scope.roomInput = '';
+          }
+      }
+    };
+
+    $scope.addRoom = function(room) {
+      if (room == '') return false;
+      if (roomsContains(room)) return false;
+
+      var index = $scope.rooms.length;
+      var newRoom = {
+        index:               index,
+        description:         room,
+        descriptionFullPath: roomAttributePathWithIndex(index, 'description')
+      };
+
+      $scope.rooms.push(newRoom);
+      return true;
+    };
+
+    $scope.removeRoom = function(room) {
+      var rooms = $scope.rooms;
+      rooms.splice(room.index, 1);
+
+      for(var i = room.index; i < rooms.length; i++) {
+        rooms[i].index = rooms[i].index - 1;
+      }
+    };
+
+    var roomsContains = function(room) {
+      for (var i = 0; i < $scope.rooms.length; i++) {
+        if ($scope.rooms[i].description == room) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    var roomAttributePathWithIndex = function(index, attributeName) {
+      var regExToReplace = new RegExp(ROOM_ID_NAME, 'g');
+      var fullPath = ROOMS_FULL_PATH.replace(regExToReplace, index);
+      return fullPath + '[' + attributeName + ']';
+    };
+
+    function fillRoomsFromSymfony() {
+      {% for room in parent_form.rooms %}
+        console.log("{{ room.vars.value }}");
+        $scope.addRoom("{{ room.vars.value }}");
+      {% endfor %}
+    };
+
+    fillRoomsFromSymfony();
+
+    $('#room_input').autocomplete({
+      source:     "{{ path('room_autocomplete') }}",
+      minLength:  1,
+      select: function(event, ui) {
+        if ($scope.addRoom(ui.item.label)) {
+          $scope.roomInput = '';
+          $timeout(100);
+        }
+      }
+    });
+  });
+
+  angular.bootstrap(document.getElementById('ngAppOnSecRooms'), ['onSecRooms']);
+</script>
+
+{% endmacro %}

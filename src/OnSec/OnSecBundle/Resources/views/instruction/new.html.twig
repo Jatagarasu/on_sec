@@ -1,13 +1,19 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
+{% set page_title = "Unterweisung anlegen" %}
+{% block title %}{{page_title}}{% endblock %}
 
 {% block content %}
 {% import 'macros/keywords_input.html.twig' as keywords_input %}
 {% import 'macros/questions_input.html.twig' as questions_input %}
 {% import 'macros/moderators_input.html.twig' as moderators_input %}
-    <h1>neue Unterweisung</h1>
+{% import 'macros/rooms_input.html.twig' as rooms_input %}
+
+    <h1>{{page_title}}</h1>
 
     {{ form_start(form) }}
         {{ form_row(form.description) }}
+
+        {{ rooms_input.rooms_input(form) }}
 
         {{ form_row(form.pdfFile) }}
 
@@ -27,5 +33,6 @@
          onclick="return confirm('Erstellung abbrechen? Bisherige Eingaben und Uploads gehen dadurch verloren.')">
          <i class="fa fa-arrow-left smaller-icons" aria-hidden="true"></i> Abbrechen
       </a>
+
 
 {% endblock %}
