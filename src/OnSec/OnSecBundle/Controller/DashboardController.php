@@ -14,7 +14,7 @@ class DashboardController extends Controller
     protected $moderatorinstructions;
     protected $userinstructions;
 
-    public function indexAction($alert)
+    public function indexAction()
     {
         if (TRUE === $this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
             $UserId = $this->get('security.token_storage')->getToken()->getUser()->getId();
