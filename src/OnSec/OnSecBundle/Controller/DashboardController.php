@@ -14,7 +14,7 @@ class DashboardController extends Controller
     protected $moderatorinstructions;
     protected $userinstructions;
 
-    public function indexAction()
+    public function indexAction($alert)
     {
         if (TRUE === $this->get('security.authorization_checker')->isGranted('ROLE_USER')) {
             $UserId = $this->get('security.token_storage')->getToken()->getUser()->getId();
@@ -23,6 +23,12 @@ class DashboardController extends Controller
             if(isset($session_param) && !empty($session_param))
             {
                 $this->get('session')->set('coursename','');
+            }
+
+            $alert = $this->get('session')->get('alert');
+            if(isset($alert) && !empty($alert))
+            {
+                $this->get('session')->set('alert','');
             }
 
             $this->getOwnInstructions($UserId);
@@ -40,6 +46,7 @@ class DashboardController extends Controller
                 'subscribercourses' => $this->getsubscribedCourses($UserId),
                 'user' => $user,
                 'successSubscribedCourse' => $session_param,
+                'alert' => $alert,
             ));
         }
         else {
