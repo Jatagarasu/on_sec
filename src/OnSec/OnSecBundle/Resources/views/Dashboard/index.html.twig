@@ -3,6 +3,20 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
+    {# normal Alert #}
+    {% if alert|length >0 %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ alert }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
     {# check if successSubscribedCourse is not empty them print Success Alert #}
     {% if successSubscribedCourse|length >0 %}
         <div class="row">
