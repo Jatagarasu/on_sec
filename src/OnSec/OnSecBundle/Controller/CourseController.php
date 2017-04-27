@@ -86,7 +86,8 @@ class CourseController extends Controller
             $em->persist($course);
             $em->flush($course);
 
-            return $this->redirectToRoute('course_show', array('id' => $course->getId()));
+            $this->get('session')->set('alert','Kurs erfolgreich erstellt.');
+            return $this->redirectToRoute('dashboard', array('id' => $course->getId()));
         }
 
         return $this->render('HSDOnSecBundle:Course:new.html.twig', array(
@@ -185,7 +186,8 @@ class CourseController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('course_edit', array('id' => $course->getId()));
+            $this->get('session')->set('alert','Kurs erfolgreich überarbeitet.');
+            return $this->redirectToRoute('dashboard', array('id' => $course->getId()));
         }
 
         return $this->render('HSDOnSecBundle:Course:edit.html.twig', array(
@@ -201,16 +203,24 @@ class CourseController extends Controller
      */
     public function deleteAction(Request $request, Course $course)
     {
+
         $form = $this->createDeleteForm($course);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $em = $this->getDoctrine()->getManager();
+
+            $course->getKeywords()->clear();
+            $course->getInstructions()->clear();
+            $course->getModerators()->clear();
+
             $em->remove($course);
             $em->flush();
         }
 
-        return $this->redirectToRoute('course_index');
+        $this->get('session')->set('alert','Kurs erfolgreich entfernt.');
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
@@ -222,6 +232,7 @@ class CourseController extends Controller
      */
     private function createDeleteForm(Course $course)
     {
+
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('course_delete', array('id' => $course->getId())))
             ->setMethod('DELETE')

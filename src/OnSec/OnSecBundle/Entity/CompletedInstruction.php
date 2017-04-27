@@ -182,4 +182,14 @@ class CompletedInstruction
         $date->add(new \DateInterval('P'.$this->instruction->getExpiretime().'D'));
         $this->setExpireDate($date);
     }
+
+    /**
+     * Gets Instructiondescription
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getInstruction()->getDescription();
+    }
 }

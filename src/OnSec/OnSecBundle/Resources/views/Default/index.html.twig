@@ -27,7 +27,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
-            {{ error.messageKey|trans(error.messageData, 'security') }}
+            {{ error.messageKey|trans(error.messageData, 'security')|replace({"Invalid credentials.":"Fehlerhafte Eingabe: Benutzername/Passwort ungültig."}) }}
         </div>
     {% endif %}
     <div id="content">
