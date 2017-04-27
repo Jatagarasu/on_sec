@@ -1,4 +1,8 @@
 {% macro moderators_input(entity) %}
+{% set owner = entity.owner %}
+{% if owner is empty %}
+    {% set owner = app.user %}
+{% endif %}
 
 <div class="ui-widget add">
     <label for="access-rights-input">Rechte vergeben:</label>
@@ -17,7 +21,7 @@
     <tbody id="tablebody" class="tablebody">
         <tr>
             <td>
-                {{ '%s %s'|format(app.user.firstname,app.user.surname) }}
+                {{ '%s %s'|format(owner.firstname,owner.surname) }}
             </td>
 
             <td>

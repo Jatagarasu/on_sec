@@ -201,16 +201,23 @@ class CourseController extends Controller
      */
     public function deleteAction(Request $request, Course $course)
     {
+
         $form = $this->createDeleteForm($course);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $em = $this->getDoctrine()->getManager();
+
+            $course->getKeywords()->clear();
+            $course->getInstructions()->clear();
+            $course->getModerators()->clear();
+
             $em->remove($course);
             $em->flush();
         }
 
-        return $this->redirectToRoute('course_index');
+        return $this->redirectToRoute('dashboard');
     }
 
     /**
@@ -222,6 +229,7 @@ class CourseController extends Controller
      */
     private function createDeleteForm(Course $course)
     {
+
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('course_delete', array('id' => $course->getId())))
             ->setMethod('DELETE')
