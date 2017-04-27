@@ -92,7 +92,8 @@ class InstructionController extends Controller
                 }
             }*/
 
-            return $this->redirectToRoute('instruction_show', array('id' => $instruction->getId()));
+            $this->get('session')->set('alert','Unterweisung erfolgreich erstellt.');
+            return $this->redirectToRoute('dashboard', array('id' => $instruction->getId()));
         }
 
         return $this->render('HSDOnSecBundle:Instruction:new.html.twig', array(
@@ -150,7 +151,8 @@ class InstructionController extends Controller
 
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('instruction_show', array('id' => $instruction->getId()));
+            $this->get('session')->set('alert','Unterweisung wurde erfolgreich geändert.');
+            return $this->redirectToRoute('dashboard', array('id' => $instruction->getId()));
         }
 
         return $this->render('HSDOnSecBundle:Instruction:edit.html.twig', array(

@@ -25,6 +25,12 @@ class DashboardController extends Controller
                 $this->get('session')->set('coursename','');
             }
 
+            $alert = $this->get('session')->get('alert');
+            if(isset($alert) && !empty($alert))
+            {
+                $this->get('session')->set('alert','');
+            }
+
             $this->getOwnInstructions($UserId);
 
             $em = $this->getDoctrine()->getManager();
@@ -40,6 +46,7 @@ class DashboardController extends Controller
                 'subscribercourses' => $this->getsubscribedCourses($UserId),
                 'user' => $user,
                 'successSubscribedCourse' => $session_param,
+                'alert' => $alert,
             ));
         }
         else {

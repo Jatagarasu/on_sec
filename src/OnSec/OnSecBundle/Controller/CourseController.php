@@ -86,7 +86,8 @@ class CourseController extends Controller
             $em->persist($course);
             $em->flush($course);
 
-            return $this->redirectToRoute('course_show', array('id' => $course->getId()));
+            $this->get('session')->set('alert','Kurs erfolgreich erstellt.');
+            return $this->redirectToRoute('dashboard', array('id' => $course->getId()));
         }
 
         return $this->render('HSDOnSecBundle:Course:new.html.twig', array(
@@ -185,7 +186,8 @@ class CourseController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('course_edit', array('id' => $course->getId()));
+            $this->get('session')->set('alert','Kurs erfolgreich überarbeitet.');
+            return $this->redirectToRoute('dashboard', array('id' => $course->getId()));
         }
 
         return $this->render('HSDOnSecBundle:Course:edit.html.twig', array(
