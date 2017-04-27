@@ -219,6 +219,7 @@ class CourseController extends Controller
             $em->flush();
         }
 
+        $this->get('session')->set('alert','Kurs erfolgreich entfernt.');
         return $this->redirectToRoute('dashboard');
     }
 
