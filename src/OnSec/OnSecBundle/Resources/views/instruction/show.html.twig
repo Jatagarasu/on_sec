@@ -15,6 +15,18 @@
     {{ instruction.pdfLink }}
     <br/><br/>
 
+    <b>Zugewiesene Räume:</b>
+    <br/>
+    {% if instruction.getRooms() is empty %}
+        <i>Keine</i>
+    {% else %}
+        {% for room in instruction.getRooms() %}
+            <div class="room">{{ room.getDescription() }}</div>
+        {% endfor %}
+    {% endif %}
+    <br/><br/>
+
+
     <b>Schlagwörter:</b>
     <br/>
     {% if instruction.getKeywords() is empty %}
