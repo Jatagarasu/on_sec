@@ -15,4 +15,4 @@ php bin/console --env=prod cache:clear
 #php bin/console assets:install web --symlink --relative
 
 php bin/console --env=dev assetic:watch
-#php bin/console --env=prod assetic:watch
+# php bin/console --env=prod assetic:watch
