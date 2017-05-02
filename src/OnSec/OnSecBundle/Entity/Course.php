@@ -290,4 +290,21 @@ class Course
     {
         return $this->instructions;
     }
+
+    public function setInstructions($instructions)
+    {
+        $this->instructions = $instructions;
+
+        return $this;
+    }
+
+
+    public function setModerators($moderators)
+    {
+        $this->moderators = $moderators;
+
+        return $this;
+    }
+
+
 }

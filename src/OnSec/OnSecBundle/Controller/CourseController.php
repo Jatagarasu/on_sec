@@ -184,6 +184,32 @@ class CourseController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $userids = $request->get('moderatorId');
+            $moderators = [];
+
+            if(!empty($userids)){
+                foreach ($userids as $userid){
+                    $user = $em->getRepository('HSDOnSecBundle:User')->find($userid);
+                    $moderators[] = $user;
+                    /*$course->addModerator($user);*/
+                }
+                $course->setModerators($moderators);
+            }
+
+            $instructionids = $request->get('instructionId');
+            $instructions = [];
+
+            if(!empty($instructionids)){
+                foreach($instructionids as $instructionid){
+                    $instruction = $em->getRepository('HSDOnSecBundle:Instruction')->find($instructionid);
+                    $instructions[] = $instruction;
+                }
+                $course->setInstructions($instructions);
+            }
+
+
             $this->getDoctrine()->getManager()->flush();
 
             $this->get('session')->set('alert','Kurs erfolgreich überarbeitet.');
