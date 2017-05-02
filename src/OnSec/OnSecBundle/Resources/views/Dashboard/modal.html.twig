@@ -1,4 +1,4 @@
-
+{# only show modal if someone is subcribed to the specific course #}
 {% if course.getSubscribers is not empty %}
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -6,9 +6,8 @@
             <div class="modal-title">
                 <span class ="modalTitleText">Teilnehmer von {{ course.getDescription() }} </span>
                 <div class="pull-right">
-
+                        {# semester dropdown created from semester_array keys #}
                         <select id="semester_dropdown_{{ course.getId }}" class="custom-select" name="semester">
-
                             {% for key,val in semester_array %}
                                 <option value="{{ key }}">{{ key }}</option>
                             {% endfor %}
@@ -16,9 +15,7 @@
                 </div>
             </div>
         </div>
-
         <div class="modal-body">
-
             <table class="table" id="modal_table">
                 <thead class="thead-inverse">
                     <tr>
@@ -27,16 +24,14 @@
                         <th>Fehlende Unterweisungen</th>
                     </tr>
                 </thead>
+                {# body id gets course id #}
                 <tbody id="subscriberBody_{{ course.getId }}">
-
                 </tbody>
             </table>
         </div>
         <div class="modal-footer">
-
             <a class="btn btn-outline-primary" id="createCSV_{{ course.getId }}" role="button">
                 <i class="fa fa-download" aria-hidden="true"></i>
-
                 CSV exportieren
             </a>
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Schließen</button>
@@ -44,20 +39,16 @@
     </div>
 </div>
 <script>
-
-
     $(document).ready(function(){
         getSubscribers();
-
         function getSubscribers (){
-
-
+            // create id of current dropdown and modalbody via course id
             var currentDropdown = '#semester_dropdown_'+'{{ course.getId() }}';
-
             var currentModalBody = '#subscriberBody_'+'{{ course.getId() }}';
             var url = "{{ path('ajax_semester_filter') }}";
             var key = $(currentDropdown).val();
 
+            // send ajax request to ajax_semester_path
             jQuery.ajax({
                 url: url,
                 data: { semester: key, courseId: {{ course.getId() }}},
@@ -68,13 +59,13 @@
                 error: function() {
                 }
             });
-
         }
 
+        // get ajax on load
         var currentDropdown = '#semester_dropdown_'+'{{ course.getId() }}';
         $(currentDropdown).on("change", getSubscribers);
 
-
+        //get ajax on click
         var courseId = '#createCSV_'+'{{ course.getId() }}';
         $(courseId).on("click", function(e){
             e.preventDefault();
@@ -84,23 +75,19 @@
             url = url.replace('currentSemester', key);
             window.location.href = url ;
         });
-
     });
 
 </script>
 
-
+{# if noone is sucribed show message #}
 {% else %}
-
 
 <div class="modal-dialog modal-lg">
     <div class="modal-content">
         <div class="modal-header">
-
-        <div class="modal-title">
-        <span class ="modalTitleText">Bisher nimmt niemand an {{ course.getDescription() }} teil. </span>
-
-        </div>
+            <div class="modal-title">
+                <span class ="modalTitleText">Bisher nimmt niemand an {{ course.getDescription() }} teil. </span>
+            </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Schließen</button>

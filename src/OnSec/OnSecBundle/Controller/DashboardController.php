@@ -65,7 +65,6 @@ class DashboardController extends Controller
         $course = $em->getRepository('HSDOnSecBundle:Course')->find($courseId);
 
         $semester_array = $this->filterSemester($course);
-
         $selected_semester = $semester_array[$semester];
 
         $template = $this->render('HSDOnSecBundle:Dashboard:subscriberList.html.twig', array(
@@ -92,7 +91,6 @@ class DashboardController extends Controller
         foreach ($subscribers as $subscriber) {
             if(($subscriber->getSubscribtionDate()->format('m')>2 && $subscriber->getSubscribtionDate()->format('m')<9)) {
                 $semester = "SS ".$subscriber->getSubscribtionDate()->format('Y');
-
                 if (isset($semester_array[$semester])) {
                     array_push($semester_array[$semester], $subscriber);
                 }
@@ -130,9 +128,8 @@ class DashboardController extends Controller
                 }
             }
         }
-
+        // sort arrays in semester_array by surnames
         $sortedArray = [];
-
         foreach ($semester_array as $key=>$semester) {
             usort($semester, function ($a, $b)
             {
@@ -140,8 +137,6 @@ class DashboardController extends Controller
             });
             $sortedArray[$key] = $semester;
         }
-
-
         return $sortedArray;
     }
 
@@ -391,19 +386,14 @@ class DashboardController extends Controller
                             array_push($missing,$course_instruction->getDescription());
                         }
                 }
-
                 $firstname = iconv("UTF-8", "WINDOWS-1252", $firstname);
                 $surname = iconv("UTF-8", "WINDOWS-1252", $surname);
                 $missing = iconv("UTF-8", "WINDOWS-1252", implode(", ",$missing));
-
-
                 fputcsv($handle, array($surname,$firstname,$email,$missing),';');
             }
             fclose($handle);
         });
-
         $response->setStatusCode(200);
-
         $response->headers->set('Content-Type', 'text/csv; charset=WINDOWS-1252');
         $filename= $course->getDescription();
         $response->headers->set('Content-Disposition', "attachment; filename=$filename.csv");
