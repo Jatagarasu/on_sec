@@ -424,11 +424,11 @@ class Instruction
      */
     public function addRoom(\OnSec\OnSecBundle\Entity\Room $room)
     {
-        //if(!$this->hasRoom($room)) {
-        $this->rooms[] = $room;
-    //}
+        if(!$this->hasRoom($room)) {
+            $this->rooms[] = $room;
+        }
 
-        return $this;
+            return $this;
     }
 
     /**
