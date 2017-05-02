@@ -5,6 +5,7 @@
         <td>{{ subscriber.surname }}, {{ subscriber.firstname }} </td>
         <td>{{ subscriber.email }}</td>
         <td>
+            {# check wich instructions are missing #}
             {% set done = [] %}
             {% set notdone = [] %}
             {% for courseInstruction in course.getInstructions %}
@@ -39,8 +40,9 @@
                     {% set tooltip_desc = tooltip_desc~description~'.' %}
                 {% endif %}
             {% endfor %}
-            <!-- //TODO: show tooltips -->
+            {# tooltip script needs to be included here again #}
             <script>$('[data-toggle="tooltip"]').tooltip();</script>
+            {# create tooltip #}
             <div data-toggle="tooltip" data-placement="left" title="{{ tooltip_pre~tooltip_desc }}">{{ course.getInstructions|length - done|length }}</div>
         </td>
     </tr>
