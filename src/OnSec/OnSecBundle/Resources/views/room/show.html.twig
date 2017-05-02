@@ -1,7 +1,9 @@
 {% extends 'HSDOnSecBundle::base.html.twig' %}
+{% set page_title = room.description %}
+{% block title %}{{page_title}}{% endblock %}
 
 {% block content %}
-    <h1>Raum anzeigen</h1>
+    <h1>{{page_title}}</h1>
 
     <table>
         <tbody>
