@@ -93,19 +93,21 @@ class CompletedInstruction
      */
     public function getExpireDateSemester()
     {
+        $year = $this->expireDate->format('Y');
+
         if(($this->expireDate->format('m')>2 && $this->expireDate->format('m')<9)) {
             return "SS " . $this->expireDate->format('Y');
         }
         else if($this->expireDate->format('m')>8 && $this->expireDate->format('m')<13)
         {
             $thisyear = $this->expireDate->format('Y');
-            $nextyear = $this->expireDate->modify('+1 year')->format('Y');
+            $nextyear = $year + 1;
             return "WS " . $thisyear . "/" . $nextyear;
         }
         else
         {
             $thisyear = $this->expireDate->format('Y');
-            $lastyear = $this->expireDate->modify('-1 year')->format('Y');
+            $lastyear = $year - 1;
             return "WS " . $lastyear . "/" . $thisyear;
         }
     }
